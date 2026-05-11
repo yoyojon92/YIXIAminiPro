@@ -1,7 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "coze-mini-program",
-  "description": "test",
+  "cloudfunctionRoot": "./cloudfunctions/",
+  "projectname": "yixia-mini-program",
+  "description": "邑夏果酒果汁小程序 - 基于微信云开发",
   "appid": "YOUR_WECHAT_APPID", // TODO: 替换为你的微信小程序 AppID
   "setting": {
     "urlCheck": true,
