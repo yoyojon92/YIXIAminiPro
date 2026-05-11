@@ -1,0 +1,107 @@
+/**
+ * 用户状态管理
+ * 管理用户登录状态、用户信息、Token 等
+ */
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+export interface UserInfo {
+  id: string
+  openid: string
+  nickname: string
+  avatar: string
+  phone: string
+  schoolId: string
+  schoolName: string
+  ageVerified: boolean // 年龄验证状态（果酒购买需要）
+  role: 'student' | 'agent' | 'distributor' | 'brand'
+}
+
+interface UserState {
+  // 用户信息
+  userInfo: UserInfo | null
+  token: string | null
+  isLoggedIn: boolean
+  
+  // 操作方法
+  setUserInfo: (user: UserInfo | null) => void
+  setToken: (token: string | null) => void
+  setAgeVerified: (verified: boolean) => void
+  logout: () => void
+  
+  // 微信登录
+  loginWithWechat: () => Promise<void>
+}
+
+export const useUserStore = create<UserState>()(
+  persist(
+    (set, get) => ({
+      userInfo: null,
+      token: null,
+      isLoggedIn: false,
+      
+      setUserInfo: (user) => set({ 
+        userInfo: user, 
+        isLoggedIn: !!user 
+      }),
+      
+      setToken: (token) => set({ token }),
+      
+      setAgeVerified: (verified) => set((state) => ({
+        userInfo: state.userInfo ? { ...state.userInfo, ageVerified: verified } : null
+      })),
+      
+      logout: () => set({ 
+        userInfo: null, 
+        token: null, 
+        isLoggedIn: false 
+      }),
+      
+      // 微信登录 - 实际需要调用 wx.login 获取 code
+      loginWithWechat: async () => {
+        // #ifdef MP-WEIXIN
+        try {
+          // 获取微信登录凭证
+          const { code } = await new Promise((resolve, reject) => {
+            wx.login({
+              success: resolve,
+              fail: reject
+            })
+          })
+          
+          // TODO: 调用后端 API 换取 openid 和 token
+          // const res = await fetch('/api/auth/login', {
+          //   method: 'POST',
+          //   data: { code }
+          // })
+          
+          // 临时 Mock 数据
+          const mockUser: UserInfo = {
+            id: 'user_' + Date.now(),
+            openid: 'mock_openid_' + code,
+            nickname: '大学生用户',
+            avatar: '',
+            phone: '138****8888',
+            schoolId: 'school_1',
+            schoolName: '青岛农业大学',
+            ageVerified: false,
+            role: 'student'
+          }
+          
+          set({ userInfo: mockUser, token: 'mock_token', isLoggedIn: true })
+        } catch (error) {
+          console.error('微信登录失败:', error)
+        }
+        // #endif
+      }
+    }),
+    {
+      name: 'yixia-user-storage',
+      partialize: (state) => ({ 
+        userInfo: state.userInfo,
+        token: state.token,
+        isLoggedIn: state.isLoggedIn
+      })
+    }
+  )
+)

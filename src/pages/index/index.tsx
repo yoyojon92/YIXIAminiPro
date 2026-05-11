@@ -4,40 +4,55 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Sparkles, Clock, Gift, ChevronRight, Fire, Star, Users } from 'lucide-react-taro'
+import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
+import Banner1 from '@/assets/images/banner1.jpg'
+import Banner2 from '@/assets/images/banner2.jpg'
+import Banner3 from '@/assets/images/banner3.jpg'
 
-// 模拟数据
+// 本地图片
 const bannerList = [
-  { id: 1, image: 'https://picsum.photos/750/400?random=1', title: '新品上市' },
-  { id: 2, image: 'https://picsum.photos/750/400?random=2', title: '限时拼团' },
-  { id: 3, image: 'https://picsum.photos/750/400?random=3', title: '精灵收集' }
+  { id: 1, image: Banner1, title: '大吉大梨·沂蒙山新鲜梨酿造' },
+  { id: 2, image: Banner2, title: '似水榴年·金银花石榴酒' },
+  { id: 3, image: Banner3, title: '沂蒙山楂酒·酸甜开胃' }
 ]
 
-const flashSaleProducts = [
-  { id: 1, name: '蜜桃精灵果酒', price: 29.9, originalPrice: 49.9, image: 'https://picsum.photos/200/200?random=10', sold: 328 },
-  { id: 2, name: '蓝莓精灵果汁', price: 19.9, originalPrice: 35.9, image: 'https://picsum.photos/200/200?random=11', sold: 256 },
-  { id: 3, name: '草莓精灵气泡酒', price: 24.9, originalPrice: 39.9, image: 'https://picsum.photos/200/200?random=12', sold: 189 }
-]
+// 限时拼团 - 使用正式产品数据
+const flashSaleProducts = MOCK_FLASH_SALE.map(p => ({
+  id: p.id,
+  name: p.name,
+  price: p.pintuanPrice,
+  originalPrice: p.price,
+  image: p.image,
+  sold: p.pintuanCount
+}))
 
-const newProducts = [
-  { id: 4, name: '柠檬精灵轻饮酒', price: 22.9, image: 'https://picsum.photos/200/200?random=13', isNew: true },
-  { id: 5, name: '葡萄精灵气泡水', price: 18.9, image: 'https://picsum.photos/200/200?random=14', isNew: true },
-  { id: 6, name: '苹果精灵果汁', price: 15.9, image: 'https://picsum.photos/200/200?random=15', isNew: true }
-]
+// 新品推荐 - 使用正式产品数据
+const newProducts = MOCK_PRODUCTS.map(p => ({
+  id: p.id,
+  name: p.name,
+  subtitle: p.subtitle,
+  price: p.price,
+  originalPrice: p.originalPrice,
+  image: p.image,
+  alcohol: p.alcohol,
+  isNew: true
+}))
 
+// 精灵角色 - 使用正式精灵数据
 const spriteCharacters = [
-  { id: 1, name: '蜜桃精灵', level: 1, image: 'https://picsum.photos/120/120?random=20', collected: true },
-  { id: 2, name: '蓝莓精灵', level: 2, image: 'https://picsum.photos/120/120?random=21', collected: true },
-  { id: 3, name: '草莓精灵', level: 3, image: 'https://picsum.photos/120/120?random=22', collected: true },
-  { id: 4, name: '柠檬精灵', level: 4, image: 'https://picsum.photos/120/120?random=23', collected: false },
-  { id: 5, name: '葡萄精灵', level: 5, image: 'https://picsum.photos/120/120?random=24', collected: false }
+  { id: 'sprite_lixiao', name: '小梨', level: 'R', emoji: '🍐', flavor: '梨酒', collected: true },
+  { id: 'sprite_liulian', name: '小榴', level: 'SR', emoji: '🍎', flavor: '石榴酒', collected: true },
+  { id: 'sprite_shanjiao', name: '小楂', level: 'R', emoji: '🍒', flavor: '山楂酒', collected: false }
 ]
 
-const categories = [
-  { id: 1, name: '果酒', icon: '🍑', count: 12 },
-  { id: 2, name: '果汁', icon: '🫐', count: 8 },
-  { id: 3, name: '气泡酒', icon: '🍓', count: 6 },
-  { id: 4, name: '礼盒套装', icon: '🎁', count: 4 }
-]
+// 产品分类 - 更新为正式分类
+const categories = MOCK_CATEGORIES.map(cat => ({
+  id: cat.id,
+  name: cat.name,
+  icon: cat.icon,
+  count: cat.products.length,
+  badge: cat.id === 'pear_wine' ? '新品' : undefined
+}))
 
 export default function Index() {
   const router = useRouter()
@@ -93,6 +108,11 @@ export default function Index() {
                 <Text className="text-2xl">{cat.icon}</Text>
               </View>
               <Text className="text-xs text-gray-600">{cat.name}</Text>
+              {cat.badge && (
+                <View className="bg-red-500 text-white text-xs px-1 py-1 rounded">
+                  {cat.badge}
+                </View>
+              )}
             </View>
           ))}
         </View>
@@ -189,23 +209,29 @@ export default function Index() {
                 <View className="flex items-center gap-4 mt-3">
                   <View className="flex items-center gap-1">
                     <Star size={14} color="#FFD700" fill="#FFD700" />
-                    <Text className="text-white text-sm">已收集 3/8</Text>
+                    <Text className="text-white text-sm">已收集 2/3</Text>
                   </View>
                   <View className="flex items-center gap-1">
                     <Users size={14} color="white" />
-                    <Text className="text-white text-sm">1289人参与</Text>
+                    <Text className="text-white text-sm">收集精灵得碎片</Text>
                   </View>
                 </View>
               </View>
-              <View className="flex gap-1">
+              <View className="flex gap-2">
                 {spriteCharacters.slice(0, 3).map((sprite) => (
-                  <View key={sprite.id} className="w-12 h-12 rounded-full bg-white bg-opacity-20 overflow-hidden border-2 border-white">
-                    <Image src={sprite.image} mode="aspectFill" className="w-full h-full" />
+                  <View 
+                    key={sprite.id} 
+                    className={`w-12 h-12 rounded-full overflow-hidden border-2 ${
+                      sprite.collected ? 'border-yellow-400 bg-white bg-opacity-20' : 'border-gray-400 border-dashed'
+                    } flex items-center justify-center`}
+                  >
+                    {sprite.collected ? (
+                      <Text className="text-3xl">{sprite.emoji}</Text>
+                    ) : (
+                      <Text className="text-gray-400 text-lg">?</Text>
+                    )}
                   </View>
                 ))}
-                <View className="w-12 h-12 rounded-full bg-white bg-opacity-20 border-2 border-dashed border-white flex items-center justify-center">
-                  <Text className="text-white text-lg">+</Text>
-                </View>
               </View>
             </View>
             <Button 

@@ -4,30 +4,81 @@ import { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, Plus, Minus
+  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, Plus, Minus, AlertCircle
 } from 'lucide-react-taro'
 
 const productDetail = {
   id: 1,
-  name: '蜜桃精灵果酒',
-  subtitle: '自然精灵系列 · 330ml',
-  price: 29.9,
-  originalPrice: 49.9,
+  name: '大吉大梨',
+  subtitle: '精选山东莱阳梨 · 330ml · 8%vol',
+  price: 39.9,
+  originalPrice: 59.9,
   images: [
-    'https://picsum.photos/750/750?random=10',
-    'https://picsum.photos/750/750?random=11',
-    'https://picsum.photos/750/750?random=12'
+    'https://picsum.photos/750/750?random=101',
+    'https://picsum.photos/750/750?random=102',
+    'https://picsum.photos/750/750?random=103'
   ],
-  sales: 328,
-  stock: 156,
-  rating: 4.8,
-  tags: ['果酒', '低度酒', '送礼'],
+  sales: 528,
+  stock: 200,
+  rating: 4.9,
+  tags: ['果酒', '低度酒', '送礼', '大吉大利'],
   specs: [
-    { name: '口味', options: ['蜜桃味', '蓝莓味', '草莓味'] },
-    { name: '容量', options: ['250ml', '330ml', '500ml'] }
+    { name: '规格', options: ['330ml 单瓶', '330ml×2 礼盒装', '330ml×4 聚会装'] }
   ],
-  spriteStory: '蜜桃精灵来自邑夏王国的蜜桃林，她性格温柔甜美，热爱分享。每当夏日来临，蜜桃精灵就会收集最甜蜜的蜜桃，酿造成香气四溢的精灵果酒。传说，喝了蜜桃精灵果酒的人，会感受到幸福和温暖。',
-  fragments: 2
+  spriteStory: '🍐 小梨是来自山东莱阳的精灵，她清甜可爱，性格温和。每当秋风送爽，小梨就会在梨园里翩翩起舞，收集最饱满的莱阳梨。她相信，一杯好梨酒能给忙碌的人们带去清润与安宁。"愿你的人生，大吉又大梨~" — 小梨的口头禅',
+  fragments: 2,
+  ageRequired: true, // 8%vol 需要年龄验证
+  agentNote: '' // 非代理产品
+}
+
+// 产品2: 似水榴年
+export const PRODUCT_LIUNIAN = {
+  id: 2,
+  name: '似水榴年',
+  subtitle: '金银花石榴酒 · 330ml · 7%vol',
+  price: 42.9,
+  originalPrice: 68.9,
+  images: [
+    'https://picsum.photos/750/750?random=201',
+    'https://picsum.photos/750/750?random=202',
+    'https://picsum.photos/750/750?random=203'
+  ],
+  sales: 386,
+  stock: 150,
+  rating: 4.8,
+  tags: ['果酒', '低度酒', '送礼', '年年如意'],
+  specs: [
+    { name: '规格', options: ['330ml 单瓶', '330ml×2 礼盒装'] }
+  ],
+  spriteStory: '🍎 小榴是金银花石榴酒的守护精灵，她优雅大方，热爱浪漫。她总是说："似水流年，愿与你共饮一杯石榴酒，品味人生的酸甜。"传说小榴能带来好运和美好的姻缘~',
+  fragments: 3,
+  ageRequired: true,
+  agentNote: ''
+}
+
+// 产品3: 沂蒙山楂酒
+export const PRODUCT_SHANJIAO = {
+  id: 3,
+  name: '沂蒙山楂酒',
+  subtitle: '精选沂蒙山楂 · 330ml · 8%vol',
+  price: 29.9,
+  originalPrice: 45.9,
+  images: [
+    'https://picsum.photos/750/750?random=301',
+    'https://picsum.photos/750/750?random=302',
+    'https://picsum.photos/750/750?random=303'
+  ],
+  sales: 892,
+  stock: 500,
+  rating: 4.7,
+  tags: ['果酒', '低度酒', '代理产品'],
+  specs: [
+    { name: '规格', options: ['330ml 单瓶', '330ml×3 装'] }
+  ],
+  spriteStory: '🍒 小楂来自沂蒙山区的精灵，她活泼开朗，热爱运动。她喜欢用山楂酿造清爽的果酒，帮助人们消食解腻。"酸酸甜甜就是我，小楂在这里等你~"',
+  fragments: 2,
+  ageRequired: true,
+  agentNote: '【代理产品】山东青农酒业有限公司荣誉出品'
 }
 
 const comments = [
@@ -43,8 +94,7 @@ const deliveryInfo = {
 export default function Product() {
   const router = useRouter()
   const [selectedSpec, setSelectedSpec] = useState<Record<string, string>>({
-    '口味': '蜜桃味',
-    '容量': '330ml'
+    '规格': '330ml 单瓶'
   })
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('detail')
@@ -234,9 +284,15 @@ export default function Product() {
 
       {/* 底部操作栏 */}
       <View 
-        className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3"
+        className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 pb-safe"
         style={{ zIndex: 100 }}
       >
+        {/* 年龄验证提示 */}
+        <View className="flex items-center gap-1 mb-2 text-xs text-orange-500">
+          <AlertCircle size={12} />
+          <Text>购买果酒需年满18周岁</Text>
+        </View>
+        
         <View className="flex items-center gap-3">
           <View className="flex items-center gap-1">
             <View className="flex flex-col items-center px-3">
