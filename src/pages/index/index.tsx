@@ -42,6 +42,16 @@ const categories = [
 export default function Index() {
   const router = useRouter()
 
+  // 跳转到购物车
+  const goToCart = () => {
+    router.switchTab({ url: '/pages/cart/index' })
+  }
+
+  // 跳转到商品详情
+  const goToProduct = (id: number) => {
+    router.push({ url: `/pages/product/index?id=${id}` })
+  }
+
   return (
     <View className="min-h-screen bg-gray-50 pb-safe">
       {/* 顶部搜索栏 */}
