@@ -1,11 +1,53 @@
 export default defineAppConfig({
   pages: [
-    'pages/index/index'
+    'pages/index/index',
+    'pages/category/index',
+    'pages/cart/index',
+    'pages/profile/index',
+    'pages/product/index',
+    'pages/orders/index',
+    'pages/sprites/index',
+    'pages/wall/index',
+    'pages/activity/index',
+    'pages/diary/index',
+    'pages/article/index'
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'WeChat',
-    navigationBarTextStyle: 'black'
+    navigationBarBackgroundColor: '#8B5CF6',
+    navigationBarTitleText: '邑夏',
+    navigationBarTextStyle: 'white'
+  },
+  tabBar: {
+    color: '#9CA3AF',
+    selectedColor: '#8B5CF6',
+    backgroundColor: '#FFFFFF',
+    borderStyle: 'black',
+    list: [
+      {
+        pagePath: 'pages/index/index',
+        text: '首页',
+        iconPath: './assets/tabbar/home.png',
+        selectedIconPath: './assets/tabbar/home-active.png'
+      },
+      {
+        pagePath: 'pages/category/index',
+        text: '分类',
+        iconPath: './assets/tabbar/category.png',
+        selectedIconPath: './assets/tabbar/category-active.png'
+      },
+      {
+        pagePath: 'pages/cart/index',
+        text: '购物车',
+        iconPath: './assets/tabbar/cart.png',
+        selectedIconPath: './assets/tabbar/cart-active.png'
+      },
+      {
+        pagePath: 'pages/profile/index',
+        text: '我的',
+        iconPath: './assets/tabbar/profile.png',
+        selectedIconPath: './assets/tabbar/profile-active.png'
+      }
+    ]
   }
 })
