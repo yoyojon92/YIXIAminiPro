@@ -4,6 +4,7 @@
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { CartAPI } from '@/services/api'
 
 export interface CartItem {
   id: string
@@ -34,6 +35,10 @@ interface CartState {
   // 配送信息
   delivery: DeliveryInfo
   
+  // 加载状态
+  loading: boolean
+  syncing: boolean // 是否正在同步到服务器
+  
   // 计算属性
   totalAmount: () => number
   totalOriginalAmount: () => number
@@ -47,6 +52,10 @@ interface CartState {
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
   setDelivery: (delivery: Partial<DeliveryInfo>) => void
+  
+  // API 同步
+  syncFromServer: () => Promise<void>
+  syncToServer: () => Promise<void>
   
   // 选中结算（用于生成订单）
   getCheckoutItems: () => CartItem[]
@@ -64,6 +73,8 @@ export const useCartStore = create<CartState>()(
         dormitory: '',
         roomNumber: ''
       },
+      loading: false,
+      syncing: false,
       
       // 计算总价
       totalAmount: () => {
@@ -92,7 +103,7 @@ export const useCartStore = create<CartState>()(
       },
       
       // 添加商品到购物车
-      addItem: (item) => {
+      addItem: async (item) => {
         const state = get()
         const existingItem = state.items.find(
           i => i.productId === item.productId && i.spec === item.spec
@@ -112,17 +123,22 @@ export const useCartStore = create<CartState>()(
             items: [...state.items, { ...item, id: generateId() }]
           })
         }
+        
+        // 同步到服务器
+        get().syncToServer()
       },
       
       // 移除商品
-      removeItem: (id) => {
+      removeItem: async (id) => {
         set(state => ({
           items: state.items.filter(item => item.id !== id)
         }))
+        // 同步到服务器
+        get().syncToServer()
       },
       
       // 更新数量
-      updateQuantity: (id, quantity) => {
+      updateQuantity: async (id, quantity) => {
         if (quantity <= 0) {
           get().removeItem(id)
           return
@@ -135,16 +151,59 @@ export const useCartStore = create<CartState>()(
               : item
           )
         }))
+        
+        // 同步到服务器
+        get().syncToServer()
       },
       
       // 清空购物车
-      clearCart: () => set({ items: [] }),
+      clearCart: async () => {
+        set({ items: [] })
+        // 同步到服务器
+        get().syncToServer()
+      },
       
       // 设置配送信息
       setDelivery: (delivery) => {
         set(state => ({
           delivery: { ...state.delivery, ...delivery }
         }))
+      },
+      
+      // 从服务器同步购物车
+      syncFromServer: async () => {
+        set({ loading: true })
+        try {
+          const res = await CartAPI.getCart()
+          if (res.code === 200 && res.data) {
+            set({ items: res.data.items || [] })
+          }
+        } catch (error) {
+          console.error('同步购物车失败:', error)
+        } finally {
+          set({ loading: false })
+        }
+      },
+      
+      // 同步到服务器
+      syncToServer: async () => {
+        const state = get()
+        if (state.syncing) return
+        
+        set({ syncing: true })
+        try {
+          await CartAPI.syncCart({
+            items: state.items.map(item => ({
+              productId: item.productId,
+              spec: item.spec,
+              quantity: item.quantity
+            }))
+          })
+        } catch (error) {
+          console.error('同步购物车到服务器失败:', error)
+        } finally {
+          set({ syncing: false })
+        }
       },
       
       // 获取结算商品

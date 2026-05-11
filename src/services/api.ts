@@ -220,24 +220,7 @@ export const OrdersAPI = {
   }
 }
 
-// ============ Cart API (本地模拟) ============
-export const CartAPI = {
-  /**
-   * 获取购物车数据（从本地存储）
-   */
-  getLocalCart: (): CartItem[] => {
-    const cart = Taro.getStorageSync('cart')
-    return cart || []
-  },
-
-  /**
-   * 保存购物车到本地
-   */
-  saveLocalCart: (items: CartItem[]) => {
-    Taro.setStorageSync('cart', items)
-  }
-}
-
+// ============ Cart API ============
 export interface CartItem {
   productId: number
   productName: string
@@ -245,4 +228,78 @@ export interface CartItem {
   quantity: number
   capacity: string
   image: string
+  sprite?: {
+    name: string
+    emoji: string
+  }
+}
+
+export const CartAPI = {
+  /**
+   * 获取购物车列表
+   */
+  getList: async (): Promise<CartItem[]> => {
+    const res = await Network.request({
+      url: '/api/cart'
+    })
+    console.log('购物车响应:', res.data)
+    const result = res.data as ApiResponse<CartItem[]>
+    return result.data || []
+  },
+
+  /**
+   * 添加商品到购物车
+   */
+  addItem: async (data: {
+    productId: number
+    quantity: number
+    capacity?: string
+  }): Promise<CartItem[]> => {
+    const res = await Network.request({
+      url: '/api/cart',
+      method: 'POST',
+      data
+    })
+    console.log('添加购物车响应:', res.data)
+    const result = res.data as ApiResponse<CartItem[]>
+    return result.data || []
+  },
+
+  /**
+   * 更新购物车商品数量
+   */
+  updateQuantity: async (productId: number, quantity: number): Promise<CartItem[]> => {
+    const res = await Network.request({
+      url: `/api/cart/${productId}`,
+      method: 'PUT',
+      data: { quantity }
+    })
+    console.log('更新数量响应:', res.data)
+    const result = res.data as ApiResponse<CartItem[]>
+    return result.data || []
+  },
+
+  /**
+   * 删除购物车商品
+   */
+  removeItem: async (productId: number): Promise<CartItem[]> => {
+    const res = await Network.request({
+      url: `/api/cart/${productId}`,
+      method: 'DELETE'
+    })
+    console.log('删除商品响应:', res.data)
+    const result = res.data as ApiResponse<CartItem[]>
+    return result.data || []
+  },
+
+  /**
+   * 清空购物车
+   */
+  clear: async (): Promise<void> => {
+    const res = await Network.request({
+      url: '/api/cart/clear',
+      method: 'POST'
+    })
+    console.log('清空购物车响应:', res.data)
+  }
 }
