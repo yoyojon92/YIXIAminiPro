@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
 import { 
-  Star, Gift, Sparkles, Lock, Unlock
+  Star, Gift, Sparkles, Lock, LockOpen
 } from 'lucide-react-taro'
 
 interface Sprite {
@@ -190,7 +190,7 @@ export default function Sprites() {
                 </View>
                 {sprite.collected ? (
                   <View className="absolute top-2 right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                    <Unlock size={12} color="white" />
+                    <LockOpen size={12} color="white" />
                   </View>
                 ) : (
                   <View className="absolute top-2 right-2 w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center">
@@ -306,7 +306,7 @@ export default function Sprites() {
             {selectedSprite.collected && (
               <View className="mt-4 bg-green-50 rounded-xl p-4 flex items-center gap-3">
                 <View className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                  <Unlock size={20} color="white" />
+                  <LockOpen size={20} color="white" />
                 </View>
                 <View>
                   <Text className="text-sm font-medium text-green-700">已集齐</Text>

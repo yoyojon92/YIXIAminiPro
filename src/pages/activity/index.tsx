@@ -4,7 +4,7 @@ import { useRouter } from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Calendar, MapPin, Users, Gift, ChevronRight,
+  Calendar, MapPinned, Users, Gift, ChevronRight,
   Sparkles, PartyPopper, Ticket, TrendingUp
 } from 'lucide-react-taro'
 
@@ -189,7 +189,7 @@ export default function Activity() {
                       <Text className="text-xs text-gray-500">{activity.startTime}</Text>
                     </View>
                     <View className="flex items-center gap-1">
-                      <MapPin size={14} className="text-gray-400" />
+                      <MapPinned size={14} className="text-gray-400" />
                       <Text className="text-xs text-gray-500 truncate max-w-32">{activity.location}</Text>
                     </View>
                   </View>

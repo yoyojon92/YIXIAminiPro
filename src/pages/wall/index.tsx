@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   Heart, MessageCircle, Share2, Camera, ImagePlus, 
-  TrendingUp, Clock, Star, Award
+  TrendingUp, Clock4, Star, Award
 } from 'lucide-react-taro'
 
 interface Post {
@@ -113,7 +113,7 @@ export default function Wall() {
           <View className="flex gap-2">
             {[
               { key: 'recommend', label: '推荐', icon: TrendingUp },
-              { key: 'latest', label: '最新', icon: Clock },
+              { key: 'latest', label: '最新', icon: Clock4 },
               { key: 'hot', label: '热门', icon: Star }
             ].map((tab) => {
               const Icon = tab.icon

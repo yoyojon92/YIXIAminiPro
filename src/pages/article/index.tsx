@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { 
-  Heart, Share2, Star, Clock, Gift, ChevronLeft,
+  Heart, Share2, Star, Clock4, Gift, ChevronLeft,
   MessageCircle, Sparkles
 } from 'lucide-react-taro'
 
@@ -130,7 +130,7 @@ export default function Article() {
               <View className="flex items-center gap-2 mt-1">
                 <Text className="text-xs text-gray-500">{article.createTime}</Text>
                 <View className="flex items-center gap-1">
-                  <Clock size={12} className="text-gray-400" />
+                  <Clock4 size={12} className="text-gray-400" />
                   <Text className="text-xs text-gray-500">{article.readTime}</Text>
                 </View>
               </View>

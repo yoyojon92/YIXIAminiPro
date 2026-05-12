@@ -3,7 +3,7 @@ import { View, Text, Image, Checkbox } from '@tarojs/components'
 import { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { MapPin, Store, Truck, Trash2, Minus, Plus, ShoppingBag } from 'lucide-react-taro'
+import { MapPinned, Store, Truck, Trash2, Minus, Plus, ShoppingBag } from 'lucide-react-taro'
 
 interface CartItem {
   id: number
@@ -129,7 +129,7 @@ export default function Cart() {
       {selectedDelivery === 'pickup' && (
         <View className="px-4 py-3 bg-white mt-2 flex items-center gap-3">
           <View className="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
-            <MapPin size={18} className="text-primary" />
+            <MapPinned size={18} className="text-primary" />
           </View>
           <View className="flex-1">
             <Text className="text-sm font-medium text-gray-900">青岛农业大学南门自提点</Text>

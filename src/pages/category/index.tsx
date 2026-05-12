@@ -4,7 +4,7 @@ import { useRouter } from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Search, Grid3X3, List } from 'lucide-react-taro'
+import { Search, Grid2x2, List } from 'lucide-react-taro'
 
 const categories = [
   { id: 1, name: '全部', icon: '🏠' },
@@ -68,7 +68,7 @@ export default function Category() {
               className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
               onClick={() => setViewMode('grid')}
             >
-              <Grid3X3 size={18} />
+              <Grid2x2 size={18} />
             </View>
             <View 
               className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}

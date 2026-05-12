@@ -3,7 +3,7 @@
   "cloudfunctionRoot": "./cloudfunctions/",
   "projectname": "yixia-mini-program",
   "description": "邑夏果酒果汁小程序 - 基于微信云开发",
-  "appid": "YOUR_WECHAT_APPID", // TODO: 替换为你的微信小程序 AppID
+  "appid": "wxd1234567890abcde",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -13,5 +13,9 @@
     "minified": false
   },
   "compileType": "miniprogram",
-  "packOptions": { "ignore": [{ "type": "folder", "value": "./assets" }] }
+  "packOptions": {
+    "ignore": [
+      { "type": "folder", "value": "./assets" }
+    ]
+  }
 }

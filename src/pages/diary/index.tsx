@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Star, ChevronRight, Sparkles, Heart,
-  Clock, BookOpen, TrendingUp
+  Clock4, BookOpen, TrendingUp
 } from 'lucide-react-taro'
 
 interface Diary {
@@ -158,7 +158,7 @@ export default function Diary() {
                 </View>
                 <View className="flex items-center gap-4">
                   <View className="flex items-center gap-1">
-                    <Clock size={14} className="text-gray-400" />
+                    <Clock4 size={14} className="text-gray-400" />
                     <Text className="text-xs text-gray-500">{diary.readTime}</Text>
                   </View>
                   <View className="flex items-center gap-1">

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { 
   Settings, Bell, Gift, CreditCard, 
-  MapPin, HelpCircle, Share2, LogOut, ChevronRight,
+  MapPinned,   CircleQuestionMark, Share2, LogOut, ChevronRight,
   Package, Star, Ticket, Crown
 } from 'lucide-react-taro'
 
@@ -18,10 +18,10 @@ const menuItems = [
 ]
 
 const toolItems = [
-  { id: 1, icon: MapPin, title: '收货地址', path: '/pages/orders/index?tab=address' },
+  { id: 1, icon: MapPinned, title: '收货地址', path: '/pages/orders/index?tab=address' },
   { id: 2, icon: CreditCard, title: '支付方式', path: '/pages/orders/index?tab=payment' },
   { id: 3, icon: Bell, title: '消息通知', path: '/pages/orders/index?tab=notification' },
-  { id: 4, icon: HelpCircle, title: '帮助与反馈', path: '/pages/orders/index?tab=help' },
+  { id: 4, icon:   CircleQuestionMark, title: '帮助与反馈', path: '/pages/orders/index?tab=help' },
   { id: 5, icon: Settings, title: '设置', path: '/pages/orders/index?tab=settings' }
 ]
 

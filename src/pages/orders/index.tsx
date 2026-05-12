@@ -5,8 +5,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { 
-  Clock, Truck, Package, CheckCircle, XCircle, 
-  Star, AlertCircle
+  Clock4, Truck, Package, CircleCheck, CircleX, 
+  Star, CircleAlert
 } from 'lucide-react-taro'
 
 type OrderStatus = 'pending' | 'paid' | 'shipped' | 'delivered' | 'completed' | 'cancelled'
@@ -73,12 +73,12 @@ const orders: Order[] = [
 ]
 
 const statusConfig: Record<OrderStatus, { text: string; color: string; icon: any }> = {
-  pending: { text: '待付款', color: 'text-amber-500', icon: Clock },
+  pending: { text: '待付款', color: 'text-amber-500', icon: Clock4 },
   paid: { text: '待发货', color: 'text-blue-500', icon: Package },
   shipped: { text: '待收货', color: 'text-purple-500', icon: Truck },
   delivered: { text: '已发货', color: 'text-purple-500', icon: Truck },
-  completed: { text: '已完成', color: 'text-green-500', icon: CheckCircle },
-  cancelled: { text: '已取消', color: 'text-gray-400', icon: XCircle }
+  completed: { text: '已完成', color: 'text-green-500', icon: CircleCheck },
+  cancelled: { text: '已取消', color: 'text-gray-400', icon: CircleX }
 }
 
 const tabList = [
@@ -128,7 +128,7 @@ export default function Orders() {
       <View className="px-4 py-4">
         {filteredOrders.length === 0 ? (
           <View className="flex flex-col items-center justify-center py-20">
-            <AlertCircle size={48} className="text-gray-300 mb-4" />
+            <CircleAlert size={48} className="text-gray-300 mb-4" />
             <Text className="text-gray-500 text-lg mb-2">暂无订单</Text>
             <Text className="text-gray-400 text-sm mb-6">快去选购心仪的商品吧</Text>
             <Button onClick={() => router.switchTab({ url: '/pages/index/index' })}>

@@ -3,7 +3,7 @@ import { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Sparkles, Clock, Gift, ChevronRight, Fire, Star, Users } from 'lucide-react-taro'
+import { Sparkles, Clock4, Gift, ChevronRight, Flame, Star, Users } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
 import Banner1 from '@/assets/images/banner1.jpg'
 import Banner2 from '@/assets/images/banner2.jpg'
@@ -123,7 +123,7 @@ export default function Index() {
         <View className="flex items-center justify-between mb-3">
           <View className="flex items-center gap-2">
             <View className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-              <Clock size={14} color="white" />
+              <Clock4 size={14} color="white" />
             </View>
             <Text className="text-lg font-semibold text-gray-900">限时拼团</Text>
             <View className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">限时</View>
@@ -141,7 +141,7 @@ export default function Index() {
                 <View className="relative">
                   <Image src={product.image} mode="aspectSquare" className="w-full h-36" />
                   <View className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                    <Fire size={10} />
+                    <Flame size={10} />
                     <Text>拼团</Text>
                   </View>
                 </View>

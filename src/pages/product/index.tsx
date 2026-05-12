@@ -4,7 +4,7 @@ import { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, Plus, Minus, AlertCircle
+  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, Plus, Minus, CircleAlert
 } from 'lucide-react-taro'
 
 const productDetail = {
@@ -289,7 +289,7 @@ export default function Product() {
       >
         {/* 年龄验证提示 */}
         <View className="flex items-center gap-1 mb-2 text-xs text-orange-500">
-          <AlertCircle size={12} />
+          <CircleAlert size={12} />
           <Text>购买果酒需年满18周岁</Text>
         </View>
         
