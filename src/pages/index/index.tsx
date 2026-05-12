@@ -276,7 +276,7 @@ export default function Index() {
                   console.log('精灵点击埋点:', {
                     userId: 'user_' + Date.now(),
                     spriteId: sprite.id,
-                    targetProductId: sprite.productCode,
+                    targetProductId: sprite.productId,
                     action: 'sprite_click',
                     timestamp: Date.now(),
                   })

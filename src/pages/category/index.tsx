@@ -5,27 +5,30 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Search, Grid2x2, List } from 'lucide-react-taro'
+import { MOCK_PRODUCTS as products } from '@/mock/products'
+import type { Product } from '@/mock/products'
 
 const categories = [
-  { id: 1, name: '全部', icon: '🏠' },
-  { id: 2, name: '果酒', icon: '🍑' },
-  { id: 3, name: '果汁', icon: '🫐' },
-  { id: 4, name: '气泡酒', icon: '🍓' },
-  { id: 5, name: '礼盒套装', icon: '🎁' },
-  { id: 6, name: '限定款', icon: '✨' }
+  { id: 1, name: '全部', icon: '🏠', key: '' },
+  { id: 2, name: '果酒', icon: '🍑', key: 'fruit_wine' },
+  { id: 3, name: '果汁', icon: '🫐', key: 'nfc_juice' },
+  { id: 4, name: '白酒', icon: '🥃', key: 'grain_wine' },
+  { id: 5, name: '礼盒套装', icon: '🎁', key: 'gift' }
 ]
 
-const products = [
-  { id: 1, name: '蜜桃精灵果酒', price: 29.9, originalPrice: 49.9, image: 'https://picsum.photos/200/200?random=10', sales: 328, category: '果酒' },
-  { id: 2, name: '蓝莓精灵果汁', price: 19.9, originalPrice: 35.9, image: 'https://picsum.photos/200/200?random=11', sales: 256, category: '果汁' },
-  { id: 3, name: '草莓精灵气泡酒', price: 24.9, originalPrice: 39.9, image: 'https://picsum.photos/200/200?random=12', sales: 189, category: '气泡酒' },
-  { id: 4, name: '柠檬精灵轻饮酒', price: 22.9, originalPrice: 38.9, image: 'https://picsum.photos/200/200?random=13', sales: 156, category: '果酒' },
-  { id: 5, name: '葡萄精灵气泡水', price: 18.9, originalPrice: 28.9, image: 'https://picsum.photos/200/200?random=14', sales: 134, category: '果汁' },
-  { id: 6, name: '苹果精灵果汁', price: 15.9, originalPrice: 25.9, image: 'https://picsum.photos/200/200?random=15', sales: 98, category: '果汁' },
-  { id: 7, name: '限定礼盒套装', price: 99.9, originalPrice: 159.9, image: 'https://picsum.photos/200/200?random=16', sales: 67, category: '礼盒套装' },
-  { id: 8, name: '芒果精灵果酒', price: 26.9, originalPrice: 42.9, image: 'https://picsum.photos/200/200?random=17', sales: 145, category: '果酒' }
-]
+// 分类名称映射
+const categoryMap: Record<string, string> = {
+  'fruit_wine': '果酒',
+  'grain_wine': '白酒',
+  'nfc_juice': '果汁',
+  'gift': '礼盒'
+}
 
+const getCategoryName = (category: string): string => {
+  return categoryMap[category] || category
+}
+
+// 从 products.ts 导入真实产品数据
 const sortOptions = [
   { id: 'default', name: '综合' },
   { id: 'sales', name: '销量' },
@@ -39,12 +42,13 @@ export default function Category() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchValue, setSearchValue] = useState('')
 
-  const filteredProducts = products.filter(product => {
-    if (selectedCategory === 1) return true
-    return product.category === categories.find(c => c.id === selectedCategory)?.name
+  const filteredProducts = products.filter((product: Product) => {
+    const cat = categories.find(c => c.id === selectedCategory)
+    if (!cat || !cat.key) return true
+    return product.category === cat.key
   })
 
-  const goToProduct = (id: number) => {
+  const goToProduct = (id: string) => {
     Taro.navigateTo({ url: `/pages/product/index?id=${id}` })
   }
 
@@ -123,7 +127,7 @@ export default function Category() {
                   <View className="relative">
                     <Image src={product.image} mode="widthFix" className="w-full h-40" />
                     <Badge variant="destructive" className="absolute top-2 left-2">
-                      销量 {product.sales}
+                      {getCategoryName(product.category)}
                     </Badge>
                   </View>
                   <CardContent className="p-3">
@@ -147,14 +151,13 @@ export default function Category() {
                     <View className="flex-1 flex flex-col justify-between py-1">
                       <View>
                         <Text className="text-sm text-gray-900 font-medium line-clamp-2">{product.name}</Text>
-                        <Text className="text-xs text-gray-500 mt-1">{product.category}</Text>
+                        <Text className="text-xs text-gray-500 mt-1">{getCategoryName(product.category)}</Text>
                       </View>
                       <View className="flex items-center justify-between">
                         <View className="flex items-baseline gap-1">
                           <Text className="text-primary font-bold text-lg">¥{product.price}</Text>
                           <Text className="text-xs text-gray-400 line-through">¥{product.originalPrice}</Text>
                         </View>
-                        <Text className="text-xs text-gray-400">销量 {product.sales}</Text>
                       </View>
                     </View>
                   </CardContent>
