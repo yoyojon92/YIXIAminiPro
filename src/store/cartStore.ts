@@ -13,6 +13,7 @@ export interface CartItem {
   price: number
   originalPrice: number
   spec: string // 规格，如 "300ml"
+  flavors?: string[] // 口味选项
   quantity: number
   image: string
   maxQuantity: number // 库存上限

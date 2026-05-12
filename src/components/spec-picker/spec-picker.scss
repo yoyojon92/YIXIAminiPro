@@ -1,0 +1,219 @@
+// 选规格弹窗样式
+.spec-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.spec-picker-sheet {
+  width: 100%;
+  max-height: 70vh;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// 头部
+.spec-picker-header {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+}
+
+.spec-picker-image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 16rpx;
+  background: #f5f5f5;
+}
+
+.spec-picker-info {
+  flex: 1;
+  margin-left: 24rpx;
+}
+
+.spec-picker-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 600;
+  display: block;
+}
+
+.spec-picker-price {
+  font-size: 36rpx;
+  color: #8B5CF6;
+  font-weight: bold;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.spec-picker-close {
+  position: absolute;
+  top: 32rpx;
+  right: 32rpx;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+// 规格选择
+.spec-picker-section {
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.spec-picker-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 24rpx;
+}
+
+.spec-picker-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+}
+
+.spec-picker-option {
+  padding: 16rpx 24rpx;
+  border: 2rpx solid #e5e5e5;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180rpx;
+
+  &.active {
+    border-color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.05);
+  }
+}
+
+.spec-option-name {
+  font-size: 26rpx;
+  color: #333;
+  display: block;
+}
+
+.spec-option-price {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 4rpx;
+  display: block;
+
+  .active & {
+    color: #8B5CF6;
+  }
+}
+
+// 口味选择
+.spec-picker-flavors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.spec-picker-flavor {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  border: 2rpx solid #e5e5e5;
+  border-radius: 100rpx;
+  font-size: 24rpx;
+
+  &.active {
+    border-color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.08);
+  }
+}
+
+.flavor-name {
+  margin-left: 8rpx;
+  color: #333;
+}
+
+.flavor-check {
+  margin-left: 8rpx;
+  color: #8B5CF6;
+}
+
+// 数量选择
+.spec-picker-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.spec-picker-counter {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.counter-btn {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-value {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  min-width: 48rpx;
+  text-align: center;
+}
+
+// 底部
+.spec-picker-footer {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: #fff;
+}
+
+.spec-picker-total {
+  flex: 1;
+}
+
+.total-label {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.total-price {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #8B5CF6;
+  margin-left: 8rpx;
+}
+
+.spec-picker-add-btn {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+  color: #fff;
+  padding: 24rpx 48rpx;
+  border-radius: 100rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}

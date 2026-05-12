@@ -4,12 +4,37 @@ import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, Plus, Minus, CircleAlert
+  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, CircleAlert
 } from 'lucide-react-taro'
+import { SpecPicker } from '@/components/spec-picker/spec-picker'
+import { OrganLordDetail } from '@/components/organ-lord-detail/organ-lord-detail'
+import './index.scss'
 
-const productDetail = {
-  id: 1,
-  name: '大吉大梨',
+// 简化的产品规格
+interface ProductSpec {
+  id: string
+  name: string
+  price: number
+}
+
+const productDetail: {
+  id: number
+  name: string
+  subtitle: string
+  price: number
+  originalPrice: number
+  images: string[]
+  sales: number
+  stock: number
+  rating: number
+  tags: string[]
+  specs: ProductSpec[]
+  spriteStory: string
+  fragments: number
+  ageRequired: boolean
+  agentNote: string
+  image: string
+} = {
   subtitle: '精选山东莱阳梨 · 330ml · 8%vol',
   price: 39.9,
   originalPrice: 59.9,
@@ -23,62 +48,17 @@ const productDetail = {
   rating: 4.9,
   tags: ['果酒', '低度酒', '送礼', '大吉大利'],
   specs: [
-    { name: '规格', options: ['330ml 单瓶', '330ml×2 礼盒装', '330ml×4 聚会装'] }
+    { id: 'single', name: '单瓶', price: 39.9 },
+    { id: 'double', name: '两瓶装', price: 72.8 },
+    { id: 'quad', name: '四瓶装', price: 138.8 },
   ],
   spriteStory: '🍐 小梨是来自山东莱阳的精灵，她清甜可爱，性格温和。每当秋风送爽，小梨就会在梨园里翩翩起舞，收集最饱满的莱阳梨。她相信，一杯好梨酒能给忙碌的人们带去清润与安宁。"愿你的人生，大吉又大梨~" — 小梨的口头禅',
   fragments: 2,
-  ageRequired: true, // 8%vol 需要年龄验证
-  agentNote: '' // 非代理产品
-}
-
-// 产品2: 似水榴年
-export const PRODUCT_LIUNIAN = {
-  id: 2,
-  name: '似水榴年',
-  subtitle: '金银花石榴酒 · 330ml · 7%vol',
-  price: 42.9,
-  originalPrice: 68.9,
-  images: [
-    'https://picsum.photos/750/750?random=201',
-    'https://picsum.photos/750/750?random=202',
-    'https://picsum.photos/750/750?random=203'
-  ],
-  sales: 386,
-  stock: 150,
-  rating: 4.8,
-  tags: ['果酒', '低度酒', '送礼', '年年如意'],
-  specs: [
-    { name: '规格', options: ['330ml 单瓶', '330ml×2 礼盒装'] }
-  ],
-  spriteStory: '🍎 小榴是金银花石榴酒的守护精灵，她优雅大方，热爱浪漫。她总是说："似水流年，愿与你共饮一杯石榴酒，品味人生的酸甜。"传说小榴能带来好运和美好的姻缘~',
-  fragments: 3,
   ageRequired: true,
-  agentNote: ''
-}
-
-// 产品3: 沂蒙山楂酒
-export const PRODUCT_SHANJIAO = {
-  id: 3,
-  name: '沂蒙山楂酒',
-  subtitle: '精选沂蒙山楂 · 330ml · 8%vol',
-  price: 29.9,
-  originalPrice: 45.9,
-  images: [
-    'https://picsum.photos/750/750?random=301',
-    'https://picsum.photos/750/750?random=302',
-    'https://picsum.photos/750/750?random=303'
-  ],
-  sales: 892,
-  stock: 500,
-  rating: 4.7,
-  tags: ['果酒', '低度酒', '代理产品'],
-  specs: [
-    { name: '规格', options: ['330ml 单瓶', '330ml×3 装'] }
-  ],
-  spriteStory: '🍒 小楂来自沂蒙山区的精灵，她活泼开朗，热爱运动。她喜欢用山楂酿造清爽的果酒，帮助人们消食解腻。"酸酸甜甜就是我，小楂在这里等你~"',
-  fragments: 2,
-  ageRequired: true,
-  agentNote: '【代理产品】山东青农酒业有限公司荣誉出品'
+    agentNote: '',
+  name: '大吉大梨',
+  id: 103,
+	  image: 'https://picsum.photos/750/750?random=101',
 }
 
 const comments = [
@@ -92,25 +72,19 @@ const deliveryInfo = {
 }
 
 export default function Product() {
-  const [selectedSpec, setSelectedSpec] = useState<Record<string, string>>({
-    '规格': '330ml 单瓶'
+  const [selectedSpec] = useState<Record<string, string>>({
+    '规格': '单瓶'
   })
-  const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('detail')
   const [liked, setLiked] = useState(false)
-
-  const handleSpecChange = (specName: string, option: string) => {
-    setSelectedSpec(prev => ({ ...prev, [specName]: option }))
-  }
+  const [showSpecPicker, setShowSpecPicker] = useState(false)
 
   const addToCart = () => {
-    // TODO: 添加到购物车
     Taro.switchTab({ url: '/pages/cart/index' })
   }
 
-  const buyNow = () => {
-    Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
-  }
+  // 判断是否显示器官大人（仅果酒显示）
+  const showOrganLord = productDetail.tags.includes('果酒')
 
   return (
     <View className="min-h-screen bg-gray-50 pb-24">
@@ -161,32 +135,15 @@ export default function Product() {
           </View>
         </View>
 
-        {/* 规格选择 */}
-        <View className="bg-white px-4 py-4 mt-2">
-          <Text className="text-sm font-medium text-gray-900 mb-3">选择规格</Text>
-          {productDetail.specs.map((spec) => (
-            <View key={spec.name} className="mb-4">
-              <Text className="text-sm text-gray-500 mb-2">{spec.name}</Text>
-              <View className="flex flex-wrap gap-2">
-                {spec.options.map((option) => {
-                  const isSelected = selectedSpec[spec.name] === option
-                  return (
-                    <View 
-                      key={option}
-                      className={`px-4 py-2 rounded-full border-2 text-sm ${
-                        isSelected 
-                          ? 'border-primary bg-primary bg-opacity-10 text-primary' 
-                          : 'border-gray-200 text-gray-700'
-                      }`}
-                      onClick={() => handleSpecChange(spec.name, option)}
-                    >
-                      <Text>{option}</Text>
-                    </View>
-                  )
-                })}
-              </View>
+        {/* 规格选择（内联版本，点击打开弹窗） */}
+        <View className="bg-white px-4 py-4 mt-2" onClick={() => setShowSpecPicker(true)}>
+          <View className="flex items-center justify-between">
+            <Text className="text-sm font-medium text-gray-900">选择规格</Text>
+            <View className="flex items-center gap-2">
+              <Text className="text-sm text-gray-500">{selectedSpec['规格']}</Text>
+              <Text className="text-primary text-sm">请选择 ▼</Text>
             </View>
-          ))}
+          </View>
         </View>
 
         {/* 配送方式 */}
@@ -219,6 +176,11 @@ export default function Product() {
           </View>
           <Text className="text-sm text-gray-600 leading-6">{productDetail.spriteStory}</Text>
         </View>
+
+        {/* 器官大人展示卡片（仅果酒显示） */}
+        {showOrganLord && (
+          <OrganLordDetail productName={productDetail.name} />
+        )}
 
         {/* Tab切换 */}
         <View className="bg-white mt-2">
@@ -298,27 +260,26 @@ export default function Product() {
               <Text className="text-xs text-gray-500 mt-1">购物车</Text>
             </View>
           </View>
-          
-          <View className="flex-1 flex items-center gap-2">
-            <View className="flex items-center border border-gray-200 rounded-full">
-              <View className="w-9 h-9 flex items-center justify-center" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-                <Minus size={16} color="#6B7280" />
-              </View>
-              <Text className="text-sm text-gray-900 w-8 text-center">{quantity}</Text>
-              <View className="w-9 h-9 flex items-center justify-center" onClick={() => setQuantity(quantity + 1)}>
-                <Plus size={16} color="#6B7280" />
-              </View>
-            </View>
-          </View>
 
-          <Button variant="outline" className="px-4" onClick={addToCart}>
-            <Text className="text-sm">加入购物车</Text>
+          <Button 
+            variant="outline" 
+            className="flex-1" 
+            onClick={() => setShowSpecPicker(true)}
+          >
+            <Text className="text-sm">选规格</Text>
           </Button>
-          <Button className="px-4" onClick={buyNow}>
-            <Text className="text-sm">立即购买</Text>
+          <Button className="flex-1" onClick={addToCart}>
+            <Text className="text-sm">加入购物车</Text>
           </Button>
         </View>
       </View>
+
+      {/* 选规格弹窗 */}
+      <SpecPicker 
+        product={productDetail}
+        visible={showSpecPicker}
+        onClose={() => setShowSpecPicker(false)}
+      />
     </View>
   )
 }
