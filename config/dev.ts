@@ -5,5 +5,7 @@ export default {
   mini: {
     debugReact: true,
   },
-  h5: {}
+  h5: {
+    publicPath: '/',
+  }
 } satisfies UserConfigExport<'vite'>
