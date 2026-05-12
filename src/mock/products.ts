@@ -410,7 +410,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     name: '果酒系列',
     icon: 'wine',
     color: 'text-pink-400',
-    bgColor: 'bg-pink-500/20',
+    bgColor: 'bg-pink-500 bg-opacity-20',
     category: 'fruit_wine'
   },
   {
@@ -418,7 +418,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     name: '粮食酒系列',
     icon: 'glass-water',
     color: 'text-red-400',
-    bgColor: 'bg-red-500/20',
+    bgColor: 'bg-red-500 bg-opacity-20',
     category: 'grain_wine'
   },
   {
@@ -426,7 +426,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     name: 'NFC果汁系列',
     icon: 'apple',
     color: 'text-emerald-400',
-    bgColor: 'bg-emerald-500/20',
+    bgColor: 'bg-emerald-500 bg-opacity-20',
     category: 'nfc_juice'
   },
   {
@@ -434,7 +434,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     name: '礼盒套装',
     icon: 'gift',
     color: 'text-amber-400',
-    bgColor: 'bg-amber-500/20',
+    bgColor: 'bg-amber-500 bg-opacity-20',
     category: 'gift'
   }
 ]

@@ -59,7 +59,7 @@ export default function Category() {
               className="flex-1 bg-transparent border-0 p-0 text-sm"
               placeholder="搜索果酒、果汁..."
               value={searchValue}
-              onChange={(e: any) => setSearchValue(e.detail.value)}
+              onInput={(e: any) => setSearchValue(e.detail.value)}
             />
           </View>
           <View className="flex items-center gap-2">

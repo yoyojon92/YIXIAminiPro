@@ -90,7 +90,7 @@ export default function Index() {
         <View className="flex items-center justify-between">
           <View className="flex items-center gap-2">
             <Text className="text-2xl font-bold text-white">邑夏</Text>
-            <Badge variant="outline" className="text-xs text-white border-white/30 bg-white/10">
+            <Badge variant="outline" className="text-xs text-white border-white border-opacity-30 bg-white bg-opacity-10">
               酒水·果汁
             </Badge>
           </View>
@@ -98,7 +98,7 @@ export default function Index() {
             <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
               3
             </Badge>
-            <View className="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center">
+            <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
               <ShoppingCart size={20} color="white" />
             </View>
           </View>
@@ -107,11 +107,11 @@ export default function Index() {
         {/* 搜索栏 */}
         <View className="mt-3">
           <View 
-            className="bg-white/20 backdrop-blur rounded-full px-4 py-2.5 flex items-center gap-2"
+            className="bg-white bg-opacity-20 backdrop-blur rounded-full px-4 py-3 flex items-center gap-2"
             onClick={() => Taro.navigateTo({ url: '/pages/category/index' })}
           >
-            <Search size={16} className="text-white/70" color="rgba(255,255,255,0.7)" />
-            <Text className="text-white/70 text-sm">搜索果酒、果汁、白酒...</Text>
+            <Search size={16} className="text-white" color="rgba(255,255,255,0.7)" />
+            <Text className="text-white text-sm">搜索果酒、果汁、白酒...</Text>
           </View>
         </View>
       </View>
@@ -130,9 +130,9 @@ export default function Index() {
             <SwiperItem key={item.id}>
               <View className="w-full h-full" onClick={() => goToProduct(item.id)}>
                 <Image src={item.image} mode="aspectFill" className="w-full h-full" />
-                <View className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+                <View className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black bg-opacity-60 to-transparent p-3">
                   <Text className="text-white font-semibold">{item.title}</Text>
-                  <Text className="text-white/70 text-xs mt-0.5">{item.subtitle}</Text>
+                  <Text className="text-white text-xs mt-1">{item.subtitle}</Text>
                 </View>
               </View>
             </SwiperItem>
@@ -149,7 +149,7 @@ export default function Index() {
               className="flex flex-col items-center gap-2 flex-1"
               onClick={() => goToCategory(cat.category)}
             >
-              <View className={`w-14 h-14 ${cat.bgColor} rounded-2xl flex items-center justify-center border border-white/10`}>
+              <View className={`w-14 h-14 ${cat.bgColor} rounded-2xl flex items-center justify-center border border-white border-opacity-10`}>
                 <CategoryIcon icon={cat.icon} color={cat.color} />
               </View>
               <Text className="text-xs text-slate-300">{cat.name}</Text>
@@ -166,7 +166,7 @@ export default function Index() {
               <Clock4 size={14} color="white" />
             </View>
             <Text className="text-white font-semibold">限时拼团</Text>
-            <View className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+            <View className="bg-red-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
               <Flame size={10} color="#ffffff" />
               <Text>限时</Text>
             </View>
@@ -194,8 +194,8 @@ export default function Index() {
                 </View>
                 <CardContent className="p-3">
                   <Text className="text-sm text-white font-medium line-clamp-1">{product.name}</Text>
-                  <Text className="text-xs text-slate-400 mt-0.5">{product.spriteAlias}</Text>
-                  <View className="flex items-baseline gap-1.5 mt-1.5">
+                  <Text className="text-xs text-slate-400 mt-1">{product.spriteAlias}</Text>
+                  <View className="flex items-baseline gap-2 mt-2">
                     <Text className="text-purple-400 font-bold text-lg">¥{product.price}</Text>
                     <Text className="text-xs text-slate-500 line-through">¥{product.originalPrice}</Text>
                   </View>
@@ -231,35 +231,35 @@ export default function Index() {
                   <View className="absolute top-2 left-2 flex flex-col gap-1">
                     {/* 18+ 标识 */}
                     {product.isAlcohol && (
-                      <View className="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded">
+                      <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">
                         18+
                       </View>
                     )}
                     {/* NFC 标识 */}
                     {!product.isAlcohol && (
-                      <View className="bg-emerald-500 text-white text-xs px-1.5 py-0.5 rounded flex items-center gap-1">
+                      <View className="bg-emerald-500 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
                         <Text>NFC</Text>
                       </View>
                     )}
                   </View>
                   {/* 品牌标签 */}
-                  <View className="absolute top-2 right-2 bg-purple-500/80 text-white text-xs px-2 py-0.5 rounded">
+                  <View className="absolute top-2 right-2 bg-purple-500 bg-opacity-80 text-white text-xs px-2 py-1 rounded">
                     {product.brand}
                   </View>
                 </View>
-                <CardContent className="p-2.5">
+                <CardContent className="p-3">
                   <Text className="text-sm text-white font-medium line-clamp-1">{product.name}</Text>
-                  <Text className="text-xs text-slate-400 mt-0.5 line-clamp-1">{product.subtitle}</Text>
+                  <Text className="text-xs text-slate-400 mt-1 line-clamp-1">{product.subtitle}</Text>
                   {/* 精灵标签 */}
                   {product.spriteAlias && (
-                    <View className="flex items-center gap-1 mt-1.5">
-                      <View className="w-4 h-4 bg-amber-500/20 rounded-full flex items-center justify-center">
+                    <View className="flex items-center gap-1 mt-2">
+                      <View className="w-4 h-4 bg-amber-500 bg-opacity-20 rounded-full flex items-center justify-center">
                         <Text className="text-amber-400 text-xs">精</Text>
                       </View>
                       <Text className="text-xs text-amber-400">{product.spriteAlias}</Text>
                     </View>
                   )}
-                  <View className="flex items-baseline gap-1.5 mt-1.5">
+                  <View className="flex items-baseline gap-2 mt-2">
                     <Text className="text-purple-400 font-bold">¥{product.price}</Text>
                     {product.originalPrice && (
                       <Text className="text-xs text-slate-500 line-through">¥{product.originalPrice}</Text>
@@ -282,7 +282,7 @@ export default function Index() {
                   <Gift size={20} color="white" />
                   <Text className="text-lg font-bold text-white">精灵图鉴</Text>
                 </View>
-                <Text className="text-white/80 text-sm mt-1">收集精灵碎片，兑换限定礼品</Text>
+                <Text className="text-white text-sm mt-1">收集精灵碎片，兑换限定礼品</Text>
                 <View className="flex items-center gap-4 mt-3">
                   <View className="flex items-center gap-1">
                     <Star size={14} color="#FFD700" />
@@ -299,7 +299,7 @@ export default function Index() {
                   <View 
                     key={sprite.id} 
                     className={`w-10 h-10 rounded-full overflow-hidden border-2 ${
-                      sprite.collected ? 'border-amber-400 bg-white/20' : 'border-slate-500 border-dashed'
+                      sprite.collected ? 'border-amber-400 bg-white bg-opacity-20' : 'border-slate-500 border-dashed'
                     } flex items-center justify-center`}
                   >
                     {sprite.collected ? (
@@ -333,13 +333,13 @@ export default function Index() {
               <Card className="bg-slate-800 border-slate-700">
                 <CardContent className="p-3">
                   <View className="flex items-start gap-3">
-                    <View className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center">
+                    <View className="w-12 h-12 bg-purple-500 bg-opacity-20 rounded-full flex items-center justify-center">
                       <Text className="text-2xl">{lord.avatar}</Text>
                     </View>
                     <View className="flex-1">
                       <View className="flex items-center gap-2">
                         <Text className="text-white font-semibold">{lord.name}</Text>
-                        <View className="bg-amber-500/20 px-2 py-0.5 rounded">
+                        <View className="bg-amber-500 bg-opacity-20 px-2 py-1 rounded">
                           <Text className="text-amber-400 text-xs">联名: {lord.productName}</Text>
                         </View>
                       </View>

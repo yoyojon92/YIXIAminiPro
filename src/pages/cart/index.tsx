@@ -148,7 +148,7 @@ export default function Cart() {
                   className="flex items-center justify-center"
                   onClick={() => toggleSelect(item.id)}
                 >
-                  <Checkbox checked={item.selected} />
+                  <Checkbox value={String(item.id)} checked={item.selected} />
                 </View>
                 
                 <Image src={item.image} mode="widthFix" className="w-20 h-20 rounded-lg" />
@@ -203,7 +203,7 @@ export default function Cart() {
       >
         <View className="flex items-center gap-4 mb-3">
           <View className="flex items-center gap-2" onClick={toggleSelectAll}>
-            <Checkbox checked={allSelected} />
+            <Checkbox value="selectAll" checked={allSelected} />
             <Text className="text-sm text-gray-700">全选</Text>
           </View>
           <View className="flex-1 text-right">
