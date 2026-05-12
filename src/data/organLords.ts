@@ -19,7 +19,7 @@ export interface OrganLord {
   emoji: string; // emoji 占位符
   image: string; // 立绘图片
   portrait: string; // 立绘图片（兼容）
-  productId: number; // 关联产品ID
+  productId: string; // 关联产品ID
   productName: string; // 关联产品名称
   quote: string; // 中医名言（引）
   knowledge: string; // 中医知识文案
@@ -37,7 +37,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     emoji: '🍑',
     image: pijiangjunImg,
     portrait: pijiangjunImg,
-    productId: 101,
+    productId: 'prod_peach_001', // 桃你欢心
     productName: '桃你欢心',
     quote: '桃养脾胃',
     knowledge: '桃子甘温入脾，一杯桃酒暖胃安神',
@@ -52,7 +52,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     emoji: '🍒',
     image: shenzhizheImg,
     portrait: shenzhizheImg,
-    productId: 102,
+    productId: 'prod_hawthorn_001', // 楂香四溢
     productName: '楂香四溢',
     quote: '山楂消食·酸甘化阴',
     knowledge: '山楂消食化积，佐酒一杯肾气充',
@@ -67,7 +67,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     emoji: '🍐',
     image: feichengxiangImg,
     portrait: feichengxiangImg,
-    productId: 103,
+    productId: 'prod_pear_001', // 大吉大梨
     productName: '大吉大梨',
     quote: '梨润肺·润肺生津',
     knowledge: '秋燥伤肺，来杯梨酒润一润',
@@ -82,7 +82,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     emoji: '🍎',
     image: xinjunImg,
     portrait: xinjunImg,
-    productId: 104,
+    productId: 'prod_pomegranate_001', // 似水榴年
     productName: '似水榴年',
     quote: '石榴养心·养心安神',
     knowledge: '石榴养心安神，一杯入喉心自宁',
@@ -97,7 +97,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     emoji: '🍇',
     image: ganmoushiImg,
     portrait: ganmoushiImg,
-    productId: 105,
+    productId: 'prod_grape_001', // 葡写浪漫
     productName: '葡写浪漫',
     quote: '葡萄补肝·滋阴养血',
     knowledge: '葡萄入肝经，微醺一杯肝气舒',
@@ -108,6 +108,6 @@ export const ORGAN_LORDS: OrganLord[] = [
 /**
  * 根据产品ID获取器官大人信息
  */
-export const getOrganLordByProductId = (productId: number): OrganLord | undefined => {
+export const getOrganLordByProductId = (productId: string): OrganLord | undefined => {
   return ORGAN_LORDS.find((lord) => lord.productId === productId);
 };

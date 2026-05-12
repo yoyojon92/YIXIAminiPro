@@ -3,43 +3,28 @@ import { View, Text, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { X, Minus, Plus } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
+import type { Product } from '@/mock/products'
 import './spec-picker.scss'
 
-// 简化的产品规格接口
-interface ProductSpec {
-  id: string
-  name: string
-  price: number
-}
-
-interface ProductInfo {
-  id: number
-  name: string
-  image: string
-  category?: string
-  specs?: ProductSpec[]
-  price: number
-}
-
 interface SpecPickerProps {
-  product: ProductInfo
+  product: Product | null
   visible: boolean
   onClose: () => void
 }
 
 export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
   const addItem = useCartStore(state => state.addItem)
-  const [selectedSpec, setSelectedSpec] = useState<ProductSpec | null>(null)
+  const [selectedSpec, setSelectedSpec] = useState<Product['specs'][0] | null>(null)
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([])
   const [quantity, setQuantity] = useState(1)
   const [showFlavorPicker, setShowFlavorPicker] = useState(false)
 
   // 初始化默认选中第一个规格
   useEffect(() => {
-    if (!selectedSpec && product.specs && product.specs.length > 0) {
-      setSelectedSpec(product.specs[0])
+    if (!selectedSpec && product?.specs && product?.specs.length > 0) {
+      setSelectedSpec(product?.specs[0])
     }
-  }, [selectedSpec, product.specs])
+  }, [selectedSpec, product?.specs])
 
   // 计算最大可选口味数
   const maxFlavors = selectedSpec?.name.includes('两瓶') ? 2 
@@ -47,7 +32,8 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
     : 0
 
   // 口味选项（仅果酒显示）
-  const flavorOptions = product.category === '果酒' ? [
+  const isFruitWine = product?.category === 'fruit_wine'
+  const flavorOptions = isFruitWine ? [
     { id: '桃你欢心', emoji: '🍑', name: '桃你欢心' },
     { id: '楂香四溢', emoji: '🍒', name: '楂香四溢' },
     { id: '大吉大梨', emoji: '🍐', name: '大吉大梨' },
@@ -55,11 +41,11 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
     { id: '葡写浪漫', emoji: '🍇', name: '葡写浪漫' },
   ] : []
 
-  const handleSpecSelect = (spec: ProductSpec) => {
+  const handleSpecSelect = (spec: Product['specs'][0]) => {
     setSelectedSpec(spec)
     setSelectedFlavors([])
     setShowFlavorPicker(
-      product.category === '果酒' && 
+      isFruitWine && 
       (spec.name.includes('两瓶') || spec.name.includes('四瓶'))
     )
   }
@@ -82,20 +68,20 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
     }
 
     addItem({
-      productId: product.id,
-      name: product.name,
+      productId: product?.id || '',
+      name: product?.name || '',
       spec: selectedSpec.name,
       flavors: selectedFlavors,
       quantity,
       price: selectedSpec.price,
       originalPrice: selectedSpec.price * 1.2,
-      image: product.image,
+      image: product?.image || '',
       maxQuantity: 99,
     })
 
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
     onClose()
-    setSelectedSpec(product.specs && product.specs[0] || null)
+    setSelectedSpec(product?.specs?.[0] || null)
     setSelectedFlavors([])
     setQuantity(1)
   }
@@ -109,13 +95,13 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
         <View className="spec-picker-header">
           <Image 
             className="spec-picker-image" 
-            src={product.image} 
+            src={product?.image || ''} 
             mode="aspectFill"
           />
           <View className="spec-picker-info">
-            <Text className="spec-picker-name">{product.name}</Text>
+            <Text className="spec-picker-name">{product?.name || ''}</Text>
             <Text className="spec-picker-price">
-              ¥{selectedSpec?.price || product.price}
+              ¥{selectedSpec?.price || product?.specs?.[0]?.price || 0}
             </Text>
           </View>
           <View className="spec-picker-close" onClick={onClose}>
@@ -127,7 +113,7 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
         <View className="spec-picker-section">
           <Text className="spec-picker-label">选择规格</Text>
           <View className="spec-picker-options">
-            {product.specs?.map(spec => (
+            {product?.specs?.map(spec => (
               <View 
                 key={spec.id}
                 className={`spec-option ${selectedSpec?.id === spec.id ? 'active' : ''}`}
@@ -189,7 +175,7 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
           <View className="total-price">
             <Text className="price-label">合计</Text>
             <Text className="price-value">
-              ¥{((selectedSpec?.price || product.price) * quantity).toFixed(1)}
+              ¥{((selectedSpec?.price || product?.specs?.[0]?.price || 0) * quantity).toFixed(1)}
             </Text>
           </View>
           <View className="add-cart-btn" onClick={handleAddToCart}>

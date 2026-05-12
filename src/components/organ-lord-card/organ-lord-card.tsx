@@ -7,7 +7,7 @@ import './organ-lord-card.scss';
 
 interface OrganLordCardProps {
   lord: OrganLord;
-  productId?: number;
+  productId?: string;
 }
 
 export function OrganLordCard({ lord, productId }: OrganLordCardProps) {

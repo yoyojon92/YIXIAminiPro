@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import Taro, { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -9,58 +9,9 @@ import {
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
 import { getOrganLordByProductId } from '@/data/organLords'
+import type { Product } from '@/mock/products'
+import { getProductById } from '@/mock/products'
 import './index.scss'
-
-// 简化的产品规格
-interface ProductSpec {
-  id: string
-  name: string
-  price: number
-}
-
-const productDetail: {
-  id: number
-  name: string
-  subtitle: string
-  price: number
-  originalPrice: number
-  images: string[]
-  sales: number
-  stock: number
-  rating: number
-  tags: string[]
-  specs: ProductSpec[]
-  spriteStory: string
-  fragments: number
-  ageRequired: boolean
-  agentNote: string
-  image: string
-} = {
-  subtitle: '精选山东莱阳梨 · 330ml · 8%vol',
-  price: 39.9,
-  originalPrice: 59.9,
-  images: [
-    'https://picsum.photos/750/750?random=101',
-    'https://picsum.photos/750/750?random=102',
-    'https://picsum.photos/750/750?random=103'
-  ],
-  sales: 528,
-  stock: 200,
-  rating: 4.9,
-  tags: ['果酒', '低度酒', '送礼', '大吉大利'],
-  specs: [
-    { id: 'single', name: '单瓶', price: 39.9 },
-    { id: 'double', name: '两瓶装', price: 72.8 },
-    { id: 'quad', name: '四瓶装', price: 138.8 },
-  ],
-  spriteStory: '🍐 小梨是来自山东莱阳的精灵，她清甜可爱，性格温和。每当秋风送爽，小梨就会在梨园里翩翩起舞，收集最饱满的莱阳梨。她相信，一杯好梨酒能给忙碌的人们带去清润与安宁。"愿你的人生，大吉又大梨~" — 小梨的口头禅',
-  fragments: 2,
-  ageRequired: true,
-    agentNote: '',
-  name: '大吉大梨',
-  id: 103,
-	  image: 'https://picsum.photos/750/750?random=101',
-}
 
 const comments = [
   { id: 1, user: '大学生***', avatar: 'https://picsum.photos/50/50?random=20', rating: 5, content: '超级好喝！蜜桃味很浓，酒精度数刚刚好，很适合女生喝~', images: [], time: '2024-01-15' },
@@ -73,6 +24,8 @@ const deliveryInfo = {
 }
 
 export default function Product() {
+  const router = useRouter()
+  const [product, setProduct] = useState<Product | null>(null)
   const [selectedSpec] = useState<Record<string, string>>({
     '规格': '单瓶'
   })
@@ -80,12 +33,41 @@ export default function Product() {
   const [liked, setLiked] = useState(false)
   const [showSpecPicker, setShowSpecPicker] = useState(false)
 
+  useEffect(() => {
+    const { id } = router.params
+    if (id) {
+      const productData = getProductById(id)
+      if (productData) {
+        setProduct(productData)
+      }
+    }
+  }, [router, router.params])
+
+  // 监听路由参数变化（备用方案）
+  useEffect(() => {
+    const { id } = router.params
+    if (id) {
+      const productData = getProductById(id)
+      if (productData) {
+        setProduct(productData)
+      }
+    }
+  }, [])
+
   const addToCart = () => {
     Taro.switchTab({ url: '/pages/cart/index' })
   }
 
   // 判断是否显示器官大人（仅果酒显示）
-  const showOrganLord = productDetail.tags.includes('果酒')
+  const showOrganLord = product?.category === 'fruit_wine'
+
+  if (!product) {
+    return (
+      <View className="flex items-center justify-center h-screen">
+        <Text className="block text-gray-500">加载中...</Text>
+      </View>
+    )
+  }
 
   return (
     <View className="min-h-screen bg-gray-50 pb-24">
@@ -93,7 +75,7 @@ export default function Product() {
         {/* 商品图片轮播 */}
         <View className="relative">
           <View className="w-full aspect-square bg-gray-100">
-            <Image src={productDetail.images[0]} mode="aspectFill" className="w-full h-full" />
+            <Image src={product?.images[0]} mode="aspectFill" className="w-full h-full" />
           </View>
           <View className="absolute top-4 right-4 flex gap-2">
             <View className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center" onClick={() => setLiked(!liked)}>
@@ -104,31 +86,31 @@ export default function Product() {
             </View>
           </View>
           <View className="absolute bottom-4 left-4 bg-black bg-opacity-40 text-white text-xs px-3 py-1 rounded-full">
-            {productDetail.images.length}/3
+            {product?.images.length}/3
           </View>
         </View>
 
         {/* 价格信息 */}
         <View className="bg-white px-4 py-4">
           <View className="flex items-baseline gap-2">
-            <Text className="text-primary text-2xl font-bold">¥{productDetail.price}</Text>
-            <Text className="text-gray-400 text-sm line-through">¥{productDetail.originalPrice}</Text>
+            <Text className="text-primary text-2xl font-bold">¥{product?.price}</Text>
+            <Text className="text-gray-400 text-sm line-through">¥{product?.originalPrice}</Text>
             <Badge variant="destructive" className="text-xs">限时特惠</Badge>
           </View>
-          <Text className="text-xl font-semibold text-gray-900 mt-2">{productDetail.name}</Text>
-          <Text className="text-sm text-gray-500 mt-1">{productDetail.subtitle}</Text>
+          <Text className="text-xl font-semibold text-gray-900 mt-2">{product?.name}</Text>
+          <Text className="text-sm text-gray-500 mt-1">{product?.subtitle}</Text>
           
           <View className="flex items-center gap-4 mt-3">
             <View className="flex items-center gap-1">
               <Star size={14} color="#F59E0B" />
-              <Text className="text-sm text-gray-700">{productDetail.rating}</Text>
+              <Text className="text-sm text-gray-700">{product?.rating}</Text>
             </View>
-            <Text className="text-sm text-gray-500">销量 {productDetail.sales}</Text>
-            <Text className="text-sm text-gray-500">库存 {productDetail.stock}</Text>
+            <Text className="text-sm text-gray-500">销量 {product?.salesCount}</Text>
+            <Text className="text-sm text-gray-500">库存 {product?.specs[0]?.stock}</Text>
           </View>
 
           <View className="flex gap-2 mt-3">
-            {productDetail.tags.map((tag) => (
+            {product?.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">
                 {tag}
               </Badge>
@@ -173,20 +155,20 @@ export default function Product() {
           <View className="flex items-center gap-2 mb-3">
             <Gift size={18} color="#8B5CF6" />
             <Text className="text-sm font-medium text-gray-900">精灵故事</Text>
-            <Badge variant="secondary" className="text-xs">+{productDetail.fragments}碎片</Badge>
+            <Badge variant="secondary" className="text-xs">+2 碎片</Badge>
           </View>
-          <Text className="text-sm text-gray-600 leading-6">{productDetail.spriteStory}</Text>
+          <Text className="text-sm text-gray-600 leading-6">{product?.story}</Text>
         </View>
 
         {/* 器官大人展示卡片（仅果酒显示） */}
         {showOrganLord && (() => {
-          const lord = getOrganLordByProductId(productDetail.id)
+          const lord = getOrganLordByProductId(product?.id)
           return lord ? (
             <View className="bg-gray-900 px-4 py-4 mt-2">
               <View className="flex items-center gap-2 mb-3">
                 <Text className="text-amber-400 text-lg font-bold">🏛️ 器官大人说养生</Text>
               </View>
-              <OrganLordCard lord={lord} productId={productDetail.id} />
+              <OrganLordCard lord={lord} productId={product?.id} />
             </View>
           ) : null
         })()}
@@ -285,7 +267,7 @@ export default function Product() {
 
       {/* 选规格弹窗 */}
       <SpecPicker 
-        product={productDetail}
+        product={product}
         visible={showSpecPicker}
         onClose={() => setShowSpecPicker(false)}
       />

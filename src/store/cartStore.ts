@@ -8,7 +8,7 @@ import { CartAPI } from '@/services/api'
 
 export interface CartItem {
   id: string
-  productId: number
+  productId: string
   name: string
   price: number
   originalPrice: number
@@ -97,10 +97,12 @@ export const useCartStore = create<CartState>()(
         return get().items.reduce((sum, item) => sum + item.quantity, 0)
       },
       
-      // 是否包含果酒
+      // 是否包含果酒（通过检查是否包含酒精标识）
       hasWine: () => {
-        // 假设 productId < 1000 为果酒
-        return get().items.some(item => item.productId < 1000)
+        // 检查商品规格中是否包含"酒"字样
+        return get().items.some(item => 
+          item.name.includes('酒') || item.spec.includes('酒')
+        )
       },
       
       // 添加商品到购物车
@@ -179,7 +181,7 @@ export const useCartStore = create<CartState>()(
           // 将API返回的CartItem转换为store的CartItem格式
           const mappedItems: CartItem[] = items.map((item, index) => ({
             id: `item_${index}`,
-            productId: item.productId,
+            productId: String(item.productId),
             name: item.productName,
             price: item.price,
             originalPrice: item.price,
