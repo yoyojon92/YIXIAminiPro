@@ -3,6 +3,8 @@ import { View, Text, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { X, Minus, Plus } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
+import { useUserStore } from '@/store/userStore'
+import { ageVerify } from '@/utils/ageVerify'
 import type { Product } from '@/mock/products'
 import './spec-picker.scss'
 
@@ -14,10 +16,21 @@ interface SpecPickerProps {
 
 export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
   const addItem = useCartStore(state => state.addItem)
+  const isMember = useUserStore(state => state.isMember)
   const [selectedSpec, setSelectedSpec] = useState<Product['specs'][0] | null>(null)
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([])
   const [quantity, setQuantity] = useState(1)
   const [showFlavorPicker, setShowFlavorPicker] = useState(false)
+
+  // 计算会员价（原价 * 0.85）
+  const getMemberPrice = (price: number) => {
+    return Math.round(price * 0.85 * 100) / 100
+  }
+
+  // 当前选中规格的单价
+  const currentPrice = selectedSpec?.price || product?.specs?.[0]?.price || 0
+  const finalPrice = isMember ? getMemberPrice(currentPrice) : currentPrice
+  const totalPrice = Math.round(finalPrice * quantity * 100) / 100
 
   // 初始化默认选中第一个规格
   useEffect(() => {
@@ -58,13 +71,22 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
     }
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedSpec) return
     
     // 口味验证（如果有）
     if (showFlavorPicker && selectedFlavors.length < maxFlavors) {
       Taro.showToast({ title: `请选择${maxFlavors}种口味`, icon: 'none' })
       return
+    }
+
+    // 酒精类商品需要年龄验证
+    if (product?.isAlcohol) {
+      const verified = await ageVerify()
+      if (!verified) {
+        Taro.showToast({ title: '需要年满18岁', icon: 'none' })
+        return
+      }
     }
 
     addItem({
@@ -100,9 +122,16 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
           />
           <View className="spec-picker-info">
             <Text className="spec-picker-name">{product?.name || ''}</Text>
-            <Text className="spec-picker-price">
-              ¥{selectedSpec?.price || product?.specs?.[0]?.price || 0}
-            </Text>
+            {isMember ? (
+              <View className="flex items-center gap-2">
+                <Text className="spec-picker-price text-purple-500">¥{finalPrice}</Text>
+                <Text className="text-gray-400 line-through text-sm">¥{currentPrice}</Text>
+              </View>
+            ) : (
+              <Text className="spec-picker-price">
+                ¥{currentPrice}
+              </Text>
+            )}
           </View>
           <View className="spec-picker-close" onClick={onClose}>
             <X size={20} color="#666" />
@@ -113,16 +142,19 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
         <View className="spec-picker-section">
           <Text className="spec-picker-label">选择规格</Text>
           <View className="spec-picker-options">
-            {product?.specs?.map(spec => (
-              <View 
-                key={spec.id}
-                className={`spec-option ${selectedSpec?.id === spec.id ? 'active' : ''}`}
-                onClick={() => handleSpecSelect(spec)}
-              >
-                <Text>{spec.name}</Text>
-                <Text className="spec-price">¥{spec.price}</Text>
-              </View>
-            ))}
+            {product?.specs?.map(spec => {
+              const memberPrice = getMemberPrice(spec.price)
+              return (
+                <View 
+                  key={spec.id}
+                  className={`spec-option ${selectedSpec?.id === spec.id ? 'active' : ''}`}
+                  onClick={() => handleSpecSelect(spec)}
+                >
+                  <Text>{spec.name}</Text>
+                  <Text className="spec-price">¥{isMember ? memberPrice : spec.price}</Text>
+                </View>
+              )
+            })}
           </View>
         </View>
 
@@ -174,9 +206,7 @@ export function SpecPicker({ product, visible, onClose }: SpecPickerProps) {
         <View className="spec-picker-footer">
           <View className="total-price">
             <Text className="price-label">合计</Text>
-            <Text className="price-value">
-              ¥{((selectedSpec?.price || product?.specs?.[0]?.price || 0) * quantity).toFixed(1)}
-            </Text>
+            <Text className="price-value">¥{totalPrice}</Text>
           </View>
           <View className="add-cart-btn" onClick={handleAddToCart}>
             <Text>加入购物车</Text>

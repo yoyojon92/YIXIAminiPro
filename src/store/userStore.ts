@@ -23,10 +23,14 @@ interface UserState {
   userInfo: UserInfo | null
   token: string | null
   isLoggedIn: boolean
+  isMember: boolean
+  memberExpire: number | null
   
   // 操作方法
   setUserInfo: (user: UserInfo | null) => void
   setToken: (token: string | null) => void
+  setIsMember: (isMember: boolean) => void
+  joinMember: () => void
   setAgeVerified: (verified: boolean) => void
   logout: () => void
   
@@ -40,6 +44,8 @@ export const useUserStore = create<UserState>()(
       userInfo: null,
       token: null,
       isLoggedIn: false,
+      isMember: false,
+      memberExpire: null,
       
       setUserInfo: (user) => set({ 
         userInfo: user, 
@@ -52,11 +58,21 @@ export const useUserStore = create<UserState>()(
         userInfo: state.userInfo ? { ...state.userInfo, ageVerified: verified } : null
       })),
       
+      setIsMember: (isMember) => set({ isMember }),
+      
       logout: () => set({ 
         userInfo: null, 
         token: null, 
-        isLoggedIn: false 
+        isLoggedIn: false,
+        isMember: false,
+        memberExpire: null,
       }),
+      
+      // 开通会员 - 模拟支付
+      joinMember: () => {
+        const expire = Date.now() + 30 * 24 * 60 * 60 * 1000 // 30天后
+        set({ isMember: true, memberExpire: expire })
+      },
       
       // 微信登录 - 实际需要调用 wx.login 获取 code
       loginWithWechat: async () => {
