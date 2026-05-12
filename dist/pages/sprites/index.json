@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "精灵图鉴",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

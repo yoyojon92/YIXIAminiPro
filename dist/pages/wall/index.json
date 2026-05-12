@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "创意墙",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}
