@@ -7,7 +7,8 @@ import {
   Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, CircleAlert
 } from 'lucide-react-taro'
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
-import { OrganLordDetail } from '@/components/organ-lord-detail/organ-lord-detail'
+import { OrganLordCard } from '@/components/organ-lord-card'
+import { getOrganLordByProductId } from '@/data/organLords'
 import './index.scss'
 
 // 简化的产品规格
@@ -178,9 +179,17 @@ export default function Product() {
         </View>
 
         {/* 器官大人展示卡片（仅果酒显示） */}
-        {showOrganLord && (
-          <OrganLordDetail productName={productDetail.name} />
-        )}
+        {showOrganLord && (() => {
+          const lord = getOrganLordByProductId(productDetail.id)
+          return lord ? (
+            <View className="bg-gray-900 px-4 py-4 mt-2">
+              <View className="flex items-center gap-2 mb-3">
+                <Text className="text-amber-400 text-lg font-bold">🏛️ 器官大人说养生</Text>
+              </View>
+              <OrganLordCard lord={lord} productId={productDetail.id} />
+            </View>
+          ) : null
+        })()}
 
         {/* Tab切换 */}
         <View className="bg-white mt-2">
