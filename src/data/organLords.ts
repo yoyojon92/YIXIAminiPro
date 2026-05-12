@@ -11,6 +11,7 @@ export interface OrganLord {
   gradient: string; // 渐变背景
   emoji: string; // emoji 占位符
   image: string; // 关联产品图片
+  portrait: string; // 立绘图片路径
   productId: number; // 关联产品ID
   productName: string; // 关联产品名称
   quote: string; // 中医名言（引）
@@ -28,6 +29,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     gradient: 'from-amber-500 to-orange-600',
     emoji: '🍑',
     image: '/assets/images/products/01-桃你欢心-金银花发酵酒.png',
+    portrait: '/assets/images/organ-lords/pijiangjun.png',
     productId: 101,
     productName: '桃你欢心',
     quote: '桃养脾胃',
@@ -42,6 +44,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     gradient: 'from-violet-600 to-purple-700',
     emoji: '🍒',
     image: '/assets/images/products/02-楂香四溢-沂蒙山楂酒.png',
+    portrait: '/assets/images/organ-lords/shenzhizhe.png',
     productId: 102,
     productName: '楂香四溢',
     quote: '山楂消食·酸甘化阴',
@@ -56,6 +59,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     gradient: 'from-cyan-400 to-sky-500',
     emoji: '🍐',
     image: '/assets/images/products/03-大吉大梨-金银花梨酒.png',
+    portrait: '/assets/images/organ-lords/feichengxiang.png',
     productId: 103,
     productName: '大吉大梨',
     quote: '梨润肺·润肺生津',
@@ -70,6 +74,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     gradient: 'from-red-500 to-rose-600',
     emoji: '🍎',
     image: '/assets/images/products/04-似水榴年-金银花石榴酒.png',
+    portrait: '/assets/images/organ-lords/xinjun.png',
     productId: 104,
     productName: '似水榴年',
     quote: '石榴养心·养心安神',
@@ -84,6 +89,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     gradient: 'from-emerald-600 to-teal-600',
     emoji: '🍇',
     image: '/assets/images/products/05-葡写浪漫-金银花葡萄酒.png',
+    portrait: '/assets/images/organ-lords/ganmoushi.png',
     productId: 105,
     productName: '葡写浪漫',
     quote: '葡萄补肝·滋阴养血',
@@ -95,9 +101,4 @@ export const ORGAN_LORDS: OrganLord[] = [
 // 根据产品ID获取器官大人
 export function getOrganLordByProductId(productId: number): OrganLord | undefined {
   return ORGAN_LORDS.find((lord) => lord.productId === productId);
-}
-
-// 获取器官大人立绘图片路径（如果存在）
-export function getOrganLordImagePath(organId: string): string {
-  return `/assets/images/organ-lords/${organId}.png`;
 }

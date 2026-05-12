@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { ArrowRight } from 'lucide-react-taro';
 import { OrganLord } from '@/data/organLords';
@@ -12,6 +12,7 @@ interface OrganLordCardProps {
 
 export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
   const [showDetail, setShowDetail] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const handleClick = () => {
     // 埋点记录
@@ -25,16 +26,32 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
     setShowDetail(true);
   };
 
+  const handleImgError = () => {
+    setImgError(true);
+  };
+
+  // 使用图片或 emoji fallback
+  const showPortrait = !imgError && lord.portrait;
+
   return (
     <>
       <View className="organ-lord-card" onClick={handleClick}>
         {/* 左侧立绘/emoji */}
         <View className="organ-lord-card__portrait">
           <View 
-            className="organ-lord-card__portrait-frame organ-lord-card__portrait-emoji"
+            className={`organ-lord-card__portrait-frame ${showPortrait ? 'organ-lord-card__portrait-image' : 'organ-lord-card__portrait-emoji'}`}
             style={{ borderColor: lord.color }}
           >
-            <Text className="organ-lord-card__emoji">{lord.emoji}</Text>
+            {showPortrait ? (
+              <Image
+                src={lord.portrait}
+                className="organ-lord-card__portrait-img"
+                mode="aspectFill"
+                onError={handleImgError}
+              />
+            ) : (
+              <Text className="organ-lord-card__emoji">{lord.emoji}</Text>
+            )}
           </View>
         </View>
 
@@ -68,10 +85,19 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
             <View className="organ-lord-detail__header">
               <View className="organ-lord-detail__portrait">
                 <View 
-                  className="organ-lord-detail__portrait-frame organ-lord-detail__portrait-emoji"
+                  className={`organ-lord-detail__portrait-frame ${showPortrait ? 'organ-lord-detail__portrait-image' : 'organ-lord-detail__portrait-emoji'}`}
                   style={{ borderColor: lord.color }}
                 >
-                  <Text className="organ-lord-detail__emoji">{lord.emoji}</Text>
+                  {showPortrait ? (
+                    <Image
+                      src={lord.portrait}
+                      className="organ-lord-detail__portrait-img"
+                      mode="aspectFill"
+                      onError={handleImgError}
+                    />
+                  ) : (
+                    <Text className="organ-lord-detail__emoji">{lord.emoji}</Text>
+                  )}
                 </View>
               </View>
               <View className="organ-lord-detail__title-group">

@@ -11,8 +11,8 @@
     margin-right: 16px;
     
     &-frame {
-      width: 120px;
-      height: 160px;
+      width: 100px;
+      height: 120px;
       border-radius: 12px;
       overflow: hidden;
       border: 3px solid;
@@ -21,7 +21,11 @@
       justify-content: center;
     }
     
-    &-image {
+    &-image &-frame {
+      background: transparent;
+    }
+    
+    &-img {
       width: 100%;
       height: 100%;
     }
@@ -32,7 +36,7 @@
   }
   
   &__emoji {
-    font-size: 64px;
+    font-size: 48px;
     line-height: 1;
   }
   
@@ -46,11 +50,11 @@
   &__header {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   
   &__name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #FFFFFF;
     margin-right: 8px;
@@ -69,16 +73,16 @@
   }
   
   &__title {
-    font-size: 14px;
+    font-size: 13px;
     color: #94A3B8;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   
   &__quote {
-    font-size: 16px;
+    font-size: 15px;
     color: #F1F5F9;
     font-style: italic;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   
   &__footer {
@@ -88,7 +92,7 @@
   }
   
   &__knowledge {
-    font-size: 13px;
+    font-size: 12px;
     color: #CBD5E1;
     flex: 1;
   }
@@ -130,7 +134,7 @@
       justify-content: center;
     }
     
-    &-image {
+    &-img {
       width: 100%;
       height: 100%;
     }
@@ -141,7 +145,7 @@
   }
   
   &__emoji {
-    font-size: 48px;
+    font-size: 40px;
     line-height: 1;
   }
   
@@ -160,16 +164,6 @@
   &__subtitle {
     font-size: 14px;
     color: #94A3B8;
-  }
-  
-  &__close {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   
   &__content {
