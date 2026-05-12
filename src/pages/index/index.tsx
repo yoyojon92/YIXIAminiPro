@@ -1,14 +1,15 @@
 import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { Button } from '@/components/ui/button'
+
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Wine, GlassWater, Apple, Gift, Clock4, ChevronRight, 
-  Flame, Star, Users, ShoppingCart, Sparkles, Search 
+  Flame, ShoppingCart, Sparkles, Search 
 } from 'lucide-react-taro'
-import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES, ORGAN_LORDS } from '@/mock/products'
-import { MOCK_SPRITES } from '@/mock/sprites'
+import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
+import { SPRITES } from '@/data/sprites'
+import { ORGAN_LORDS } from '@/data/organLords'
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -54,18 +55,6 @@ const newProducts = MOCK_PRODUCTS.slice(0, 6).map(p => ({
   spriteAlias: p.spriteAlias
 }))
 
-// 精灵角色
-const spriteCharacters = MOCK_SPRITES.slice(0, 5).map(s => ({
-  id: s.id,
-  name: s.name,
-  alias: s.alias,
-  emoji: s.id === 'sprite_taoyao' ? '🌸' : 
-         s.id === 'sprite_shazha' ? '🍒' : 
-         s.id === 'sprite_lili' ? '🍐' : 
-         s.id === 'sprite_liuliu' ? '💎' : '🍇',
-  color: s.color,
-  collected: false
-}))
 
 export default function Index() {
   // 跳转到分类页
@@ -272,85 +261,70 @@ export default function Index() {
         </View>
       </View>
 
-      {/* 精灵图鉴入口 */}
+      {/* 精灵图鉴 + 器官大人 双排Grid */}
       <View className="px-4 mt-6">
-        <Card className="bg-gradient-to-r from-purple-600 to-pink-600 border-0 overflow-hidden">
-          <CardContent className="p-4">
-            <View className="flex items-center justify-between">
-              <View className="flex-1">
-                <View className="flex items-center gap-2">
-                  <Gift size={20} color="white" />
-                  <Text className="text-lg font-bold text-white">精灵图鉴</Text>
+        {/* 上排：邑夏精灵 */}
+        <View className="mb-4">
+          <Text className="text-sm font-medium text-slate-400 mb-3">🧚 邑夏精灵</Text>
+          <View className="flex justify-between">
+            {SPRITES.map((sprite) => (
+              <View 
+                key={sprite.id}
+                className="flex flex-col items-center"
+                onClick={() => {
+                  // 埋点记录
+                  console.log('精灵点击埋点:', {
+                    userId: 'user_' + Date.now(),
+                    spriteId: sprite.id,
+                    targetProductId: sprite.productCode,
+                    action: 'sprite_click',
+                    timestamp: Date.now(),
+                  })
+                  Taro.navigateTo({ url: `/pages/product/index?id=${sprite.productId}` })
+                }}
+              >
+                <View 
+                  className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400 flex items-center justify-center"
+                  style={{ backgroundColor: sprite.color + '20' }}
+                >
+                  <Text className="text-2xl">{sprite.emoji}</Text>
                 </View>
-                <Text className="text-white text-sm mt-1">收集精灵碎片，兑换限定礼品</Text>
-                <View className="flex items-center gap-4 mt-3">
-                  <View className="flex items-center gap-1">
-                    <Star size={14} color="#FFD700" />
-                    <Text className="text-white text-sm">已收集 0/5</Text>
-                  </View>
-                  <View className="flex items-center gap-1">
-                    <Users size={14} color="white" />
-                    <Text className="text-white text-sm">收集精灵得碎片</Text>
-                  </View>
-                </View>
+                <Text className="text-xs text-slate-300 mt-1">{sprite.name}</Text>
               </View>
-              <View className="flex gap-2">
-                {spriteCharacters.slice(0, 4).map((sprite) => (
-                  <View 
-                    key={sprite.id} 
-                    className={`w-10 h-10 rounded-full overflow-hidden border-2 ${
-                      sprite.collected ? 'border-amber-400 bg-white bg-opacity-20' : 'border-slate-500 border-dashed'
-                    } flex items-center justify-center`}
-                  >
-                    {sprite.collected ? (
-                      <Text className="text-2xl">{sprite.emoji}</Text>
-                    ) : (
-                      <Text className="text-slate-500 text-lg">?</Text>
-                    )}
-                  </View>
-                ))}
-              </View>
-            </View>
-            <Button 
-              className="w-full mt-4 bg-white text-purple-600 hover:bg-white hover:text-purple-600" 
-              onClick={() => Taro.navigateTo({ url: '/pages/sprites/index' })}
-            >
-              <Text className="text-sm font-medium">立即参与</Text>
-            </Button>
-          </CardContent>
-        </Card>
-      </View>
-
-      {/* 器官大人专区 */}
-      <View className="px-4 mt-6">
-        <View className="flex items-center gap-2 mb-3">
-          <Text className="text-white font-semibold">器官大人</Text>
-          <Badge variant="outline" className="text-xs text-slate-400 border-slate-600">健康知识</Badge>
+            ))}
+          </View>
         </View>
-        <View className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
-          {ORGAN_LORDS.map((lord) => (
-            <View key={lord.id} className="flex-shrink-0 w-64">
-              <Card className="bg-slate-800 border-slate-700">
-                <CardContent className="p-3">
-                  <View className="flex items-start gap-3">
-                    <View className="w-12 h-12 bg-purple-500 bg-opacity-20 rounded-full flex items-center justify-center">
-                      <Text className="text-2xl">{lord.avatar}</Text>
-                    </View>
-                    <View className="flex-1">
-                      <View className="flex items-center gap-2">
-                        <Text className="text-white font-semibold">{lord.name}</Text>
-                        <View className="bg-amber-500 bg-opacity-20 px-2 py-1 rounded">
-                          <Text className="text-amber-400 text-xs">联名: {lord.productName}</Text>
-                        </View>
-                      </View>
-                      <Text className="text-purple-400 text-xs mt-1">{lord.quote}</Text>
-                      <Text className="text-slate-400 text-xs mt-1 line-clamp-2">{lord.description}</Text>
-                    </View>
-                  </View>
-                </CardContent>
-              </Card>
-            </View>
-          ))}
+
+        {/* 下排：器官大人 */}
+        <View>
+          <Text className="text-sm font-medium text-slate-400 mb-3">🏛 器官大人</Text>
+          <View className="flex justify-between">
+            {ORGAN_LORDS.map((lord) => (
+              <View 
+                key={lord.id}
+                className="flex flex-col items-center"
+                onClick={() => {
+                  // 埋点记录
+                  console.log('器官大人点击埋点:', {
+                    userId: 'user_' + Date.now(),
+                    organLordId: lord.id,
+                    targetProductId: lord.productId,
+                    action: 'sprite_click',
+                    timestamp: Date.now(),
+                  })
+                  Taro.navigateTo({ url: `/pages/product/index?id=${lord.productId}` })
+                }}
+              >
+                <View 
+                  className="w-12 h-12 rounded-full overflow-hidden border-2 flex items-center justify-center"
+                  style={{ borderColor: lord.color, backgroundColor: lord.color + '20' }}
+                >
+                  <Text className="text-2xl">{lord.emoji}</Text>
+                </View>
+                <Text className="text-xs text-slate-300 mt-1">{lord.name}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
 

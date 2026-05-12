@@ -1,0 +1,67 @@
+/**
+ * 邑夏精灵 IP 数据
+ */
+
+export interface Sprite {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string; // 主题色
+  productId: number; // 关联产品ID
+  productName: string; // 关联产品名称
+  productCode: string; // 产品编码
+}
+
+// 邑夏精灵数据
+export const SPRITES: Sprite[] = [
+  {
+    id: 'sprite-taoyao',
+    name: '桃夭',
+    emoji: '🍑',
+    color: '#F59E0B', // 暖橙
+    productId: 101,
+    productName: '桃你欢心',
+    productCode: 'fw-001',
+  },
+  {
+    id: 'sprite-zhacha',
+    name: '楂楂',
+    emoji: '🍒',
+    color: '#DC2626', // 山楂红
+    productId: 102,
+    productName: '楂香四溢',
+    productCode: 'fw-002',
+  },
+  {
+    id: 'sprite-lili',
+    name: '梨梨',
+    emoji: '🍐',
+    color: '#06B6D4', // 梨银白
+    productId: 103,
+    productName: '大吉大梨',
+    productCode: 'fw-003',
+  },
+  {
+    id: 'sprite-liuliu',
+    name: '榴榴',
+    emoji: '🍎',
+    color: '#BE185D', // 石榴红
+    productId: 104,
+    productName: '似水榴年',
+    productCode: 'fw-004',
+  },
+  {
+    id: 'sprite-pupu',
+    name: '葡葡',
+    emoji: '🍇',
+    color: '#7C3AED', // 葡萄紫
+    productId: 105,
+    productName: '葡写浪漫',
+    productCode: 'fw-005',
+  },
+];
+
+// 根据产品ID获取精灵
+export function getSpriteByProductId(productId: number): Sprite | undefined {
+  return SPRITES.find((sprite) => sprite.productId === productId);
+}
