@@ -11,6 +11,8 @@ import { OrganLordCard } from '@/components/organ-lord-card'
 import { getOrganLordByProductId } from '@/data/organLords'
 import type { Product } from '@/mock/products'
 import { getProductById } from '@/mock/products'
+import { useCartStore } from '@/store/cartStore'
+import { ageVerify } from '@/utils/ageVerify'
 import './index.scss'
 
 const comments = [
@@ -54,8 +56,30 @@ export default function Product() {
     }
   }, [])
 
-  const addToCart = () => {
-    Taro.switchTab({ url: '/pages/cart/index' })
+  const cartStore = useCartStore()
+
+  const addToCart = async () => {
+    if (!product) return
+
+    // 酒精产品需要年龄验证
+    if (product.isAlcohol) {
+      const verified = await ageVerify()
+      if (!verified) return
+    }
+
+    // 添加到购物车
+    await cartStore.addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice || product.price,
+      quantity: 1,
+      image: product.images[0],
+      spec: '单瓶装',
+      maxQuantity: 99
+    })
+
+    Taro.showToast({ title: '已加入购物车', icon: 'success' })
   }
 
   // 判断是否显示器官大人（仅果酒显示）
