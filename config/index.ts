@@ -99,9 +99,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
       TARO_ENV: JSON.stringify(process.env.TARO_ENV),
     },
     copy: {
-      patterns: [
-        { from: 'public/assets', to: 'dist/assets' },
-      ],
+      patterns: [],
       options: {},
     },
     ...(process.env.TARO_ENV === 'tt' && {
@@ -145,25 +143,6 @@ export default defineConfig<'vite'>(async (merge, _env) => {
         },
         ...(isH5
           ? [
-              {
-                name: 'serve-assets-middleware',
-                configureServer(server) {
-                  const fs = require('fs');
-                  const path = require('path');
-                  const assetsDir = path.resolve(__dirname, '../public/assets');
-                  server.middlewares.use('/assets', (req, res, next) => {
-                    const filePath = path.join(assetsDir, req.url.split('?')[0]);
-                    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-                      const ext = path.extname(filePath).toLowerCase();
-                      const mimeTypes = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.gif': 'image/gif', '.svg': 'image/svg+xml', '.webp': 'image/webp' };
-                      res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
-                      fs.createReadStream(filePath).pipe(res);
-                    } else {
-                      next();
-                    }
-                  });
-                },
-              },
             ]
           : [
               UnifiedViteWeappTailwindcssPlugin({
