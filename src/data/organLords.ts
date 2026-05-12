@@ -3,6 +3,13 @@
  * 5位器官大人对应5款果酒产品
  */
 
+// 导入立绘图片
+import pijiangjunImg from '@/assets/images/organ-lords/pijiangjun.jpg';
+import shenzhizheImg from '@/assets/images/organ-lords/shenzhizhe.jpg';
+import feichengxiangImg from '@/assets/images/organ-lords/feichengxiang.jpg';
+import xinjunImg from '@/assets/images/organ-lords/xinjun.jpg';
+import ganmoushiImg from '@/assets/images/organ-lords/ganmoushi.jpg';
+
 export interface OrganLord {
   id: string;
   name: string;
@@ -28,8 +35,8 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#F59E0B', // 暖橙金
     gradient: 'from-amber-500 to-orange-600',
     emoji: '🍑',
-    image: '/assets/images/organ-lords/pijiangjun.jpg',
-    portrait: '/assets/images/organ-lords/pijiangjun.jpg',
+    image: pijiangjunImg,
+    portrait: pijiangjunImg,
     productId: 101,
     productName: '桃你欢心',
     quote: '桃养脾胃',
@@ -43,8 +50,8 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#7C3AED', // 深蓝紫
     gradient: 'from-violet-600 to-purple-700',
     emoji: '🍒',
-    image: '/assets/images/organ-lords/shenzhizhe.jpg',
-    portrait: '/assets/images/organ-lords/shenzhizhe.jpg',
+    image: shenzhizheImg,
+    portrait: shenzhizheImg,
     productId: 102,
     productName: '楂香四溢',
     quote: '山楂消食·酸甘化阴',
@@ -58,8 +65,8 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#06B6D4', // 银白蓝
     gradient: 'from-cyan-400 to-sky-500',
     emoji: '🍐',
-    image: '/assets/images/organ-lords/feichengxiang.jpg',
-    portrait: '/assets/images/organ-lords/feichengxiang.jpg',
+    image: feichengxiangImg,
+    portrait: feichengxiangImg,
     productId: 103,
     productName: '大吉大梨',
     quote: '梨润肺·润肺生津',
@@ -73,8 +80,8 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#DC2626', // 红金
     gradient: 'from-red-500 to-rose-600',
     emoji: '🍎',
-    image: '/assets/images/organ-lords/xinjun.jpg',
-    portrait: '/assets/images/organ-lords/xinjun.jpg',
+    image: xinjunImg,
+    portrait: xinjunImg,
     productId: 104,
     productName: '似水榴年',
     quote: '石榴养心·养心安神',
@@ -88,8 +95,8 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#059669', // 深绿银
     gradient: 'from-emerald-600 to-teal-600',
     emoji: '🍇',
-    image: '/assets/images/organ-lords/ganmoushi.jpg',
-    portrait: '/assets/images/organ-lords/ganmoushi.jpg',
+    image: ganmoushiImg,
+    portrait: ganmoushiImg,
     productId: 105,
     productName: '葡写浪漫',
     quote: '葡萄补肝·滋阴养血',
@@ -98,7 +105,9 @@ export const ORGAN_LORDS: OrganLord[] = [
   },
 ];
 
-// 根据产品ID获取器官大人
-export function getOrganLordByProductId(productId: number): OrganLord | undefined {
+/**
+ * 根据产品ID获取器官大人信息
+ */
+export const getOrganLordByProductId = (productId: number): OrganLord | undefined => {
   return ORGAN_LORDS.find((lord) => lord.productId === productId);
-}
+};
