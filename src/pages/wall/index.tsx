@@ -88,7 +88,7 @@ export default function Wall() {
     }))
   }
 
-  const handleShare = (post: Post) => {
+  const handleShare = (_post: Post) => {
     // TODO: 分享功能
   }
 
@@ -103,7 +103,7 @@ export default function Wall() {
         <View className="flex items-center justify-between mb-3">
           <Text className="text-lg font-bold text-gray-900">创意墙</Text>
           <Button size="sm" onClick={submitPost}>
-            <Camera size={16} className="mr-1" />
+            <Camera size={16} color="#8B5CF6" />
             <Text>投稿</Text>
           </Button>
         </View>
@@ -127,7 +127,7 @@ export default function Wall() {
                   }`}
                   onClick={() => setActiveTab(tab.key)}
                 >
-                  <Icon size={14} />
+                  <Icon size={14} color="#8B5CF6" />
                   <Text>{tab.label}</Text>
                 </View>
               )
@@ -156,7 +156,7 @@ export default function Wall() {
       {activeTab === 'recommend' && (
         <View className="px-4 py-3">
           <View className="flex items-center gap-2 mb-3">
-            <Award size={16} className="text-amber-500" />
+            <Award size={16} color="#FBBF24" />
             <Text className="text-sm font-medium text-gray-900">精选内容</Text>
           </View>
           
@@ -218,7 +218,7 @@ export default function Wall() {
                     <Heart 
                       size={18} 
                       className={likedPosts[post.id] ? 'text-red-500' : 'text-gray-400'}
-                      fill={likedPosts[post.id] ? '#EF4444' : 'none'}
+                      color={likedPosts[post.id] ? '#EF4444' : '#9CA3AF'}
                     />
                     <Text className={`text-sm ${likedPosts[post.id] ? 'text-red-500' : 'text-gray-500'}`}>
                       {post.likes + (likedPosts[post.id] ? 1 : 0)}
@@ -226,7 +226,7 @@ export default function Wall() {
                   </View>
                   
                   <View className="flex items-center gap-1">
-                    <MessageCircle size={18} className="text-gray-400" />
+                    <MessageCircle size={18} color="#9CA3AF" />
                     <Text className="text-sm text-gray-500">{post.comments}</Text>
                   </View>
                   
@@ -234,7 +234,7 @@ export default function Wall() {
                     className="flex items-center gap-1"
                     onClick={() => handleShare(post)}
                   >
-                    <Share2 size={18} className="text-gray-400" />
+                    <Share2 size={18} color="#9CA3AF" />
                     <Text className="text-sm text-gray-500">分享</Text>
                   </View>
                 </View>
@@ -282,14 +282,14 @@ export default function Wall() {
                         <Heart 
                           size={16} 
                           className={likedPosts[post.id] ? 'text-red-500' : 'text-gray-400'}
-                          fill={likedPosts[post.id] ? '#EF4444' : 'none'}
+                          color={likedPosts[post.id] ? '#EF4444' : '#9CA3AF'}
                         />
                         <Text className={`text-xs ${likedPosts[post.id] ? 'text-red-500' : 'text-gray-500'}`}>
                           {post.likes}
                         </Text>
                       </View>
                       <View className="flex items-center gap-1">
-                        <MessageCircle size={16} className="text-gray-400" />
+                        <MessageCircle size={16} color="#9CA3AF" />
                         <Text className="text-xs text-gray-500">{post.comments}</Text>
                       </View>
                     </View>
@@ -328,13 +328,13 @@ export default function Wall() {
             <View className="flex gap-3 mt-4">
               <View className="flex-1 h-20 bg-gray-100 rounded-xl flex items-center justify-center">
                 <View className="flex flex-col items-center">
-                  <ImagePlus size={24} className="text-gray-400" />
+                  <ImagePlus size={24} color="#9CA3AF" />
                   <Text className="text-xs text-gray-500 mt-1">添加图片</Text>
                 </View>
               </View>
               <View className="flex-1 h-20 bg-gray-100 rounded-xl flex items-center justify-center">
                 <View className="flex flex-col items-center">
-                  <Camera size={24} className="text-gray-400" />
+                  <Camera size={24} color="#9CA3AF" />
                   <Text className="text-xs text-gray-500 mt-1">拍照</Text>
                 </View>
               </View>

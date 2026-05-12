@@ -6,13 +6,14 @@ import { cn } from "@/lib/utils"
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof View>,
-  Omit<React.ComponentPropsWithoutRef<typeof View>, "onClick"> & {
+  Omit<React.ComponentPropsWithoutRef<typeof View>, "onClick" | "value"> & {
     checked?: boolean
     defaultChecked?: boolean
     onCheckedChange?: (checked: boolean) => void
     disabled?: boolean
   }
 >(({ className, checked: checkedProp, defaultChecked, onCheckedChange, disabled, ...props }, ref) => {
+  const { value: _value, ...restProps } = props as any
   const [checkedState, setCheckedState] = React.useState<boolean>(
     defaultChecked ?? false
   )
@@ -20,7 +21,7 @@ const Checkbox = React.forwardRef<
   const isControlled = checkedProp !== undefined
   const checked = isControlled ? checkedProp : checkedState
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     if (disabled) return
     e.stopPropagation()
     const newChecked = !checked
@@ -30,7 +31,7 @@ const Checkbox = React.forwardRef<
     onCheckedChange?.(newChecked)
   }
 
-  const tabIndex = (props as any).tabIndex ?? (disabled ? -1 : 0)
+  const tabIndex = restProps?.tabIndex ?? (disabled ? -1 : 0)
 
   return (
     <View
@@ -47,7 +48,7 @@ const Checkbox = React.forwardRef<
           : "border-ring ring-2 ring-ring ring-offset-2 ring-offset-background"
       }
       onClick={handleClick}
-      {...props}
+      {...restProps}
     >
       {checked && <Check color="#fff" size={12} strokeWidth={3} className="text-current" />}
     </View>

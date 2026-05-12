@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -92,7 +92,6 @@ const deliveryInfo = {
 }
 
 export default function Product() {
-  const router = useRouter()
   const [selectedSpec, setSelectedSpec] = useState<Record<string, string>>({
     '规格': '330ml 单瓶'
   })
@@ -106,11 +105,11 @@ export default function Product() {
 
   const addToCart = () => {
     // TODO: 添加到购物车
-    router.switchTab({ url: '/pages/cart/index' })
+    Taro.switchTab({ url: '/pages/cart/index' })
   }
 
   const buyNow = () => {
-    router.push({ url: '/pages/orders/index?type=checkout' })
+    Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
   }
 
   return (
@@ -123,7 +122,7 @@ export default function Product() {
           </View>
           <View className="absolute top-4 right-4 flex gap-2">
             <View className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center" onClick={() => setLiked(!liked)}>
-              <Heart size={20} color={liked ? '#EF4444' : 'white'} fill={liked ? '#EF4444' : 'none'} />
+              <Heart size={20} color={liked ? '#EF4444' : 'white'} />
             </View>
             <View className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center">
               <Share2 size={20} color="white" />
@@ -146,7 +145,7 @@ export default function Product() {
           
           <View className="flex items-center gap-4 mt-3">
             <View className="flex items-center gap-1">
-              <Star size={14} color="#F59E0B" fill="#F59E0B" />
+              <Star size={14} color="#F59E0B" />
               <Text className="text-sm text-gray-700">{productDetail.rating}</Text>
             </View>
             <Text className="text-sm text-gray-500">销量 {productDetail.sales}</Text>
@@ -196,14 +195,14 @@ export default function Product() {
           <View className="flex gap-3">
             <View className={`flex-1 p-3 rounded-xl border-2 ${true ? 'border-primary bg-purple-50' : 'border-gray-200'}`}>
               <View className="flex items-center gap-2">
-                <Truck size={16} className="text-primary" />
+                <Truck size={16} color="#8B5CF6" />
                 <Text className="text-sm font-medium text-primary">送货到宿舍</Text>
               </View>
               <Text className="text-xs text-gray-500 mt-1">+{deliveryInfo.dormitory.fee}元 · {deliveryInfo.dormitory.time}</Text>
             </View>
             <View className={`flex-1 p-3 rounded-xl border-2 ${false ? 'border-primary bg-purple-50' : 'border-gray-200'}`}>
               <View className="flex items-center gap-2">
-                <Store size={16} className="text-gray-500" />
+                <Store size={16} color="#9CA3AF" />
                 <Text className="text-sm font-medium text-gray-700">到店自提</Text>
               </View>
               <Text className="text-xs text-gray-500 mt-1">免配送费 · 随时可取</Text>
@@ -214,7 +213,7 @@ export default function Product() {
         {/* 精灵故事 */}
         <View className="bg-white px-4 py-4 mt-2">
           <View className="flex items-center gap-2 mb-3">
-            <Gift size={18} className="text-primary" />
+            <Gift size={18} color="#8B5CF6" />
             <Text className="text-sm font-medium text-gray-900">精灵故事</Text>
             <Badge variant="secondary" className="text-xs">+{productDetail.fragments}碎片</Badge>
           </View>
@@ -266,8 +265,7 @@ export default function Product() {
                           <Star 
                             key={star} 
                             size={12} 
-                            color="#F59E0B" 
-                            fill={star <= comment.rating ? '#F59E0B' : 'none'} 
+                            color={star <= comment.rating ? '#F59E0B' : '#D1D5DB'} 
                           />
                         ))}
                       </View>
@@ -289,14 +287,14 @@ export default function Product() {
       >
         {/* 年龄验证提示 */}
         <View className="flex items-center gap-1 mb-2 text-xs text-orange-500">
-          <CircleAlert size={12} />
+          <CircleAlert size={12} color="#F59E0B" />
           <Text>购买果酒需年满18周岁</Text>
         </View>
         
         <View className="flex items-center gap-3">
           <View className="flex items-center gap-1">
             <View className="flex flex-col items-center px-3">
-              <ShoppingCart size={22} className="text-gray-600" />
+              <ShoppingCart size={22} color="#6B7280" />
               <Text className="text-xs text-gray-500 mt-1">购物车</Text>
             </View>
           </View>
@@ -304,11 +302,11 @@ export default function Product() {
           <View className="flex-1 flex items-center gap-2">
             <View className="flex items-center border border-gray-200 rounded-full">
               <View className="w-9 h-9 flex items-center justify-center" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-                <Minus size={16} className="text-gray-500" />
+                <Minus size={16} color="#6B7280" />
               </View>
               <Text className="text-sm text-gray-900 w-8 text-center">{quantity}</Text>
               <View className="w-9 h-9 flex items-center justify-center" onClick={() => setQuantity(quantity + 1)}>
-                <Plus size={16} className="text-gray-500" />
+                <Plus size={16} color="#6B7280" />
               </View>
             </View>
           </View>

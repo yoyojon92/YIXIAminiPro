@@ -1,5 +1,5 @@
 import { View, Text, Image } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -26,10 +26,8 @@ const toolItems = [
 ]
 
 export default function Profile() {
-  const router = useRouter()
-
   const navigateTo = (path: string) => {
-    router.push({ url: path })
+    Taro.navigateTo({ url: path })
   }
 
   return (
@@ -53,7 +51,7 @@ export default function Profile() {
             <View className="flex items-center gap-2">
               <Text className="text-white text-xl font-bold">大学生用户</Text>
               <Badge variant="secondary" className="text-xs bg-white bg-opacity-20 text-white border-0">
-                <Crown size={12} className="mr-1" />
+                <Crown size={12} color="#FBBF24" />
                 普通会员
               </Badge>
             </View>
@@ -113,7 +111,7 @@ export default function Profile() {
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
-                        <Icon size={20} className="text-primary" />
+                        <Icon size={20} color="#8B5CF6" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
                       {item.badge && (
@@ -122,7 +120,7 @@ export default function Profile() {
                         </Badge>
                       )}
                     </View>
-                    <ChevronRight size={18} className="text-gray-400" />
+                    <ChevronRight size={18} color="#9CA3AF" />
                   </View>
                   {index < menuItems.length - 1 && <Separator className="ml-14" />}
                 </View>
@@ -146,11 +144,11 @@ export default function Profile() {
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                        <Icon size={20} className="text-gray-600" />
+                        <Icon size={20} color="#6B7280" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
                     </View>
-                    <ChevronRight size={18} className="text-gray-400" />
+                    <ChevronRight size={18} color="#9CA3AF" />
                   </View>
                   {index < toolItems.length - 1 && <Separator className="ml-14" />}
                 </View>
@@ -163,7 +161,7 @@ export default function Profile() {
       {/* 退出登录 */}
       <View className="px-4 mt-6 mb-6">
         <Button variant="outline" className="w-full text-gray-600 border-gray-200">
-          <LogOut size={18} className="mr-2" />
+          <LogOut size={18} color="#6B7280" />
           <Text>退出登录</Text>
         </Button>
       </View>
@@ -173,14 +171,14 @@ export default function Profile() {
         <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-100">
           <CardContent className="p-4 flex items-center justify-between">
             <View className="flex items-center gap-3">
-              <Gift size={24} className="text-amber-500" />
+              <Gift size={24} color="#FBBF24" />
               <View>
                 <Text className="text-sm font-medium text-gray-900">分享邀请好友</Text>
                 <Text className="text-xs text-gray-500 mt-1">邀请新用户可得优惠券</Text>
               </View>
             </View>
             <Button size="sm" variant="secondary" onClick={() => {}}>
-              <Share2 size={14} className="mr-1" />
+              <Share2 size={14} color="#FBBF24" />
               <Text>分享</Text>
             </Button>
           </CardContent>

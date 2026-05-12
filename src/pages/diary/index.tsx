@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -83,7 +83,6 @@ const diaries: Diary[] = [
 ]
 
 export default function Diary() {
-  const router = useRouter()
   const [likedDiaries, setLikedDiaries] = useState<Record<number, boolean>>({})
 
   const handleLike = (diaryId: number) => {
@@ -94,7 +93,7 @@ export default function Diary() {
   }
 
   const goToDetail = (diaryId: number) => {
-    router.push({ url: `/pages/article/index?id=${diaryId}` })
+    Taro.navigateTo({ url: `/pages/article/index?id=${diaryId}` })
   }
 
   const totalReward = diaries.reduce((sum, d) => sum + d.reward, 0)
@@ -109,7 +108,7 @@ export default function Diary() {
             <Text className="text-sm text-gray-500 mt-1">阅读赚碎片，精选内容每日更新</Text>
           </View>
           <View className="flex items-center gap-1 bg-amber-500 text-white px-3 py-2 rounded-full">
-            <Sparkles size={14} />
+            <Sparkles size={14} color="#ffffff" />
             <Text className="text-sm font-medium">{totalReward}碎片待领</Text>
           </View>
         </View>
@@ -119,12 +118,12 @@ export default function Diary() {
       <View className="px-4 py-4">
         <View className="flex items-center justify-between mb-3">
           <View className="flex items-center gap-2">
-            <BookOpen size={18} className="text-primary" />
+            <BookOpen size={18} className="text-primary" color="#8B5CF6" />
             <Text className="text-base font-semibold text-gray-900">今日推荐</Text>
           </View>
           <View className="flex items-center text-gray-500">
             <Text className="text-sm">更多</Text>
-            <ChevronRight size={16} />
+            <ChevronRight size={16} color="#6b7280" />
           </View>
         </View>
 
@@ -158,11 +157,11 @@ export default function Diary() {
                 </View>
                 <View className="flex items-center gap-4">
                   <View className="flex items-center gap-1">
-                    <Clock4 size={14} className="text-gray-400" />
+                    <Clock4 size={14} className="text-gray-400" color="#9ca3af" />
                     <Text className="text-xs text-gray-500">{diary.readTime}</Text>
                   </View>
                   <View className="flex items-center gap-1">
-                    <Star size={14} className="text-amber-500" fill="#F59E0B" />
+                    <Star size={14} className="text-amber-500" color="#F59E0B" />
                     <Text className="text-xs text-amber-500">+{diary.reward}碎片</Text>
                   </View>
                 </View>
@@ -176,7 +175,7 @@ export default function Diary() {
       <View className="px-4 pb-4">
         <View className="flex items-center justify-between mb-3">
           <View className="flex items-center gap-2">
-            <TrendingUp size={18} className="text-primary" />
+            <TrendingUp size={18} className="text-primary" color="#8B5CF6" />
             <Text className="text-base font-semibold text-gray-900">精选内容</Text>
           </View>
         </View>
@@ -206,7 +205,7 @@ export default function Diary() {
                     </View>
                     <View className="flex items-center gap-3">
                       <View className="flex items-center gap-1">
-                        <Star size={12} className="text-amber-500" />
+                        <Star size={12} className="text-amber-500" color="#F59E0B" />
                         <Text className="text-xs text-amber-500">+{diary.reward}</Text>
                       </View>
                       <View 
@@ -219,7 +218,7 @@ export default function Diary() {
                         <Heart 
                           size={14} 
                           className={likedDiaries[diary.id] ? 'text-red-500' : 'text-gray-400'}
-                          fill={likedDiaries[diary.id] ? '#EF4444' : 'none'}
+                          color={likedDiaries[diary.id] ? '#EF4444' : '#9ca3af'}
                         />
                         <Text className="text-xs text-gray-500">{diary.likes}</Text>
                       </View>

@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren } from 'react';
 import { LucideTaroProvider } from 'lucide-react-taro';
 import '@/app.css';
 import { Toaster } from '@/components/ui/toast';

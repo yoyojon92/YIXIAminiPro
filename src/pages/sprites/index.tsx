@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -49,7 +49,6 @@ const levelColors: Record<string, string> = {
 }
 
 export default function Sprites() {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
   const [selectedSprite, setSelectedSprite] = useState<Sprite | null>(null)
 
@@ -78,7 +77,7 @@ export default function Sprites() {
         key={i} 
         size={12} 
         className={i < rarity ? 'text-amber-400' : 'text-gray-300'}
-        fill={i < rarity ? '#FBBF24' : '#D1D5DB'}
+        color={i < rarity ? '#FBBF24' : '#D1D5DB'}
       />
     ))
   }
@@ -123,7 +122,7 @@ export default function Sprites() {
         <View className="flex items-center justify-between mb-3">
           <Text className="text-sm font-medium text-gray-900">我的碎片</Text>
           <View className="flex items-center gap-1 text-sm text-gray-500">
-            <Sparkles size={14} className="text-amber-500" />
+            <Sparkles size={14} color="#FBBF24" />
             <Text>共 {Object.values(fragmentStats).reduce((a, b) => a + b, 0)} 片</Text>
           </View>
         </View>
@@ -234,7 +233,7 @@ export default function Sprites() {
       <View className="px-4 pb-6">
         <View className="flex items-center justify-between mb-3">
           <View className="flex items-center gap-2">
-            <Gift size={18} className="text-primary" />
+            <Gift size={18} color="#8B5CF6" />
             <Text className="text-sm font-medium text-gray-900">兑换中心</Text>
           </View>
         </View>
@@ -244,7 +243,7 @@ export default function Sprites() {
             {exchangeRewards.map((reward, index) => (
               <View key={reward.id}>
                 <View className="flex gap-3">
-                  <Image src={reward.image} mode="aspectSquare" className="w-20 h-20 rounded-lg" />
+                  <Image src={reward.image} mode="aspectFit" className="w-20 h-20 rounded-lg" />
                   <View className="flex-1">
                     <Text className="text-sm font-medium text-gray-900">{reward.name}</Text>
                     <Text className="text-xs text-gray-500 mt-1">需要: {reward.type}</Text>
@@ -321,12 +320,12 @@ export default function Sprites() {
               </Button>
               {!selectedSprite.collected && selectedSprite.fragmentOwned >= selectedSprite.fragmentCount && (
                 <Button className="flex-1" onClick={() => {}}>
-                  <Sparkles size={16} className="mr-1" />
+                  <Sparkles size={16} color="white" />
                   <Text>立即合成</Text>
                 </Button>
               )}
               {!selectedSprite.collected && selectedSprite.fragmentOwned < selectedSprite.fragmentCount && (
-                <Button className="flex-1" onClick={() => router.switchTab({ url: '/pages/index/index' })}>
+                <Button className="flex-1" onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
                   <Text>去购买收集</Text>
                 </Button>
               )}

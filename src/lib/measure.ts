@@ -12,7 +12,14 @@ const toNumber = (v: unknown) => {
     return 0
 }
 
-const normalizeRect = (r: Record<string, unknown> | null | undefined): Rect | null => {
+interface BoundingRectResult {
+    left?: number
+    top?: number
+    width?: number
+    height?: number
+}
+
+const normalizeRect = (r: DOMRect | BoundingRectResult | null | undefined): Rect | null => {
     if (!r) return null
     return {
         left: toNumber(r.left),

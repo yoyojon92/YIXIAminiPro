@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -34,7 +34,6 @@ const sortOptions = [
 ]
 
 export default function Category() {
-  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState(1)
   const [selectedSort, setSelectedSort] = useState('default')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -46,7 +45,7 @@ export default function Category() {
   })
 
   const goToProduct = (id: number) => {
-    router.push({ url: `/pages/product/index?id=${id}` })
+    Taro.navigateTo({ url: `/pages/product/index?id=${id}` })
   }
 
   return (
@@ -55,7 +54,7 @@ export default function Category() {
       <View className="bg-white px-4 py-3 sticky top-0 z-50">
         <View className="flex items-center gap-3">
           <View className="flex-1 bg-gray-100 rounded-full px-4 py-2 flex items-center">
-            <Search size={16} className="text-gray-400 mr-2" />
+            <Search size={16} className="text-gray-400 mr-2" color="#9ca3af" />
             <Input 
               className="flex-1 bg-transparent border-0 p-0 text-sm"
               placeholder="搜索果酒、果汁..."
@@ -68,13 +67,13 @@ export default function Category() {
               className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
               onClick={() => setViewMode('grid')}
             >
-              <Grid2x2 size={18} />
+              <Grid2x2 size={18} color={viewMode === 'grid' ? '#ffffff' : '#4b5563'} />
             </View>
             <View 
               className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
               onClick={() => setViewMode('list')}
             >
-              <List size={18} />
+              <List size={18} color={viewMode === 'list' ? '#ffffff' : '#4b5563'} />
             </View>
           </View>
         </View>
@@ -122,7 +121,7 @@ export default function Category() {
               <View key={product.id} onClick={() => goToProduct(product.id)}>
                 <Card className="overflow-hidden">
                   <View className="relative">
-                    <Image src={product.image} mode="aspectSquare" className="w-full h-40" />
+                    <Image src={product.image} mode="widthFix" className="w-full h-40" />
                     <Badge variant="destructive" className="absolute top-2 left-2">
                       销量 {product.sales}
                     </Badge>
@@ -144,7 +143,7 @@ export default function Category() {
               <View key={product.id} onClick={() => goToProduct(product.id)}>
                 <Card>
                   <CardContent className="p-3 flex gap-3">
-                    <Image src={product.image} mode="aspectSquare" className="w-28 h-28 rounded-lg" />
+                    <Image src={product.image} mode="widthFix" className="w-28 h-28 rounded-lg" />
                     <View className="flex-1 flex flex-col justify-between py-1">
                       <View>
                         <Text className="text-sm text-gray-900 font-medium line-clamp-2">{product.name}</Text>

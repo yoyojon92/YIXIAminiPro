@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -69,7 +69,6 @@ const article: Article = {
 }
 
 export default function Article() {
-  const router = useRouter()
   const [liked, setLiked] = useState(false)
   const [showReward, setShowReward] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
@@ -79,7 +78,7 @@ export default function Article() {
   }
 
   const goToProduct = (productId: number) => {
-    router.push({ url: `/pages/product/index?id=${productId}` })
+    Taro.navigateTo({ url: `/pages/product/index?id=${productId}` })
   }
 
   const generatePoster = () => {
@@ -101,7 +100,7 @@ export default function Article() {
           <View className="absolute top-0 left-0 right-0 px-4 py-3 flex items-center justify-between">
             <View 
               className="w-10 h-10 bg-black bg-opacity-30 rounded-full flex items-center justify-center"
-              onClick={() => router.back()}
+              onClick={() => Taro.navigateBack()}
             >
               <ChevronLeft size={24} color="white" />
             </View>
@@ -130,7 +129,7 @@ export default function Article() {
               <View className="flex items-center gap-2 mt-1">
                 <Text className="text-xs text-gray-500">{article.createTime}</Text>
                 <View className="flex items-center gap-1">
-                  <Clock4 size={12} className="text-gray-400" />
+                  <Clock4 size={12} className="text-gray-400" color="#9ca3af" />
                   <Text className="text-xs text-gray-500">{article.readTime}</Text>
                 </View>
               </View>
@@ -158,7 +157,7 @@ export default function Article() {
         {/* 相关精灵 */}
         <View className="px-4 py-4 bg-white mt-2">
           <View className="flex items-center gap-2 mb-3">
-            <Gift size={18} className="text-primary" />
+            <Gift size={18} className="text-primary" color="#8B5CF6" />
             <Text className="text-sm font-medium text-gray-900">相关精灵</Text>
           </View>
           <View className="flex items-center gap-4 bg-purple-50 rounded-xl p-4">
@@ -181,7 +180,7 @@ export default function Article() {
                 onClick={() => goToProduct(product.id)}
               >
                 <Card className="overflow-hidden">
-                  <Image src={product.image} mode="aspectSquare" className="w-full h-32" />
+                  <Image src={product.image} mode="widthFix" className="w-full h-32" />
                   <CardContent className="p-2">
                     <Text className="text-xs text-gray-900 line-clamp-1">{product.name}</Text>
                     <View className="flex items-baseline gap-1 mt-1">
@@ -205,23 +204,23 @@ export default function Article() {
                 <Heart 
                   size={22} 
                   className={liked ? 'text-red-500' : 'text-gray-400'}
-                  fill={liked ? '#EF4444' : 'none'}
+                  color={liked ? '#EF4444' : '#9ca3af'}
                 />
                 <Text className={`text-sm ${liked ? 'text-red-500' : 'text-gray-500'}`}>
                   {article.likes + (liked ? 1 : 0)}
                 </Text>
               </View>
               <View className="flex items-center gap-1">
-                <MessageCircle size={22} className="text-gray-400" />
+                <MessageCircle size={22} className="text-gray-400" color="#9ca3af" />
                 <Text className="text-sm text-gray-500">{article.comments}</Text>
               </View>
               <View className="flex items-center gap-1">
-                <Share2 size={22} className="text-gray-400" />
+                <Share2 size={22} className="text-gray-400" color="#9ca3af" />
                 <Text className="text-sm text-gray-500">{article.shares}</Text>
               </View>
             </View>
             <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-0">
-              <Sparkles size={12} className="mr-1" />
+              <Sparkles size={12} className="mr-1" color="#f59e0b" />
               阅读+{article.reward}碎片
             </Badge>
           </View>
@@ -244,7 +243,7 @@ export default function Article() {
                       {['室友生日派对回顾', '一个人的下午茶', '和闺蜜的新年聚会'][i-1]}
                     </Text>
                     <View className="flex items-center gap-1 mt-2">
-                      <Star size={10} className="text-amber-500" />
+                      <Star size={10} className="text-amber-500" color="#f59e0b" />
                       <Text className="text-xs text-amber-500">+1碎片</Text>
                     </View>
                   </CardContent>
@@ -262,11 +261,11 @@ export default function Article() {
       >
         <View className="flex items-center gap-3">
           <Button variant="outline" className="flex-1" onClick={() => setShowShareModal(true)}>
-            <Share2 size={16} className="mr-1" />
+            <Share2 size={16} className="mr-1" color="#8B5CF6" />
             <Text>分享</Text>
           </Button>
-          <Button className="flex-1" onClick={() => router.switchTab({ url: '/pages/index/index' })}>
-            <Gift size={16} className="mr-1" />
+          <Button className="flex-1" onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
+            <Gift size={16} className="mr-1" color="#8B5CF6" />
             <Text>去看看产品</Text>
           </Button>
         </View>
@@ -301,7 +300,7 @@ export default function Article() {
               </View>
               <View className="flex flex-col items-center" onClick={generatePoster}>
                 <View className="w-14 h-14 bg-purple-500 rounded-full flex items-center justify-center mb-2">
-                  <Image size={24} color="white" />
+                  <Text className="text-2xl">🖼️</Text>
                 </View>
                 <Text className="text-xs text-gray-600">生成海报</Text>
               </View>
@@ -335,7 +334,7 @@ export default function Article() {
             onClick={(e) => e.stopPropagation()}
           >
             <View className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Sparkles size={40} className="text-amber-500" />
+              <Sparkles size={40} className="text-amber-500" color="#f59e0b" />
             </View>
             <Text className="text-lg font-bold text-gray-900 mb-2">恭喜获得精灵碎片！</Text>
             <Text className="text-sm text-gray-500 mb-4">阅读《{article.title}》获得 {article.reward} 个碎片</Text>

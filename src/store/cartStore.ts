@@ -174,10 +174,20 @@ export const useCartStore = create<CartState>()(
       syncFromServer: async () => {
         set({ loading: true })
         try {
-          const res = await CartAPI.getCart()
-          if (res.code === 200 && res.data) {
-            set({ items: res.data.items || [] })
-          }
+          const items = await CartAPI.getList()
+          // 将API返回的CartItem转换为store的CartItem格式
+          const mappedItems: CartItem[] = items.map((item, index) => ({
+            id: `item_${index}`,
+            productId: item.productId,
+            name: item.productName,
+            price: item.price,
+            originalPrice: item.price,
+            spec: item.capacity,
+            quantity: item.quantity,
+            image: item.image,
+            maxQuantity: 99
+          }))
+          set({ items: mappedItems })
         } catch (error) {
           console.error('同步购物车失败:', error)
         } finally {
@@ -192,13 +202,8 @@ export const useCartStore = create<CartState>()(
         
         set({ syncing: true })
         try {
-          await CartAPI.syncCart({
-            items: state.items.map(item => ({
-              productId: item.productId,
-              spec: item.spec,
-              quantity: item.quantity
-            }))
-          })
+          // 购物车同步逻辑 - 目前使用本地状态
+          // 后续可通过批量操作API同步
         } catch (error) {
           console.error('同步购物车到服务器失败:', error)
         } finally {

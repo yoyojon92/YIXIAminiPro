@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -96,7 +96,6 @@ const typeIcons = {
 }
 
 export default function Activity() {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
 
   const filteredActivities = activities.filter(activity => {
@@ -108,7 +107,7 @@ export default function Activity() {
   })
 
   const goToDetail = (activityId: number) => {
-    router.push({ url: `/pages/activity/index?id=${activityId}` })
+    Taro.navigateTo({ url: `/pages/activity/index?id=${activityId}` })
   }
 
   return (
@@ -149,7 +148,7 @@ export default function Activity() {
       <View className="px-4 py-4">
         {filteredActivities.length === 0 ? (
           <View className="flex flex-col items-center justify-center py-20">
-            <Calendar size={48} className="text-gray-300 mb-4" />
+            <Calendar size={48} className="text-gray-300 mb-4" color="#d1d5db" />
             <Text className="text-gray-500 text-lg mb-2">暂无活动</Text>
             <Text className="text-gray-400 text-sm">敬请期待更多精彩活动</Text>
           </View>
@@ -175,7 +174,7 @@ export default function Activity() {
                     <Text>{config.text}</Text>
                   </View>
                   <View className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow">
-                    <TypeIcon size={20} className="text-primary" />
+                    <TypeIcon size={20} className="text-primary" color="#8B5CF6" />
                   </View>
                 </View>
                 
@@ -185,11 +184,11 @@ export default function Activity() {
                   
                   <View className="flex items-center gap-4 mt-3">
                     <View className="flex items-center gap-1">
-                      <Calendar size={14} className="text-gray-400" />
+                      <Calendar size={14} className="text-gray-400" color="#9ca3af" />
                       <Text className="text-xs text-gray-500">{activity.startTime}</Text>
                     </View>
                     <View className="flex items-center gap-1">
-                      <MapPinned size={14} className="text-gray-400" />
+                      <MapPinned size={14} className="text-gray-400" color="#9ca3af" />
                       <Text className="text-xs text-gray-500 truncate max-w-32">{activity.location}</Text>
                     </View>
                   </View>
@@ -197,7 +196,7 @@ export default function Activity() {
                   <View className="mt-3">
                     <View className="flex items-center justify-between text-xs mb-1">
                       <View className="flex items-center gap-1">
-                        <Users size={14} className="text-gray-400" />
+                        <Users size={14} className="text-gray-400" color="#9ca3af" />
                         <Text className="text-gray-500">
                           {activity.participants}/{activity.maxParticipants}人
                         </Text>
@@ -214,12 +213,12 @@ export default function Activity() {
                   
                   <View className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
                     <Badge variant="secondary" className="text-xs bg-amber-100 text-amber-700 border-0">
-                      <Gift size={12} className="mr-1" />
+                      <Gift size={12} className="mr-1" color="#f59e0b" />
                       {activity.reward}
                     </Badge>
                     <View className="flex items-center text-primary">
                       <Text className="text-sm">立即报名</Text>
-                      <ChevronRight size={16} />
+                      <ChevronRight size={16} color="#8B5CF6" />
                     </View>
                   </View>
                 </CardContent>

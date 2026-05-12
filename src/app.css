@@ -8,66 +8,67 @@ page {
   height: 100%;
 }
 
+/* 邑夏暗色主题 - 深蓝黑色背景，年轻夜经济调性 */
 :root,
 page,
 root-portal {
-  /* 邑夏品牌主色 */
+  /* 邑夏品牌主色 - 紫色 */
   --primary: #8B5CF6;
   --primary-foreground: #FFFFFF;
   
-  /* 辅助色 */
+  /* 辅助色 - 金色 */
   --secondary: #F59E0B;
   --secondary-foreground: #FFFFFF;
   
-  /* 成功/强调色 */
+  /* 成功/强调色 - 绿色 */
   --accent: #10B981;
   --accent-foreground: #FFFFFF;
   
-  /* 背景色 */
-  --background: #F9FAFB;
-  --foreground: #1F2937;
+  /* 暗色主题背景 - #0F172A 深蓝黑 */
+  --background: #0F172A;
+  --foreground: #F8FAFC;
   
-  /* 卡片色 */
-  --card: #FFFFFF;
-  --card-foreground: #1F2937;
+  /* 卡片色 - #1E293B 深灰蓝 */
+  --card: #1E293B;
+  --card-foreground: #F8FAFC;
   
   /* 弹窗色 */
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2937;
+  --popover: #1E293B;
+  --popover-foreground: #F8FAFC;
   
   /* 中性色 */
-  --muted: #F3F4F6;
-  --muted-foreground: #6B7280;
+  --muted: #334155;
+  --muted-foreground: #94A3B8;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
   
   /* 边框色 */
-  --border: #E5E7EB;
-  --input: #E5E7EB;
+  --border: #334155;
+  --input: #334155;
   --ring: #8B5CF6;
   
   /* 侧边栏色 */
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #1F2937;
+  --sidebar: #1E293B;
+  --sidebar-foreground: #F8FAFC;
   --sidebar-primary: #8B5CF6;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F3F4F6;
-  --sidebar-accent-foreground: #1F2937;
-  --sidebar-border: #E5E7EB;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: #334155;
   --sidebar-ring: #8B5CF6;
   
   /* 表面色 */
-  --surface: #FFFFFF;
+  --surface: #1E293B;
   --code: var(--surface);
-  --code-highlight: #F3F4F6;
-  --code-number: #6B7280;
+  --code-highlight: #334155;
+  --code-number: #94A3B8;
   
   /* 选择色 */
   --selection: #8B5CF6;
   --selection-foreground: #FFFFFF;
   
   /* 阴影 */
-  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   --tw-shadow-color: initial;
   --tw-shadow-alpha: 100%;
   --tw-inset-shadow: 0 0 #0000;
@@ -83,44 +84,24 @@ root-portal {
   --tw-ring-offset-shadow: 0 0 #0000;
 }
 
-.dark {
-  --background: lab(2.75381% 0 0);
-  --foreground: lab(98.26% 0 0);
-  --card: lab(7.78201% -0.0000149012 0);
-  --card-foreground: lab(98.26% 0 0);
-  --popover: lab(7.78201% -0.0000149012 0);
-  --popover-foreground: lab(98.26% 0 0);
-  --primary: lab(90.952% 0 -0.0000119209);
-  --primary-foreground: lab(7.78201% -0.0000149012 0);
-  --secondary: lab(15.204% 0 -0.00000596046);
-  --secondary-foreground: lab(98.26% 0 0);
-  --muted: lab(15.204% 0 -0.00000596046);
-  --muted-foreground: lab(66.128% -0.0000298023 0.0000119209);
-  --accent: lab(27.036% 0 0);
-  --accent-foreground: lab(98.26% 0 0);
-  --destructive: lab(63.7053% 60.745 31.3109);
-  --destructive-foreground: lab(49.0747% 69.3434 49.6251);
-  --border: lab(100% 0 0 / 10%);
-  --input: lab(100% 0 0 / 15%);
-  --ring: lab(48.496% 0 0);
-  --sidebar: lab(7.78201% -0.0000149012 0);
-  --sidebar-foreground: lab(98.26% 0 0);
-  --sidebar-primary: lab(36.9089% 35.0961 -85.6872);
-  --sidebar-primary-foreground: lab(98.26% 0 0);
-  --sidebar-accent: lab(15.204% 0 -0.00000596046);
-  --sidebar-accent-foreground: lab(98.26% 0 0);
-  --sidebar-border: lab(100% 0 0 / 10%);
-  --sidebar-ring: lab(34.924% 0 0);
-  --surface: lab(7.22637% -0.0000149012 0);
-  --surface-foreground: lab(66.128% -0.0000298023 0.0000119209);
-  --code: var(--surface);
-  --code-highlight: lab(15.32% 0 0);
-  --code-number: lab(67.52% -0.0000298023 0);
-  --selection: lab(90.952% 0 -0.0000119209);
-  --selection-foreground: lab(7.78201% -0.0000149012 0);
+/* 分类色系变量 */
+:root {
+  /* 果酒色 - 粉紫色系 */
+  --fruit-wine: #EC4899;
+  --fruit-wine-bg: rgba(236, 72, 153, 0.2);
+  
+  /* 果汁色 - 绿色系 */
+  --juice: #10B981;
+  --juice-bg: rgba(16, 185, 129, 0.2);
+  
+  /* 白酒色 - 红金系 */
+  --grain-wine: #EF4444;
+  --grain-wine-bg: rgba(239, 68, 68, 0.2);
+  
+  /* 礼盒色 - 金色系 */
+  --gift: #F59E0B;
+  --gift-bg: rgba(245, 158, 11, 0.2);
 }
-
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-sidebar: var(--sidebar);
@@ -177,3 +158,37 @@ image {
   background-color: var(--selection);
   color: var(--selection-foreground);
 }
+
+/* 暗色主题下全局文本颜色 */
+.bg-slate-800 { background-color: #1E293B; }
+.bg-slate-900 { background-color: #0F172A; }
+.text-slate-300 { color: #CBD5E1; }
+.text-slate-400 { color: #94A3B8; }
+.text-slate-500 { color: #64748B; }
+.text-white { color: #FFFFFF; }
+.text-purple-400 { color: #A78BFA; }
+.text-pink-400 { color: #F472B6; }
+.text-emerald-400 { color: #34D399; }
+.text-amber-400 { color: #FBBF24; }
+.text-red-400 { color: #F87171; }
+.bg-purple-500 { background-color: #8B5CF6; }
+.bg-purple-600 { background-color: #7C3AED; }
+.bg-pink-600 { background-color: #DB2777; }
+.bg-amber-500 { background-color: #F59E0B; }
+.bg-emerald-500 { background-color: #10B981; }
+.bg-red-500 { background-color: #EF4444; }
+.border-slate-700 { border-color: #334155; }
+.border-white\/10 { border-color: rgba(255, 255, 255, 0.1); }
+.border-purple-500 { border-color: #8B5CF6; }
+.border-pink-500 { border-color: #EC4899; }
+.border-amber-400 { border-color: #FBBF24; }
+.bg-white\/20 { background-color: rgba(255, 255, 255, 0.2); }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+.bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
+.from-purple-600 { --tw-gradient-from: #7C3AED; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, transparent); }
+.to-violet-600 { --tw-gradient-to: #8B5CF6; }
+.to-pink-600 { --tw-gradient-to: #DB2777; }
+.from-purple-500 { --tw-gradient-from: #8B5CF6; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, transparent); }
+.to-pink-500 { --tw-gradient-to: #EC4899; }
+.from-black\/60 { --tw-gradient-from: rgba(0, 0, 0, 0.6); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, transparent); }
+.to-transparent { --tw-gradient-to: transparent; }

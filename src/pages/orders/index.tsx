@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -89,7 +89,6 @@ const tabList = [
 ]
 
 export default function Orders() {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
 
   const filteredOrders = activeTab === 'all' 
@@ -128,10 +127,10 @@ export default function Orders() {
       <View className="px-4 py-4">
         {filteredOrders.length === 0 ? (
           <View className="flex flex-col items-center justify-center py-20">
-            <CircleAlert size={48} className="text-gray-300 mb-4" />
+            <CircleAlert size={48} color="#D1D5DB" />
             <Text className="text-gray-500 text-lg mb-2">暂无订单</Text>
             <Text className="text-gray-400 text-sm mb-6">快去选购心仪的商品吧</Text>
-            <Button onClick={() => router.switchTab({ url: '/pages/index/index' })}>
+            <Button onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
               <Text>去购物</Text>
             </Button>
           </View>
@@ -146,7 +145,7 @@ export default function Orders() {
                   <View className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                     <Text className="text-sm text-gray-500">{order.shopName}</Text>
                     <View className={`flex items-center gap-1 ${config.color}`}>
-                      <StatusIcon size={14} />
+                      <StatusIcon size={14} color="#8B5CF6" />
                       <Text className="text-sm font-medium">{config.text}</Text>
                     </View>
                   </View>
@@ -155,7 +154,7 @@ export default function Orders() {
                   <View className="p-4">
                     {order.items.map((item, index) => (
                       <View key={index} className="flex gap-3 mb-3 last:mb-0">
-                        <Image src={item.image} mode="aspectSquare" className="w-20 h-20 rounded-lg" />
+                        <Image src={item.image} mode="aspectFit" className="w-20 h-20 rounded-lg" />
                         <View className="flex-1">
                           <Text className="text-sm text-gray-900 font-medium line-clamp-1">{item.name}</Text>
                           <Text className="text-xs text-gray-500 mt-1">{item.specs}</Text>
@@ -171,7 +170,7 @@ export default function Orders() {
                   {/* 精灵碎片 */}
                   {order.fragmentCount > 0 && (
                     <View className="px-4 py-2 bg-purple-50 mx-4 mb-3 rounded-lg flex items-center gap-2">
-                      <Star size={14} className="text-primary" />
+                      <Star size={14} color="#8B5CF6" />
                       <Text className="text-xs text-primary">获得 {order.fragmentCount} 精灵碎片</Text>
                     </View>
                   )}
@@ -215,7 +214,7 @@ export default function Orders() {
                             <Text className="text-xs">再次购买</Text>
                           </Button>
                           <Button variant="secondary" size="sm" className="px-4">
-                            <Star size={12} className="mr-1" />
+                            <Star size={12} className="mr-1" color="#8B5CF6" />
                             <Text className="text-xs">评价</Text>
                           </Button>
                         </>

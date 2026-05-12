@@ -4,6 +4,7 @@
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import Taro from '@tarojs/taro'
 
 export interface UserInfo {
   id: string
@@ -35,7 +36,7 @@ interface UserState {
 
 export const useUserStore = create<UserState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       userInfo: null,
       token: null,
       isLoggedIn: false,
@@ -62,12 +63,8 @@ export const useUserStore = create<UserState>()(
         // #ifdef MP-WEIXIN
         try {
           // 获取微信登录凭证
-          const { code } = await new Promise((resolve, reject) => {
-            wx.login({
-              success: resolve,
-              fail: reject
-            })
-          })
+          const loginResult = await Taro.login()
+          const code = loginResult.code
           
           // TODO: 调用后端 API 换取 openid 和 token
           // const res = await fetch('/api/auth/login', {

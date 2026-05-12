@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, Checkbox } from '@tarojs/components'
-import { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { MapPinned, Store, Truck, Trash2, Minus, Plus, ShoppingBag } from 'lucide-react-taro'
@@ -29,7 +29,6 @@ const deliveryOptions = [
 ]
 
 export default function Cart() {
-  const router = useRouter()
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems)
   const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>('dormitory')
 
@@ -68,18 +67,18 @@ export default function Cart() {
 
   const goToCheckout = () => {
     if (selectedItems.length === 0) return
-    router.push({ url: '/pages/orders/index?type=checkout' })
+    Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
   }
 
   if (cartItems.length === 0) {
     return (
       <View className="min-h-screen bg-gray-50 flex flex-col items-center justify-center pb-safe">
         <View className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-          <ShoppingBag size={48} className="text-gray-300" />
+          <ShoppingBag size={48} className="text-gray-300" color="#d1d5db" />
         </View>
         <Text className="text-gray-500 text-lg mb-2">购物车是空的</Text>
         <Text className="text-gray-400 text-sm mb-6">快去挑选心仪的商品吧</Text>
-        <Button onClick={() => router.switchTab({ url: '/pages/index/index' })}>
+        <Button onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
           <Text>去逛逛</Text>
         </Button>
       </View>
@@ -110,7 +109,7 @@ export default function Cart() {
                 onClick={() => setSelectedDelivery(option.id as 'dormitory' | 'pickup')}
               >
                 <View className="flex items-center gap-2">
-                  <Icon size={18} className={isSelected ? 'text-primary' : 'text-gray-500'} />
+                  <Icon size={18} className={isSelected ? 'text-primary' : 'text-gray-500'} color={isSelected ? '#8B5CF6' : '#9ca3af'} />
                   <Text className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-gray-700'}`}>
                     {option.name}
                   </Text>
@@ -129,7 +128,7 @@ export default function Cart() {
       {selectedDelivery === 'pickup' && (
         <View className="px-4 py-3 bg-white mt-2 flex items-center gap-3">
           <View className="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
-            <MapPinned size={18} className="text-primary" />
+            <MapPinned size={18} className="text-primary" color="#8B5CF6" />
           </View>
           <View className="flex-1">
             <Text className="text-sm font-medium text-gray-900">青岛农业大学南门自提点</Text>
@@ -152,7 +151,7 @@ export default function Cart() {
                   <Checkbox checked={item.selected} />
                 </View>
                 
-                <Image src={item.image} mode="aspectSquare" className="w-20 h-20 rounded-lg" />
+                <Image src={item.image} mode="widthFix" className="w-20 h-20 rounded-lg" />
                 
                 <View className="flex-1 flex flex-col justify-between">
                   <View>
@@ -172,21 +171,21 @@ export default function Cart() {
                           className="w-7 h-7 flex items-center justify-center"
                           onClick={() => updateQuantity(item.id, -1)}
                         >
-                          <Minus size={14} className="text-gray-500" />
+                          <Minus size={14} className="text-gray-500" color="#6b7280" />
                         </View>
                         <Text className="text-sm text-gray-900 w-8 text-center">{item.quantity}</Text>
                         <View 
                           className="w-7 h-7 flex items-center justify-center"
                           onClick={() => updateQuantity(item.id, 1)}
                         >
-                          <Plus size={14} className="text-gray-500" />
+                          <Plus size={14} className="text-gray-500" color="#6b7280" />
                         </View>
                       </View>
                       <View 
                         className="p-2"
                         onClick={() => removeItem(item.id)}
                       >
-                        <Trash2 size={16} className="text-gray-400" />
+                        <Trash2 size={16} className="text-gray-400" color="#9ca3af" />
                       </View>
                     </View>
                   </View>
