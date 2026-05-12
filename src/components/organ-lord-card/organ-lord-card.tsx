@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Image, View, Text } from '@tarojs/components';
-import { Sheet } from '@/components/ui/sheet';
-import { Info, ArrowRight, X } from 'lucide-react-taro';
+import { View, Text } from '@tarojs/components';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { ArrowRight } from 'lucide-react-taro';
 import { OrganLord } from '@/data/organLords';
 import './organ-lord-card.scss';
 
@@ -28,14 +28,13 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
   return (
     <>
       <View className="organ-lord-card" onClick={handleClick}>
-        {/* 左侧立绘 */}
+        {/* 左侧立绘/emoji */}
         <View className="organ-lord-card__portrait">
-          <View className="organ-lord-card__portrait-frame">
-            <Image
-              src={lord.image}
-              className="organ-lord-card__portrait-image"
-              mode="aspectFill"
-            />
+          <View 
+            className="organ-lord-card__portrait-frame organ-lord-card__portrait-emoji"
+            style={{ borderColor: lord.color }}
+          >
+            <Text className="organ-lord-card__emoji">{lord.emoji}</Text>
           </View>
         </View>
 
@@ -58,93 +57,51 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
               <ArrowRight size={16} color={lord.color} />
             </View>
           </View>
-
-          <View className="organ-lord-card__product">
-            <Text className="organ-lord-card__product-label">关联产品</Text>
-            <Text className="organ-lord-card__product-name">{lord.productName}</Text>
-          </View>
         </View>
-
-        {/* 装饰线 */}
-        <View
-          className="organ-lord-card__accent"
-          style={{ backgroundColor: lord.color }}
-        />
       </View>
 
-      {/* 详情弹窗 */}
-      <Sheet
-        open={showDetail}
-        onOpenChange={(open) => !open && setShowDetail(false)}
-      >
-        <View className="organ-lord-sheet">
-          {/* 标题栏 */}
-          <View className="organ-lord-sheet__header">
-            <View className="organ-lord-sheet__title-row">
-              <Text className="organ-lord-sheet__name">{lord.name}</Text>
-              <Text className="organ-lord-sheet__subtitle">{lord.title}</Text>
-            </View>
-            <View
-              className="organ-lord-sheet__divider"
-              style={{ backgroundColor: lord.color }}
-            />
-            <View className="organ-lord-sheet__close" onClick={() => setShowDetail(false)}>
-              <X size={24} color="#666" />
-            </View>
-          </View>
-
-          {/* 内容区 */}
-          <View className="organ-lord-sheet__body">
-            {/* 人物立绘 */}
-            <View className="organ-lord-sheet__portrait">
-              <Image
-                src={lord.image}
-                className="organ-lord-sheet__image"
-                mode="aspectFill"
-              />
+      {/* 详情弹窗 - 底部弹出 */}
+      <Sheet open={showDetail} onOpenChange={(open) => !open && setShowDetail(false)}>
+        <SheetContent side="bottom" className="organ-lord-detail-sheet">
+          <View className="organ-lord-detail">
+            {/* 弹窗头部 */}
+            <View className="organ-lord-detail__header">
+              <View className="organ-lord-detail__portrait">
+                <View 
+                  className="organ-lord-detail__portrait-frame organ-lord-detail__portrait-emoji"
+                  style={{ borderColor: lord.color }}
+                >
+                  <Text className="organ-lord-detail__emoji">{lord.emoji}</Text>
+                </View>
+              </View>
+              <View className="organ-lord-detail__title-group">
+                <Text className="organ-lord-detail__name">{lord.name}</Text>
+                <Text className="organ-lord-detail__subtitle">{lord.title}</Text>
+              </View>
             </View>
 
             {/* 漫剧古风知识介绍 */}
-            <View className="organ-lord-sheet__section">
-              <View className="organ-lord-sheet__section-header">
-                <Info size={16} color={lord.color} />
-                <Text className="organ-lord-sheet__section-title">中医知识</Text>
+            <View className="organ-lord-detail__content">
+              <View className="organ-lord-detail__quote-box" style={{ borderColor: lord.color }}>
+                <Text className="organ-lord-detail__quote-label">名医说</Text>
+                <Text className="organ-lord-detail__quote">&ldquo;{lord.quote}&rdquo;</Text>
               </View>
-              <Text className="organ-lord-sheet__knowledge">{lord.knowledge}</Text>
-            </View>
-
-            <View className="organ-lord-sheet__section">
-              <View className="organ-lord-sheet__section-header">
-                <Text className="organ-lord-sheet__section-icon">📜</Text>
-                <Text className="organ-lord-sheet__section-title">漫剧古风知识</Text>
-              </View>
-              <Text className="organ-lord-sheet__detail">{lord.detail}</Text>
-            </View>
-
-            <View className="organ-lord-sheet__section">
-              <View className="organ-lord-sheet__quote-box">
-                <Text className="organ-lord-sheet__quote">{lord.quote}</Text>
-              </View>
+              <Text className="organ-lord-detail__text">{lord.detail}</Text>
             </View>
 
             {/* 关联产品 */}
-            <View className="organ-lord-sheet__product-card">
-              <Image
-                src={lord.image}
-                className="organ-lord-sheet__product-image"
-                mode="aspectFill"
-              />
-              <View className="organ-lord-sheet__product-info">
-                <Text className="organ-lord-sheet__product-name">{lord.productName}</Text>
-                <Text className="organ-lord-sheet__product-tip">立即选购</Text>
+            <View className="organ-lord-detail__product">
+              <View className="organ-lord-detail__product-info">
+                <Text className="organ-lord-detail__product-label">关联产品</Text>
+                <Text className="organ-lord-detail__product-name">{lord.productName}</Text>
               </View>
-              <ArrowRight size={20} color="#666" />
+              <View className="organ-lord-detail__product-btn">
+                <Text className="organ-lord-detail__product-btn-text">查看详情</Text>
+              </View>
             </View>
           </View>
-        </View>
+        </SheetContent>
       </Sheet>
     </>
   );
 }
-
-export default OrganLordCard;

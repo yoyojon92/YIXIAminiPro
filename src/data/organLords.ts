@@ -9,6 +9,7 @@ export interface OrganLord {
   title: string;
   color: string; // 主题色
   gradient: string; // 渐变背景
+  emoji: string; // emoji 占位符
   image: string; // 关联产品图片
   productId: number; // 关联产品ID
   productName: string; // 关联产品名称
@@ -25,6 +26,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     title: '脾胃为后天之本',
     color: '#F59E0B', // 暖橙金
     gradient: 'from-amber-500 to-orange-600',
+    emoji: '🍑',
     image: '/assets/images/products/01-桃你欢心-金银花发酵酒.png',
     productId: 101,
     productName: '桃你欢心',
@@ -38,6 +40,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     title: '肾者水脏主藏精',
     color: '#7C3AED', // 深蓝紫
     gradient: 'from-violet-600 to-purple-700',
+    emoji: '🍒',
     image: '/assets/images/products/02-楂香四溢-沂蒙山楂酒.png',
     productId: 102,
     productName: '楂香四溢',
@@ -51,6 +54,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     title: '肺者相傅之官',
     color: '#06B6D4', // 银白蓝
     gradient: 'from-cyan-400 to-sky-500',
+    emoji: '🍐',
     image: '/assets/images/products/03-大吉大梨-金银花梨酒.png',
     productId: 103,
     productName: '大吉大梨',
@@ -64,6 +68,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     title: '心者君主之官',
     color: '#DC2626', // 红金
     gradient: 'from-red-500 to-rose-600',
+    emoji: '🍎',
     image: '/assets/images/products/04-似水榴年-金银花石榴酒.png',
     productId: 104,
     productName: '似水榴年',
@@ -77,25 +82,22 @@ export const ORGAN_LORDS: OrganLord[] = [
     title: '肝者将军之官',
     color: '#059669', // 深绿银
     gradient: 'from-emerald-600 to-teal-600',
+    emoji: '🍇',
     image: '/assets/images/products/05-葡写浪漫-金银花葡萄酒.png',
     productId: 105,
     productName: '葡写浪漫',
     quote: '葡萄补肝·滋阴养血',
     knowledge: '葡萄入肝经，微醺一杯肝气舒',
-    detail: '肝为将军之官，主疏泄藏血，调畅气机。肝谋士运筹帷幄，决断于心，以疏泄调达为要。葡萄性平味甘，富含氨基酸与矿物质，入肝经可滋阴养血、舒筋活络。邑夏葡萄酒以金银花与葡萄共酵，酒香醇厚，饮之可令肝气舒畅。肝谋士有策：「肝主疏泄，喜条达恶抑郁，葡萄酒可养肝柔肝」。',
+    detail: '肝为将军之官，谋略出焉，主疏泄藏血。肝谋士运筹帷幄，调节气机，使气血流畅。葡萄性平味甘，富含葡萄糖与多种维生素，入肝经可滋阴养血。邑夏葡萄酒以金银花发酵酒为基，浸以优质葡萄，醇和绵长，饮之可舒肝解郁。肝谋士常言：「肝主疏泄，气机畅达则人舒心畅」。',
   },
 ];
 
-/**
- * 根据产品ID获取对应的器官大人
- */
+// 根据产品ID获取器官大人
 export function getOrganLordByProductId(productId: number): OrganLord | undefined {
   return ORGAN_LORDS.find((lord) => lord.productId === productId);
 }
 
-/**
- * 根据器官大人ID获取器官大人
- */
-export function getOrganLordById(id: string): OrganLord | undefined {
-  return ORGAN_LORDS.find((lord) => lord.id === id);
+// 获取器官大人立绘图片路径（如果存在）
+export function getOrganLordImagePath(organId: string): string {
+  return `/assets/images/organ-lords/${organId}.png`;
 }
