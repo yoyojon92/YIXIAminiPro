@@ -10,8 +10,8 @@ export interface OrganLord {
   color: string; // 主题色
   gradient: string; // 渐变背景
   emoji: string; // emoji 占位符
-  image: string; // 关联产品图片
-  portrait: string; // 立绘图片路径
+  image: string; // 立绘图片
+  portrait: string; // 立绘图片（兼容）
   productId: number; // 关联产品ID
   productName: string; // 关联产品名称
   quote: string; // 中医名言（引）
@@ -28,7 +28,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#F59E0B', // 暖橙金
     gradient: 'from-amber-500 to-orange-600',
     emoji: '🍑',
-    image: '/assets/images/products/01-桃你欢心-金银花发酵酒.png',
+    image: '/assets/images/organ-lords/pijiangjun.png',
     portrait: '/assets/images/organ-lords/pijiangjun.png',
     productId: 101,
     productName: '桃你欢心',
@@ -43,7 +43,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#7C3AED', // 深蓝紫
     gradient: 'from-violet-600 to-purple-700',
     emoji: '🍒',
-    image: '/assets/images/products/02-楂香四溢-沂蒙山楂酒.png',
+    image: '/assets/images/organ-lords/shenzhizhe.png',
     portrait: '/assets/images/organ-lords/shenzhizhe.png',
     productId: 102,
     productName: '楂香四溢',
@@ -58,7 +58,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#06B6D4', // 银白蓝
     gradient: 'from-cyan-400 to-sky-500',
     emoji: '🍐',
-    image: '/assets/images/products/03-大吉大梨-金银花梨酒.png',
+    image: '/assets/images/organ-lords/feichengxiang.png',
     portrait: '/assets/images/organ-lords/feichengxiang.png',
     productId: 103,
     productName: '大吉大梨',
@@ -73,7 +73,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#DC2626', // 红金
     gradient: 'from-red-500 to-rose-600',
     emoji: '🍎',
-    image: '/assets/images/products/04-似水榴年-金银花石榴酒.png',
+    image: '/assets/images/organ-lords/xinjun.png',
     portrait: '/assets/images/organ-lords/xinjun.png',
     productId: 104,
     productName: '似水榴年',
@@ -88,7 +88,7 @@ export const ORGAN_LORDS: OrganLord[] = [
     color: '#059669', // 深绿银
     gradient: 'from-emerald-600 to-teal-600',
     emoji: '🍇',
-    image: '/assets/images/products/05-葡写浪漫-金银花葡萄酒.png',
+    image: '/assets/images/organ-lords/ganmoushi.png',
     portrait: '/assets/images/organ-lords/ganmoushi.png',
     productId: 105,
     productName: '葡写浪漫',
