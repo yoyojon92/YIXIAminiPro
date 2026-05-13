@@ -4,10 +4,12 @@ import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
 import { useRunnerStore } from '@/store/runnerStore'
 import { 
   User, MapPin, Package, CircleCheck, 
-  TrendingUp, Wallet, RefreshCw, LogOut
+  TrendingUp, Wallet, RefreshCw, LogOut,
+  Bell, X
 } from 'lucide-react-taro'
 import "./home.config"
 
@@ -15,7 +17,7 @@ type TabType = 'pending' | 'delivering' | 'completed'
 
 export default function RunnerHome() {
   const runnerStore = useRunnerStore()
-  const { runnerInfo, orders, isRegistered, acceptOrder, completeOrder, addMockOrder, logout, getTodayEarnings } = runnerStore
+  const { runnerInfo, orders, isRegistered, isAvailable, acceptOrder, completeOrder, addMockOrder, logout, getTodayEarnings, setAvailable, newOrderNotification, dismissNotification } = runnerStore
   
   const [activeTab, setActiveTab] = useState<TabType>('pending')
 
@@ -51,6 +53,63 @@ export default function RunnerHome() {
 
   return (
     <View className="min-h-screen bg-gray-50 pb-safe">
+      {/* 新订单通知弹窗 */}
+      {newOrderNotification && (
+        <View className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-6">
+          <View className="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-xl">
+            <View className="bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-3 flex items-center justify-between">
+              <View className="flex items-center gap-2">
+                <Bell size={20} color="white" />
+                <Text className="text-white font-semibold">新订单提醒</Text>
+              </View>
+              <View onClick={dismissNotification}>
+                <X size={20} color="white" />
+              </View>
+            </View>
+            <View className="p-4">
+              <View className="flex items-start gap-3 mb-4">
+                <View className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                  <Package size={20} color="#F59E0B" />
+                </View>
+                <View className="flex-1">
+                  <Text className="text-gray-500 text-xs">订单号: {newOrderNotification.orderNo}</Text>
+                  <Text className="text-lg font-semibold text-gray-900 mt-1">有新的配送订单</Text>
+                </View>
+              </View>
+              
+              <View className="bg-gray-50 rounded-xl p-3 mb-4 space-y-2">
+                <View className="flex items-center gap-2">
+                  <MapPin size={14} color="#8B5CF6" />
+                  <Text className="text-xs text-gray-500">取货点</Text>
+                  <Text className="text-sm text-gray-900">{newOrderNotification.pickupLocation}</Text>
+                </View>
+                <View className="flex items-center gap-2">
+                  <MapPin size={14} color="#10B981" />
+                  <Text className="text-xs text-gray-500">送货地址</Text>
+                  <Text className="text-sm text-gray-900">{newOrderNotification.deliveryAddress}</Text>
+                </View>
+              </View>
+              
+              <View className="flex items-center justify-between mb-4">
+                <Text className="text-gray-500">配送费</Text>
+                <Text className="text-2xl font-bold text-amber-500">¥{newOrderNotification.deliveryFee}</Text>
+              </View>
+              
+              <Button 
+                className="w-full bg-gradient-to-r from-amber-500 to-orange-500" 
+                onClick={() => {
+                  acceptOrder(newOrderNotification.id)
+                  dismissNotification()
+                  setActiveTab('delivering')
+                }}
+              >
+                <Text className="text-white font-semibold">立即接单</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      )}
+
       {/* 顶部跑腿员信息 */}
       <View className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-5">
         <View className="flex items-center justify-between mb-4">
@@ -68,6 +127,23 @@ export default function RunnerHome() {
             className="p-2"
           >
             <LogOut size={20} color="white" />
+          </View>
+        </View>
+
+        {/* 接单开关 */}
+        <View className="bg-white bg-opacity-20 rounded-xl p-3 mb-4">
+          <View className="flex items-center justify-between">
+            <View>
+              <Text className="text-white font-medium">接单状态</Text>
+              <Text className="text-white text-opacity-80 text-xs mt-1">
+                {isAvailable ? '正在接收新订单' : '休息中，暂不接单'}
+              </Text>
+            </View>
+            <Switch 
+              checked={isAvailable} 
+              onCheckedChange={(checked) => setAvailable(checked)}
+              className="scale-125"
+            />
           </View>
         </View>
 
@@ -198,7 +274,7 @@ export default function RunnerHome() {
                         onClick={() => completeOrder(order.id)}
                       >
                         <CircleCheck size={14} color="white" />
-                        <Text className="text-sm">确认送达</Text>
+                        <Text className="text-sm ml-1">确认送达</Text>
                       </Button>
                     )}
 

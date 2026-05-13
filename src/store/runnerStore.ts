@@ -30,18 +30,24 @@ interface RunnerState {
   // 跑腿员信息
   runnerInfo: RunnerInfo | null
   isRegistered: boolean
+  isAvailable: boolean  // 是否接单中
   
   // 订单列表
   orders: RunnerOrder[]
   
+  // 新订单通知
+  newOrderNotification: RunnerOrder | null
+  
   // 操作方法
   register: (info: Omit<RunnerInfo, 'id' | 'registeredAt' | 'todayEarnings' | 'totalEarnings'>) => void
   logout: () => void
+  setAvailable: (available: boolean) => void
   
   // 订单操作
   acceptOrder: (orderId: string) => void
   completeOrder: (orderId: string) => void
   addMockOrder: () => void
+  dismissNotification: () => void
   
   // 统计
   getTodayOrders: () => RunnerOrder[]
@@ -53,7 +59,9 @@ export const useRunnerStore = create<RunnerState>()(
     (set, get) => ({
       runnerInfo: null,
       isRegistered: false,
+      isAvailable: false,
       orders: [],
+      newOrderNotification: null,
 
       register: (info) => {
         const newRunner: RunnerInfo = {
@@ -63,11 +71,20 @@ export const useRunnerStore = create<RunnerState>()(
           todayEarnings: 0,
           totalEarnings: 0
         }
-        set({ runnerInfo: newRunner, isRegistered: true })
+        set({ runnerInfo: newRunner, isRegistered: true, isAvailable: true })
       },
 
       logout: () => {
-        set({ runnerInfo: null, isRegistered: false, orders: [] })
+        set({ runnerInfo: null, isRegistered: false, isAvailable: false, orders: [], newOrderNotification: null })
+      },
+
+      setAvailable: (available) => {
+        set({ isAvailable: available })
+        console.log("[埋点] 跑腿员接单状态切换", {
+          runnerId: get().runnerInfo?.id,
+          action: available ? "runner_available" : "runner_unavailable",
+          timestamp: Date.now()
+        })
       },
 
       acceptOrder: (orderId) => {
@@ -135,7 +152,14 @@ export const useRunnerStore = create<RunnerState>()(
           deliveryFee: 1,
           createdAt: Date.now()
         }
-        set((state) => ({ orders: [newOrder, ...state.orders] }))
+        set((state) => ({ 
+          orders: [newOrder, ...state.orders],
+          newOrderNotification: newOrder
+        }))
+      },
+
+      dismissNotification: () => {
+        set({ newOrderNotification: null })
       },
 
       getTodayOrders: () => {
