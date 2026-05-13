@@ -15,7 +15,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
     // 埋点记录
     console.log('器官大人点击埋点:', {
       userId: 'user_' + Date.now(),
-      productId: productId || lord.productId,
+      productId: productId || (lord.productIds[0] as string),
       organLordId: lord.id,
       action: 'organ_click',
       timestamp: Date.now(),
@@ -23,7 +23,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
     // 弹出漫剧古风知识介绍
     Taro.showModal({
       title: `${lord.name} · ${lord.title}`,
-      content: `【漫剧古风知识】\n\n${lord.name}乃${lord.title}，掌管人体要害。\n\n${lord.healthText}\n\n此角色关联产品：${lord.relatedProduct}\n\n（漫剧内容即将上线，敬请期待...）`,
+      content: `【漫剧古风知识】\n\n${lord.name}乃${lord.title}，掌管人体要害。\n\n${lord.healthText}\n\n此角色关联产品：${lord.relatedProducts.join('、')}\n\n（漫剧内容即将上线，敬请期待...）`,
       confirmText: '我知道了',
       showCancel: false,
     });
@@ -84,7 +84,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
 
           {/* 关联产品 */}
           <Text className="text-sm" style={{ color: '#F59E0B' }}>
-            关联：{lord.relatedProduct}
+            关联：{lord.relatedProducts.join('、')}
           </Text>
 
           {/* 中医养生文案 */}

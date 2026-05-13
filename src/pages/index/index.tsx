@@ -328,11 +328,11 @@ export default function Index() {
                   console.log('器官大人点击埋点:', {
                     userId: 'user_' + Date.now(),
                     organLordId: lord.id,
-                    targetProductId: lord.productId,
+                    targetProductId: lord.productIds[0],
                     action: 'sprite_click',
                     timestamp: Date.now(),
                   })
-                  Taro.navigateTo({ url: `/pages/product/index?id=${lord.productId}` })
+                  Taro.navigateTo({ url: `/pages/product/index?id=${lord.productIds[0]}` })
                 }}
               >
                 <View 
