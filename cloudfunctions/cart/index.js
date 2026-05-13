@@ -7,7 +7,7 @@
 let cloud = require('wx-server-sdk')
 
 cloud.init({
-  env: process.env.cloudEnv || 'yixia-env-xxxx'
+  env: process.env.cloudEnv || 'yixia-env'
 })
 
 const db = cloud.database()

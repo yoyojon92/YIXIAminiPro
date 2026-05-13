@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "跑腿员中心",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "物流追踪",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

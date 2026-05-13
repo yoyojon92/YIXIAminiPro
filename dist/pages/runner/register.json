@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "跑腿员注册",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

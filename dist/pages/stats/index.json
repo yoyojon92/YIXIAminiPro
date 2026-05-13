@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的画像",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

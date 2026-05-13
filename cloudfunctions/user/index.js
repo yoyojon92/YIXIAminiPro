@@ -9,7 +9,7 @@ let TcbRouter = require('tcb-router')
 
 // 初始化云开发
 cloud.init({
-  env: process.env.cloudEnv || 'yixia-env-xxxx'
+  env: process.env.cloudEnv || 'yixia-env'
 })
 
 // 数据库引用

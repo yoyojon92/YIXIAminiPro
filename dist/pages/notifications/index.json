@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "推送通知",
+  "usingComponents": {
+    "comp": "../../comp"
+  }
+}

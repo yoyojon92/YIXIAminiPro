@@ -1,0 +1,16 @@
+{
+  "miniprogramRoot": "./",
+  "cloudfunctionRoot": "./cloudfunctions/",
+  "projectname": "yixia-mini-program",
+  "description": "邑夏果酒果汁小程序 - 基于微信云开发",
+  "appid": "wx9127a9df7a4fd36d",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "enhance": false,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

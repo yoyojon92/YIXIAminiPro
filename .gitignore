@@ -4,9 +4,7 @@ node_modules/
 node-compile-cache/
 
 # Production
-dist/
 build/
-dist-*/
 
 # Misc
 .DS_Store
