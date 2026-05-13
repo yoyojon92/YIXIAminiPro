@@ -207,8 +207,8 @@ export default function Index() {
               <Text>限时</Text>
             </View>
           </View>
-          <View className="flex items-center gap-1 text-slate-400" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=group' })}>
-            <Text className="text-sm">更多</Text>
+          <View className="flex items-center gap-1 text-white" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=group' })}>
+            <Text className="text-sm text-gray-300">更多</Text>
             <ChevronRight size={16} color="#ffffff" />
           </View>
         </View>
@@ -251,8 +251,8 @@ export default function Index() {
             <Text className="text-white font-semibold">新品推荐</Text>
             <Badge className="text-xs bg-amber-500 text-white border-0">NEW</Badge>
           </View>
-          <View className="flex items-center gap-1 text-slate-400" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=new' })}>
-            <Text className="text-sm">更多</Text>
+          <View className="flex items-center gap-1 text-white" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=new' })}>
+            <Text className="text-sm text-gray-300">更多</Text>
             <ChevronRight size={16} color="#ffffff" />
           </View>
         </View>
@@ -312,7 +312,7 @@ export default function Index() {
       <View className="px-4 mt-6">
         {/* 上排：邑夏精灵 */}
         <View className="mb-4">
-          <Text className="text-sm font-medium text-slate-400 mb-3">🧚 邑夏精灵</Text>
+          <Text className="text-sm font-medium text-white mb-3">🧚 邑夏精灵</Text>
           <View className="flex justify-between">
             {SPRITES.map((sprite) => (
               <View 
@@ -356,7 +356,7 @@ export default function Index() {
 
         {/* 下排：器官大人 */}
         <View>
-          <Text className="text-sm font-medium text-slate-400 mb-3">🏛 器官大人</Text>
+          <Text className="text-sm font-medium text-white mb-3">🏛 器官大人</Text>
           <View className="flex justify-between">
             {Object.values(organLords).map((lord) => (
               <View 
