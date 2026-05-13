@@ -1,4 +1,5 @@
 import { View, Text, Image } from '@tarojs/components'
+import { useEffect } from 'react'
 import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -7,6 +8,7 @@ import { Separator } from '@/components/ui/separator'
 import { useMemberStore } from '@/store/memberStore'
 import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
+import { usePushStore } from '@/store/pushStore'
 import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
@@ -14,23 +16,43 @@ import {
   Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag
 } from 'lucide-react-taro'
 
-const toolItems = [
-  { id: 1, icon: MapPinned, title: '收货地址', path: '/pages/orders/index?tab=address' },
-  { id: 2, icon: CreditCard, title: '支付方式', path: '/pages/orders/index?tab=payment' },
-  { id: 3, icon: Bell, title: '消息通知', path: '/pages/orders/index?tab=notification' },
-  { id: 4, icon:   CircleQuestionMark, title: '帮助与反馈', path: '/pages/orders/index?tab=help' },
-  { id: 5, icon: Settings, title: '设置', path: '/pages/orders/index?tab=settings' }
-]
-
 export default function Profile() {
   const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, getMemberBenefits, renewMember } = useMemberStore()
   const { getUnusedCoupons } = useCouponStore()
   const profileStore = useUserProfileStore()
+  const pushStore = usePushStore()
+  
+  const { tags } = profileStore
+  // 初始化推送检查
+  useEffect(() => {
+    pushStore.checkAndGeneratePushes(tags, {})
+  }, [tags])
   
   // 同步会员状态到画像引擎
   profileStore.setMemberStatus(isMember)
   
+  const unreadCount = pushStore.unreadCount
+  // 使用 profileStore 中的行为数据
+  const profileState = profileStore
+  pushStore.checkAndGeneratePushes(tags, {
+    lastPurchaseDays: profileState.purchases.length > 0
+      ? Math.floor((Date.now() - (profileState.purchases[profileState.purchases.length - 1]?.timestamp || Date.now())) / 86400000)
+      : 999,
+    couponCount: profileState.couponUses.length,
+    memberDaysLeft: isMember && memberExpire ? Math.floor((memberExpire - Date.now()) / 86400000) : 999,
+    hasUGCWork: profileState.ugcWorks.length > 0,
+  })
+  
   const couponBadgeCount = getUnusedCoupons().length
+  
+  const toolItems = [
+    { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pages/notifications/index' },
+    { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/settings/index' },
+    { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/help/index' },
+    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/payment/index' },
+    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/address/index' },
+    { id: 6, icon: Share2, title: '分享给好友', badge: null, onShare: true },
+  ]
   
   const menuItems = [
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
@@ -234,7 +256,7 @@ export default function Profile() {
                 <View key={item.id}>
                   <View 
                     className="flex items-center justify-between p-4"
-                    onClick={() => navigateTo(item.path)}
+                    onClick={() => item.path && navigateTo(item.path)}
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
@@ -267,13 +289,16 @@ export default function Profile() {
                 <View key={item.id}>
                   <View 
                     className="flex items-center justify-between p-4"
-                    onClick={() => navigateTo(item.path)}
+                    onClick={() => item.path && navigateTo(item.path)}
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
                         <Icon size={20} color="#6B7280" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
+                      {item.dynamicBadge && item.dynamicBadge() && (
+                        <Badge variant="destructive" className="ml-1">{item.dynamicBadge!()}</Badge>
+                      )}
                     </View>
                     <ChevronRight size={18} color="#9CA3AF" />
                   </View>

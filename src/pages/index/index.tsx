@@ -6,12 +6,15 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Wine, GlassWater, Apple, Gift, Clock4, ChevronRight, 
-  Flame, ShoppingCart, Sparkles, Search 
+  Flame, ShoppingCart, Sparkles, Search, Bell 
 } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
 import { SPRITES } from '@/data/sprites'
 import { organLords } from '@/data/organLords'
 import { useUserProfileStore } from '@/store/userProfileStore'
+import { usePushStore } from '@/store/pushStore'
+
+const { unreadCount } = usePushStore.getState()
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -94,12 +97,26 @@ export default function Index() {
               酒水·果汁
             </Badge>
           </View>
-          <View className="relative" onClick={goToCart}>
-            <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
+          <View className="flex items-center gap-3">
+            {/* 通知铃铛 */}
+            <View className="relative" onClick={() => Taro.navigateTo({ url: '/pages/notifications/index' })}>
+              {unreadCount > 0 && (
+                <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </Badge>
+              )}
+              <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
+                <Bell size={20} color="white" />
+              </View>
+            </View>
+            {/* 购物车 */}
+            <View className="relative" onClick={goToCart}>
+              <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
               3
-            </Badge>
-            <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
-              <ShoppingCart size={20} color="white" />
+              </Badge>
+              <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
+                <ShoppingCart size={20} color="white" />
+              </View>
             </View>
           </View>
         </View>

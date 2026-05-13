@@ -14,6 +14,7 @@ export default defineAppConfig({
     'pages/article/index',
     'pages/coupons/index',
     'pages/stats/index',
+    'pages/notifications/index',
     'pages/profile/user-profile/index'
   ],
   window: {

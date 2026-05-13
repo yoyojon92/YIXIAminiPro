@@ -5,9 +5,17 @@ import type { PushMessage, PushScenario } from '@/engine/pushRules'
 import { generatePushMessage, shouldPush } from '@/engine/pushRules'
 import type { TagId } from '@/data/userTags'
 
+// 通知消息（扩展自 PushMessage）
+export interface Notification extends PushMessage {
+  id: string
+  isRead: boolean
+  timestamp: number
+  icon?: string
+}
+
 interface PushState {
   // 推送消息列表
-  messages: PushMessage[]
+  messages: Notification[]
   // 未读消息数
   unreadCount: number
   // 消息开关
@@ -16,11 +24,12 @@ interface PushState {
   lastPushTime: number | null
   
   // Actions
-  addMessage: (message: PushMessage) => void
-  markAsRead: (index: number) => void
+  addMessage: (message: Notification) => void
+  markAsRead: (id: string) => void
   markAllAsRead: () => void
   clearMessages: () => void
   setPushEnabled: (enabled: boolean) => void
+  checkAndGeneratePushes: (tags: TagId[], behaviorData: Record<string, any>) => void
   
   // 推送触发器
   triggerPush: (
@@ -39,9 +48,11 @@ export const usePushStore = create<PushState>()(
       pushEnabled: true,
       lastPushTime: null,
       
-      addMessage: (message) => {
+      addMessage: (message: Notification) => {
+        const id = message.id || `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        const notification: Notification = { ...message, id, isRead: false, timestamp: Date.now() }
         set((state) => ({
-          messages: [message, ...state.messages].slice(0, 50), // 最多保留50条
+          messages: [notification, ...state.messages].slice(0, 50),
           unreadCount: state.unreadCount + 1,
           lastPushTime: Date.now(),
         }))
@@ -56,14 +67,18 @@ export const usePushStore = create<PushState>()(
         }
       },
       
-      markAsRead: (_index) => {
+      markAsRead: (_index: string) => {
         set((state) => ({
-          unreadCount: Math.max(0, state.unreadCount - 1),
+          messages: state.messages.map(m => m.id === _index ? { ...m, isRead: true } : m),
+          unreadCount: Math.max(0, state.unreadCount - (state.messages.find(m => m.id === _index)?.isRead ? 0 : 1)),
         }))
       },
       
       markAllAsRead: () => {
-        set({ unreadCount: 0 })
+        set((state) => ({
+          messages: state.messages.map(m => ({ ...m, isRead: true })),
+          unreadCount: 0,
+        }))
       },
       
       clearMessages: () => {
@@ -72,6 +87,47 @@ export const usePushStore = create<PushState>()(
       
       setPushEnabled: (enabled) => {
         set({ pushEnabled: enabled })
+      },
+      
+      checkAndGeneratePushes: (tags, behaviorData) => {
+        const state = get()
+        if (!state.pushEnabled) return
+        
+        // 检查各种推送场景
+        const scenarios: Array<{ scenario: PushScenario; data: Record<string, any> }> = []
+        
+        // 会员权益提醒
+        if (tags.includes('member')) {
+          scenarios.push({ scenario: 'member_benefit_reminder', data: {} })
+        }
+        
+        // 会员即将到期
+        if (tags.includes('member') && behaviorData.memberDaysLeft <= 7) {
+          scenarios.push({ scenario: 'member_expiring_soon', data: { daysLeft: behaviorData.memberDaysLeft } })
+        }
+        
+        // 代券即将过期
+        if (behaviorData.couponCount > 0) {
+          scenarios.push({ scenario: 'coupon_expire_warning', data: behaviorData })
+        }
+        
+        // 复购提醒
+        if (behaviorData.lastPurchaseDays >= 7) {
+          scenarios.push({ scenario: 'repurchase_suggestion', data: { daysSince: behaviorData.lastPurchaseDays } })
+        }
+        
+        // UGC投票提醒
+        if (tags.includes('voter') || tags.includes('content_creator')) {
+          scenarios.push({ scenario: 'ugc_vote_reminder', data: { isVoter: tags.includes('voter') } })
+        }
+        
+        // 生成并添加消息
+        scenarios.forEach(({ scenario, data }) => {
+          const message = generatePushMessage(tags, scenario, data)
+          if (message && shouldPush(tags, scenario, data)) {
+            state.addMessage(message as Notification)
+          }
+        })
       },
       
       triggerPush: (tags, scenario, behaviorData) => {
@@ -88,7 +144,12 @@ export const usePushStore = create<PushState>()(
         if (!message) return null
         
         // 添加消息
-        state.addMessage(message)
+        state.addMessage({
+          ...message,
+          id: `push_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+          timestamp: Date.now(),
+          isRead: false,
+        })
         
         return message
       },
