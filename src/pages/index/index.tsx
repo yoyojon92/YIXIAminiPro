@@ -13,8 +13,10 @@ import { SPRITES } from '@/data/sprites'
 import { organLords } from '@/data/organLords'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
+import { useCartStore } from '@/store/cartStore'
 
 const { unreadCount } = usePushStore.getState()
+const cartCount = useCartStore.getState().items.reduce((sum, item) => sum + item.quantity, 0)
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -105,17 +107,19 @@ export default function Index() {
                   {unreadCount > 99 ? '99+' : unreadCount}
                 </Badge>
               )}
-              <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
-                <Bell size={20} color="white" />
+              <View className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <Bell size={20} color="#6D28D9" />
               </View>
             </View>
             {/* 购物车 */}
             <View className="relative" onClick={goToCart}>
-              <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
-              3
-              </Badge>
-              <View className="w-10 h-10 bg-white bg-opacity-20 backdrop-blur rounded-full flex items-center justify-center">
-                <ShoppingCart size={20} color="white" />
+              {cartCount > 0 && (
+                <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </Badge>
+              )}
+              <View className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <ShoppingCart size={20} color="#6D28D9" />
               </View>
             </View>
           </View>

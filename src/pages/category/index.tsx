@@ -4,7 +4,9 @@ import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Search, Grid2x2, List } from 'lucide-react-taro'
+import { Search, Bell, ShoppingCart } from 'lucide-react-taro'
+import { useCartStore } from '@/store/cartStore'
+import { usePushStore } from '@/store/pushStore'
 import { MOCK_PRODUCTS as products } from '@/mock/products'
 import type { Product } from '@/mock/products'
 
@@ -39,8 +41,10 @@ const sortOptions = [
 export default function Category() {
   const [selectedCategory, setSelectedCategory] = useState(1)
   const [selectedSort, setSelectedSort] = useState('default')
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchValue, setSearchValue] = useState('')
+  
+  const cartCount = useCartStore.getState().items.reduce((sum, item) => sum + item.quantity, 0)
+  const unreadCount = usePushStore.getState().unreadCount
 
   const filteredProducts = products.filter((product: Product) => {
     const cat = categories.find(c => c.id === selectedCategory)
@@ -50,6 +54,14 @@ export default function Category() {
 
   const goToProduct = (id: string) => {
     Taro.navigateTo({ url: `/pages/product/index?id=${id}` })
+  }
+
+  const goToCart = () => {
+    Taro.switchTab({ url: '/pages/cart/index' })
+  }
+
+  const goToNotifications = () => {
+    Taro.navigateTo({ url: '/pages/notifications/index' })
   }
 
   return (
@@ -66,18 +78,28 @@ export default function Category() {
               onInput={(e: any) => setSearchValue(e.detail.value)}
             />
           </View>
-          <View className="flex items-center gap-2">
-            <View 
-              className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
-              onClick={() => setViewMode('grid')}
-            >
-              <Grid2x2 size={18} color={viewMode === 'grid' ? '#ffffff' : '#4b5563'} />
+          <View className="flex items-center gap-1">
+            {/* 通知铃铛 */}
+            <View className="relative" onClick={goToNotifications}>
+              {unreadCount > 0 && (
+                <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </Badge>
+              )}
+              <View className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                <Bell size={20} color="#6D28D9" />
+              </View>
             </View>
-            <View 
-              className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
-              onClick={() => setViewMode('list')}
-            >
-              <List size={18} color={viewMode === 'list' ? '#ffffff' : '#4b5563'} />
+            {/* 购物车 */}
+            <View className="relative" onClick={goToCart}>
+              {cartCount > 0 && (
+                <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </Badge>
+              )}
+              <View className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                <ShoppingCart size={20} color="#6D28D9" />
+              </View>
             </View>
           </View>
         </View>
@@ -119,53 +141,27 @@ export default function Category() {
 
       {/* 商品列表 */}
       <View className="px-4 py-4">
-        {viewMode === 'grid' ? (
-          <View className="grid grid-cols-2 gap-3">
-            {filteredProducts.map((product) => (
-              <View key={product.id} onClick={() => goToProduct(product.id)}>
-                <Card className="overflow-hidden">
-                  <View className="relative">
-                    <Image src={product.image} mode="widthFix" className="w-full h-40" />
-                    <Badge variant="destructive" className="absolute top-2 left-2">
-                      {getCategoryName(product.category)}
-                    </Badge>
+        <View className="grid grid-cols-2 gap-3">
+          {filteredProducts.map((product) => (
+            <View key={product.id} onClick={() => goToProduct(product.id)}>
+              <Card className="overflow-hidden">
+                <View className="relative">
+                  <Image src={product.image} mode="widthFix" className="w-full h-40" />
+                  <Badge variant="destructive" className="absolute top-2 left-2">
+                    {getCategoryName(product.category)}
+                  </Badge>
+                </View>
+                <CardContent className="p-3">
+                  <Text className="text-sm text-gray-900 font-medium line-clamp-2">{product.name}</Text>
+                  <View className="flex items-baseline gap-1 mt-2">
+                    <Text className="text-primary font-bold text-lg">¥{product.price}</Text>
+                    <Text className="text-xs text-gray-400 line-through">¥{product.originalPrice}</Text>
                   </View>
-                  <CardContent className="p-3">
-                    <Text className="text-sm text-gray-900 font-medium line-clamp-2">{product.name}</Text>
-                    <View className="flex items-baseline gap-1 mt-2">
-                      <Text className="text-primary font-bold text-lg">¥{product.price}</Text>
-                      <Text className="text-xs text-gray-400 line-through">¥{product.originalPrice}</Text>
-                    </View>
-                  </CardContent>
-                </Card>
-              </View>
-            ))}
-          </View>
-        ) : (
-          <View className="flex flex-col gap-3">
-            {filteredProducts.map((product) => (
-              <View key={product.id} onClick={() => goToProduct(product.id)}>
-                <Card>
-                  <CardContent className="p-3 flex gap-3">
-                    <Image src={product.image} mode="widthFix" className="w-28 h-28 rounded-lg" />
-                    <View className="flex-1 flex flex-col justify-between py-1">
-                      <View>
-                        <Text className="text-sm text-gray-900 font-medium line-clamp-2">{product.name}</Text>
-                        <Text className="text-xs text-gray-500 mt-1">{getCategoryName(product.category)}</Text>
-                      </View>
-                      <View className="flex items-center justify-between">
-                        <View className="flex items-baseline gap-1">
-                          <Text className="text-primary font-bold text-lg">¥{product.price}</Text>
-                          <Text className="text-xs text-gray-400 line-through">¥{product.originalPrice}</Text>
-                        </View>
-                      </View>
-                    </View>
-                  </CardContent>
-                </Card>
-              </View>
-            ))}
-          </View>
-        )}
+                </CardContent>
+              </Card>
+            </View>
+          ))}
+        </View>
       </View>
     </View>
   )
