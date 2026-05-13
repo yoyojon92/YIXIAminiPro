@@ -22,10 +22,16 @@ export interface CartItem {
 
 export type DeliveryType = 'dormitory' | 'self_pickup'
 
+export interface DormitoryAddress {
+  zoneId: string
+  zoneName: string
+  building: string
+  roomNumber: string
+}
+
 export interface DeliveryInfo {
   type: DeliveryType
-  dormitory: string // 宿舍楼栋
-  roomNumber: string // 房间号
+  dormitoryAddress?: DormitoryAddress // 宿舍地址
   pickupShopId?: string // 自提点ID
   pickupShopName?: string // 自提点名称
 }
@@ -61,6 +67,7 @@ interface CartState {
   clearCart: () => void
   setDelivery: (delivery: Partial<DeliveryInfo>) => void
   setPickupShop: (shopId: string, shopName: string) => void
+  setDormitoryAddress: (address: DormitoryAddress) => void
   
   // 代券操作
   setSelectedCoupon: (coupon: Coupon | null) => void
@@ -213,6 +220,17 @@ export const useCartStore = create<CartState>()(
             type: 'self_pickup',
             pickupShopId: shopId,
             pickupShopName: shopName
+          }
+        }))
+      },
+      
+      // 设置宿舍地址（便捷方法）
+      setDormitoryAddress: (address: DormitoryAddress) => {
+        set(state => ({
+          delivery: {
+            ...state.delivery,
+            type: 'dormitory',
+            dormitoryAddress: address
           }
         }))
       },

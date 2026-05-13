@@ -4,14 +4,14 @@ import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight, MapPin } from 'lucide-react-taro'
+import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight, MapPin, Building } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
-  { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计30-60分钟送达', extra: '+3元配送费' },
+  { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '+1元跑腿费' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' }
 ]
 
@@ -40,7 +40,7 @@ export default function Cart() {
   const selectedItems = items.filter(item => item.quantity > 0)
   
   const totalPrice = totalAmount()
-  const deliveryFee = selectedDelivery === 'dormitory' ? 3 : 0
+  const deliveryFee = selectedDelivery === 'dormitory' ? 1 : 0
   const couponDiscount = selectedCoupon ? selectedCoupon.discount : 0
   const finalPrice = Math.max(0, totalPrice + deliveryFee - couponDiscount)
   
@@ -71,12 +71,26 @@ export default function Cart() {
       Taro.showToast({ title: '请选择商品', icon: 'none' })
       return
     }
+    // 检查送货到宿舍是否已填地址
+    if (selectedDelivery === 'dormitory' && !delivery.dormitoryAddress) {
+      Taro.showToast({ title: '请先填写宿舍地址', icon: 'none' })
+      return
+    }
+    // 检查自提是否已选自提点
+    if (selectedDelivery === 'pickup' && !delivery.pickupShopId) {
+      Taro.showToast({ title: '请先选择自提点', icon: 'none' })
+      return
+    }
     // 记录代券使用行为（用于用户画像）
     if (selectedCoupon) {
       profileStore.recordCouponUse(selectedCoupon.id, selectedCoupon.discount)
     }
     Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
   }
+
+  // 检查是否可以结算
+  const canCheckout = selectedItems.length > 0 && 
+    (selectedDelivery === 'pickup' ? !!delivery.pickupShopId : !!delivery.dormitoryAddress)
 
   if (items.length === 0) {
     return (
@@ -207,6 +221,31 @@ export default function Cart() {
           })}
         </View>
       </View>
+
+      {/* 宿舍地址选择（仅送货到宿舍模式显示） */}
+      {selectedDelivery === 'dormitory' && (
+        <View 
+          className="px-4 py-3 bg-white mt-2"
+          onClick={() => Taro.navigateTo({ url: '/pages/dormitory/index' })}
+        >
+          <View className="flex items-center justify-between">
+            <View className="flex items-center gap-2">
+              <Building size={18} color="#8B5CF6" />
+              <Text className="text-sm font-medium text-gray-700">宿舍地址</Text>
+            </View>
+            <View className="flex items-center gap-2">
+              {delivery.dormitoryAddress ? (
+                <Text className="text-sm text-primary">
+                  {delivery.dormitoryAddress.zoneName} {delivery.dormitoryAddress.building} {delivery.dormitoryAddress.roomNumber}
+                </Text>
+              ) : (
+                <Text className="text-sm text-gray-400">请选择</Text>
+              )}
+              <ChevronRight size={18} color="#9CA3AF" />
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* 自提点选择（仅自提模式显示） */}
       {selectedDelivery === 'pickup' && (
@@ -366,10 +405,10 @@ export default function Cart() {
         <Button 
           className="w-full" 
           size="lg"
-          disabled={selectedItems.length === 0}
+          disabled={!canCheckout}
           onClick={goToCheckout}
         >
-          <Text>去结算 ({selectedItems.length})</Text>
+          <Text>{canCheckout ? `去结算 (${selectedItems.length})` : '请完善配送信息'}</Text>
         </Button>
       </View>
     </View>

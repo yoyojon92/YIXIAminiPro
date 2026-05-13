@@ -8,12 +8,14 @@ import { Separator } from '@/components/ui/separator'
 import { useMemberStore } from '@/store/memberStore'
 import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
+import { trackProfileAction } from '@/store/profileStore'
 import { usePushStore } from '@/store/pushStore'
+import { useRunnerStore } from '@/store/runnerStore'
 import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter
 } from 'lucide-react-taro'
 
 export default function Profile() {
@@ -23,6 +25,7 @@ export default function Profile() {
   const pushStore = usePushStore()
   
   const { tags } = profileStore
+  const runnerStore = useRunnerStore()
   
   // 初始化推送检查和会员状态同步（只在挂载时执行一次）
   useEffect(() => {
@@ -187,6 +190,36 @@ export default function Profile() {
             </View>
           </CardContent>
         </Card>
+      </View>
+
+      {/* 送酒赚钱入口 */}
+      <View className="px-4 mt-4">
+        <View 
+          className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-2xl p-4 flex items-center justify-between"
+          onClick={() => {
+            // 埋点
+            trackProfileAction('runner_entry')
+            // 未注册跳注册页，已注册跳主页
+            const path = runnerStore.isRegistered ? '/pages/runner/home/index' : '/pages/runner/register/index'
+            Taro.navigateTo({ url: path })
+          }}
+        >
+          <View className="flex items-center gap-3">
+            <View className="w-12 h-12 rounded-full bg-white bg-opacity-30 flex items-center justify-center">
+              <Scooter size={28} color="white" />
+            </View>
+            <View>
+              <Text className="text-white font-bold text-lg">送酒赚钱</Text>
+              <Text className="text-white text-opacity-80 text-sm mt-1">
+                {runnerStore.isRegistered ? '今日收入 ¥' + runnerStore.getTodayEarnings() : '成为跑腿员，轻松赚零花钱'}
+              </Text>
+            </View>
+          </View>
+          <View className="flex items-center gap-1 bg-white bg-opacity-20 rounded-full px-3 py-2">
+            <Text className="text-white text-sm font-medium">立即加入</Text>
+            <ChevronRight size={16} color="white" />
+          </View>
+        </View>
       </View>
 
       {/* 会员专属权益 */}

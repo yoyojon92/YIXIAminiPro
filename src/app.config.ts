@@ -17,7 +17,10 @@ export default defineAppConfig({
     'pages/notifications/index',
     'pages/profile/user-profile/index',
     'pages/dashboard/index',
-    'pages/pickup/index'
+    'pages/pickup/index',
+    'pages/dormitory/index',
+    'pages/runner/home/index',
+    'pages/runner/register/index'
   ],
   window: {
     backgroundTextStyle: 'light',
