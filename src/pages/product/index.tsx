@@ -27,6 +27,73 @@ const deliveryInfo = {
   pickup: { name: '到店自提', fee: 0, time: '随时可取' }
 }
 
+// 精灵×器官大人互动漫画映射数据
+const COMIC_DIALOGUES: Record<string, {
+  spiritName: string
+  spiritImage: string
+  spiritLine: string
+  lordName: string
+  lordImage: string
+  lordLine: string
+}> = {
+  'prod_peach_001': {
+    spiritName: '桃夭',
+    spiritImage: '/assets/images/spirits/taoyao.jpg',
+    spiritLine: '论文还差3000字…我可能要原地升天了…',
+    lordName: '脾将军',
+    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
+    lordLine: '思虑过度伤的是我的脾哦…来，喝杯桃酒，让我替你分忧？别想太多，我护着你。',
+  },
+  'prod_peach_002': {
+    spiritName: '桃夭',
+    spiritImage: '/assets/images/spirits/taoyao.jpg',
+    spiritLine: '纠结选课选到头秃…救命…',
+    lordName: '脾将军',
+    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
+    lordLine: '选择困难？说明脾在抗议了。一杯桃酒下肚，跟着直觉走，我帮你稳住。',
+  },
+  'prod_hawthorn_001': {
+    spiritName: '楂楂',
+    spiritImage: '/assets/images/spirits/zhazha.jpg',
+    spiritLine: '她又在12点开外放！忍无可忍！！',
+    lordName: '肝谋士',
+    lordImage: '/assets/images/organ-lords/ganmoushi.jpg',
+    lordLine: '怒伤肝，别气别气，她不配让你肝疼。来杯楂香四溢，疏疏肝气。',
+  },
+  'prod_pear_001': {
+    spiritName: '梨梨',
+    spiritImage: '/assets/images/spirits/lili.jpg',
+    spiritLine: '他说我们不合适…三年的感情就这么没了…',
+    lordName: '肺丞相',
+    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
+    lordLine: '悲伤肺，哭多了我会疼的。来杯梨酒润一润，眼泪流完了，心就轻了。',
+  },
+  'prod_grapefruit_001': {
+    spiritName: '梨梨',
+    spiritImage: '/assets/images/spirits/lili.jpg',
+    spiritLine: '天一凉就想哭…看落叶都觉得难过…',
+    lordName: '肺丞相',
+    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
+    lordLine: '秋气通肺，悲伤是肺在回应季节。柚见微醺，让秋天温柔一点。',
+  },
+  'prod_pomegranate_001': {
+    spiritName: '榴榴',
+    spiritImage: '/assets/images/spirits/liuliu.jpg',
+    spiritLine: '他跟我表白了啊啊啊啊！',
+    lordName: '心君',
+    lordImage: '/assets/images/organ-lords/xinjun.jpg',
+    lordLine: '心主喜，开心就好！但别喜极伤心哦…来杯石榴酒，让喜悦慢慢沉淀。',
+  },
+  'prod_grape_001': {
+    spiritName: '葡葡',
+    spiritImage: '/assets/images/spirits/pupu.jpg',
+    spiritLine: '出分了…我不敢点…谁帮我查！！',
+    lordName: '肾智者',
+    lordImage: '/assets/images/organ-lords/shenzhizhe.jpg',
+    lordLine: '恐惧伤肾，但逃避更伤。来杯葡写浪漫壮壮胆，不管多少分，我在呢。',
+  },
+}
+
 export default function Product() {
   const router = useRouter()
   const [product, setProduct] = useState<Product | null>(null)
@@ -263,12 +330,55 @@ export default function Product() {
 
           {activeTab === 'detail' && (
             <View className="p-4">
+              {/* 精灵×器官大人互动漫画（仅果酒显示） */}
+              {product?.category === 'fruit_wine' && COMIC_DIALOGUES[product.id] && (() => {
+                const comic = COMIC_DIALOGUES[product.id]
+                return (
+                  <View className="mb-4">
+                    <Text className="text-sm font-medium text-gray-900 mb-3 block">精灵×器官大人 漫剧互动</Text>
+                    <View className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4">
+                      <View className="flex gap-3">
+                        {/* 左侧：精灵 */}
+                        <View className="flex-1 flex flex-col items-center">
+                          <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
+                            <Image 
+                              src={comic.spiritImage} 
+                              mode="aspectFill" 
+                              className="w-full h-full"
+                            />
+                          </View>
+                          <Text className="text-xs text-pink-500 font-medium mt-2">{comic.spiritName}</Text>
+                          {/* 精灵台词气泡 */}
+                          <View className="mt-2 bg-white rounded-2xl rounded-tl-sm px-3 py-2 shadow-sm max-w-full">
+                            <Text className="text-xs text-gray-700 leading-relaxed">{comic.spiritLine}</Text>
+                          </View>
+                        </View>
+                        
+                        {/* 右侧：器官大人 */}
+                        <View className="flex-1 flex flex-col items-center">
+                          <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
+                            <Image 
+                              src={comic.lordImage} 
+                              mode="aspectFill" 
+                              className="w-full h-full"
+                            />
+                          </View>
+                          <Text className="text-xs text-amber-500 font-medium mt-2">{comic.lordName}</Text>
+                          {/* 器官大人台词气泡 */}
+                          <View className="mt-2 bg-gray-800 rounded-2xl rounded-tr-sm px-3 py-2 shadow-sm max-w-full">
+                            <Text className="text-xs text-white leading-relaxed">{comic.lordLine}</Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                )
+              })()}
+              
+              {/* 产品描述 */}
               <Text className="text-sm text-gray-600 leading-6">
-                邑夏蜜桃精灵果酒，选用新鲜蜜桃为原料，采用传统酿造工艺精心制作。酒体呈淡粉色，口感清爽甘甜，酒精度数仅为8%vol，非常适合年轻消费者群体。产品包装精美，是送礼和聚会的理想选择。
+                {product?.description || `邑夏${product?.name}，选用优质原料精心制作。酒体色泽纯净，口感独特回味悠长，非常适合年轻人品鉴。产品包装精美，是送礼和聚会的理想选择。`}
               </Text>
-              <View className="mt-4">
-                <Image src="https://picsum.photos/750/400?random=15" mode="aspectFill" className="w-full rounded-lg" />
-              </View>
             </View>
           )}
 
