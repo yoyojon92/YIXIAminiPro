@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useUGCStore } from '@/store/ugcStore'
 import { useMemberStore } from '@/store/memberStore'
+import { trackProfileAction } from '@/store/profileStore'
 import { ArrowLeft, ImagePlus, X } from 'lucide-react-taro'
 
 const PRODUCT_OPTIONS = [
@@ -96,6 +97,13 @@ export default function Publish() {
       productName,
       tags: selectedTags,
       type: 'member',
+    })
+
+    // 埋点记录投稿
+    trackProfileAction('ugc_publish', { 
+      productId: selectedProduct, 
+      productName,
+      tags: selectedTags 
     })
 
     setTimeout(() => {

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useUGCStore, UGCWork } from '@/store/ugcStore'
 import { useMemberStore } from '@/store/memberStore'
 import { MemberModal } from '@/components/member-modal'
+import { trackProfileAction } from '@/store/profileStore'
 import {
   Heart, Share2, ImagePlus, Camera, Trophy, Crown,
   TrendingUp, Star, Vote
@@ -31,7 +32,7 @@ export default function Wall() {
   // 埋点
   useEffect(() => {
     if (activeTab === 'ranking') {
-      console.log('[UGC埋点]', { action: 'ranking_view', timestamp: Date.now() })
+      trackProfileAction('ranking_view')
     }
   }, [activeTab])
 
@@ -41,6 +42,7 @@ export default function Wall() {
 
   const handleShare = (work: UGCWork) => {
     useUGCStore.getState().shareWork(work.id)
+    trackProfileAction('ugc_share_vote', { workId: work.id })
     Taro.showShareMenu({ withShareTicket: true })
     Taro.showToast({ title: '分享成功，快去拉票吧', icon: 'success' })
   }
@@ -53,6 +55,7 @@ export default function Wall() {
   const handleVoteConfirm = () => {
     if (selectedWork) {
       voteWork(selectedWork.id)
+      trackProfileAction('ugc_vote', { workId: selectedWork.id })
       Taro.showToast({ title: '投票成功', icon: 'success' })
     }
     setShowVoteModal(false)

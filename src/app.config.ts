@@ -12,7 +12,8 @@ export default defineAppConfig({
     'pages/activity/index',
     'pages/diary/index',
     'pages/article/index',
-    'pages/coupons/index'
+    'pages/coupons/index',
+    'pages/stats/index'
   ],
   window: {
     backgroundTextStyle: 'light',

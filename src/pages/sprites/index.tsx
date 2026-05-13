@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
+import { trackProfileAction } from '@/store/profileStore'
 import { 
   Star, Gift, Sparkles, Lock, LockOpen
 } from 'lucide-react-taro'
@@ -176,7 +177,10 @@ export default function Sprites() {
             <Card 
               key={sprite.id} 
               className={`overflow-hidden ${!sprite.collected && sprite.fragmentOwned === 0 ? 'opacity-60' : ''}`}
-              onClick={() => setSelectedSprite(sprite)}
+              onClick={() => {
+                setSelectedSprite(sprite)
+                trackProfileAction('spirit_view', { spiritId: sprite.id, spiritName: sprite.name })
+              }}
             >
               <View className="relative">
                 <Image 

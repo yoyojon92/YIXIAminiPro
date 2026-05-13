@@ -15,6 +15,7 @@ import { useCartStore } from '@/store/cartStore'
 import { useMemberStore } from '@/store/memberStore'
 import { MemberModal } from '@/components/member-modal'
 import { ageVerify } from '@/utils/ageVerify'
+import { trackProfileAction } from '@/store/profileStore'
 import './index.scss'
 
 const comments = [
@@ -160,6 +161,14 @@ export default function Product() {
     })
 
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
+    
+    // 记录购买行为（用于用户画像）
+    trackProfileAction('purchase', {
+      productId: product.id,
+      productName: product.name,
+      category: product.category,
+      price: product.price
+    })
   }
 
   // 判断是否显示器官大人（仅果酒显示）

@@ -9,8 +9,8 @@ import { useCouponStore } from '@/store/couponStore'
 import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
-  MapPinned,   CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles, RefreshCcw
+  MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag
 } from 'lucide-react-taro'
 
 const toolItems = [
@@ -30,8 +30,9 @@ export default function Profile() {
   const menuItems = [
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
-    { id: 3, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
-    { id: 4, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
+    { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/stats/index' },
+    { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
+    { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
   ]
 
   const navigateTo = (path: string) => {
