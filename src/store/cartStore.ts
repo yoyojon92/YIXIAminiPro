@@ -20,7 +20,7 @@ export interface CartItem {
   maxQuantity: number // 库存上限
 }
 
-export type DeliveryType = 'dormitory' | 'self_pickup'
+export type DeliveryType = 'dormitory' | 'self_pickup' | 'home_delivery'
 
 export interface DormitoryAddress {
   zoneId: string
@@ -29,11 +29,23 @@ export interface DormitoryAddress {
   roomNumber: string
 }
 
+export interface ShippingAddressInfo {
+  name: string
+  phone: string
+  province: string
+  city: string
+  district: string
+  address: string
+  postalCode?: string
+}
+
 export interface DeliveryInfo {
   type: DeliveryType
   dormitoryAddress?: DormitoryAddress // 宿舍地址
   pickupShopId?: string // 自提点ID
   pickupShopName?: string // 自提点名称
+  shippingAddress?: ShippingAddressInfo // 邮寄地址
+  shippingFee?: number // 运费
 }
 
 interface CartState {
@@ -68,6 +80,8 @@ interface CartState {
   setDelivery: (delivery: Partial<DeliveryInfo>) => void
   setPickupShop: (shopId: string, shopName: string) => void
   setDormitoryAddress: (address: DormitoryAddress) => void
+  setShippingAddress: (address: ShippingAddressInfo) => void
+  setShippingFee: (fee: number) => void
   
   // 代券操作
   setSelectedCoupon: (coupon: Coupon | null) => void
@@ -231,6 +245,27 @@ export const useCartStore = create<CartState>()(
             ...state.delivery,
             type: 'dormitory',
             dormitoryAddress: address
+          }
+        }))
+      },
+      
+      // 设置邮寄地址（便捷方法）
+      setShippingAddress: (address: ShippingAddressInfo) => {
+        set(state => ({
+          delivery: {
+            ...state.delivery,
+            type: 'home_delivery',
+            shippingAddress: address
+          }
+        }))
+      },
+      
+      // 设置运费（便捷方法）
+      setShippingFee: (fee: number) => {
+        set(state => ({
+          delivery: {
+            ...state.delivery,
+            shippingFee: fee
           }
         }))
       },

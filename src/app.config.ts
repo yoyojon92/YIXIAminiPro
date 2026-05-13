@@ -20,7 +20,9 @@ export default defineAppConfig({
     'pages/pickup/index',
     'pages/dormitory/index',
     'pages/runner/home',
-    'pages/runner/register'
+    'pages/runner/register',
+    'pages/shipping-address/index',
+    'pages/tracking/index'
   ],
   window: {
     backgroundTextStyle: 'light',

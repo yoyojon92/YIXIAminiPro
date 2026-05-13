@@ -396,7 +396,12 @@ export default function Orders() {
                       )}
                       {order.status === 'shipped' && (
                         <>
-                          <Button variant="outline" size="sm" className="px-4">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="px-4"
+                            onClick={() => Taro.navigateTo({ url: '/pages/tracking/index' })}
+                          >
                             <Text className="text-xs">查看物流</Text>
                           </Button>
                           <Button size="sm" className="px-4">

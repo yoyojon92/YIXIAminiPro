@@ -4,15 +4,17 @@ import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight, MapPin, Building } from 'lucide-react-taro'
+import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight, MapPin, Building, Send } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
+import { calculateShipping } from '@/data/shippingZones'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
   { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '+1元跑腿费' },
-  { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' }
+  { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
+  { id: 'home_delivery', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
 
 export default function Cart() {
@@ -26,8 +28,8 @@ export default function Cart() {
     coupons 
   } = useCouponStore()
   const profileStore = useUserProfileStore()
-  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>(
-    delivery.type === 'self_pickup' ? 'pickup' : 'dormitory'
+  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup' | 'home_delivery'>(
+    delivery.type === 'self_pickup' ? 'pickup' : delivery.type === 'home_delivery' ? 'home_delivery' : 'dormitory'
   )
   const [showCouponSheet, setShowCouponSheet] = useState(false)
   
@@ -40,7 +42,18 @@ export default function Cart() {
   const selectedItems = items.filter(item => item.quantity > 0)
   
   const totalPrice = totalAmount()
-  const deliveryFee = selectedDelivery === 'dormitory' ? 1 : 0
+  const bottleCount = selectedItems.reduce((sum, item) => sum + item.quantity, 0)
+  
+  // 计算运费
+  let deliveryFee = 0
+  let shippingInfo: { zone: any; shippingFee: number; isFreeShipping: boolean } | null = null
+  if (selectedDelivery === 'dormitory') {
+    deliveryFee = 1
+  } else if (selectedDelivery === 'home_delivery' && delivery.shippingAddress?.province) {
+    shippingInfo = calculateShipping(delivery.shippingAddress.province, bottleCount, totalPrice)
+    deliveryFee = shippingInfo.shippingFee
+  }
+  
   const couponDiscount = selectedCoupon ? selectedCoupon.discount : 0
   const finalPrice = Math.max(0, totalPrice + deliveryFee - couponDiscount)
   
@@ -79,6 +92,11 @@ export default function Cart() {
     // 检查自提是否已选自提点
     if (selectedDelivery === 'pickup' && !delivery.pickupShopId) {
       Taro.showToast({ title: '请先选择自提点', icon: 'none' })
+      return
+    }
+    // 检查厂家直邮是否已填地址
+    if (selectedDelivery === 'home_delivery' && !delivery.shippingAddress) {
+      Taro.showToast({ title: '请先填写收货地址', icon: 'none' })
       return
     }
     // 记录代券使用行为（用于用户画像）
@@ -267,6 +285,44 @@ export default function Cart() {
               <ChevronRight size={18} color="#9CA3AF" />
             </View>
           </View>
+        </View>
+      )}
+
+      {/* 邮寄地址选择（仅厂家直邮模式显示） */}
+      {selectedDelivery === 'home_delivery' && (
+        <View 
+          className="px-4 py-3 bg-white mt-2"
+          onClick={() => Taro.navigateTo({ url: '/pages/shipping-address/index' })}
+        >
+          <View className="flex items-center justify-between">
+            <View className="flex items-center gap-2">
+              <Send size={18} color="#3B82F6" />
+              <Text className="text-sm font-medium text-gray-700">收货地址</Text>
+            </View>
+            <View className="flex items-center gap-2">
+              {delivery.shippingAddress ? (
+                <Text className="text-sm text-primary max-w-48 truncate">
+                  {delivery.shippingAddress.province} {delivery.shippingAddress.city}
+                </Text>
+              ) : (
+                <Text className="text-sm text-gray-400">请填写</Text>
+              )}
+              <ChevronRight size={18} color="#9CA3AF" />
+            </View>
+          </View>
+          {shippingInfo && (
+            <View className="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between">
+              <View className="flex items-center gap-1">
+                <Text className="text-xs text-gray-500">运费：</Text>
+                {shippingInfo.isFreeShipping ? (
+                  <Text className="text-xs text-green-600 font-medium">免运费</Text>
+                ) : (
+                  <Text className="text-xs text-amber-600 font-medium">¥{shippingInfo.shippingFee}</Text>
+                )}
+              </View>
+              <Text className="text-xs text-gray-400">{shippingInfo.zone?.name}</Text>
+            </View>
+          )}
         </View>
       )}
 
