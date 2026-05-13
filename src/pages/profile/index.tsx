@@ -5,19 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { useMemberStore } from '@/store/memberStore'
+import { useCouponStore } from '@/store/couponStore'
 import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned,   CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw
 } from 'lucide-react-taro'
-
-const menuItems = [
-  { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
-  { id: 2, icon: Ticket, title: '优惠券', badge: '5', path: '/pages/orders/index?tab=coupon' },
-  { id: 3, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
-  { id: 4, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
-]
 
 const toolItems = [
   { id: 1, icon: MapPinned, title: '收货地址', path: '/pages/orders/index?tab=address' },
@@ -28,7 +22,17 @@ const toolItems = [
 ]
 
 export default function Profile() {
-  const { isMember, memberLevel, setShowMemberModal, getRemainingDays, getMemberBenefits } = useMemberStore()
+  const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, getMemberBenefits, renewMember } = useMemberStore()
+  const { getUnusedCoupons } = useCouponStore()
+  
+  const couponBadgeCount = getUnusedCoupons().length
+  
+  const menuItems = [
+    { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
+    { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
+    { id: 3, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
+    { id: 4, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
+  ]
 
   const navigateTo = (path: string) => {
     Taro.navigateTo({ url: path })
@@ -114,6 +118,54 @@ export default function Profile() {
         </Card>
       </View>
 
+      {/* 会员状态卡片 */}
+      <View className="px-4 mt-4">
+        <Card className={isMember ? 'border-2' : ''} style={isMember ? { borderColor: levelColor } : {}}>
+          <CardContent className="p-4">
+            <View className="flex items-center justify-between">
+              <View className="flex items-center gap-3">
+                <View className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: isMember ? levelColor : '#E5E7EB' }}>
+                  <Crown size={24} color={isMember ? 'white' : '#9CA3AF'} />
+                </View>
+                <View>
+                  <Text className="text-lg font-semibold text-gray-900">
+                    {isMember ? '👑 邑夏会员' : '普通会员'}
+                  </Text>
+                  {isMember && memberExpire && remainingDays > 0 && (
+                    <Text className="text-xs text-gray-500 mt-1">
+                      到期时间：{new Date(memberExpire).toLocaleDateString()} · 剩余{remainingDays}天
+                    </Text>
+                  )}
+                  {!isMember && (
+                    <Text className="text-xs text-gray-500 mt-1">开通会员享更多权益</Text>
+                  )}
+                </View>
+              </View>
+              {isMember ? (
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => {
+                    renewMember()
+                  }}
+                >
+                  <RefreshCcw size={14} color="#8B5CF6" />
+                  <Text className="ml-1">续费</Text>
+                </Button>
+              ) : (
+                <Button 
+                  size="sm" 
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 border-0"
+                  onClick={() => setShowMemberModal(true)}
+                >
+                  <Text className="text-white">立即开通</Text>
+                </Button>
+              )}
+            </View>
+          </CardContent>
+        </Card>
+      </View>
+
       {/* 会员专属权益 */}
       <View className="px-4 mt-4">
         <Card className="overflow-hidden">
@@ -171,6 +223,7 @@ export default function Profile() {
           <CardContent className="p-0">
             {menuItems.map((item, index) => {
               const Icon = item.icon
+              const badge = item.dynamicBadge ? item.dynamicBadge() : item.badge
               return (
                 <View key={item.id}>
                   <View 
@@ -182,9 +235,9 @@ export default function Profile() {
                         <Icon size={20} color="#8B5CF6" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
-                      {item.badge && (
+                      {badge && (
                         <Badge variant="destructive" className="text-xs ml-1">
-                          {item.badge}
+                          {badge}
                         </Badge>
                       )}
                     </View>

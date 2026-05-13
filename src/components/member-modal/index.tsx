@@ -1,7 +1,8 @@
 import { View, Text } from '@tarojs/components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useMemberStore } from '@/store/memberStore'
+import { trackMemberJoin, trackMemberModalView } from '@/store/couponStore'
 
 const benefits = [
   { icon: '✏', text: '上传动漫OS作品（解锁创意墙投稿权限）' },
@@ -16,12 +17,24 @@ export function MemberModal() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'annual'>('monthly')
   const [loading, setLoading] = useState(false)
 
+  // 埋点：弹窗展示
+  useEffect(() => {
+    if (showMemberModal) {
+      trackMemberModalView()
+    }
+  }, [showMemberModal])
+
   if (!showMemberModal) return null
 
   const handleJoin = async () => {
     setLoading(true)
     // 模拟支付流程
     await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    // 埋点：开通会员
+    const price = selectedPlan === 'monthly' ? 9.9 : 88
+    trackMemberJoin(selectedPlan, price)
+    
     joinMember(selectedPlan)
     setLoading(false)
   }

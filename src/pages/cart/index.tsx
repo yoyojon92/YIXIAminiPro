@@ -1,10 +1,13 @@
-import { useState } from 'react'
-import { View, Text, Image, Checkbox } from '@tarojs/components'
+import { useState, useEffect } from 'react'
+import { View, Text, Image, Checkbox, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { MapPinned, Store, Truck, Trash2, Minus, Plus, ShoppingBag } from 'lucide-react-taro'
+import { Badge } from '@/components/ui/badge'
+import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
+import { useCouponStore } from '@/store/couponStore'
+import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
   { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计30-60分钟送达', extra: '+3元配送费' },
@@ -12,17 +15,32 @@ const deliveryOptions = [
 ]
 
 export default function Cart() {
-  const { items, updateQuantity, removeItem } = useCartStore()
+  const { items, updateQuantity, removeItem, totalAmount } = useCartStore()
+  const { 
+    selectedCoupon, 
+    selectCoupon, 
+    getAvailableCoupons,
+    checkNewUserCoupon,
+    coupons 
+  } = useCouponStore()
   const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>('dormitory')
+  const [showCouponSheet, setShowCouponSheet] = useState(false)
+  
+  // 新用户自动发券
+  useEffect(() => {
+    checkNewUserCoupon()
+  }, [])
 
-  const allSelected = items.length > 0 && items.every(() => true) // 简化，全选逻辑
+  const allSelected = items.length > 0 && items.every(() => true)
   const selectedItems = items.filter(item => item.quantity > 0)
   
-  const totalPrice = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const originalTotal = selectedItems.reduce((sum, item) => sum + item.originalPrice * item.quantity, 0)
-  const discount = originalTotal - totalPrice
+  const totalPrice = totalAmount()
   const deliveryFee = selectedDelivery === 'dormitory' ? 3 : 0
-  const finalPrice = totalPrice + deliveryFee
+  const couponDiscount = selectedCoupon ? selectedCoupon.discount : 0
+  const finalPrice = Math.max(0, totalPrice + deliveryFee - couponDiscount)
+  
+  const availableCoupons = getAvailableCoupons(totalPrice)
+  const unusedCouponCount = coupons.filter(c => !c.isUsed).length
 
   const handleQuantityChange = (id: string, delta: number) => {
     const item = items.find(i => i.id === id)
@@ -30,6 +48,17 @@ export default function Cart() {
       const newQuantity = Math.max(1, item.quantity + delta)
       updateQuantity(id, newQuantity)
     }
+  }
+
+  const handleSelectCoupon = (coupon: Coupon) => {
+    selectCoupon(coupon.id)
+    setShowCouponSheet(false)
+    Taro.showToast({ title: `已选中${coupon.name}`, icon: 'success' })
+  }
+
+  const handleRemoveCoupon = () => {
+    selectCoupon('' as any)
+    Taro.showToast({ title: '已取消代券', icon: 'none' })
   }
 
   const goToCheckout = () => {
@@ -46,8 +75,8 @@ export default function Cart() {
         <View className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-4">
           <ShoppingBag size={48} className="text-gray-300" color="#d1d5db" />
         </View>
-        <Text className="text-gray-500 text-lg mb-2">购物车是空的</Text>
-        <Text className="text-gray-400 text-sm mb-6">快去挑选心仪的商品吧</Text>
+        <Text className="block text-gray-500 text-lg mb-2">购物车是空的</Text>
+        <Text className="block text-gray-400 text-sm mb-6">快去挑选心仪的商品吧</Text>
         <Button onClick={() => Taro.switchTab({ url: '/pages/index/index' })}>
           <Text>去逛逛</Text>
         </Button>
@@ -57,6 +86,75 @@ export default function Cart() {
 
   return (
     <View className="min-h-screen bg-gray-50 pb-32">
+      {/* 代券选择面板 */}
+      {showCouponSheet && (
+        <View className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-screen overflow-hidden" style={{ maxHeight: '70vh' }}>
+            <View className="p-4 border-b border-gray-100 flex items-center justify-between">
+              <Text className="text-lg font-semibold text-gray-900">选择代券</Text>
+              <View onClick={() => setShowCouponSheet(false)}>
+                <X size={22} color="#9CA3AF" />
+              </View>
+            </View>
+            
+            <ScrollView scrollY className="max-h-96">
+              <View className="p-4">
+                {/* 不使用代券 */}
+                <View 
+                  className="mb-3 p-4 rounded-xl border-2 border-dashed border-gray-200"
+                  onClick={() => { selectCoupon('' as any); setShowCouponSheet(false); }}
+                >
+                  <View className="flex items-center justify-between">
+                    <Text className="text-sm text-gray-500">不使用代券</Text>
+                    {!selectedCoupon && (
+                      <View className="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+                        <View className="w-3 h-3 rounded-full bg-primary" />
+                      </View>
+                    )}
+                  </View>
+                </View>
+                
+                {/* 可用代券列表 */}
+                {availableCoupons.map((coupon) => (
+                  <View 
+                    key={coupon.id}
+                    className={`mb-3 p-4 rounded-xl border-2 ${
+                      selectedCoupon?.id === coupon.id ? 'border-primary bg-purple-50' : 'border-gray-200'
+                    }`}
+                    onClick={() => handleSelectCoupon(coupon)}
+                  >
+                    <View className="flex items-center justify-between">
+                      <View className="flex items-center gap-3">
+                        <Text className="text-2xl">{coupon.icon}</Text>
+                        <View>
+                          <Text className="text-sm font-medium text-gray-900">{coupon.name}</Text>
+                          <Text className="text-xs text-gray-500">满{coupon.minSpend}元可用 · {coupon.description}</Text>
+                        </View>
+                      </View>
+                      <View className="flex items-center gap-2">
+                        <Text className="text-lg font-bold text-primary">-¥{coupon.discount}</Text>
+                        {selectedCoupon?.id === coupon.id && (
+                          <View className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+                            <Text className="text-white text-xs">✓</Text>
+                          </View>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                ))}
+                
+                {availableCoupons.length === 0 && (
+                  <View className="py-8 text-center">
+                    <Text className="block text-gray-400">暂无可用代券</Text>
+                    <Text className="block text-gray-300 text-sm mt-1">满{Math.min(totalPrice + 1, 20)}元即可使用代券</Text>
+                  </View>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      )}
+
       {/* 头部 */}
       <View className="bg-white px-4 py-3 flex items-center justify-between sticky top-0 z-50">
         <Text className="text-lg font-semibold text-gray-900">购物车</Text>
@@ -79,7 +177,7 @@ export default function Cart() {
                 onClick={() => setSelectedDelivery(option.id as 'dormitory' | 'pickup')}
               >
                 <View className="flex items-center gap-2">
-                  <Icon size={18} className={isSelected ? 'text-primary' : 'text-gray-500'} color={isSelected ? '#8B5CF6' : '#9ca3af'} />
+                  <Icon size={18} color={isSelected ? '#8B5CF6' : '#9ca3af'} />
                   <Text className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-gray-700'}`}>
                     {option.name}
                   </Text>
@@ -94,19 +192,34 @@ export default function Cart() {
         </View>
       </View>
 
-      {/* 自提点信息 */}
-      {selectedDelivery === 'pickup' && (
-        <View className="px-4 py-3 bg-white mt-2 flex items-center gap-3">
-          <View className="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
-            <MapPinned size={18} className="text-primary" color="#8B5CF6" />
-          </View>
-          <View className="flex-1">
-            <Text className="text-sm font-medium text-gray-900">青岛农业大学南门自提点</Text>
-            <Text className="text-xs text-gray-500 mt-1">距您约500米 | 营业时间 9:00-22:00</Text>
-          </View>
-          <Text className="text-primary text-sm">切换</Text>
+      {/* 代券选择 */}
+      <View 
+        className="px-4 py-3 bg-white mt-2 flex items-center justify-between"
+        onClick={() => setShowCouponSheet(true)}
+      >
+        <View className="flex items-center gap-2">
+          <Ticket size={18} color="#8B5CF6" />
+          <Text className="text-sm font-medium text-gray-700">代券</Text>
+          {unusedCouponCount > 0 && (
+            <Badge variant="destructive" className="text-xs ml-1">
+              {unusedCouponCount}
+            </Badge>
+          )}
         </View>
-      )}
+        <View className="flex items-center gap-2">
+          {selectedCoupon ? (
+            <View className="flex items-center gap-1">
+              <Text className="text-sm text-primary">-{selectedCoupon.icon} {selectedCoupon.name}</Text>
+              <View onClick={(e) => { e.stopPropagation(); handleRemoveCoupon(); }}>
+                <X size={16} color="#9CA3AF" />
+              </View>
+            </View>
+          ) : (
+            <Text className="text-sm text-gray-400">请选择</Text>
+          )}
+          <ChevronRight size={18} color="#9CA3AF" />
+        </View>
+      </View>
 
       {/* 购物车列表 */}
       <View className="px-4 mt-2">
@@ -138,21 +251,22 @@ export default function Cart() {
                           className="w-7 h-7 flex items-center justify-center"
                           onClick={() => handleQuantityChange(item.id, -1)}
                         >
-                          <Minus size={14} className="text-gray-500" color="#6b7280" />
+                          <Minus size={14} color="#6b7280" />
                         </View>
                         <Text className="text-sm text-gray-900 w-8 text-center">{item.quantity}</Text>
                         <View 
                           className="w-7 h-7 flex items-center justify-center"
                           onClick={() => handleQuantityChange(item.id, 1)}
                         >
-                          <Plus size={14} className="text-gray-500" color="#6b7280" />
+                          <Plus size={14} color="#6b7280" />
                         </View>
                       </View>
+
                       <View 
                         className="p-2"
                         onClick={() => removeItem(item.id)}
                       >
-                        <Trash2 size={16} className="text-gray-400" color="#9ca3af" />
+                        <Trash2 size={16} color="#9ca3af" />
                       </View>
                     </View>
                   </View>
@@ -161,6 +275,35 @@ export default function Cart() {
             </CardContent>
           </Card>
         ))}
+      </View>
+
+      {/* 订单摘要 */}
+      <View className="px-4 mt-2">
+        <Card>
+          <CardContent className="p-4">
+            <Text className="text-sm font-medium text-gray-700 mb-3">订单摘要</Text>
+            <View className="space-y-2">
+              <View className="flex justify-between text-sm">
+                <Text className="text-gray-500">商品总价</Text>
+                <Text className="text-gray-900">¥{totalPrice.toFixed(2)}</Text>
+              </View>
+              <View className="flex justify-between text-sm">
+                <Text className="text-gray-500">配送费</Text>
+                <Text className="text-gray-900">+¥{deliveryFee.toFixed(2)}</Text>
+              </View>
+              {selectedCoupon && (
+                <View className="flex justify-between text-sm">
+                  <Text className="text-primary">代券抵扣</Text>
+                  <Text className="text-primary">-¥{couponDiscount.toFixed(2)}</Text>
+                </View>
+              )}
+              <View className="flex justify-between text-sm pt-2 border-t border-gray-100">
+                <Text className="text-gray-900 font-medium">实付金额</Text>
+                <Text className="text-primary font-bold text-lg">¥{finalPrice.toFixed(2)}</Text>
+              </View>
+            </View>
+          </CardContent>
+        </Card>
       </View>
 
       {/* 底部结算栏 */}
@@ -177,9 +320,6 @@ export default function Cart() {
             <Text className="text-sm text-gray-500">合计：</Text>
             <View className="flex items-baseline justify-end gap-1">
               <Text className="text-primary font-bold text-xl">¥{finalPrice.toFixed(2)}</Text>
-              {discount > 0 && (
-                <Text className="text-xs text-gray-400 line-through">¥{originalTotal.toFixed(2)}</Text>
-              )}
             </View>
           </View>
         </View>
@@ -196,3 +336,5 @@ export default function Cart() {
     </View>
   )
 }
+
+
