@@ -3,7 +3,7 @@
   "cloudfunctionRoot": "./cloudfunctions/",
   "projectname": "yixia-mini-program",
   "description": "邑夏果酒果汁小程序 - 基于微信云开发",
-  "appid": "wxd1234567890abcde",
+  "appid": "wx9127a9df7a4fd36d",
   "setting": {
     "urlCheck": true,
     "es6": false,
