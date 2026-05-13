@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { ArrowRight } from 'lucide-react-taro';
+import Taro from '@tarojs/taro';
 import { OrganLord } from '@/data/organLords';
-import './organ-lord-card.scss';
 
 interface OrganLordCardProps {
   lord: OrganLord;
@@ -11,7 +9,6 @@ interface OrganLordCardProps {
 }
 
 export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
-  const [showDetail, setShowDetail] = useState(false);
   const [imgError, setImgError] = useState(false);
 
   const handleClick = () => {
@@ -23,7 +20,13 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
       action: 'organ_click',
       timestamp: Date.now(),
     });
-    setShowDetail(true);
+    // 弹出漫剧古风知识介绍
+    Taro.showModal({
+      title: `${lord.name} · ${lord.title}`,
+      content: `【漫剧古风知识】\n\n${lord.name}乃${lord.title}，掌管人体要害。\n\n${lord.healthText}\n\n此角色关联产品：${lord.relatedProduct}\n\n（漫剧内容即将上线，敬请期待...）`,
+      confirmText: '我知道了',
+      showCancel: false,
+    });
   };
 
   const handleImgError = () => {
@@ -34,100 +37,69 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
   const showPortrait = !imgError && lord.image;
 
   return (
-    <>
-      <View className="organ-lord-card" onClick={handleClick}>
-        {/* 左侧立绘/emoji */}
-        <View className="organ-lord-card__portrait">
-          <View 
-            className={`organ-lord-card__portrait-frame ${showPortrait ? 'organ-lord-card__portrait-image' : 'organ-lord-card__portrait-emoji'}`}
-            style={{ borderColor: lord.color }}
-          >
-            {showPortrait ? (
-              <Image
-                src={lord.image}
-                className="organ-lord-card__portrait-img"
-                mode="aspectFill"
-                onError={handleImgError}
-              />
-            ) : (
-              <Text className="organ-lord-card__emoji">{lord.emoji}</Text>
-            )}
-          </View>
+    <View
+      className="mx-4 my-3 rounded-2xl overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg, ${lord.color}22, ${lord.colorEnd}22)`,
+        borderLeft: `4px solid ${lord.color}`,
+      }}
+      onClick={handleClick}
+    >
+      <View className="flex items-center p-4">
+        {/* 左侧立绘 */}
+        <View
+          className="flex-shrink-0 rounded-lg overflow-hidden"
+          style={{
+            width: '120px',
+            height: '160px',
+            border: `3px solid ${lord.color}`,
+          }}
+        >
+          {showPortrait ? (
+            <Image
+              src={lord.image}
+              className="w-full h-full"
+              mode="aspectFill"
+              onError={handleImgError}
+            />
+          ) : (
+            <View className="w-full h-full flex items-center justify-center bg-gray-100">
+              <Text className="text-6xl">{lord.emoji}</Text>
+            </View>
+          )}
         </View>
 
         {/* 右侧内容 */}
-        <View className="organ-lord-card__content">
-          <View className="organ-lord-card__header">
-            <Text className="organ-lord-card__name">{lord.name}</Text>
-            <View className="organ-lord-card__badge">
-              <Text className="organ-lord-card__badge-text">IP</Text>
+        <View className="flex-1 ml-4 flex flex-col justify-between h-40">
+          {/* 名称 + 官职标签 */}
+          <View className="flex items-center">
+            <Text className="text-lg font-bold text-white">{lord.name}</Text>
+            <View
+              className="ml-2 px-2 py-1 rounded text-xs"
+              style={{ backgroundColor: `${lord.color}44` }}
+            >
+              <Text className="text-white text-opacity-70">{lord.title}</Text>
             </View>
           </View>
 
-          <Text className="organ-lord-card__title">{lord.title}</Text>
+          {/* 关联产品 */}
+          <Text className="text-sm" style={{ color: '#F59E0B' }}>
+            关联：{lord.relatedProduct}
+          </Text>
 
-          <Text className="organ-lord-card__quote">&ldquo;{lord.healthText}&rdquo;</Text>
+          {/* 中医养生文案 */}
+          <Text className="text-xs text-white text-opacity-70 leading-relaxed">
+            {lord.healthText}
+          </Text>
 
-          <View className="organ-lord-card__footer">
-            <Text className="organ-lord-card__knowledge">关联：{lord.relatedProduct}</Text>
-            <View className="organ-lord-card__arrow">
-              <ArrowRight size={16} color={lord.color} />
-            </View>
+          {/* 底部提示 */}
+          <View className="flex items-center">
+            <Text className="text-xs" style={{ color: '#F59E0B' }}>
+              点击了解漫剧知识 ▸
+            </Text>
           </View>
         </View>
       </View>
-
-      {/* 详情弹窗 - 底部弹出 */}
-      <Sheet open={showDetail} onOpenChange={(open) => !open && setShowDetail(false)}>
-        <SheetContent side="bottom" className="organ-lord-detail-sheet">
-          <View className="organ-lord-detail">
-            {/* 弹窗头部 */}
-            <View className="organ-lord-detail__header">
-              <View className="organ-lord-detail__portrait">
-                <View 
-                  className={`organ-lord-detail__portrait-frame ${showPortrait ? 'organ-lord-detail__portrait-image' : 'organ-lord-detail__portrait-emoji'}`}
-                  style={{ borderColor: lord.color }}
-                >
-                  {showPortrait ? (
-                    <Image
-                      src={lord.image}
-                      className="organ-lord-detail__portrait-img"
-                      mode="aspectFill"
-                      onError={handleImgError}
-                    />
-                  ) : (
-                    <Text className="organ-lord-detail__emoji">{lord.emoji}</Text>
-                  )}
-                </View>
-              </View>
-              <View className="organ-lord-detail__title-group">
-                <Text className="organ-lord-detail__name">{lord.name}</Text>
-                <Text className="organ-lord-detail__subtitle">{lord.title}</Text>
-              </View>
-            </View>
-
-            {/* 漫剧古风知识介绍 */}
-            <View className="organ-lord-detail__content">
-              <View className="organ-lord-detail__quote-box" style={{ borderColor: lord.color }}>
-                <Text className="organ-lord-detail__quote-label">名医说</Text>
-                <Text className="organ-lord-detail__quote">&ldquo;{lord.healthText}&rdquo;</Text>
-              </View>
-              <Text className="organ-lord-detail__text">{lord.healthText}</Text>
-            </View>
-
-            {/* 关联产品 */}
-            <View className="organ-lord-detail__product">
-              <View className="organ-lord-detail__product-info">
-                <Text className="organ-lord-detail__product-label">关联产品</Text>
-                <Text className="organ-lord-detail__product-name">{lord.relatedProduct}</Text>
-              </View>
-              <View className="organ-lord-detail__product-btn">
-                <Text className="organ-lord-detail__product-btn-text">查看详情</Text>
-              </View>
-            </View>
-          </View>
-        </SheetContent>
-      </Sheet>
-    </>
+    </View>
   );
 }
