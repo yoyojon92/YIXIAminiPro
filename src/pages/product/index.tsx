@@ -8,7 +8,7 @@ import {
 } from 'lucide-react-taro'
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
-import { getOrganLordByProductId } from '@/data/organLords'
+import { getOrganLordByProduct } from '@/data/organLords'
 import type { Product } from '@/mock/products'
 import { getProductById } from '@/mock/products'
 import { useCartStore } from '@/store/cartStore'
@@ -186,7 +186,7 @@ export default function Product() {
 
         {/* 器官大人展示卡片（仅果酒显示） */}
         {showOrganLord && (() => {
-          const lord = getOrganLordByProductId(product?.id)
+          const lord = getOrganLordByProduct(product?.id)
           return lord ? (
             <View className="bg-gray-900 px-4 py-4 mt-2">
               <View className="flex items-center gap-2 mb-3">

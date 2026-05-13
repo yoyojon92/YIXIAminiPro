@@ -3,111 +3,83 @@
  * 5位器官大人对应5款果酒产品
  */
 
-// 导入立绘图片
-import pijiangjunImg from '@/assets/images/organ-lords/pijiangjun.jpg';
-import shenzhizheImg from '@/assets/images/organ-lords/shenzhizhe.jpg';
-import feichengxiangImg from '@/assets/images/organ-lords/feichengxiang.jpg';
-import xinjunImg from '@/assets/images/organ-lords/xinjun.jpg';
-import ganmoushiImg from '@/assets/images/organ-lords/ganmoushi.jpg';
-
 export interface OrganLord {
   id: string;
   name: string;
-  title: string;
-  color: string; // 主题色
-  gradient: string; // 渐变背景
-  emoji: string; // emoji 占位符
-  image: string; // 立绘图片
-  portrait: string; // 立绘图片（兼容）
-  productId: string; // 关联产品ID
-  productName: string; // 关联产品名称
-  quote: string; // 中医名言（引）
-  knowledge: string; // 中医知识文案
-  detail: string; // 漫剧古风知识介绍
+  title: string;          // 中医官职
+  color: string;          // 主题色（渐变起点）
+  colorEnd: string;       // 主题色（渐变终点）
+  healthText: string;     // 中医养生文案
+  relatedProduct: string; // 关联产品名称
+  productId: string;      // 关联产品ID
+  image: string;          // 立绘图片路径
+  emoji: string;          // Emoji 占位符
 }
 
-// 器官大人数据映射
-export const ORGAN_LORDS: OrganLord[] = [
-  {
-    id: 'pi-jiangjun',
+export const organLords: Record<string, OrganLord> = {
+  'fw-001': {
+    id: 'pijiangjun',
     name: '脾将军',
-    title: '脾胃为后天之本',
-    color: '#F59E0B', // 暖橙金
-    gradient: 'from-amber-500 to-orange-600',
+    title: '后天之本',
+    color: '#F59E0B',
+    colorEnd: '#FF8C42',
+    healthText: '桃养脾胃 · 脾胃为后天之本，气血生化之源',
+    relatedProduct: '桃你欢心',
+    productId: 'fw-001',
+    image: '/assets/images/organ-lords/pijiangjun.jpg',
     emoji: '🍑',
-    image: pijiangjunImg,
-    portrait: pijiangjunImg,
-    productId: 'prod_peach_001', // 桃你欢心
-    productName: '桃你欢心',
-    quote: '桃养脾胃',
-    knowledge: '桃子甘温入脾，一杯桃酒暖胃安神',
-    detail: '脾为后天之本，气血生化之源。脾将军掌管人体运化之职，主导水谷精微的消化吸收。桃子性温味甘，富含维生素与膳食纤维，入脾经可助运化。邑夏桃酒以金银花发酵酒为底，佐以鲜桃果汁，温润甘甜，实为养脾佳品。脾将军常说：「脾胃和则百病消，一杯桃酒暖中焦」。',
   },
-  {
-    id: 'shen-zhizhe',
+  'fw-002': {
+    id: 'shenzhizhe',
     name: '肾智者',
-    title: '肾者水脏主藏精',
-    color: '#7C3AED', // 深蓝紫
-    gradient: 'from-violet-600 to-purple-700',
+    title: '先天之本',
+    color: '#1E3A5F',
+    colorEnd: '#6366F1',
+    healthText: '山楂消食 · 酸甘化阴，肾为先天之本',
+    relatedProduct: '楂香四溢',
+    productId: 'fw-002',
+    image: '/assets/images/organ-lords/shenzhizhe.jpg',
     emoji: '🍒',
-    image: shenzhizheImg,
-    portrait: shenzhizheImg,
-    productId: 'prod_hawthorn_001', // 楂香四溢
-    productName: '楂香四溢',
-    quote: '山楂消食·酸甘化阴',
-    knowledge: '山楂消食化积，佐酒一杯肾气充',
-    detail: '肾为先天之本，藏精主水。肾智者深谙水液代谢之道，以酸甘之味化生阴液。山楂性微温味酸，消食化积尤效，入肾经可助气化。邑雪山楂酒以沂蒙山楂为原料，酸甜适口，微醺之间肾气得充。肾智者有言：「酸甘化阴，肾水充盈，人自然精神矍铄」。',
   },
-  {
-    id: 'fei-chenxiang',
+  'fw-003': {
+    id: 'feichengxiang',
     name: '肺丞相',
-    title: '肺者相傅之官',
-    color: '#06B6D4', // 银白蓝
-    gradient: 'from-cyan-400 to-sky-500',
+    title: '相傅之官',
+    color: '#E2E8F0',
+    colorEnd: '#60A5FA',
+    healthText: '梨润肺 · 肺主气，司呼吸，润肺生津',
+    relatedProduct: '大吉大梨',
+    productId: 'fw-003',
+    image: '/assets/images/organ-lords/feichengxiang.jpg',
     emoji: '🍐',
-    image: feichengxiangImg,
-    portrait: feichengxiangImg,
-    productId: 'prod_pear_001', // 大吉大梨
-    productName: '大吉大梨',
-    quote: '梨润肺·润肺生津',
-    knowledge: '秋燥伤肺，来杯梨酒润一润',
-    detail: '肺为华盖，主气司呼吸，朝百脉。肺丞相统管一身气机，主皮毛之开合，司津液之分布。梨性凉味甘，润肺生津止咳，入肺经可滋阴润燥。邑夏梨酒以金银花与鲜梨共酿，清润甘甜，尤为适合秋燥之时。肺丞相常言：「秋燥伤肺，宜润忌燥，一杯梨酒津液生」。',
   },
-  {
-    id: 'xin-jun',
+  'fw-004': {
+    id: 'xinjun',
     name: '心君',
-    title: '心者君主之官',
-    color: '#DC2626', // 红金
-    gradient: 'from-red-500 to-rose-600',
+    title: '君主之官',
+    color: '#DC2626',
+    colorEnd: '#F59E0B',
+    healthText: '石榴养心 · 心主神明，养心安神',
+    relatedProduct: '似水榴年',
+    productId: 'fw-004',
+    image: '/assets/images/organ-lords/xinjun.jpg',
     emoji: '🍎',
-    image: xinjunImg,
-    portrait: xinjunImg,
-    productId: 'prod_pomegranate_001', // 似水榴年
-    productName: '似水榴年',
-    quote: '石榴养心·养心安神',
-    knowledge: '石榴养心安神，一杯入喉心自宁',
-    detail: '心为五脏六腑之主，主血脉藏神。心君高坐明堂，统摄神明，心宁则神安。石榴性温味酸，富含花青素与多酚，养心安神之效显著。邑夏石榴酒以金银花发酵酒为基，浸以石榴精华，入口甘醇，回味悠长，饮之可安神定志。心君有训：「心宁则智明，一杯石榴酒可养心宁神」。',
   },
-  {
-    id: 'gan-moushi',
+  'fw-005': {
+    id: 'ganmoushi',
     name: '肝谋士',
-    title: '肝者将军之官',
-    color: '#059669', // 深绿银
-    gradient: 'from-emerald-600 to-teal-600',
+    title: '将军之官',
+    color: '#059669',
+    colorEnd: '#94A3B8',
+    healthText: '葡萄补肝 · 肝藏血，主疏泄，滋阴养血',
+    relatedProduct: '葡写浪漫',
+    productId: 'fw-005',
+    image: '/assets/images/organ-lords/ganmoushi.jpg',
     emoji: '🍇',
-    image: ganmoushiImg,
-    portrait: ganmoushiImg,
-    productId: 'prod_grape_001', // 葡写浪漫
-    productName: '葡写浪漫',
-    quote: '葡萄补肝·滋阴养血',
-    knowledge: '葡萄入肝经，微醺一杯肝气舒',
-    detail: '肝为将军之官，谋略出焉，主疏泄藏血。肝谋士运筹帷幄，调节气机，使气血流畅。葡萄性平味甘，富含葡萄糖与多种维生素，入肝经可滋阴养血。邑夏葡萄酒以金银花发酵酒为基，浸以优质葡萄，醇和绵长，饮之可舒肝解郁。肝谋士常言：「肝主疏泄，气机畅达则人舒心畅」。',
   },
-];
-
-/**
- * 根据产品ID获取器官大人信息
- */
-export const getOrganLordByProductId = (productId: string): OrganLord | undefined => {
-  return ORGAN_LORDS.find((lord) => lord.productId === productId);
 };
+
+// 根据产品ID获取对应器官大人
+export function getOrganLordByProduct(productId: string): OrganLord | undefined {
+  return organLords[productId];
+}

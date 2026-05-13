@@ -31,7 +31,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
   };
 
   // 使用图片或 emoji fallback
-  const showPortrait = !imgError && lord.portrait;
+  const showPortrait = !imgError && lord.image;
 
   return (
     <>
@@ -44,7 +44,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
           >
             {showPortrait ? (
               <Image
-                src={lord.portrait}
+                src={lord.image}
                 className="organ-lord-card__portrait-img"
                 mode="aspectFill"
                 onError={handleImgError}
@@ -66,10 +66,10 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
 
           <Text className="organ-lord-card__title">{lord.title}</Text>
 
-          <Text className="organ-lord-card__quote">&ldquo;{lord.quote}&rdquo;</Text>
+          <Text className="organ-lord-card__quote">&ldquo;{lord.healthText}&rdquo;</Text>
 
           <View className="organ-lord-card__footer">
-            <Text className="organ-lord-card__knowledge">{lord.knowledge}</Text>
+            <Text className="organ-lord-card__knowledge">关联：{lord.relatedProduct}</Text>
             <View className="organ-lord-card__arrow">
               <ArrowRight size={16} color={lord.color} />
             </View>
@@ -90,7 +90,7 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
                 >
                   {showPortrait ? (
                     <Image
-                      src={lord.portrait}
+                      src={lord.image}
                       className="organ-lord-detail__portrait-img"
                       mode="aspectFill"
                       onError={handleImgError}
@@ -110,16 +110,16 @@ export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
             <View className="organ-lord-detail__content">
               <View className="organ-lord-detail__quote-box" style={{ borderColor: lord.color }}>
                 <Text className="organ-lord-detail__quote-label">名医说</Text>
-                <Text className="organ-lord-detail__quote">&ldquo;{lord.quote}&rdquo;</Text>
+                <Text className="organ-lord-detail__quote">&ldquo;{lord.healthText}&rdquo;</Text>
               </View>
-              <Text className="organ-lord-detail__text">{lord.detail}</Text>
+              <Text className="organ-lord-detail__text">{lord.healthText}</Text>
             </View>
 
             {/* 关联产品 */}
             <View className="organ-lord-detail__product">
               <View className="organ-lord-detail__product-info">
                 <Text className="organ-lord-detail__product-label">关联产品</Text>
-                <Text className="organ-lord-detail__product-name">{lord.productName}</Text>
+                <Text className="organ-lord-detail__product-name">{lord.relatedProduct}</Text>
               </View>
               <View className="organ-lord-detail__product-btn">
                 <Text className="organ-lord-detail__product-btn-text">查看详情</Text>

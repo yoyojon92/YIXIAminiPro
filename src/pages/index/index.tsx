@@ -10,7 +10,7 @@ import {
 } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
 import { SPRITES } from '@/data/sprites'
-import { ORGAN_LORDS } from '@/data/organLords'
+import { organLords } from '@/data/organLords'
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -319,7 +319,7 @@ export default function Index() {
         <View>
           <Text className="text-sm font-medium text-slate-400 mb-3">🏛 器官大人</Text>
           <View className="flex justify-between">
-            {ORGAN_LORDS.map((lord) => (
+            {Object.values(organLords).map((lord) => (
               <View 
                 key={lord.id}
                 className="flex flex-col items-center"
@@ -339,7 +339,7 @@ export default function Index() {
                   className="w-12 h-12 rounded-full overflow-hidden border-2 flex items-center justify-center"
                   style={{ borderColor: lord.color, backgroundColor: lord.color + '20' }}
                 >
-                  <Text className="text-2xl">{lord.emoji}</Text>
+                  <Image src={lord.image} className="w-full h-full" mode="aspectFill" />
                 </View>
                 <Text className="text-xs text-slate-300 mt-1">{lord.name}</Text>
               </View>
