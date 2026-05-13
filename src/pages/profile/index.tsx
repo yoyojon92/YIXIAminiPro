@@ -259,7 +259,7 @@ export default function Profile() {
               <View key={index}>
                 <View className="flex items-center gap-3 p-4">
                   <Sparkles size={16} color="#8B5CF6" />
-                  <Text className="text-sm text-gray-700 flex-1">{benefit}</Text>
+                  <Text className="text-sm text-gray-800 font-medium flex-1">{benefit}</Text>
                 </View>
                 {index < getMemberBenefits().length - 1 && <Separator className="ml-14" />}
               </View>
