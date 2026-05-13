@@ -60,7 +60,7 @@ const COMIC_DIALOGUES: Record<string, {
     spiritLine: '她又在12点开外放！忍无可忍！！',
     lordName: '肝谋士',
     lordImage: '/assets/images/organ-lords/ganmoushi.jpg',
-    lordLine: '怒伤肝，别气别气，她不配让你肝疼。来杯楂香四溢，疏疏肝气。',
+    lordLine: '怒伤肝，别气别气，她不配让你肝疼。来杯山楂酒，疏疏肝气。',
   },
   'prod_pear_001': {
     spiritName: '梨梨',
@@ -117,19 +117,9 @@ export default function Product() {
     ? Number((product.price - memberPrice).toFixed(1))
     : 0
 
+  // 页面显示时获取产品数据
   useEffect(() => {
-    const { id } = router.params
-    if (id) {
-      const productData = getProductById(id)
-      if (productData) {
-        setProduct(productData)
-      }
-    }
-  }, [router, router.params])
-
-  // 监听路由参数变化（备用方案）
-  useEffect(() => {
-    const { id } = router.params
+    const id = router.params.id
     if (id) {
       const productData = getProductById(id)
       if (productData) {
@@ -142,22 +132,32 @@ export default function Product() {
   const profileStore = useUserProfileStore()
 
   const addToCart = async () => {
-    if (!product) return
+    // 重新获取最新产品数据
+    const productId = router.params.id
+    if (!productId) {
+      Taro.showToast({ title: '产品信息加载中', icon: 'none' })
+      return
+    }
+    const currentProduct = getProductById(productId)
+    if (!currentProduct) {
+      Taro.showToast({ title: '产品信息获取失败', icon: 'none' })
+      return
+    }
 
     // 酒精产品需要年龄验证
-    if (product.isAlcohol) {
+    if (currentProduct.isAlcohol) {
       const verified = await ageVerify()
       if (!verified) return
     }
 
     // 添加到购物车
     await cartStore.addItem({
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      originalPrice: product.originalPrice || product.price,
+      productId: currentProduct.id,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      originalPrice: currentProduct.originalPrice || currentProduct.price,
       quantity: 1,
-      image: product.images[0],
+      image: currentProduct.images[0],
       spec: '单瓶装',
       maxQuantity: 99
     })
@@ -165,14 +165,14 @@ export default function Product() {
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
     
     // 记录加购行为（用于用户画像）
-    profileStore.recordCartAdd(product.id)
+    profileStore.recordCartAdd(currentProduct.id)
     
     // 记录购买行为（用于用户画像）
     trackProfileAction('purchase', {
-      productId: product.id,
-      productName: product.name,
-      category: product.category,
-      price: product.price
+      productId: currentProduct.id,
+      productName: currentProduct.name,
+      category: currentProduct.category,
+      price: currentProduct.price
     })
   }
 
@@ -429,11 +429,13 @@ export default function Product() {
         className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 pb-safe"
         style={{ zIndex: 100 }}
       >
-        {/* 年龄验证提示 */}
-        <View className="flex items-center gap-1 mb-2 text-xs text-orange-500">
-          <CircleAlert size={12} color="#F59E0B" />
-          <Text>购买果酒需年满18周岁</Text>
-        </View>
+        {/* 年龄验证提示（仅酒精类产品显示） */}
+        {product?.isAlcohol && (
+          <View className="flex items-center gap-1 mb-2 text-xs text-orange-500">
+            <CircleAlert size={12} color="#F59E0B" />
+            <Text>购买果酒需年满18周岁</Text>
+          </View>
+        )}
         
         <View className="flex items-center gap-3">
           <View className="flex items-center gap-1">
