@@ -354,6 +354,10 @@ export default function Product() {
                       <View className="flex gap-3">
                         {/* 左侧：精灵 */}
                         <View className="flex-1 flex flex-col items-center">
+                          {/* 精灵台词气泡（在图片上方） */}
+                          <View className="w-full bg-pink-100 rounded-2xl rounded-tr-sm px-3 py-2 shadow-sm mb-2">
+                            <Text className="text-xs text-pink-600 font-medium leading-relaxed">{comic.spiritLine}</Text>
+                          </View>
                           <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
                             <Image 
                               src={comic.spiritImage} 
@@ -362,10 +366,6 @@ export default function Product() {
                             />
                           </View>
                           <Text className="text-xs text-pink-500 font-medium mt-2">{comic.spiritName}</Text>
-                          {/* 精灵台词气泡 */}
-                          <View className="mt-2 bg-white rounded-2xl rounded-tl-sm px-3 py-2 shadow-sm max-w-full">
-                            <Text className="text-xs text-gray-700 leading-relaxed">{comic.spiritLine}</Text>
-                          </View>
                         </View>
                         
                         {/* 右侧：器官大人 */}
