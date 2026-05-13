@@ -1,5 +1,5 @@
 import { View, Text, Image } from '@tarojs/components'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import { trackProfileAction } from '@/store/profileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useRunnerStore } from '@/store/runnerStore'
 import { MemberModal } from '@/components/member-modal'
+import { RegisterModal } from '@/components/RegisterModal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
@@ -19,13 +20,24 @@ import {
 } from 'lucide-react-taro'
 
 export default function Profile() {
+  const [showRegister, setShowRegister] = useState(false)
+  
   const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, getMemberBenefits, renewMember } = useMemberStore()
   const { getUnusedCoupons } = useCouponStore()
   const profileStore = useUserProfileStore()
   const pushStore = usePushStore()
   
+  // 从userStore读取用户信息
+  const { nickname, school, college, isRegistered } = profileStore
   const { tags } = profileStore
   const runnerStore = useRunnerStore()
+  
+  // 检查是否需要显示注册弹窗
+  useEffect(() => {
+    if (!isRegistered) {
+      setShowRegister(true)
+    }
+  }, [isRegistered])
   
   // 初始化推送检查和会员状态同步（只在挂载时执行一次）
   useEffect(() => {
@@ -72,7 +84,9 @@ export default function Profile() {
     <View className="min-h-screen bg-gray-50 pb-safe">
       {/* 会员模态框 */}
       <MemberModal />
-      
+      {/* 注册模态框 */}
+      <RegisterModal visible={showRegister} onClose={() => setShowRegister(false)} />
+
       {/* 顶部个人信息 */}
       <View className="bg-gradient-to-br from-purple-500 to-pink-500 px-4 pt-8 pb-16">
         <View className="flex items-center justify-between mb-4">
@@ -90,7 +104,7 @@ export default function Profile() {
           
           <View className="flex-1">
             <View className="flex items-center gap-2">
-              <Text className="text-white text-xl font-bold">大学生用户</Text>
+              <Text className="text-white text-xl font-bold">{nickname || '大学生用户'}</Text>
               <Badge 
                 variant="secondary" 
                 className="text-xs"
@@ -101,14 +115,16 @@ export default function Profile() {
                 {isMember && remainingDays > 0 && <Text className="text-white ml-1">·{remainingDays}天</Text>}
               </Badge>
             </View>
-            <Text className="text-white text-opacity-80 text-sm mt-1">青岛农业大学 · 计算机学院</Text>
+            <Text className="text-white text-opacity-80 text-sm mt-1">
+              {school || '请选择学校'} {college ? '· ' + college : ''}
+            </Text>
           </View>
 
           <Button 
             variant="ghost" 
             className="text-white text-sm"
             style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-            onClick={() => navigateTo('/pages/orders/index?tab=profile')}
+            onClick={() => setShowRegister(true)}
           >
             编辑
           </Button>

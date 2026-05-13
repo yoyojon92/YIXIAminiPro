@@ -4,6 +4,14 @@ import type { TagId } from '@/data/userTags'
 import { calculateTags, generateProfileSummary, type UserBehavior } from '@/engine/userProfile'
 
 interface UserProfileState {
+  // 用户基本信息
+  nickname: string
+  avatar: string
+  school: string
+  college: string
+  age: number | null
+  isRegistered: boolean
+  
   // 画像结果
   tags: TagId[]
   profileSummary: string
@@ -24,6 +32,10 @@ interface UserProfileState {
   memberSince: number | null
   
   // Actions
+  setUserInfo: (info: { nickname: string; avatar: string; school: string; college: string; age: number }) => void
+  updateNickname: (nickname: string) => void
+  updateAvatar: (avatar: string) => void
+  updateSchool: (school: string, college: string) => void
   recordPurchase: (productId: string, quantity: number, price: number) => void
   recordCartAdd: (productId: string) => void
   recordCouponUse: (couponId: string, discount: number) => void
@@ -40,10 +52,48 @@ interface UserProfileState {
 export const useUserProfileStore = create<UserProfileState>()(
   persist(
     (set, get) => ({
+      // 用户基本信息初始值
+      nickname: '',
+      avatar: '',
+      school: '',
+      college: '',
+      age: null,
+      isRegistered: false,
+      
       tags: ['new_user'],
       profileSummary: '身份标签: 萌新',
       behaviorScore: 0,
       lastUpdated: Date.now(),
+      
+      // 用户信息设置
+      setUserInfo: (info) => {
+        set({
+          nickname: info.nickname,
+          avatar: info.avatar,
+          school: info.school,
+          college: info.college,
+          age: info.age,
+          isRegistered: true,
+        })
+      },
+      
+      updateNickname: (nickname) => set({ nickname }),
+      updateAvatar: (avatar) => set({ avatar }),
+      updateSchool: (school, college) => set({ school, college }),
+      updateProfile: (profile) => set({ ...profile }),
+
+      // 获取用户profile对象
+      getProfile: () => {
+        const state = get();
+        return {
+          nickname: state.nickname,
+          avatar: state.avatar,
+          school: state.school,
+          college: state.college,
+          age: state.age,
+          isRegistered: state.isRegistered,
+        };
+      },
       
       // 所有行为数据
       purchases: [] as UserBehavior['purchases'],
