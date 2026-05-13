@@ -13,6 +13,9 @@ export interface RunnerInfo {
   registeredAt: number
   todayEarnings: number
   totalEarnings: number
+  complaintCount: number  // 累计被投诉次数
+  isSuspended: boolean     // 是否被暂停接单资格
+  suspendedReason?: string // 暂停原因
 }
 
 export interface RunnerOrder {
@@ -39,7 +42,7 @@ interface RunnerState {
   newOrderNotification: RunnerOrder | null
   
   // 操作方法
-  register: (info: Omit<RunnerInfo, 'id' | 'registeredAt' | 'todayEarnings' | 'totalEarnings'>) => void
+  register: (info: { name: string; phone: string; school: string; studentId: string }) => void
   logout: () => void
   setAvailable: (available: boolean) => void
   
@@ -52,6 +55,11 @@ interface RunnerState {
   // 统计
   getTodayOrders: () => RunnerOrder[]
   getTodayEarnings: () => number
+  
+  // 投诉管理（平台端调用）
+  addComplaint: (orderId: string) => void
+  reviewAndRestore: () => void  // 人工审核后恢复接单资格
+  getComplaintCount: () => number
 }
 
 export const useRunnerStore = create<RunnerState>()(
@@ -69,7 +77,9 @@ export const useRunnerStore = create<RunnerState>()(
           id: `runner_${Date.now()}`,
           registeredAt: Date.now(),
           todayEarnings: 0,
-          totalEarnings: 0
+          totalEarnings: 0,
+          complaintCount: 0,
+          isSuspended: false
         }
         set({ runnerInfo: newRunner, isRegistered: true, isAvailable: true })
       },
@@ -174,6 +184,43 @@ export const useRunnerStore = create<RunnerState>()(
         return get().orders
           .filter((o) => o.status === 'completed' && o.completedAt && o.completedAt >= today.getTime())
           .reduce((sum, o) => sum + o.deliveryFee, 0)
+      },
+
+      // 添加投诉（用户端申请退款时调用）
+      addComplaint: (_orderId: string) => {
+        const state = get()
+        if (!state.runnerInfo) return
+        
+        const newCount = state.runnerInfo.complaintCount + 1
+        const isSuspended = newCount >= 5
+        
+        set({
+          runnerInfo: {
+            ...state.runnerInfo,
+            complaintCount: newCount,
+            isSuspended,
+            suspendedReason: isSuspended ? `累计被投诉${newCount}次，已暂停接单资格，请联系客服审核` : undefined
+          }
+        })
+      },
+
+      // 人工审核后恢复接单资格
+      reviewAndRestore: () => {
+        const state = get()
+        if (!state.runnerInfo) return
+        
+        set({
+          runnerInfo: {
+            ...state.runnerInfo,
+            complaintCount: 0,
+            isSuspended: false,
+            suspendedReason: undefined
+          }
+        })
+      },
+
+      getComplaintCount: () => {
+        return get().runnerInfo?.complaintCount || 0
       }
     }),
     {

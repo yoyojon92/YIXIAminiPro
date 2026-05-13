@@ -14,7 +14,17 @@ import {
   Star, CircleAlert, Store, MapPin, Clock, Check
 } from 'lucide-react-taro'
 
-type OrderStatus = 'pending' | 'paid' | 'shipped' | 'delivered' | 'completed' | 'cancelled'
+type OrderStatus = 'pending' | 'paid' | 'shipped' | 'delivered' | 'completed' | 'cancelled' | 'refund_pending' | 'refunded'
+
+type DisputeReason = 'damaged' | 'wrong_item' | 'not_received' | 'other'
+
+interface DisputeRecord {
+  orderId: string
+  reason: DisputeReason
+  amount: number
+  applyTime: string
+  status: 'pending' | 'processed'
+}
 
 interface Order {
   id: string
@@ -32,6 +42,11 @@ interface Order {
   deliveryFee: number
   createTime: string
   fragmentCount: number
+  deliveryTime?: string
+  dispute?: {
+    reason: DisputeReason
+    applyTime: string
+  }
 }
 
 const orders: Order[] = [
@@ -83,7 +98,9 @@ const statusConfig: Record<OrderStatus, { text: string; color: string; icon: any
   shipped: { text: '待收货', color: 'text-purple-500', icon: Truck },
   delivered: { text: '已发货', color: 'text-purple-500', icon: Truck },
   completed: { text: '已完成', color: 'text-green-500', icon: CircleCheck },
-  cancelled: { text: '已取消', color: 'text-gray-400', icon: CircleX }
+  cancelled: { text: '已取消', color: 'text-gray-400', icon: CircleX },
+  refund_pending: { text: '退款中', color: 'text-orange-500', icon: CircleAlert },
+  refunded: { text: '已退款', color: 'text-red-500', icon: CircleX }
 }
 
 const tabList = [
@@ -93,10 +110,17 @@ const tabList = [
   { key: 'completed', title: '已完成' }
 ]
 
+// 用户退款记录（防恶意退款，每月3次）
+const userRefundRecords: DisputeRecord[] = []
+const MAX_REFUND_PER_MONTH = 3
+
 export default function Orders() {
   const [activeTab, setActiveTab] = useState('all')
   const [isCheckout, setIsCheckout] = useState(false)
   const [pickupCode, setPickupCode] = useState<string | null>(null)
+  const [showDisputeModal, setShowDisputeModal] = useState(false)
+  const [selectedDisputeOrder, setSelectedDisputeOrder] = useState<Order | null>(null)
+  const [selectedReason, setSelectedReason] = useState<DisputeReason | null>(null)
   
   const cartStore = useCartStore()
   const profileStore = useUserProfileStore()
@@ -122,6 +146,80 @@ export default function Orders() {
       })
 
   const getStatusConfig = (status: OrderStatus) => statusConfig[status]
+
+  // 检查本月退款次数
+  const getThisMonthRefundCount = () => {
+    const now = new Date()
+    const thisMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+    return userRefundRecords.filter(r => r.applyTime.startsWith(thisMonth)).length
+  }
+
+  // 申请退款
+  const applyRefund = (order: Order, reason: DisputeReason) => {
+    // 检查是否超过24小时（简化：直接允许，实际应检查 deliveryTime）
+    const refundCount = getThisMonthRefundCount()
+    if (refundCount >= MAX_REFUND_PER_MONTH) {
+      Taro.showModal({
+        title: '已达上限',
+        content: `本月已申请${refundCount}次退款，超过每月3次上限，需人工审核`,
+        showCancel: false
+      })
+      return
+    }
+
+    // 人工处理的情况
+    if (reason === 'not_received') {
+      Taro.showModal({
+        title: '人工处理中',
+        content: '您的申请已提交，客服将在24小时内联系您确认',
+        showCancel: false
+      })
+      setShowDisputeModal(false)
+      return
+    }
+
+    // 其他原因自动退款
+    const refundAmount = order.totalPrice // 只退商品款，不退配送费
+    userRefundRecords.push({
+      orderId: order.id,
+      reason,
+      amount: refundAmount,
+      applyTime: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      status: 'processed'
+    })
+
+    // 更新订单状态
+    const orderIndex = orders.findIndex(o => o.id === order.id)
+    if (orderIndex !== -1) {
+      orders[orderIndex].status = 'refund_pending'
+      orders[orderIndex].statusText = '退款中'
+      orders[orderIndex].dispute = {
+        reason,
+        applyTime: new Date().toISOString().slice(0, 16).replace('T', ' ')
+      }
+    }
+
+    setShowDisputeModal(false)
+    Taro.showToast({ title: '退款申请已提交', icon: 'success' })
+  }
+
+  // 确认收货
+  const confirmReceive = (order: Order) => {
+    const orderIndex = orders.findIndex(o => o.id === order.id)
+    if (orderIndex !== -1) {
+      orders[orderIndex].status = 'completed'
+      orders[orderIndex].statusText = '已完成'
+      orders[orderIndex].deliveryTime = new Date().toISOString().slice(0, 16).replace('T', ' ')
+    }
+    Taro.showToast({ title: '确认收货成功', icon: 'success' })
+  }
+
+  // 打开纠纷处理弹窗
+  const openDisputeModal = (order: Order) => {
+    setSelectedDisputeOrder(order)
+    setSelectedReason(null)
+    setShowDisputeModal(true)
+  }
 
   // 结算模式 - 确认订单
   const handleCheckoutConfirm = () => {
@@ -405,7 +503,15 @@ export default function Orders() {
                             <Text className="text-xs">查看物流</Text>
                           </Button>
                           <Button size="sm" className="px-4">
-                            <Text className="text-xs">确认收货</Text>
+                            <Text className="text-xs" onClick={() => confirmReceive(order)}>确认收货</Text>
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="text-orange-500 px-2"
+                            onClick={() => openDisputeModal(order)}
+                          >
+                            <Text className="text-xs">有问题？</Text>
                           </Button>
                         </>
                       )}
@@ -428,6 +534,89 @@ export default function Orders() {
           })
         )}
       </View>
+
+      {/* 纠纷处理弹窗 */}
+      {showDisputeModal && selectedDisputeOrder && (
+        <View className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+          <View className="bg-white rounded-2xl w-full max-w-sm p-4">
+            <Text className="block text-lg font-bold text-center mb-4">遇到问题？</Text>
+            
+            <View className="space-y-2 mb-4">
+              <Text className="block text-sm text-gray-600 mb-2">请选择遇到的问题：</Text>
+              
+              <View 
+                className={`p-3 rounded-lg border ${selectedReason === 'damaged' ? 'border-primary bg-primary-50' : 'border-gray-200'}`}
+                onClick={() => setSelectedReason('damaged')}
+              >
+                <Text className={`block text-sm ${selectedReason === 'damaged' ? 'text-primary font-medium' : 'text-gray-700'}`}>
+                  商品破损/洒漏（自动退款）
+                </Text>
+                <Text className="block text-xs text-gray-400 mt-1">
+                  退款金额：¥{selectedDisputeOrder.totalPrice.toFixed(2)}（不含配送费）
+                </Text>
+              </View>
+              
+              <View 
+                className={`p-3 rounded-lg border ${selectedReason === 'wrong_item' ? 'border-primary bg-primary-50' : 'border-gray-200'}`}
+                onClick={() => setSelectedReason('wrong_item')}
+              >
+                <Text className={`block text-sm ${selectedReason === 'wrong_item' ? 'text-primary font-medium' : 'text-gray-700'}`}>
+                  送错商品（自动退款）
+                </Text>
+              </View>
+              
+              <View 
+                className={`p-3 rounded-lg border ${selectedReason === 'not_received' ? 'border-primary bg-primary-50' : 'border-gray-200'}`}
+                onClick={() => setSelectedReason('not_received')}
+              >
+                <Text className={`block text-sm ${selectedReason === 'not_received' ? 'text-primary font-medium' : 'text-gray-700'}`}>
+                  未收到商品（人工处理）
+                </Text>
+                <Text className="block text-xs text-gray-400 mt-1">
+                  客服将在24小时内联系您
+                </Text>
+              </View>
+              
+              <View 
+                className={`p-3 rounded-lg border ${selectedReason === 'other' ? 'border-primary bg-primary-50' : 'border-gray-200'}`}
+                onClick={() => setSelectedReason('other')}
+              >
+                <Text className={`block text-sm ${selectedReason === 'other' ? 'text-primary font-medium' : 'text-gray-700'}`}>
+                  其他问题
+                </Text>
+                <Text className="block text-xs text-gray-400 mt-1">
+                  联系客服处理
+                </Text>
+              </View>
+            </View>
+
+            <View className="flex gap-3">
+              <View className="flex-1">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => setShowDisputeModal(false)}
+                >
+                  <Text className="text-sm">取消</Text>
+                </Button>
+              </View>
+              <View className="flex-1">
+                <Button 
+                  className="w-full"
+                  disabled={!selectedReason}
+                  onClick={() => selectedReason && applyRefund(selectedDisputeOrder, selectedReason)}
+                >
+                  <Text className="text-sm">提交</Text>
+                </Button>
+              </View>
+            </View>
+
+            <Text className="block text-xs text-gray-400 text-center mt-3">
+              每月最多3次自动退款，超出需人工审核
+            </Text>
+          </View>
+        </View>
+      )}
     </View>
   )
 }

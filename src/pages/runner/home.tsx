@@ -9,7 +9,7 @@ import { useRunnerStore } from '@/store/runnerStore'
 import { 
   User, MapPin, Package, CircleCheck, 
   TrendingUp, Wallet, RefreshCw, LogOut,
-  Bell, X
+  Bell, X, CircleAlert
 } from 'lucide-react-taro'
 import "./home.config"
 
@@ -130,21 +130,37 @@ export default function RunnerHome() {
           </View>
         </View>
 
+        {/* 暂停警告 */}
+        {runnerInfo.isSuspended && (
+          <View className="bg-red-50 rounded-xl p-3 mb-4 flex items-start gap-2">
+            <CircleAlert size={18} color="#EF4444" />
+            <View className="flex-1">
+              <Text className="text-red-600 text-sm font-medium">接单资格已暂停</Text>
+              <Text className="text-red-500 text-xs mt-1">{runnerInfo.suspendedReason}</Text>
+              <Text className="text-gray-500 text-xs mt-1">累计投诉：{runnerInfo.complaintCount}次（≥5次暂停）</Text>
+            </View>
+          </View>
+        )}
+
         {/* 接单开关 */}
         <View className="bg-white bg-opacity-20 rounded-xl p-3 mb-4">
           <View className="flex items-center justify-between">
             <View>
               <Text className="text-white font-medium">接单状态</Text>
               <Text className="text-white text-opacity-80 text-xs mt-1">
-                {isAvailable ? '正在接收新订单' : '休息中，暂不接单'}
+                {runnerInfo.isSuspended ? '已暂停接单资格' : isAvailable ? '正在接收新订单' : '休息中，暂不接单'}
               </Text>
             </View>
             <Switch 
-              checked={isAvailable} 
+              checked={isAvailable && !runnerInfo.isSuspended} 
+              disabled={runnerInfo.isSuspended}
               onCheckedChange={(checked) => setAvailable(checked)}
               className="scale-125"
             />
           </View>
+          <Text className="text-white text-opacity-60 text-xs mt-2">
+            配送过程中商品破损，跑腿员不承担赔偿责任
+          </Text>
         </View>
 
         {/* 收入统计 */}
