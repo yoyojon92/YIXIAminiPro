@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Wine, GlassWater, Apple, Gift, Clock4, ChevronRight, 
-  Flame, ShoppingCart, Sparkles, Search, Bell 
+  Flame, ShoppingCart, Sparkles, Search, Bell, Truck
 } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
 import { SPRITES } from '@/data/sprites'
@@ -155,6 +155,25 @@ export default function Index() {
             </SwiperItem>
           ))}
         </Swiper>
+      </View>
+
+      {/* 送货到宿舍入口卡片 */}
+      <View className="px-4 mt-4">
+        <View 
+          className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 flex items-center gap-4 shadow-lg"
+          onClick={() => Taro.switchTab({ url: '/pages/cart/index' })}
+        >
+          <View className="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+            <Truck size={28} color="white" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-white font-bold text-lg">宿舍1元达</Text>
+            <Text className="text-white text-opacity-90 text-sm mt-1">送货到宿舍，便捷快速</Text>
+          </View>
+          <View className="bg-white bg-opacity-20 rounded-full px-3 py-1">
+            <Text className="text-white text-sm font-medium">立即下单</Text>
+          </View>
+        </View>
       </View>
 
       {/* 四大分类图标区 */}

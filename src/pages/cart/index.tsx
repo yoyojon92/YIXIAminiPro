@@ -12,7 +12,7 @@ import { calculateShipping } from '@/data/shippingZones'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
-  { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '+1元跑腿费' },
+  { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '¥1跑腿费' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
   { id: 'home_delivery', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
@@ -209,14 +209,19 @@ export default function Cart() {
           {deliveryOptions.map((option) => {
             const Icon = option.icon
             const isSelected = selectedDelivery === option.id
+            const isDormitory = option.id === 'dormitory'
             return (
               <View 
                 key={option.id}
                 className={`flex-1 p-3 rounded-xl border-2 ${
-                  isSelected ? 'border-primary bg-purple-50' : 'border-gray-200 bg-gray-50'
+                  isSelected 
+                    ? isDormitory 
+                      ? 'border-amber-500 bg-amber-50' 
+                      : 'border-primary bg-purple-50'
+                    : 'border-gray-200 bg-gray-50'
                 }`}
                 onClick={() => {
-                  setSelectedDelivery(option.id as 'dormitory' | 'pickup')
+                  setSelectedDelivery(option.id as 'dormitory' | 'pickup' | 'home_delivery')
                   if (option.id === 'pickup') {
                     setDelivery({ type: 'self_pickup' })
                   } else {
@@ -224,14 +229,19 @@ export default function Cart() {
                   }
                 }}
               >
+                {isDormitory && !isSelected && (
+                  <View className="bg-amber-500 rounded text-white text-xs px-2 py-1 mb-2 text-center">
+                    热门
+                  </View>
+                )}
                 <View className="flex items-center gap-2">
-                  <Icon size={18} color={isSelected ? '#8B5CF6' : '#9ca3af'} />
-                  <Text className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-gray-700'}`}>
+                  <Icon size={18} color={isSelected ? (isDormitory ? '#F59E0B' : '#8B5CF6') : '#9ca3af'} />
+                  <Text className={`text-sm font-medium ${isSelected ? (isDormitory ? 'text-amber-600' : 'text-primary') : 'text-gray-700'}`}>
                     {option.name}
                   </Text>
                 </View>
                 <Text className="text-xs text-gray-500 mt-1">{option.desc}</Text>
-                <Text className={`text-xs mt-1 ${isSelected ? 'text-primary' : 'text-gray-400'}`}>
+                <Text className={`text-xs mt-1 ${isSelected ? (isDormitory ? 'text-amber-600' : 'text-primary') : 'text-gray-400'}`}>
                   {option.extra}
                 </Text>
               </View>

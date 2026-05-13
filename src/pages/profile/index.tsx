@@ -195,7 +195,7 @@ export default function Profile() {
       {/* 送酒赚钱入口 */}
       <View className="px-4 mt-4">
         <View 
-          className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-2xl p-4 flex items-center justify-between"
+          className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 rounded-2xl p-4 shadow-lg relative overflow-hidden"
           onClick={() => {
             // 埋点
             trackProfileAction('runner_entry')
@@ -204,20 +204,26 @@ export default function Profile() {
             Taro.navigateTo({ url: path })
           }}
         >
-          <View className="flex items-center gap-3">
-            <View className="w-12 h-12 rounded-full bg-white bg-opacity-30 flex items-center justify-center">
-              <Scooter size={28} color="white" />
+          {/* 装饰性光斑 */}
+          <View className="absolute -top-4 -right-4 w-20 h-20 bg-white bg-opacity-10 rounded-full" />
+          <View className="absolute -bottom-6 -left-6 w-24 h-24 bg-white bg-opacity-10 rounded-full" />
+          
+          <View className="flex items-center justify-between relative z-10">
+            <View className="flex items-center gap-3">
+              <View className="w-14 h-14 rounded-2xl bg-white bg-opacity-20 flex items-center justify-center shadow-md">
+                <Scooter size={32} color="white" />
+              </View>
+              <View>
+                <Text className="text-white font-bold text-xl">送酒赚钱</Text>
+                <Text className="text-white text-opacity-90 text-sm mt-1">
+                  {runnerStore.isRegistered ? '今日收入 ¥' + runnerStore.getTodayEarnings() : '成为跑腿员，轻松赚零花钱'}
+                </Text>
+              </View>
             </View>
-            <View>
-              <Text className="text-white font-bold text-lg">送酒赚钱</Text>
-              <Text className="text-white text-opacity-80 text-sm mt-1">
-                {runnerStore.isRegistered ? '今日收入 ¥' + runnerStore.getTodayEarnings() : '成为跑腿员，轻松赚零花钱'}
-              </Text>
+            <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
+              <Text className="text-orange-500 text-sm font-bold">立即加入</Text>
+              <ChevronRight size={16} color="#EA580C" />
             </View>
-          </View>
-          <View className="flex items-center gap-1 bg-white bg-opacity-20 rounded-full px-3 py-2">
-            <Text className="text-white text-sm font-medium">立即加入</Text>
-            <ChevronRight size={16} color="white" />
           </View>
         </View>
       </View>
