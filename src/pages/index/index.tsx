@@ -1,4 +1,5 @@
 import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components'
+import { useState } from 'react'
 import Taro from '@tarojs/taro'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -57,6 +58,14 @@ const newProducts = MOCK_PRODUCTS.slice(0, 6).map(p => ({
 
 
 export default function Index() {
+  // 图片加载失败状态
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
+
+  // 处理图片加载失败
+  const handleImageError = (spriteId: string) => {
+    setImageErrors(prev => ({ ...prev, [spriteId]: true }))
+  }
+
   // 跳转到分类页
   const goToCategory = (category: string) => {
     Taro.navigateTo({ url: `/pages/category/index?category=${category}` })
@@ -284,10 +293,21 @@ export default function Index() {
                 }}
               >
                 <View 
-                  className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400 flex items-center justify-center"
+                  className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400"
                   style={{ backgroundColor: sprite.color + '20' }}
                 >
-                  <Text className="text-2xl">{sprite.emoji}</Text>
+                  {imageErrors[sprite.id] ? (
+                    <View className="w-full h-full flex items-center justify-center">
+                      <Text className="text-2xl">{sprite.emoji}</Text>
+                    </View>
+                  ) : (
+                    <Image 
+                      src={sprite.image} 
+                      className="w-full h-full"
+                      mode="aspectFill"
+                      onError={() => handleImageError(sprite.id)}
+                    />
+                  )}
                 </View>
                 <Text className="text-xs text-slate-300 mt-1">{sprite.name}</Text>
               </View>
