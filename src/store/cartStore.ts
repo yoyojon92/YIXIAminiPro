@@ -1,10 +1,11 @@
 /**
  * 购物车状态管理
- * 管理购物车商品、配送方式、宿舍信息等
+ * 管理购物车商品、配送方式、宿舍信息、代券等
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { CartAPI } from '@/services/api'
+import type { Coupon } from '@/data/coupons'
 
 export interface CartItem {
   id: string
@@ -40,10 +41,16 @@ interface CartState {
   loading: boolean
   syncing: boolean // 是否正在同步到服务器
   
+  // 代券相关
+  selectedCoupon: Coupon | null // 选中的代券
+  availableCoupons: Coupon[]   // 可用代券列表
+  
   // 计算属性
   totalAmount: () => number
   totalOriginalAmount: () => number
   discountAmount: () => number
+  couponDiscount: () => number  // 代券抵扣金额
+  finalAmount: () => number     // 最终应付金额
   totalQuantity: () => number
   hasWine: () => boolean // 是否包含果酒（需要年龄验证）
   
@@ -53,6 +60,12 @@ interface CartState {
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
   setDelivery: (delivery: Partial<DeliveryInfo>) => void
+  
+  // 代券操作
+  setSelectedCoupon: (coupon: Coupon | null) => void
+  setAvailableCoupons: (coupons: Coupon[]) => void
+  applyCoupon: (coupon: Coupon) => void
+  removeCoupon: () => void
   
   // API 同步
   syncFromServer: () => Promise<void>
@@ -76,6 +89,8 @@ export const useCartStore = create<CartState>()(
       },
       loading: false,
       syncing: false,
+      selectedCoupon: null,
+      availableCoupons: [],
       
       // 计算总价
       totalAmount: () => {
@@ -87,9 +102,25 @@ export const useCartStore = create<CartState>()(
         return get().items.reduce((sum, item) => sum + item.originalPrice * item.quantity, 0)
       },
       
-      // 计算优惠金额
+      // 计算优惠金额（会员价/限时优惠等）
       discountAmount: () => {
         return get().totalOriginalAmount() - get().totalAmount()
+      },
+
+      // 计算代券抵扣金额
+      couponDiscount: () => {
+        const { selectedCoupon, totalAmount } = get()
+        if (!selectedCoupon) return 0
+        if (totalAmount() >= selectedCoupon.minSpend) {
+          return selectedCoupon.discount
+        }
+        return 0
+      },
+
+      // 计算最终应付金额
+      finalAmount: () => {
+        const { totalAmount, couponDiscount } = get()
+        return Math.max(0, totalAmount() - couponDiscount())
       },
       
       // 计算总数量
@@ -215,7 +246,30 @@ export const useCartStore = create<CartState>()(
       },
       
       // 获取结算商品
-      getCheckoutItems: () => get().items
+      getCheckoutItems: () => get().items,
+
+      // 设置选中的代券
+      setSelectedCoupon: (coupon) => {
+        set({ selectedCoupon: coupon })
+      },
+
+      // 设置可用代券列表
+      setAvailableCoupons: (coupons) => {
+        set({ availableCoupons: coupons })
+      },
+
+      // 应用代券
+      applyCoupon: (coupon) => {
+        const { totalAmount } = get()
+        if (totalAmount() >= coupon.minSpend) {
+          set({ selectedCoupon: coupon })
+        }
+      },
+
+      // 移除代券
+      removeCoupon: () => {
+        set({ selectedCoupon: null })
+      },
     }),
     {
       name: 'yixia-cart-storage',

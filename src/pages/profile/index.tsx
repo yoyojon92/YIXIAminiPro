@@ -4,10 +4,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
+import { useMemberStore } from '@/store/memberStore'
+import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned,   CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown
+  Package, Star, Ticket, Crown, Sparkles
 } from 'lucide-react-taro'
 
 const menuItems = [
@@ -26,12 +28,21 @@ const toolItems = [
 ]
 
 export default function Profile() {
+  const { isMember, memberLevel, setShowMemberModal, getRemainingDays, getMemberBenefits } = useMemberStore()
+
   const navigateTo = (path: string) => {
     Taro.navigateTo({ url: path })
   }
 
+  const levelText = memberLevel === 'annual' ? '年卡会员' : memberLevel === 'monthly' ? '月卡会员' : '普通会员'
+  const levelColor = isMember ? (memberLevel === 'annual' ? '#FBBF24' : '#8B5CF6') : '#9CA3AF'
+  const remainingDays = getRemainingDays()
+
   return (
     <View className="min-h-screen bg-gray-50 pb-safe">
+      {/* 会员模态框 */}
+      <MemberModal />
+      
       {/* 顶部个人信息 */}
       <View className="bg-gradient-to-br from-purple-500 to-pink-500 px-4 pt-8 pb-16">
         <View className="flex items-center justify-between mb-4">
@@ -50,9 +61,14 @@ export default function Profile() {
           <View className="flex-1">
             <View className="flex items-center gap-2">
               <Text className="text-white text-xl font-bold">大学生用户</Text>
-              <Badge variant="secondary" className="text-xs bg-white bg-opacity-20 text-white border-0">
-                <Crown size={12} color="#FBBF24" />
-                普通会员
+              <Badge 
+                variant="secondary" 
+                className="text-xs"
+                style={{ backgroundColor: isMember ? levelColor : 'rgba(255,255,255,0.2)' }}
+              >
+                <Crown size={12} color={isMember ? '#fff' : '#fff'} />
+                {levelText}
+                {isMember && remainingDays > 0 && <Text className="text-white ml-1">·{remainingDays}天</Text>}
               </Badge>
             </View>
             <Text className="text-white text-opacity-80 text-sm mt-1">青岛农业大学 · 计算机学院</Text>
@@ -60,7 +76,8 @@ export default function Profile() {
 
           <Button 
             variant="ghost" 
-            className="text-white text-sm bg-white bg-opacity-20"
+            className="text-white text-sm"
+            style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
             onClick={() => navigateTo('/pages/orders/index?tab=profile')}
           >
             编辑
@@ -93,6 +110,57 @@ export default function Profile() {
                 <Text className="text-xs text-gray-500 mt-1">已完成</Text>
               </View>
             </View>
+          </CardContent>
+        </Card>
+      </View>
+
+      {/* 会员专属权益 */}
+      <View className="px-4 mt-4">
+        <Card className="overflow-hidden">
+          <View className="p-4 bg-gradient-to-r from-purple-500 to-pink-500">
+            <View className="flex items-center justify-between">
+              <View className="flex items-center gap-2">
+                <Crown size={18} color="white" />
+                <Text className="text-white font-semibold">会员专属权益</Text>
+              </View>
+              {isMember ? (
+                <Badge variant="secondary" className="text-xs" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+                  <Sparkles size={12} color="#FBBF24" />
+                  <Text className="text-white ml-1">已开通</Text>
+                </Badge>
+              ) : (
+                <Button 
+                  size="sm" 
+                  className="text-xs"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
+                  onClick={() => setShowMemberModal(true)}
+                >
+                  <Text className="text-white">立即开通</Text>
+                </Button>
+              )}
+            </View>
+          </View>
+          <CardContent className="p-0">
+            {getMemberBenefits().map((benefit, index) => (
+              <View key={index}>
+                <View className="flex items-center gap-3 p-4">
+                  <Sparkles size={16} color="#8B5CF6" />
+                  <Text className="text-sm text-gray-700 flex-1">{benefit}</Text>
+                </View>
+                {index < getMemberBenefits().length - 1 && <Separator className="ml-14" />}
+              </View>
+            ))}
+            {!isMember && (
+              <View className="p-4 bg-purple-50">
+                <Button 
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-0"
+                  onClick={() => setShowMemberModal(true)}
+                >
+                  <Crown size={16} color="white" />
+                  <Text className="text-white ml-2">👑 9.9元/月 开通邑夏会员</Text>
+                </Button>
+              </View>
+            )}
           </CardContent>
         </Card>
       </View>

@@ -4,7 +4,7 @@ import Taro, { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, CircleAlert
+  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, CircleAlert, Crown
 } from 'lucide-react-taro'
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
@@ -12,6 +12,8 @@ import { getOrganLordByProduct } from '@/data/organLords'
 import type { Product } from '@/mock/products'
 import { getProductById } from '@/mock/products'
 import { useCartStore } from '@/store/cartStore'
+import { useMemberStore } from '@/store/memberStore'
+import { MemberModal } from '@/components/member-modal'
 import { ageVerify } from '@/utils/ageVerify'
 import './index.scss'
 
@@ -34,6 +36,17 @@ export default function Product() {
   const [activeTab, setActiveTab] = useState('detail')
   const [liked, setLiked] = useState(false)
   const [showSpecPicker, setShowSpecPicker] = useState(false)
+
+  // 会员状态
+  const { isMember, setShowMemberModal } = useMemberStore()
+  
+  // 计算会员价（果酒享8.5折）
+  const memberPrice = product && product.category === 'fruit_wine' 
+    ? Number((product.price * 0.85).toFixed(1))
+    : product?.price || 0
+  const savedAmount = product && product.category === 'fruit_wine'
+    ? Number((product.price - memberPrice).toFixed(1))
+    : 0
 
   useEffect(() => {
     const { id } = router.params
@@ -116,10 +129,40 @@ export default function Product() {
 
         {/* 价格信息 */}
         <View className="bg-white px-4 py-4">
+          {/* 会员开通入口 */}
+          {!isMember && (
+            <View 
+              className="flex items-center justify-between bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl px-3 py-2 mb-3"
+              onClick={() => setShowMemberModal(true)}
+            >
+              <View className="flex items-center gap-2">
+                <Crown size={16} color="#8B5CF6" />
+                <Text className="text-sm" style={{ color: '#8B5CF6' }}>开通会员享果酒8.5折</Text>
+              </View>
+              <View className="flex items-center gap-1">
+                <Text className="text-xs" style={{ color: '#8B5CF6' }}>立即开通</Text>
+                <Text style={{ color: '#8B5CF6' }}>›</Text>
+              </View>
+            </View>
+          )}
+          
           <View className="flex items-baseline gap-2">
-            <Text className="text-primary text-2xl font-bold">¥{product?.price}</Text>
-            <Text className="text-gray-400 text-sm line-through">¥{product?.originalPrice}</Text>
-            <Badge variant="destructive" className="text-xs">限时特惠</Badge>
+            {isMember && product?.category === 'fruit_wine' ? (
+              <>
+                <Text className="text-primary text-2xl font-bold">¥{memberPrice}</Text>
+                <Text className="text-gray-400 text-sm line-through">¥{product?.price}</Text>
+                <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-600">
+                  <Crown size={10} color="#8B5CF6" />
+                  <Text className="ml-1">会员价 · 已省¥{savedAmount}</Text>
+                </Badge>
+              </>
+            ) : (
+              <>
+                <Text className="text-primary text-2xl font-bold">¥{product?.price}</Text>
+                <Text className="text-gray-400 text-sm line-through">¥{product?.originalPrice}</Text>
+                <Badge variant="destructive" className="text-xs">限时特惠</Badge>
+              </>
+            )}
           </View>
           <Text className="text-xl font-semibold text-gray-900 mt-2">{product?.name}</Text>
           <Text className="text-sm text-gray-500 mt-1">{product?.subtitle}</Text>
@@ -295,6 +338,9 @@ export default function Product() {
         visible={showSpecPicker}
         onClose={() => setShowSpecPicker(false)}
       />
+
+      {/* 会员开通弹窗 */}
+      <MemberModal />
     </View>
   )
 }
