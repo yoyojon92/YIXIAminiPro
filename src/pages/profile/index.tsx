@@ -23,35 +23,30 @@ export default function Profile() {
   const pushStore = usePushStore()
   
   const { tags } = profileStore
-  // 初始化推送检查
-  useEffect(() => {
-    pushStore.checkAndGeneratePushes(tags, {})
-  }, [tags])
   
-  // 同步会员状态到画像引擎
-  profileStore.setMemberStatus(isMember)
+  // 初始化推送检查和会员状态同步（只在挂载时执行一次）
+  useEffect(() => {
+    pushStore.checkAndGeneratePushes(tags, {
+      lastPurchaseDays: profileStore.purchases.length > 0
+        ? Math.floor((Date.now() - (profileStore.purchases[profileStore.purchases.length - 1]?.timestamp || Date.now())) / 86400000)
+        : 999,
+      couponCount: profileStore.couponUses.length,
+      memberDaysLeft: isMember && memberExpire ? Math.floor((memberExpire - Date.now()) / 86400000) : 999,
+      hasUGCWork: profileStore.ugcWorks.length > 0,
+    })
+    profileStore.setMemberStatus(isMember)
+  }, [])
   
   const unreadCount = pushStore.unreadCount
-  // 使用 profileStore 中的行为数据
-  const profileState = profileStore
-  pushStore.checkAndGeneratePushes(tags, {
-    lastPurchaseDays: profileState.purchases.length > 0
-      ? Math.floor((Date.now() - (profileState.purchases[profileState.purchases.length - 1]?.timestamp || Date.now())) / 86400000)
-      : 999,
-    couponCount: profileState.couponUses.length,
-    memberDaysLeft: isMember && memberExpire ? Math.floor((memberExpire - Date.now()) / 86400000) : 999,
-    hasUGCWork: profileState.ugcWorks.length > 0,
-  })
   
   const couponBadgeCount = getUnusedCoupons().length
   
   const toolItems = [
     { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pages/notifications/index' },
-    { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/settings/index' },
-    { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/help/index' },
-    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/payment/index' },
-    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/address/index' },
-    { id: 6, icon: Share2, title: '分享给好友', badge: null, onShare: true },
+    { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/orders/index?tab=settings' },
+    { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
+    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/orders/index?tab=payment' },
+    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/orders/index?tab=address' },
   ]
   
   const menuItems = [
