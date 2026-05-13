@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useUGCStore } from '@/store/ugcStore'
 import { useMemberStore } from '@/store/memberStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
 import { trackProfileAction } from '@/store/profileStore'
 import { ArrowLeft, ImagePlus, X } from 'lucide-react-taro'
 
@@ -33,6 +34,7 @@ export default function Publish() {
 
   const { submitWork, publishCount } = useUGCStore()
   const { memberLevel } = useMemberStore()
+  const profileStore = useUserProfileStore()
 
   const maxPublish = memberLevel === 'annual' ? 10 : 5
   const remainingPublish = maxPublish - publishCount
@@ -105,6 +107,7 @@ export default function Publish() {
       productName,
       tags: selectedTags 
     })
+    profileStore.recordUGCWork(selectedProduct)
 
     setTimeout(() => {
       setIsSubmitting(false)

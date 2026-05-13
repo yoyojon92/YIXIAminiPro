@@ -13,6 +13,7 @@ import type { Product } from '@/mock/products'
 import { getProductById } from '@/mock/products'
 import { useCartStore } from '@/store/cartStore'
 import { useMemberStore } from '@/store/memberStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
 import { MemberModal } from '@/components/member-modal'
 import { ageVerify } from '@/utils/ageVerify'
 import { trackProfileAction } from '@/store/profileStore'
@@ -138,6 +139,7 @@ export default function Product() {
   }, [])
 
   const cartStore = useCartStore()
+  const profileStore = useUserProfileStore()
 
   const addToCart = async () => {
     if (!product) return
@@ -161,6 +163,9 @@ export default function Product() {
     })
 
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
+    
+    // 记录加购行为（用于用户画像）
+    profileStore.recordCartAdd(product.id)
     
     // 记录购买行为（用于用户画像）
     trackProfileAction('purchase', {

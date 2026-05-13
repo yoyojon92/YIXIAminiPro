@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { useCouponStore } from '@/store/couponStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
@@ -23,6 +24,7 @@ export default function Cart() {
     checkNewUserCoupon,
     coupons 
   } = useCouponStore()
+  const profileStore = useUserProfileStore()
   const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>('dormitory')
   const [showCouponSheet, setShowCouponSheet] = useState(false)
   
@@ -65,6 +67,10 @@ export default function Cart() {
     if (selectedItems.length === 0) {
       Taro.showToast({ title: '请选择商品', icon: 'none' })
       return
+    }
+    // 记录代券使用行为（用于用户画像）
+    if (selectedCoupon) {
+      profileStore.recordCouponUse(selectedCoupon.id, selectedCoupon.discount)
     }
     Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
   }

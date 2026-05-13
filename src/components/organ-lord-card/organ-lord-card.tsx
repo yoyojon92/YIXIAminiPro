@@ -3,6 +3,7 @@ import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { OrganLord } from '@/data/organLords';
 import { trackProfileAction } from '@/store/profileStore';
+import { useUserProfileStore } from '@/store/userProfileStore';
 
 interface OrganLordCardProps {
   lord: OrganLord;
@@ -11,9 +12,11 @@ interface OrganLordCardProps {
 
 export function OrganLordCard({ lord, productId }: OrganLordCardProps) {
   const [imgError, setImgError] = useState(false);
+  const profileStore = useUserProfileStore();
 
   const handleClick = () => {
     // 埋点记录（用于用户画像）
+    profileStore.recordOrganLordClick(lord.id);
     trackProfileAction('organ_lord_view', {
       organLordId: lord.id,
       organLordName: lord.name,

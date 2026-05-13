@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useUGCStore, UGCWork } from '@/store/ugcStore'
 import { useMemberStore } from '@/store/memberStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
 import { MemberModal } from '@/components/member-modal'
 import { trackProfileAction } from '@/store/profileStore'
 import {
@@ -28,6 +29,7 @@ export default function Wall() {
 
   const { works, voteWork, getOfficialWorks, getMemberWorks, getMonthlyRanking } = useUGCStore()
   const { isMember, setShowMemberModal: setGlobalMemberModal } = useMemberStore()
+  const profileStore = useUserProfileStore()
 
   // 埋点
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function Wall() {
 
   const handleShare = (work: UGCWork) => {
     useUGCStore.getState().shareWork(work.id)
+    profileStore.recordShare()
     trackProfileAction('ugc_share_vote', { workId: work.id })
     Taro.showShareMenu({ withShareTicket: true })
     Taro.showToast({ title: '分享成功，快去拉票吧', icon: 'success' })
@@ -55,6 +58,7 @@ export default function Wall() {
   const handleVoteConfirm = () => {
     if (selectedWork) {
       voteWork(selectedWork.id)
+      profileStore.recordVote(selectedWork.id)
       trackProfileAction('ugc_vote', { workId: selectedWork.id })
       Taro.showToast({ title: '投票成功', icon: 'success' })
     }

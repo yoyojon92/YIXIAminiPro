@@ -11,6 +11,7 @@ import {
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
 import { SPRITES } from '@/data/sprites'
 import { organLords } from '@/data/organLords'
+import { useUserProfileStore } from '@/store/userProfileStore'
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -60,6 +61,7 @@ const newProducts = MOCK_PRODUCTS.slice(0, 6).map(p => ({
 export default function Index() {
   // 图片加载失败状态
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
+  const profileStore = useUserProfileStore()
 
   // 处理图片加载失败
   const handleImageError = (spriteId: string) => {
@@ -282,6 +284,7 @@ export default function Index() {
                 className="flex flex-col items-center"
                 onClick={() => {
                   // 埋点记录
+                  profileStore.recordSpriteClick(sprite.id)
                   console.log('精灵点击埋点:', {
                     userId: 'user_' + Date.now(),
                     spriteId: sprite.id,
@@ -325,6 +328,7 @@ export default function Index() {
                 className="flex flex-col items-center"
                 onClick={() => {
                   // 埋点记录
+                  profileStore.recordOrganLordClick(lord.id)
                   console.log('器官大人点击埋点:', {
                     userId: 'user_' + Date.now(),
                     organLordId: lord.id,

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { useMemberStore } from '@/store/memberStore'
 import { useCouponStore } from '@/store/couponStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
 import { MemberModal } from '@/components/member-modal'
 import { 
   Settings, Bell, Gift, CreditCard, 
@@ -24,13 +25,17 @@ const toolItems = [
 export default function Profile() {
   const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, getMemberBenefits, renewMember } = useMemberStore()
   const { getUnusedCoupons } = useCouponStore()
+  const profileStore = useUserProfileStore()
+  
+  // 同步会员状态到画像引擎
+  profileStore.setMemberStatus(isMember)
   
   const couponBadgeCount = getUnusedCoupons().length
   
   const menuItems = [
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
-    { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/stats/index' },
+    { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
     { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
     { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
   ]
