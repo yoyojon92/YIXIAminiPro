@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import { View, Text, Image } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { 
-  Clock4, Truck, Package, CircleCheck, CircleX, 
-  Star, CircleAlert
+import { Alert } from '@/components/ui/alert'
+import { useCartStore } from '@/store/cartStore'
+import { useUserProfileStore } from '@/store/userProfileStore'
+import { generatePickupCode, formatPickupCode } from '@/utils/pickupCode'
+import { getShopById } from '@/data/pickupShops'
+import {
+  Clock4, Truck, Package, CircleCheck, CircleX,
+  Star, CircleAlert, Store, MapPin, Clock, Check
 } from 'lucide-react-taro'
 
 type OrderStatus = 'pending' | 'paid' | 'shipped' | 'delivered' | 'completed' | 'cancelled'
@@ -90,6 +95,22 @@ const tabList = [
 
 export default function Orders() {
   const [activeTab, setActiveTab] = useState('all')
+  const [isCheckout, setIsCheckout] = useState(false)
+  const [pickupCode, setPickupCode] = useState<string | null>(null)
+  
+  const cartStore = useCartStore()
+  const profileStore = useUserProfileStore()
+  const { items, totalAmount, delivery, selectedCoupon, finalAmount } = cartStore
+  
+  // 从URL参数判断是否是结算模式
+  useDidShow(() => {
+    const pages = Taro.getCurrentPages()
+    const currentPage = pages[pages.length - 1]
+    const type = (currentPage as any)?.options?.type
+    if (type === 'checkout') {
+      setIsCheckout(true)
+    }
+  })
 
   const filteredOrders = activeTab === 'all' 
     ? orders 
@@ -101,6 +122,181 @@ export default function Orders() {
       })
 
   const getStatusConfig = (status: OrderStatus) => statusConfig[status]
+
+  // 结算模式 - 确认订单
+  const handleCheckoutConfirm = () => {
+    // 生成取餐码
+    const code = generatePickupCode()
+    setPickupCode(code)
+    
+    // 埋点：取餐码已生成
+    profileStore.recordPageView?.('pickup_code_generated')
+    console.log('[埋点] 取餐码生成', {
+      userId: 'user_001',
+      pickupCode: code,
+      deliveryType: delivery.type,
+      shopId: delivery.pickupShopId,
+      amount: finalAmount(),
+      action: 'pickup_code_generated',
+      timestamp: Date.now()
+    })
+  }
+
+  // 结算模式 - 确认取餐
+  const handlePickupConfirm = () => {
+    // 埋点：用户确认取餐
+    console.log('[埋点] 用户确认取餐', {
+      userId: 'user_001',
+      pickupCode,
+      action: 'pickup_confirmed',
+      timestamp: Date.now()
+    })
+    
+    Taro.showToast({ title: '取餐码已生成', icon: 'success' })
+  }
+
+  // 获取自提点信息
+  const pickupShop = delivery.pickupShopId ? getShopById(delivery.pickupShopId) : null
+
+  // 结算模式UI
+  if (isCheckout) {
+    const couponDiscount = selectedCoupon ? selectedCoupon.discount : 0
+    const deliveryFee = delivery.type === 'dormitory' ? 3 : 0
+    const totalPrice = totalAmount()
+    const payAmount = Math.max(0, totalPrice + deliveryFee - couponDiscount)
+    
+    return (
+      <View className="min-h-screen bg-gray-50 pb-32">
+        {/* 头部 */}
+        <View className="bg-white px-4 py-3 border-b border-gray-100">
+          <Text className="text-lg font-semibold text-gray-900">确认订单</Text>
+        </View>
+
+        {/* 自提信息（自提模式） */}
+        {delivery.type === 'self_pickup' && (
+          <View className="px-4 py-4 bg-white mt-2">
+            <View className="flex items-center gap-2 mb-3">
+              <Store size={18} color="#8B5CF6" />
+              <Text className="text-sm font-medium text-gray-700">自提信息</Text>
+            </View>
+            <Card>
+              <CardContent className="p-3">
+                <Text className="block text-sm font-medium text-gray-900">{pickupShop?.name}</Text>
+                <View className="flex items-start gap-1 mt-1">
+                  <MapPin size={12} color="#9CA3AF" />
+                  <Text className="text-xs text-gray-500">{pickupShop?.address}</Text>
+                </View>
+                <View className="flex items-center gap-3 mt-2">
+                  <View className="flex items-center gap-1">
+                    <Clock size={12} color="#8B5CF6" />
+                    <Text className="text-xs text-primary">{pickupShop?.hours}</Text>
+                  </View>
+                </View>
+              </CardContent>
+            </Card>
+          </View>
+        )}
+
+        {/* 商品列表 */}
+        <View className="px-4 py-4 bg-white mt-2">
+          <Text className="text-sm font-medium text-gray-700 mb-3">商品清单</Text>
+          {items.map((item) => (
+            <View key={item.id} className="flex gap-3 py-2 border-b border-gray-50 last:border-0">
+              <Image src={item.image} mode="aspectFit" className="w-16 h-16 rounded-lg" />
+              <View className="flex-1">
+                <Text className="text-sm text-gray-900 line-clamp-1">{item.name}</Text>
+                <Text className="text-xs text-gray-500 mt-1">{item.spec}</Text>
+                <View className="flex items-center justify-between mt-1">
+                  <Text className="text-sm text-primary font-medium">¥{item.price}</Text>
+                  <Text className="text-xs text-gray-500">x{item.quantity}</Text>
+                </View>
+              </View>
+            </View>
+          ))}
+        </View>
+
+        {/* 费用明细 */}
+        <View className="px-4 py-4 bg-white mt-2">
+          <View className="space-y-2">
+            <View className="flex justify-between text-sm">
+              <Text className="text-gray-500">商品总价</Text>
+              <Text className="text-gray-900">¥{totalPrice.toFixed(2)}</Text>
+            </View>
+            <View className="flex justify-between text-sm">
+              <Text className="text-gray-500">配送费</Text>
+              <Text className="text-gray-900">{deliveryFee > 0 ? `+¥${deliveryFee.toFixed(2)}` : '免配送费'}</Text>
+            </View>
+            {selectedCoupon && (
+              <View className="flex justify-between text-sm">
+                <Text className="text-primary">代券抵扣</Text>
+                <Text className="text-primary">-¥{couponDiscount.toFixed(2)}</Text>
+              </View>
+            )}
+            <Separator />
+            <View className="flex justify-between">
+              <Text className="text-gray-900 font-medium">实付金额</Text>
+              <Text className="text-primary font-bold text-lg">¥{payAmount.toFixed(2)}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* 取餐码展示（已生成） */}
+        {pickupCode && delivery.type === 'self_pickup' && (
+          <View className="px-4 py-4 bg-white mt-2">
+            <Alert variant="default" className="bg-green-50 border-green-200 mb-4">
+              <View className="flex items-center gap-2">
+                <Check size={18} color="#10B981" />
+                <Text className="text-sm text-green-700">订单已确认，请凭取餐码到店取货</Text>
+              </View>
+            </Alert>
+            
+            <View className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-center">
+              <Text className="text-white text-sm mb-2">取餐码</Text>
+              <Text className="text-white text-4xl font-bold tracking-widest">
+                {formatPickupCode(pickupCode)}
+              </Text>
+              <Text className="text-white text-opacity-80 text-xs mt-4">
+                取餐时请出示此码
+              </Text>
+            </View>
+            
+            <Button 
+              className="w-full mt-4" 
+              onClick={handlePickupConfirm}
+            >
+              <Text>我已知晓</Text>
+            </Button>
+          </View>
+        )}
+
+        {/* 底部结算按钮 */}
+        {!pickupCode && (
+          <View 
+            className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 pb-safe"
+            style={{ zIndex: 100 }}
+          >
+            <View className="flex items-center gap-4 mb-3">
+              <View className="flex-1 text-right">
+                <Text className="text-sm text-gray-500">合计：</Text>
+                <View className="flex items-baseline justify-end gap-1">
+                  <Text className="text-primary font-bold text-xl">¥{payAmount.toFixed(2)}</Text>
+                </View>
+              </View>
+            </View>
+            
+            <Button 
+              className="w-full" 
+              size="lg"
+              disabled={delivery.type === 'self_pickup' && !delivery.pickupShopId}
+              onClick={handleCheckoutConfirm}
+            >
+              <Text>确认订单</Text>
+            </Button>
+          </View>
+        )}
+      </View>
+    )
+  }
 
   return (
     <View className="min-h-screen bg-gray-50 pb-safe">

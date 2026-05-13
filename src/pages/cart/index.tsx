@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight } from 'lucide-react-taro'
+import { Store, Truck, Trash2, Minus, Plus, ShoppingBag, Ticket, X, ChevronRight, MapPin } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
@@ -16,7 +16,8 @@ const deliveryOptions = [
 ]
 
 export default function Cart() {
-  const { items, updateQuantity, removeItem, totalAmount } = useCartStore()
+  const cartStore = useCartStore()
+  const { items, updateQuantity, removeItem, totalAmount, delivery, setDelivery } = cartStore
   const { 
     selectedCoupon, 
     selectCoupon, 
@@ -25,7 +26,9 @@ export default function Cart() {
     coupons 
   } = useCouponStore()
   const profileStore = useUserProfileStore()
-  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>('dormitory')
+  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup'>(
+    delivery.type === 'self_pickup' ? 'pickup' : 'dormitory'
+  )
   const [showCouponSheet, setShowCouponSheet] = useState(false)
   
   // 新用户自动发券
@@ -180,7 +183,14 @@ export default function Cart() {
                 className={`flex-1 p-3 rounded-xl border-2 ${
                   isSelected ? 'border-primary bg-purple-50' : 'border-gray-200 bg-gray-50'
                 }`}
-                onClick={() => setSelectedDelivery(option.id as 'dormitory' | 'pickup')}
+                onClick={() => {
+                  setSelectedDelivery(option.id as 'dormitory' | 'pickup')
+                  if (option.id === 'pickup') {
+                    setDelivery({ type: 'self_pickup' })
+                  } else {
+                    setDelivery({ type: 'dormitory', pickupShopId: undefined, pickupShopName: undefined })
+                  }
+                }}
               >
                 <View className="flex items-center gap-2">
                   <Icon size={18} color={isSelected ? '#8B5CF6' : '#9ca3af'} />
@@ -197,6 +207,29 @@ export default function Cart() {
           })}
         </View>
       </View>
+
+      {/* 自提点选择（仅自提模式显示） */}
+      {selectedDelivery === 'pickup' && (
+        <View 
+          className="px-4 py-3 bg-white mt-2"
+          onClick={() => Taro.navigateTo({ url: '/pages/pickup/index' })}
+        >
+          <View className="flex items-center justify-between">
+            <View className="flex items-center gap-2">
+              <MapPin size={18} color="#8B5CF6" />
+              <Text className="text-sm font-medium text-gray-700">自提点</Text>
+            </View>
+            <View className="flex items-center gap-2">
+              {delivery.pickupShopName ? (
+                <Text className="text-sm text-primary">{delivery.pickupShopName}</Text>
+              ) : (
+                <Text className="text-sm text-gray-400">请选择</Text>
+              )}
+              <ChevronRight size={18} color="#9CA3AF" />
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* 代券选择 */}
       <View 

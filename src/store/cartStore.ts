@@ -60,6 +60,7 @@ interface CartState {
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
   setDelivery: (delivery: Partial<DeliveryInfo>) => void
+  setPickupShop: (shopId: string, shopName: string) => void
   
   // 代券操作
   setSelectedCoupon: (coupon: Coupon | null) => void
@@ -201,6 +202,18 @@ export const useCartStore = create<CartState>()(
       setDelivery: (delivery) => {
         set(state => ({
           delivery: { ...state.delivery, ...delivery }
+        }))
+      },
+      
+      // 设置自提点（便捷方法）
+      setPickupShop: (shopId: string, shopName: string) => {
+        set(state => ({
+          delivery: {
+            ...state.delivery,
+            type: 'self_pickup',
+            pickupShopId: shopId,
+            pickupShopName: shopName
+          }
         }))
       },
       
