@@ -8,6 +8,7 @@ export default defineAppConfig({
     'pages/orders/index',
     'pages/sprites/index',
     'pages/wall/index',
+    'pages/wall/publish/index',
     'pages/activity/index',
     'pages/diary/index',
     'pages/article/index',
