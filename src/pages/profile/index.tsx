@@ -200,7 +200,7 @@ export default function Profile() {
             // 埋点
             trackProfileAction('runner_entry')
             // 未注册跳注册页，已注册跳主页
-            const path = runnerStore.isRegistered ? '/pages/runner/home/index' : '/pages/runner/register/index'
+            const path = runnerStore.isRegistered ? '/pages/runner/home' : '/pages/runner/register'
             Taro.navigateTo({ url: path })
           }}
         >

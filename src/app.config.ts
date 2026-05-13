@@ -19,8 +19,8 @@ export default defineAppConfig({
     'pages/dashboard/index',
     'pages/pickup/index',
     'pages/dormitory/index',
-    'pages/runner/home/index',
-    'pages/runner/register/index'
+    'pages/runner/home',
+    'pages/runner/register'
   ],
   window: {
     backgroundTextStyle: 'light',
