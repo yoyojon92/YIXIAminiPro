@@ -132,13 +132,19 @@ export default function Product() {
   const profileStore = useUserProfileStore()
 
   const addToCart = async () => {
+    console.log('[addToCart] 开始执行')
+    
     // 重新获取最新产品数据
     const productId = router.params.id
+    console.log('[addToCart] productId:', productId)
+    
     if (!productId) {
       Taro.showToast({ title: '产品信息加载中', icon: 'none' })
       return
     }
     const currentProduct = getProductById(productId)
+    console.log('[addToCart] currentProduct:', currentProduct?.name)
+    
     if (!currentProduct) {
       Taro.showToast({ title: '产品信息获取失败', icon: 'none' })
       return
@@ -147,6 +153,8 @@ export default function Product() {
     // 酒精产品需要年龄验证
     if (currentProduct.isAlcohol) {
       const userAge = profileStore.age
+      console.log('[addToCart] 用户年龄:', userAge, '产品类型: 果酒')
+      
       if (userAge !== null && userAge < 18) {
         // 已注册但年龄不足18岁
         Taro.showModal({
@@ -159,6 +167,7 @@ export default function Product() {
       }
       if (userAge === null) {
         // 未注册，需要弹窗确认年龄
+        console.log('[addToCart] 用户未注册，弹出年龄验证')
         const verified = await ageVerify()
         if (!verified) return
       }
@@ -166,6 +175,7 @@ export default function Product() {
     }
 
     // 添加到购物车
+    console.log('[addToCart] 开始添加到购物车')
     await cartStore.addItem({
       productId: currentProduct.id,
       name: currentProduct.name,
@@ -177,6 +187,7 @@ export default function Product() {
       maxQuantity: 99
     })
 
+    console.log('[addToCart] 添加成功')
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
     
     // 记录加购行为（用于用户画像）
@@ -211,6 +222,18 @@ export default function Product() {
             <Image src={product?.images[0]} mode="aspectFill" className="w-full h-full" />
           </View>
           <View className="absolute top-4 right-4 flex gap-2">
+            {/* 购物车图标 */}
+            <View 
+              className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center relative"
+              onClick={() => Taro.navigateTo({ url: '/pages/cart/index' })}
+            >
+              <ShoppingCart size={20} color="white" />
+              {cartStore.totalQuantity() > 0 && (
+                <View className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                  <Text className="text-white text-xs">{cartStore.totalQuantity() > 99 ? '99+' : cartStore.totalQuantity()}</Text>
+                </View>
+              )}
+            </View>
             <View className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center" onClick={() => setLiked(!liked)}>
               <Heart size={20} color={liked ? '#EF4444' : 'white'} />
             </View>
