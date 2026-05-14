@@ -142,6 +142,32 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
         },
       },
     },
+    // 构建完成后修复 WXSS 兼容性问题
+    onBuildFinish() {
+      const wxssPath = path.resolve(__dirname, '../dist/app.wxss');
+      if (fs.existsSync(wxssPath)) {
+        let content = fs.readFileSync(wxssPath, 'utf-8');
+        let modified = false;
+        
+        // 修复 @-webkit-keyframes → @keyframes（微信WXSS不支持-webkit-前缀的@规则）
+        if (content.includes('@-webkit-keyframes')) {
+          content = content.replace(/@-webkit-keyframes/g, '@keyframes');
+          console.log('[config] ✓ 已修复 @-webkit-keyframes → @keyframes');
+          modified = true;
+        }
+        
+        // 修复 \/ 转义字符（微信WXSS不支持）
+        if (content.includes('\\/')) {
+          content = content.replace(/\\\//g, '/');
+          console.log('[config] ✓ 已修复 \\/ → /');
+          modified = true;
+        }
+        
+        if (modified) {
+          fs.writeFileSync(wxssPath, content);
+        }
+      }
+    },
     h5: {
       publicPath: './',
       staticDirectory: 'static',
