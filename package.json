@@ -68,7 +68,6 @@
     "@tarojs/cli": "4.1.9",
     "@tarojs/plugin-generator": "4.1.9",
     "@tarojs/plugin-mini-ci": "^4.1.9",
-    "@tarojs/vite-runner": "4.1.9",
     "@tarojs/webpack5-runner": "^4.2.0",
     "@types/minimatch": "^5",
     "@types/react": "^18.0.0",
