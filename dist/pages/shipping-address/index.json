@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "填写收货地址",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"填写收货地址","usingComponents":{"comp":"../../comp"}}

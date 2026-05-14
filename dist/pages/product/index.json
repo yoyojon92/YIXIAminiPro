@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "商品详情",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"商品详情","usingComponents":{"comp":"../../comp"}}

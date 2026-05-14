@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "选择宿舍地址",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"选择宿舍地址","usingComponents":{"comp":"../../comp"}}

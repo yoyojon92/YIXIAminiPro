@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "分类",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"分类","usingComponents":{"comp":"../../comp"}}

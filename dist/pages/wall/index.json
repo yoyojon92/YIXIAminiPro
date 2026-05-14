@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "创意墙",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"创意墙","usingComponents":{"comp":"../../comp"}}

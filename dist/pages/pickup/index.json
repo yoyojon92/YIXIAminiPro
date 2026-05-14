@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "选择自提点",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"选择自提点","usingComponents":{"comp":"../../comp"}}

@@ -1,6 +1,1 @@
-{
-  "navigationBarTitleText": "社群活动",
-  "usingComponents": {
-    "comp": "../../comp"
-  }
-}
+{"navigationBarTitleText":"社群活动","usingComponents":{"comp":"../../comp"}}

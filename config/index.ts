@@ -1,8 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import tailwindcss from '@tailwindcss/postcss';
-import { UnifiedViteWeappTailwindcssPlugin } from 'weapp-tailwindcss/vite';
+import { UnifiedWebpackPluginV5 } from 'weapp-tailwindcss/webpack';
 import { defineConfig, type UserConfigExport } from '@tarojs/cli';
 import type { PluginItem } from '@tarojs/taro/types/compile/config/project';
 import dotenv from 'dotenv';
@@ -35,7 +34,7 @@ const generateTTProjectConfig = (outputRoot: string) => {
 };
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig<'vite'>(async (merge, _env) => {
+export default defineConfig<'webpack5'>(async (merge, _env) => {
   const outputRootMap: Record<string, string> = {
     weapp: 'dist',
     tt: 'dist-tt',
@@ -73,7 +72,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
     return [['@tarojs/plugin-mini-ci', miniCIConfig]] as PluginItem[];
   };
 
-  const baseConfig: UserConfigExport<'vite'> = {
+  const baseConfig: UserConfigExport<'webpack5'> = {
     projectName: 'coze-mini-program',
     date: '2026-1-13',
     alias: {
@@ -108,70 +107,36 @@ export default defineConfig<'vite'>(async (merge, _env) => {
         projectName: 'coze-mini-program',
       },
     }),
-    jsMinimizer: 'esbuild',
+    jsMinimizer: 'terser',
     framework: 'react',
     compiler: {
-      type: 'vite',
-      vitePlugins: [
-        {
-          name: 'postcss-config-loader-plugin',
-          config(config) {
-            // 通过 postcss 配置注册 tailwindcss 插件
-            if (typeof config.css?.postcss === 'object') {
-              config.css?.postcss.plugins?.unshift(tailwindcss());
-            }
-          },
-        },
-        {
-          name: 'hmr-config-plugin',
-          config() {
-            if (!process.env.PROJECT_DOMAIN) {
-              return;
-            }
-            return {
-              server: {
-                hmr: {
-                  overlay: true,
-                  path: '/hot/vite-hmr',
-                  port: 6000,
-                  clientPort: 443,
-                  timeout: 30000,
-                },
-              },
-            };
-          },
-        },
-        ...(isH5
-          ? [
-            ]
-          : [
-              UnifiedViteWeappTailwindcssPlugin({
-                rem2rpx: true,
-                cssEntries: [path.resolve(__dirname, '../src/app.css')],
-              }),
-            ]),
-        ...(process.env.TARO_ENV === 'tt'
-          ? [
-              {
-                name: 'generate-tt-project-config',
-                closeBundle() {
-                  generateTTProjectConfig(outputRoot);
-                },
-              },
-            ]
-          : []),
-      ],
+      type: 'webpack5',
+      prebundle: { enable: false },
     },
     mini: {
+      webpackChain(chain) {
+        chain.merge({
+          plugin: {
+            install: {
+              plugin: UnifiedWebpackPluginV5,
+              args: [{
+                appType: 'taro',
+                rem2rpx: true,
+                cssEntries: [path.resolve(__dirname, '../src/app.css')],
+              }],
+            },
+          },
+        });
+      },
       postcss: {
         pxtransform: {
           enable: true,
           config: {},
         },
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: false,
           config: {
-            namingPattern: 'module', // 转换模式，取值为 global/module
+            namingPattern: 'module',
             generateScopedName: '[name]__[local]___[hash:base64:5]',
           },
         },
@@ -211,9 +176,9 @@ export default defineConfig<'vite'>(async (merge, _env) => {
           },
         },
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: false,
           config: {
-            namingPattern: 'module', // 转换模式，取值为 global/module
+            namingPattern: 'module',
             generateScopedName: '[name]__[local]___[hash:base64:5]',
           },
         },
@@ -223,7 +188,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
       appName: 'coze-mini-program',
       postcss: {
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: false,
         },
       },
     },
@@ -232,9 +197,7 @@ export default defineConfig<'vite'>(async (merge, _env) => {
   process.env.BROWSERSLIST_ENV = process.env.NODE_ENV;
 
   if (process.env.NODE_ENV === 'development') {
-    // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig);
   }
-  // 生产构建配置（默认开启压缩混淆等）
   return merge({}, baseConfig, prodConfig);
 });
