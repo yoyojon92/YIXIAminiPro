@@ -146,6 +146,18 @@ export default function Product() {
 
     // 酒精产品需要年龄验证
     if (currentProduct.isAlcohol) {
+      // 先检查用户档案中的年龄
+      const userAge = profileStore.age
+      if (userAge !== null && userAge < 18) {
+        Taro.showModal({
+          title: '年龄限制',
+          content: '根据法律法规，购买果酒需年满18周岁',
+          showCancel: false,
+          confirmText: '我知道了'
+        })
+        return
+      }
+      // 弹窗确认年龄
       const verified = await ageVerify()
       if (!verified) return
     }
