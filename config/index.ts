@@ -142,30 +142,114 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
         },
       },
     },
-    // 构建完成后修复 WXSS 兼容性问题
-    onBuildFinish() {
-      const wxssPath = path.resolve(__dirname, '../dist/app.wxss');
-      if (fs.existsSync(wxssPath)) {
-        let content = fs.readFileSync(wxssPath, 'utf-8');
-        let modified = false;
-        
-        // 修复 @-webkit-keyframes → @keyframes（微信WXSS不支持-webkit-前缀的@规则）
-        if (content.includes('@-webkit-keyframes')) {
-          content = content.replace(/@-webkit-keyframes/g, '@keyframes');
-          console.log('[config] ✓ 已修复 @-webkit-keyframes → @keyframes');
-          modified = true;
+    // 构建完成后修复 WXSS 兼容性问题（开发模式和生产模式都执行）
+    onBuildFinish: ({ env, platforms, stats }) => {
+      // 生成 project.config.json（仅生产模式）
+      if (process.env.TARO_ENV === 'weapp' && env === 'production') {
+        const weappAppid = process.env.TARO_APP_WEAPP_APPID || 'wx9127a9df7a4fd36d';
+        const projectConfig = {
+          miniprogramRoot: './',
+          projectname: '邑夏',
+          appid: weappAppid,
+          setting: {
+            urlCheck: false,
+            es6: false,
+            enhance: false,
+            compileHotReLoad: true,
+            postcss: false,
+            minified: false,
+          },
+        };
+        const distDir = path.resolve(__dirname, '..', outputRoot);
+        if (!fs.existsSync(distDir)) { fs.mkdirSync(distDir, { recursive: true }); }
+        fs.writeFileSync(
+          path.resolve(distDir, 'project.config.json'),
+          JSON.stringify(projectConfig, null, 2),
+        );
+        console.log('[config] ✓ 已生成 dist/project.config.json');
+      }
+
+      // WXSS兼容性修复（所有模式都执行）
+      const distDir = path.resolve(__dirname, '..', outputRoot);
+      const fixWxss = (dir: string) => {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            fixWxss(fullPath);
+          } else if (entry.name.endsWith('.wxss')) {
+            let content = fs.readFileSync(fullPath, 'utf-8');
+            let modified = false;
+
+            // 修复1: @theme default{...} → page{...} + 提取@keyframes到顶层
+            if (content.includes('@theme')) {
+              const themeRegex = /@theme\s+default\s*\{/;
+              const match = content.match(themeRegex);
+              if (match) {
+                const startIdx = match.index!;
+                const openBraceIdx = startIdx + match[0].length - 1;
+                let depth = 0;
+                let endIdx = -1;
+                for (let i = openBraceIdx; i < content.length; i++) {
+                  if (content[i] === '{') depth++;
+                  if (content[i] === '}') {
+                    depth--;
+                    if (depth === 0) { endIdx = i; break; }
+                  }
+                }
+                if (endIdx > 0) {
+                  const themeBlock = content.substring(openBraceIdx + 1, endIdx);
+                  // 提取所有@keyframes块（包括-webkit-前缀）
+                  const kfRegex = /@(?:-webkit-)?keyframes\s+\w+\s*\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\}/g;
+                  const keyframesBlocks: string[] = [];
+                  let kfMatch;
+                  while ((kfMatch = kfRegex.exec(themeBlock)) !== null) {
+                    let kfBlock = kfMatch[0].replace(/@-webkit-keyframes/g, '@keyframes');
+                    keyframesBlocks.push(kfBlock);
+                  }
+                  // 去掉@keyframes块，只保留CSS变量
+                  const varsOnly = themeBlock.replace(kfRegex, '');
+                  // 重建：page{变量} + 顶层@keyframes
+                  const before = content.substring(0, startIdx);
+                  const after = content.substring(endIdx + 1);
+                  content = before + 'page{' + varsOnly.trim() + '}' + keyframesBlocks.join('') + after;
+                  modified = true;
+                  console.log('[config] ✓ 已修复 @theme → page + 提取@keyframes到顶层');
+                }
+              }
+            }
+
+            // 修复2: 残留的@-webkit-keyframes
+            if (content.includes('@-webkit-keyframes')) {
+              content = content.replace(/@-webkit-keyframes/g, '@keyframes');
+              modified = true;
+              console.log('[config] ✓ 已修复 @-webkit-keyframes → @keyframes');
+            }
+
+            // 修复3: \/ 转义字符
+            if (content.includes('\\/')) {
+              content = content.replace(/\\\//g, '/');
+              modified = true;
+              console.log('[config] ✓ 已修复 \\/ → /');
+            }
+
+            // 修复4: 残留的@tailwind/@layer指令
+            if (content.includes('@tailwind') || content.includes('@layer')) {
+              content = content.replace(/@tailwind\s+(base|components|utilities);?/g, '');
+              content = content.replace(/@layer\s+(base|components|utilities)\s*\{[^}]*\}/g, '');
+              modified = true;
+              console.log('[config] ✓ 已移除残留的 @tailwind/@layer 指令');
+            }
+
+            if (modified) {
+              fs.writeFileSync(fullPath, content);
+              console.log('[config] ✓ 已修复 ' + entry.name + ' 的WXSS兼容性问题');
+            }
+          }
         }
-        
-        // 修复 \/ 转义字符（微信WXSS不支持）
-        if (content.includes('\\/')) {
-          content = content.replace(/\\\//g, '/');
-          console.log('[config] ✓ 已修复 \\/ → /');
-          modified = true;
-        }
-        
-        if (modified) {
-          fs.writeFileSync(wxssPath, content);
-        }
+      };
+      if (fs.existsSync(distDir)) {
+        fixWxss(distDir);
       }
     },
     h5: {
