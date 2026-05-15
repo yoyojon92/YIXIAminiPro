@@ -3,7 +3,7 @@ import type { UserConfigExport } from '@tarojs/cli';
 export default {
   mini: {},
   h5: {
-    legacy: false,
+    // legacy: false,  // 注释掉，该选项在 Taro webpack5 中不支持
     /**
      * WebpackChain 插件配置
      * @docs https://github.com/neutrinojs/webpack-chain

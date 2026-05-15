@@ -11,28 +11,6 @@ import pkg from '../package.json';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
-const generateTTProjectConfig = (outputRoot: string) => {
-  const config = {
-    miniprogramRoot: './',
-    projectname: 'coze-mini-program',
-    appid: process.env.TARO_APP_TT_APPID || '',
-    setting: {
-      urlCheck: false,
-      es6: false,
-      postcss: false,
-      minified: false,
-    },
-  };
-  const outputDir = path.resolve(__dirname, '..', outputRoot);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-  fs.writeFileSync(
-    path.resolve(outputDir, 'project.config.json'),
-    JSON.stringify(config, null, 2),
-  );
-};
-
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig<'webpack5'>(async (merge, _env) => {
   const outputRootMap: Record<string, string> = {
@@ -42,7 +20,6 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
   };
   const defaultOutputRoot = outputRootMap[process.env.TARO_ENV || ''] || 'dist';
   const outputRoot = process.env.OUTPUT_ROOT?.trim() || defaultOutputRoot;
-  const isH5 = process.env.TARO_ENV === 'h5';
 
   const buildMiniCIPluginConfig = () => {
     const hasWeappConfig = !!process.env.TARO_APP_WEAPP_APPID;
@@ -143,7 +120,7 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
       },
     },
     // 构建完成后修复 WXSS 兼容性问题（开发模式和生产模式都执行）
-    onBuildFinish: ({ error, stats, isWatch }) => {
+    onBuildFinish: ({ error, isWatch }) => {
       console.log('[DEBUG] onBuildFinish triggered, isWatch=' + isWatch);
       if (error) {
         console.error('[fix] 构建有错误，跳过修复');

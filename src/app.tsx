@@ -1,6 +1,5 @@
 import { PropsWithChildren } from 'react';
 import { LucideTaroProvider } from 'lucide-react-taro';
-import Taro from '@tarojs/taro';
 import '@/app.css';
 import { Toaster } from '@/components/ui/toast';
 import { Preset } from './presets';

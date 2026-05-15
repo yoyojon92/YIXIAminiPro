@@ -1,6 +1,5 @@
 import { View, Text, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react-taro'
 import './index.scss'
 
@@ -59,8 +58,6 @@ const SPRITES_DATA = [
 ]
 
 export default function SpritesPage() {
-  const [selectedSprite, setSelectedSprite] = useState<typeof SPRITES_DATA[0] | null>(null)
-
   // 点击精灵跳转到产品详情页
   const handleSpriteClick = (sprite: typeof SPRITES_DATA[0]) => {
     Taro.navigateTo({

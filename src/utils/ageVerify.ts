@@ -35,8 +35,8 @@ export function ageVerify(): Promise<boolean> {
     Taro.showModal({
       title: '年龄验证',
       content: '该商品含酒精，根据法律规定需年满18岁方可购买',
-      confirmText: '我已满18岁',
-      cancelText: '未满18岁',
+      confirmText: '已满18岁',
+      cancelText: '未成年',
       success: (res) => {
         if (res.confirm) {
           // 用户确认，记录验证状态

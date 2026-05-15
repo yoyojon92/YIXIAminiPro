@@ -225,7 +225,7 @@ export default function Product() {
             {/* 购物车图标 */}
             <View 
               className="w-10 h-10 bg-black bg-opacity-40 rounded-full flex items-center justify-center relative"
-              onClick={() => Taro.navigateTo({ url: '/pages/cart/index' })}
+              onClick={() => Taro.switchTab({ url: '/pages/cart/index' })}
             >
               <ShoppingCart size={20} color="white" />
               {cartStore.totalQuantity() > 0 && (
