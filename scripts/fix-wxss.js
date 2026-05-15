@@ -163,4 +163,57 @@ if (fs.existsSync(appWxssPath)) {
   }
 }
 
+/**
+ * 拷贝图片资源到 dist
+ * 由于图片路径是字符串引用，webpack 不会自动拷贝
+ */
+function copyImages() {
+  const srcDir = path.resolve(__dirname, '../src/assets/images');
+  const distAssetsDir = path.resolve(distDir, 'assets/images');
+  
+  // 需要拷贝的图片目录
+  const imageDirs = [
+    'products/yixia-products',
+    'spirits',
+    'organ-lords',
+    'tabbar'
+  ];
+  
+  for (const imgDir of imageDirs) {
+    const srcPath = path.join(srcDir, imgDir);
+    const distPath = path.join(distAssetsDir, imgDir);
+    
+    if (!fs.existsSync(srcPath)) {
+      console.log('[fix-wxss] 源目录不存在，跳过: ' + imgDir);
+      continue;
+    }
+    
+    // 创建目标目录
+    if (!fs.existsSync(distPath)) {
+      fs.mkdirSync(distPath, { recursive: true });
+    }
+    
+    // 拷贝所有图片文件
+    const files = fs.readdirSync(srcPath, { withFileTypes: true });
+    let copied = 0;
+    for (const file of files) {
+      if (file.isFile() && /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(file.name)) {
+        const srcFile = path.join(srcPath, file.name);
+        const distFile = path.join(distPath, file.name);
+        if (!fs.existsSync(distFile)) {
+          fs.copyFileSync(srcFile, distFile);
+          copied++;
+        }
+      }
+    }
+    if (copied > 0) {
+      console.log('[fix-wxss] ✓ 已拷贝 ' + copied + ' 张图片到: ' + imgDir);
+    }
+  }
+}
+
+// 执行图片拷贝
+console.log('[fix-wxss] 开始拷贝图片资源...');
+copyImages();
+
 console.log('[fix-wxss] 完成！');
