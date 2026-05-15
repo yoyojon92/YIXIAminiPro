@@ -153,8 +153,8 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
           appid: weappAppid,
           setting: {
             urlCheck: false,
-            es6: false,
-            enhance: false,
+            es6: true,
+            enhance: true,
             compileHotReLoad: true,
             postcss: false,
             minified: false,

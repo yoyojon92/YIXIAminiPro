@@ -3,16 +3,16 @@
  * 邑夏果酒/果汁小程序 - 11款产品完整数据
  */
 
-// 产品图片路径映射
+// 产品图片路径映射（英文路径，兼容微信小程序）
 const PRODUCT_IMAGES: Record<string, string> = {
-  prod_peach_001: './assets/images/products/邑夏产品图/01-桃你欢心-金银花发酵酒.png',
-  prod_hawthorn_001: './assets/images/products/邑夏产品图/02-楂香四溢-沂蒙山楂酒.png',
-  prod_pear_001: './assets/images/products/邑夏产品图/03-大吉大梨-金银花梨酒.png',
-  prod_pomegranate_001: './assets/images/products/邑夏产品图/04-似水榴年-金银花石榴酒.png',
-  prod_grape_001: './assets/images/products/邑夏产品图/05-葡写浪漫-金银花葡萄酒.png',
-  prod_nfc_peach_001: './assets/images/products/邑夏产品图/06-鲜桃果汁-NFC.png',
-  prod_nfc_grape_001: './assets/images/products/邑夏产品图/07-红葡萄果汁-NFC.png',
-  prod_nfc_pear_001: './assets/images/products/邑夏产品图/08-鲜梨果汁-NFC.png',
+  prod_peach_001: '/assets/images/products/yixia-products/01-tao-ni-huan-xin.png',
+  prod_hawthorn_001: '/assets/images/products/yixia-products/02-zha-xiang-si-yi.png',
+  prod_pear_001: '/assets/images/products/yixia-products/03-da-ji-da-li.png',
+  prod_pomegranate_001: '/assets/images/products/yixia-products/04-si-shui-liu-nian.png',
+  prod_grape_001: '/assets/images/products/yixia-products/05-pu-xie-lang-man.png',
+  prod_nfc_peach_001: '/assets/images/products/yixia-products/06-nfc-peach.png',
+  prod_nfc_grape_001: '/assets/images/products/yixia-products/07-nfc-grape.png',
+  prod_nfc_pear_001: '/assets/images/products/yixia-products/08-nfc-pear.png',
 }
 
 // 产品规格
@@ -311,8 +311,8 @@ export const MOCK_PRODUCTS: Product[] = [
     subtitle: '浓香型粮食酒',
     price: 168,
     originalPrice: 198,
-    image: './assets/images/banner3.jpg',
-    images: ['./assets/images/banner3.jpg', './assets/images/banner1.jpg', './assets/images/banner2.jpg'],
+    image: PRODUCT_IMAGES.prod_grape_001,
+    images: [PRODUCT_IMAGES.prod_grape_001],
     tags: ['粮食酒', '白酒', '浓香型', '品鉴'],
     category: 'grain_wine',
     alcohol: '38%vol',
@@ -335,8 +335,8 @@ export const MOCK_PRODUCTS: Product[] = [
     subtitle: '浓香型粮食酒',
     price: 128,
     originalPrice: 158,
-    image: './assets/images/banner3.jpg',
-    images: ['./assets/images/banner3.jpg', './assets/images/banner1.jpg', './assets/images/banner2.jpg'],
+    image: PRODUCT_IMAGES.prod_grape_001,
+    images: [PRODUCT_IMAGES.prod_grape_001],
     tags: ['粮食酒', '白酒', '浓香型', '经典'],
     category: 'grain_wine',
     alcohol: '38%vol',
@@ -359,8 +359,8 @@ export const MOCK_PRODUCTS: Product[] = [
     subtitle: '浓香型粮食酒',
     price: 228,
     originalPrice: 268,
-    image: './assets/images/banner3.jpg',
-    images: ['./assets/images/banner3.jpg', './assets/images/banner1.jpg', './assets/images/banner2.jpg'],
+    image: PRODUCT_IMAGES.prod_grape_001,
+    images: [PRODUCT_IMAGES.prod_grape_001],
     tags: ['粮食酒', '白酒', '浓香型', '喜宴'],
     category: 'grain_wine',
     alcohol: '38%vol',
@@ -387,7 +387,7 @@ export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
     price: 32.9,
     pintuanPrice: 26.9,
     pintuanCount: 156,
-    endTime: '2025-06-30 18:00:00',
+    endTime: '2026-12-31 18:00:00',
     image: PRODUCT_IMAGES.prod_pear_001,
     spriteAlias: '梨梨'
   },
@@ -397,7 +397,7 @@ export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
     price: 24.9,
     pintuanPrice: 19.9,
     pintuanCount: 89,
-    endTime: '2025-06-30 18:00:00',
+    endTime: '2026-12-31 18:00:00',
     image: PRODUCT_IMAGES.prod_hawthorn_001,
     spriteAlias: '楂楂'
   }

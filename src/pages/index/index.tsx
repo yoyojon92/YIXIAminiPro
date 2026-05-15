@@ -15,9 +15,6 @@ import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
 
-const { unreadCount } = usePushStore.getState()
-const cartCount = useCartStore.getState().items.reduce((sum, item) => sum + item.quantity, 0)
-
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
   const iconColor = color === 'text-amber-400' ? '#FBBF24' : '#8B5CF6'
@@ -67,6 +64,10 @@ export default function Index() {
   // 图片加载失败状态
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
   const profileStore = useUserProfileStore()
+  
+  // ✅ 响应式读取 store 状态
+  const unreadCount = usePushStore(state => state.unreadCount)
+  const cartCount = useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0))
 
   // 处理图片加载失败
   const handleImageError = (spriteId: string) => {
