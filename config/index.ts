@@ -143,12 +143,21 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
       },
     },
     // 构建完成后修复 WXSS 兼容性问题（开发模式和生产模式都执行）
-    onBuildFinish: ({ env }) => {
+    onBuildFinish: ({ error, stats, isWatch }) => {
+      console.log('[DEBUG] onBuildFinish triggered, isWatch=' + isWatch);
+      if (error) {
+        console.error('[fix] 构建有错误，跳过修复');
+        return;
+      }
+
       const distDir = path.resolve(__dirname, '..', outputRoot);
-      if (!fs.existsSync(distDir)) return;
+      if (!fs.existsSync(distDir)) {
+        console.log('[DEBUG] distDir not exists');
+        return;
+      }
 
       // 生成 project.config.json（仅 production）
-      if (process.env.TARO_ENV === 'weapp' && env === 'production') {
+      if (process.env.TARO_ENV === 'weapp' && process.env.NODE_ENV === 'production') {
         fs.writeFileSync(
           path.resolve(distDir, 'project.config.json'),
           JSON.stringify({
@@ -289,8 +298,15 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
 
   process.env.BROWSERSLIST_ENV = process.env.NODE_ENV;
 
+  let config;
   if (process.env.NODE_ENV === 'development') {
-    return merge({}, baseConfig, devConfig);
+    config = merge({}, baseConfig, devConfig);
+  } else {
+    config = merge({}, baseConfig, prodConfig);
   }
-  return merge({}, baseConfig, prodConfig);
+  
+  // 确保 onBuildFinish 被添加到最终配置中
+  config.onBuildFinish = baseConfig.onBuildFinish;
+
+  return config;
 });
