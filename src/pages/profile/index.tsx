@@ -92,8 +92,12 @@ export default function Profile() {
         <View className="flex items-center justify-between mb-4">
           <Text className="text-white text-lg font-semibold">我的</Text>
           <View className="flex items-center gap-4">
-            <Bell size={22} color="white" />
-            <Settings size={22} color="white" />
+            <View onClick={() => Taro.navigateTo({ url: '/pages/notifications/index' })}>
+              <Bell size={22} color="white" />
+            </View>
+            <View onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
+              <Settings size={22} color="white" />
+            </View>
           </View>
         </View>
 
@@ -362,7 +366,11 @@ export default function Profile() {
 
       {/* 退出登录 */}
       <View className="px-4 mt-6 mb-6">
-        <Button variant="outline" className="w-full text-gray-600 border-gray-200">
+        <Button 
+          variant="outline" 
+          className="w-full text-gray-600 border-gray-200"
+          onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}
+        >
           <LogOut size={18} color="#6B7280" />
           <Text>退出登录</Text>
         </Button>
@@ -379,7 +387,7 @@ export default function Profile() {
                 <Text className="text-xs text-gray-500 mt-1">邀请新用户可得优惠券</Text>
               </View>
             </View>
-            <Button size="sm" variant="secondary" onClick={() => {}}>
+            <Button size="sm" variant="secondary" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
               <Share2 size={14} color="#FBBF24" />
               <Text>分享</Text>
             </Button>
