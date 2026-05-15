@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { taroStorage } from './taroStorage'
 
 export interface UGCWork {
   id: string
@@ -411,6 +412,6 @@ export const useUGCStore = create<UGCState>()(
         console.log('[UGC埋点]', trackData)
       },
     }),
-    { name: 'ugc-store' }
+    { name: 'ugc-store', storage: taroStorage }
   )
 )

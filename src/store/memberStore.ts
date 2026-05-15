@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import Taro from '@tarojs/taro'
+import { taroStorage } from './taroStorage'
 
 type MemberLevel = 'trial' | 'monthly' | 'annual'
 
@@ -81,6 +82,6 @@ export const useMemberStore = create<MemberState>()(
         return remaining > 0 ? Math.ceil(remaining / 86400000) : 0
       },
     }),
-    { name: 'member-store' }
+    { name: 'member-store', storage: taroStorage }
   )
 )

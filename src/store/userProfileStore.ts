@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { TagId } from '@/data/userTags'
 import { calculateTags, generateProfileSummary, type UserBehavior } from '@/engine/userProfile'
+import { taroStorage } from './taroStorage'
 
 interface UserProfileState {
   // 用户基本信息
@@ -221,6 +222,6 @@ export const useUserProfileStore = create<UserProfileState>()(
         })
       },
     }),
-    { name: 'user-profile-store' }
+    { name: 'user-profile-store', storage: taroStorage }
   )
 )

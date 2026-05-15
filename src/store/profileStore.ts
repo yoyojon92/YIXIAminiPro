@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { USER_TAGS, TagId } from '@/data/userTags'
+import { taroStorage } from './taroStorage'
 
 // 用户行为记录
 interface UserActions {
@@ -416,6 +417,7 @@ export const useProfileStore = create<ProfileState>()(
     }),
     {
       name: 'profile-store',
+      storage: taroStorage,
       partialize: (state) => ({
         actions: state.actions,
         profile: state.profile,

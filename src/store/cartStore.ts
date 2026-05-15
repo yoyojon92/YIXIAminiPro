@@ -6,6 +6,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { CartAPI } from '@/services/api'
 import type { Coupon } from '@/data/coupons'
+import { taroStorage } from './taroStorage'
 
 export interface CartItem {
   id: string
@@ -339,6 +340,7 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'yixia-cart-storage',
+      storage: taroStorage,
       partialize: (state) => ({ 
         items: state.items,
         delivery: state.delivery

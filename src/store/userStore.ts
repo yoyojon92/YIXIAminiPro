@@ -5,6 +5,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import Taro from '@tarojs/taro'
+import { taroStorage } from './taroStorage'
 
 export interface UserInfo {
   id: string
@@ -110,6 +111,7 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'yixia-user-storage',
+      storage: taroStorage,
       partialize: (state) => ({ 
         userInfo: state.userInfo,
         token: state.token,

@@ -3,6 +3,7 @@
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { taroStorage } from './taroStorage'
 
 export interface RunnerInfo {
   id: string
@@ -224,7 +225,8 @@ export const useRunnerStore = create<RunnerState>()(
       }
     }),
     {
-      name: 'yixia-runner-storage'
+      name: 'yixia-runner-storage',
+      storage: taroStorage
     }
   )
 )

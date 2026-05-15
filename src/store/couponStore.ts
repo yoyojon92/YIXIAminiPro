@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import Taro from '@tarojs/taro'
 import type { Coupon } from '@/data/coupons'
 import { NEW_USER_COUPONS, MEMBER_MONTHLY_COUPONS } from '@/data/coupons'
+import { taroStorage } from './taroStorage'
 
 interface CouponState {
   // 用户拥有的代券列表
@@ -143,7 +144,7 @@ export const useCouponStore = create<CouponState>()(
         })
       }
     }),
-    { name: 'coupon-store' }
+    { name: 'coupon-store', storage: taroStorage }
   )
 )
 

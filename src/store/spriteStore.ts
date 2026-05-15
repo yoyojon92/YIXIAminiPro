@@ -4,6 +4,7 @@
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { taroStorage } from './taroStorage'
 
 export interface Sprite {
   id: string
@@ -189,6 +190,7 @@ export const useSpriteStore = create<SpriteState>()(
     }),
     {
       name: 'yixia-sprites',
+      storage: taroStorage,
       partialize: (state) => ({ userSprites: state.userSprites })
     }
   )

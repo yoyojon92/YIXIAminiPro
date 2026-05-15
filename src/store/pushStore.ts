@@ -4,6 +4,7 @@ import Taro from '@tarojs/taro'
 import type { PushMessage, PushScenario } from '@/engine/pushRules'
 import { generatePushMessage, shouldPush } from '@/engine/pushRules'
 import type { TagId } from '@/data/userTags'
+import { taroStorage } from './taroStorage'
 
 // 通知消息（扩展自 PushMessage）
 export interface Notification extends PushMessage {
@@ -154,7 +155,7 @@ export const usePushStore = create<PushState>()(
         return message
       },
     }),
-    { name: 'push-store' }
+    { name: 'push-store', storage: taroStorage }
   )
 )
 
