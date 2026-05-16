@@ -130,7 +130,7 @@ export default function Index() {
         <View className="mt-3">
           <View 
             className="bg-white bg-opacity-20 backdrop-blur rounded-full px-4 py-3 flex items-center gap-2"
-            onClick={() => Taro.navigateTo({ url: '/pages/category/index' })}
+            onClick={() => Taro.switchTab({ url: '/pages/category/index' })}
           >
             <Search size={16} className="text-white" color="rgba(255,255,255,0.7)" />
             <Text className="text-white text-sm">搜索果酒、果汁、白酒...</Text>
