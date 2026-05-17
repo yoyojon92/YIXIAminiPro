@@ -61,7 +61,7 @@ export default function Profile() {
     { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/orders/index?tab=settings' },
     { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
     { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/orders/index?tab=payment' },
-    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/orders/index?tab=address' },
+    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/shipping-address/index' },
   ]
   
   const menuItems = [
