@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -43,8 +43,31 @@ export default function Category() {
   const [selectedSort, setSelectedSort] = useState('default')
   const [searchValue, setSearchValue] = useState('')
   
-  const cartCount = useCartStore.getState().items.reduce((sum, item) => sum + item.quantity, 0)
-  const unreadCount = usePushStore.getState().unreadCount
+  // 响应式读取 store 状态
+  const cartCount = useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0))
+  const unreadCount = usePushStore(state => state.unreadCount)
+
+  // 从 StorageSync 读取首页传来的分类参数（switchTab 不能传 URL 参数）
+  useDidShow(() => {
+    const categoryFromStorage = Taro.getStorageSync('selectedCategory')
+    const extraType = Taro.getStorageSync('categoryExtraType')
+
+    if (extraType === 'group' || extraType === 'new') {
+      // 拼团/新品特殊类型，暂时不切换分类，后续可扩展
+      Taro.removeStorageSync('categoryExtraType')
+      return
+    }
+
+    if (categoryFromStorage) {
+      // 根据 category key 找到对应的分类 id
+      const targetCat = categories.find(c => c.key === categoryFromStorage)
+      if (targetCat) {
+        setSelectedCategory(targetCat.id)
+      }
+      // 读取后清空，避免下次进入还残留
+      Taro.removeStorageSync('selectedCategory')
+    }
+  })
 
   const filteredProducts = products.filter((product: Product) => {
     const cat = categories.find(c => c.id === selectedCategory)

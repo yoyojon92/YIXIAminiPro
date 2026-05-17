@@ -74,9 +74,10 @@ export default function Index() {
     setImageErrors(prev => ({ ...prev, [spriteId]: true }))
   }
 
-  // 跳转到分类页
+  // 跳转到分类页（tabbar页面不能用navigateTo传参，用StorageSync）
   const goToCategory = (category: string) => {
-    Taro.navigateTo({ url: `/pages/category/index?category=${category}` })
+    Taro.setStorageSync('selectedCategory', category)
+    Taro.switchTab({ url: '/pages/category/index' })
   }
 
   // 跳转到购物车
@@ -212,7 +213,12 @@ export default function Index() {
               <Text>限时</Text>
             </View>
           </View>
-          <View className="flex items-center gap-1 text-white" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=group' })}>
+          <View className="flex items-center gap-1 text-white" onClick={() => {
+              Taro.setStorageSync('selectedCategory', '')
+              Taro.setStorageSync('categoryExtraType', 'group')
+              Taro.switchTab({ url: '/pages/category/index' })
+            }}
+          >
             <Text className="text-sm text-gray-300">更多</Text>
             <ChevronRight size={16} color="#ffffff" />
           </View>
@@ -256,7 +262,12 @@ export default function Index() {
             <Text className="text-white font-semibold">新品推荐</Text>
             <Badge className="text-xs bg-amber-500 text-white border-0">NEW</Badge>
           </View>
-          <View className="flex items-center gap-1 text-white" onClick={() => Taro.navigateTo({ url: '/pages/category/index?type=new' })}>
+          <View className="flex items-center gap-1 text-white" onClick={() => {
+              Taro.setStorageSync('selectedCategory', '')
+              Taro.setStorageSync('categoryExtraType', 'new')
+              Taro.switchTab({ url: '/pages/category/index' })
+            }}
+          >
             <Text className="text-sm text-gray-300">更多</Text>
             <ChevronRight size={16} color="#ffffff" />
           </View>
