@@ -9,3 +9,6 @@ export type { CartItem, DeliveryInfo, DeliveryType } from './cartStore'
 
 export { useSpriteStore, MOCK_SPRITES } from './spriteStore'
 export type { Sprite, UserSprite } from './spriteStore'
+
+export { useRunnerStore } from './runnerStore'
+export type { RunnerInfo, RunnerOrder } from './runnerStore'

@@ -21,6 +21,9 @@ export default defineAppConfig({
     'pages/dormitory/index',
     'pages/runner/home',
     'pages/runner/register',
+    'pages/runner-list/index',
+    'pages/runner-detail/index',
+    'pages/runner-moment/index',
     'pages/shipping-address/index',
     'pages/tracking/index'
   ],
