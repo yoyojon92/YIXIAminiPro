@@ -16,7 +16,7 @@ import { RegisterModal } from '@/components/RegisterModal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter, Users
 } from 'lucide-react-taro'
 
 export default function Profile() {
@@ -60,8 +60,9 @@ export default function Profile() {
     { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pages/notifications/index' },
     { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/orders/index?tab=settings' },
     { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
-    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/orders/index?tab=payment' },
-    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/shipping-address/index' },
+    { id: 4, icon: Star, title: '送酒员中心', path: '/pages/runner-list/index' },
+    { id: 5, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/orders/index?tab=payment' },
+    { id: 6, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/shipping-address/index' },
   ]
   
   const menuItems = [
@@ -69,7 +70,9 @@ export default function Profile() {
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
     { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
     { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
-    { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' }
+    { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' },
+    { id: 6, icon: Users, title: '我的送酒员', badge: null, path: '/pages/runner-list/index' },
+    { id: 7, icon: Sparkles, title: '成为送酒员', badge: '招募中', path: '/pages/runner-moment/index' }
   ]
 
   const navigateTo = (path: string) => {
