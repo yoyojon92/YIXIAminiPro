@@ -14,6 +14,7 @@ import { organLords } from '@/data/organLords'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
+import RunnerEntryCard from '@/components/RunnerEntryCard'
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -322,6 +323,11 @@ export default function Index() {
             </View>
           ))}
         </View>
+      </View>
+
+      {/* 送酒员入口 */}
+      <View className="px-4 mt-4">
+        <RunnerEntryCard />
       </View>
 
       {/* 精灵图鉴 + 器官大人 双排Grid */}
