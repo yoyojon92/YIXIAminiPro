@@ -4,7 +4,7 @@ import Taro, { useRouter } from '@tarojs/taro'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Truck, Store, Gift, Star, CircleAlert, Crown
+  Heart, Share2, ShoppingCart, Gift, Star, CircleAlert, Crown
 } from 'lucide-react-taro'
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
@@ -24,10 +24,7 @@ const comments = [
   { id: 2, user: '果酒***', avatar: 'https://picsum.photos/50/50?random=21', rating: 4, content: '包装很精美，送朋友很有面子。味道也不错，会回购的！', images: [], time: '2024-01-14' }
 ]
 
-const deliveryInfo = {
-  dormitory: { name: '送货到宿舍', fee: 3, time: '30-60分钟' },
-  pickup: { name: '到店自提', fee: 0, time: '随时可取' }
-}
+
 
 // 精灵×器官大人互动漫画映射数据
 const COMIC_DIALOGUES: Record<string, {
@@ -311,27 +308,6 @@ export default function Product() {
             <View className="flex items-center gap-2">
               <Text className="text-sm text-gray-500">{selectedSpec['规格']}</Text>
               <Text className="text-primary text-sm">请选择 ▼</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* 配送方式 */}
-        <View className="bg-white px-4 py-4 mt-2">
-          <Text className="text-sm font-medium text-gray-900 mb-3">配送方式</Text>
-          <View className="flex gap-3">
-            <View className={`flex-1 p-3 rounded-xl border-2 ${true ? 'border-primary bg-purple-50' : 'border-gray-200'}`}>
-              <View className="flex items-center gap-2">
-                <Truck size={16} color="#8B5CF6" />
-                <Text className="text-sm font-medium text-primary">送货到宿舍</Text>
-              </View>
-              <Text className="text-xs text-gray-500 mt-1">+{deliveryInfo.dormitory.fee}元 · {deliveryInfo.dormitory.time}</Text>
-            </View>
-            <View className={`flex-1 p-3 rounded-xl border-2 ${false ? 'border-primary bg-purple-50' : 'border-gray-200'}`}>
-              <View className="flex items-center gap-2">
-                <Store size={16} color="#9CA3AF" />
-                <Text className="text-sm font-medium text-gray-700">到店自提</Text>
-              </View>
-              <Text className="text-xs text-gray-500 mt-1">免配送费 · 随时可取</Text>
             </View>
           </View>
         </View>
