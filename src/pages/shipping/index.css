@@ -1,0 +1,290 @@
+.shipping-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 120px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.back-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.placeholder {
+  width: 32px;
+}
+
+.card {
+  margin: 12px 16px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.title-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-left: 8px;
+}
+
+.chevron {
+  margin-left: auto;
+}
+
+.order-id-row {
+  display: flex;
+  align-items: center;
+}
+
+.order-id-row .label {
+  font-size: 14px;
+  color: #666;
+}
+
+.order-id-row .value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.company-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.company-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+}
+
+.company-item.active {
+  border-color: #f97316;
+  background-color: #fff7ed;
+}
+
+.company-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.check-mark {
+  color: #f97316;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.service-name {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.receiver-info {
+  padding: 8px 0;
+}
+
+.receiver-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.receiver-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.receiver-mobile {
+  font-size: 14px;
+  color: #666;
+}
+
+.receiver-address {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.placeholder-text {
+  font-size: 14px;
+  color: #999;
+  padding: 8px 0;
+}
+
+.cargo-form {
+  padding: 8px 0;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.form-row:last-child {
+  border-bottom: none;
+}
+
+.form-row .label {
+  font-size: 14px;
+  color: #666;
+}
+
+.input-wrapper {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.input-wrapper.small {
+  flex: none;
+  width: 80px;
+}
+
+.input-wrapper.full {
+  margin-left: 0;
+  margin-top: 8px;
+}
+
+.input {
+  font-size: 14px;
+  text-align: right;
+}
+
+.input-wrapper.full .input {
+  text-align: left;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background-color: #f5f5f5;
+  font-size: 18px;
+  color: #666;
+}
+
+.stepper-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+.waybill-info {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #f0fdf4;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.waybill-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.waybill-id {
+  font-size: 16px;
+  font-weight: 600;
+  color: #16a34a;
+  flex: 1;
+}
+
+.copy-btn {
+  padding: 4px 12px;
+  background-color: #16a34a;
+  border-radius: 4px;
+}
+
+.copy-text {
+  font-size: 12px;
+  color: #fff;
+}
+
+.waybill-image {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  z-index: 100;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  background-color: #f97316;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn[disabled] {
+  background-color: #fdba74;
+}

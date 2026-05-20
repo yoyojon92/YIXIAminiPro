@@ -5,9 +5,10 @@ import { AuthModule } from '@/auth/auth.module'
 import { ProductsModule } from '@/products/products.module'
 import { OrdersModule } from '@/orders/orders.module'
 import { CartModule } from '@/cart/cart.module'
+import { ExpressModule } from '@/express/express.module'
 
 @Module({
-  imports: [AuthModule, ProductsModule, OrdersModule, CartModule],
+  imports: [AuthModule, ProductsModule, OrdersModule, CartModule, ExpressModule],
   controllers: [AppController],
   providers: [AppService],
 })

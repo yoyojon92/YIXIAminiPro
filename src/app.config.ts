@@ -25,6 +25,7 @@ export default defineAppConfig({
     'pages/runner-detail/index',
     'pages/runner-moment/index',
     'pages/shipping-address/index',
+    'pages/shipping/index',
     'pages/tracking/index'
   ],
   window: {
