@@ -16,7 +16,7 @@ export interface UserInfo {
   schoolId: string
   schoolName: string
   ageVerified: boolean // 年龄验证状态（果酒购买需要）
-  role: 'student' | 'agent' | 'distributor' | 'brand'
+  role: 'user' | 'agent' | 'super_admin' // 三角色体系：普通用户/跑腿员/超级管理员
 }
 
 interface UserState {
@@ -99,7 +99,7 @@ export const useUserStore = create<UserState>()(
             schoolId: 'school_1',
             schoolName: '青岛农业大学',
             ageVerified: false,
-            role: 'student'
+            role: 'user'
           }
           
           set({ userInfo: mockUser, token: 'mock_token', isLoggedIn: true })

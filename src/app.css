@@ -192,3 +192,72 @@ image {
 .to-pink-500 { --tw-gradient-to: #EC4899; }
 .from-black\/60 { --tw-gradient-from: rgba(0, 0, 0, 0.6); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, transparent); }
 .to-transparent { --tw-gradient-to: transparent; }
+
+/* 全局金色字体 - 非产品展示区域 */
+/* 标题、导航、菜单项、卡片标题等使用金色 */
+page text,
+.card text,
+.navigation text,
+.menu-item text,
+.section-title text,
+.header text,
+.drawer text,
+.modal-title text,
+.badge text,
+.tab text,
+.label text {
+  color: #FBBF24;
+}
+
+/* 产品名称和价格保持原样 - 不使用金色 */
+.product-name text,
+.product-title text,
+.product-card text,
+.goods-info text,
+.order-product text,
+.cart-item text,
+sprite-card text {
+  color: inherit;
+}
+
+/* 价格相关保持原色 */
+.price text,
+.amount text,
+.money text,
+.balance text {
+  color: inherit;
+}
+
+/* 按钮内文字保持原色 */
+button text {
+  color: inherit;
+}
+
+/* 输入框内文字保持原色 */
+input,
+textarea {
+  color: inherit;
+}
+
+/* 白色文字强制保持白色 */
+.text-white {
+  color: #FFFFFF !important;
+}
+
+/* 紫色主题渐变区域的白色文字 */
+.from-purple-500 text,
+.to-pink-500 text,
+.bg-gradient-to-br text,
+.gradient-header text {
+  color: #FFFFFF;
+}
+
+/* 灰色说明文字保持灰色 */
+.text-gray-400 text,
+.text-gray-500 text,
+.text-slate-400 text,
+.text-slate-500 text,
+.hint text,
+.description text {
+  color: #94A3B8;
+}

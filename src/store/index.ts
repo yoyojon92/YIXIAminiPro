@@ -14,10 +14,10 @@ export { useRunnerStore } from './runnerStore'
 export type { RunnerInfo, RunnerOrder } from './runnerStore'
 
 export { usePaymentStore } from './paymentStore'
-export type { PaymentMethod } from './paymentStore'
+export type { PaymentMethod, PaymentType, PaymentResult, PaymentParams } from './paymentStore'
 
 export { usePointsStore } from './pointsStore'
-export type { PointsRecord } from './pointsStore'
+export type { PointsRecord, PointsRule, PointsReward } from './pointsStore'
 
 export { useRechargeStore } from './rechargeStore'
-export type { RechargeCard } from './rechargeStore'
+export type { RechargeCard, RechargePackage, RechargeRecord } from './rechargeStore'
