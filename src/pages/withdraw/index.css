@@ -1,0 +1,201 @@
+.withdraw-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 24px;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  border-radius: 24px;
+  margin-bottom: 24px;
+}
+
+.balance-card__content {
+  padding: 32px;
+}
+
+.balance-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.balance-card__title {
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.balance-card__amount {
+  display: block;
+  font-size: 56px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+.withdraw-form {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.withdraw-form__label {
+  display: block;
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.withdraw-form__input-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.withdraw-form__currency {
+  font-size: 40px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 8px;
+}
+
+.withdraw-form__input {
+  flex: 1;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.withdraw-form__all {
+  font-size: 28px;
+  color: #FF6B00;
+  padding: 8px 16px;
+  background: rgba(255, 107, 0, 0.1);
+  border-radius: 8px;
+}
+
+.withdraw-methods {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.withdraw-method {
+  flex: 1;
+  padding: 24px;
+  border: 2px solid #f0f0f0;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.withdraw-method--active {
+  border-color: #FF6B00;
+  background: rgba(255, 107, 0, 0.05);
+}
+
+.withdraw-method__name {
+  display: block;
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.withdraw-method__fee {
+  display: block;
+  font-size: 24px;
+  color: #999;
+}
+
+.withdraw-btn {
+  width: 100%;
+  height: 88px;
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  border-radius: 16px;
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.withdraw-records {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.withdraw-records__title {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.withdraw-record {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.withdraw-record:last-child {
+  border-bottom: none;
+}
+
+.withdraw-record__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.withdraw-record__info {
+  flex: 1;
+}
+
+.withdraw-record__method {
+  display: block;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.withdraw-record__time {
+  display: block;
+  font-size: 24px;
+  color: #999;
+}
+
+.withdraw-record__right {
+  text-align: right;
+}
+
+.withdraw-record__amount {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.withdraw-record__status {
+  display: block;
+  font-size: 24px;
+}
+
+.withdraw-record__status--success {
+  color: #07C160;
+}
+
+.withdraw-record__status--pending {
+  color: #FF6B00;
+}
+
+.withdraw-record__status--failed {
+  color: #FF4D4F;
+}

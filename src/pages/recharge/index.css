@@ -1,0 +1,155 @@
+.recharge-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 24px;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  border-radius: 24px;
+  margin-bottom: 24px;
+}
+
+.balance-card__content {
+  padding: 32px;
+}
+
+.balance-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.balance-card__title {
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.balance-card__amount {
+  display: block;
+  font-size: 56px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.balance-card__tip {
+  display: block;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.buy-btn {
+  width: 100%;
+  height: 88px;
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.buy-btn__text {
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card-list {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.card-list__title {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.recharge-card {
+  background: #fafafa;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.recharge-card:last-child {
+  margin-bottom: 0;
+}
+
+.recharge-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.recharge-card__name {
+  font-size: 30px;
+  font-weight: 500;
+  color: #333;
+}
+
+.card-status {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 22px;
+}
+
+.card-status--active {
+  background: rgba(7, 193, 96, 0.1);
+  color: #07C160;
+}
+
+.card-status--expired {
+  background: rgba(255, 107, 0, 0.1);
+  color: #FF6B00;
+}
+
+.card-status--used {
+  background: rgba(153, 153, 153, 0.1);
+  color: #999;
+}
+
+.recharge-card__info {
+  margin-bottom: 16px;
+}
+
+.recharge-card__balance {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  color: #FF6B00;
+  margin-bottom: 4px;
+}
+
+.recharge-card__original {
+  display: block;
+  font-size: 24px;
+  color: #999;
+}
+
+.recharge-card__footer {
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.recharge-card__validity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recharge-card__validity-text {
+  font-size: 24px;
+  color: #999;
+}

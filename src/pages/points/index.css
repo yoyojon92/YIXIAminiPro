@@ -1,0 +1,169 @@
+.points-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FF6B00 0%, #FF8C00 100%);
+  padding: 24px;
+}
+
+.points-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  margin-bottom: 24px;
+}
+
+.points-card__content {
+  padding: 32px;
+}
+
+.points-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.points-card__title {
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+}
+
+.points-card__balance {
+  display: block;
+  font-size: 72px;
+  font-weight: bold;
+  color: #FF6B00;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.points-card__stats {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 24px;
+}
+
+.points-card__stat {
+  text-align: center;
+}
+
+.points-card__stat-label {
+  display: block;
+  font-size: 24px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.points-card__stat-value {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+}
+
+.points-card__stat-value--warning {
+  color: #FF6B00;
+}
+
+.points-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.points-actions__btn {
+  flex: 1;
+  height: 88px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.points-actions__btn--primary {
+  background: #fff;
+  border: 2px solid #FF6B00;
+}
+
+.points-records {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.points-records__title {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.points-record {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.points-record:last-child {
+  border-bottom: none;
+}
+
+.points-record__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.points-record__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.points-record__info {
+  flex: 1;
+}
+
+.points-record__desc {
+  display: block;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.points-record__time {
+  display: block;
+  font-size: 24px;
+  color: #999;
+}
+
+.points-record__right {
+  text-align: right;
+}
+
+.points-record__amount {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.points-record__amount--earn {
+  color: #07C160;
+}
+
+.points-record__amount--spend {
+  color: #FF6B00;
+}
+
+.points-record__amount--expire {
+  color: #999;
+}

@@ -12,3 +12,12 @@ export type { Sprite, UserSprite } from './spriteStore'
 
 export { useRunnerStore } from './runnerStore'
 export type { RunnerInfo, RunnerOrder } from './runnerStore'
+
+export { usePaymentStore } from './paymentStore'
+export type { PaymentMethod } from './paymentStore'
+
+export { usePointsStore } from './pointsStore'
+export type { PointsRecord } from './pointsStore'
+
+export { useRechargeStore } from './rechargeStore'
+export type { RechargeCard } from './rechargeStore'

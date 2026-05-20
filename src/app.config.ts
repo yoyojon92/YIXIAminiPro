@@ -26,7 +26,12 @@ export default defineAppConfig({
     'pages/runner-moment/index',
     'pages/shipping-address/index',
     'pages/shipping/index',
-    'pages/tracking/index'
+    'pages/tracking/index',
+    'pages/runner-center/index',
+    'pages/payment/index',
+    'pages/points/index',
+    'pages/recharge/index',
+    'pages/withdraw/index'
   ],
   window: {
     backgroundTextStyle: 'light',
