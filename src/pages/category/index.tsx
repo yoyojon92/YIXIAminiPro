@@ -8,22 +8,23 @@ import { Search, Bell, ShoppingCart } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { usePushStore } from '@/store/pushStore'
 import { MOCK_PRODUCTS as products } from '@/mock/products'
-import type { Product } from '@/mock/products'
+import type { Product, UnifiedCategoryId } from '@/mock/products'
 
+// 使用统一分类体系
 const categories = [
-  { id: 1, name: '全部', icon: '🏠', key: '' },
-  { id: 2, name: '果酒', icon: '🍑', key: 'fruit_wine' },
-  { id: 3, name: '果汁', icon: '🫐', key: 'nfc_juice' },
-  { id: 4, name: '白酒', icon: '🥃', key: 'grain_wine' },
-  { id: 5, name: '礼盒套装', icon: '🎁', key: 'gift' }
+  { id: 1, name: '全部', icon: '🏠', key: '' as UnifiedCategoryId | '' },
+  { id: 2, name: '果酒系列', icon: '🍷', key: 'fruit_wine' as UnifiedCategoryId },
+  { id: 3, name: '粮食酒系列', icon: '🥃', key: 'grain_wine' as UnifiedCategoryId },
+  { id: 4, name: 'NFC果汁', icon: '🧃', key: 'nfc_juice' as UnifiedCategoryId },
+  { id: 5, name: '礼盒套装', icon: '🎁', key: 'gift_box' as UnifiedCategoryId }
 ]
 
 // 分类名称映射
 const categoryMap: Record<string, string> = {
   'fruit_wine': '果酒',
-  'grain_wine': '白酒',
-  'nfc_juice': '果汁',
-  'gift': '礼盒'
+  'grain_wine': '粮食酒',
+  'nfc_juice': 'NFC果汁',
+  'gift_box': '礼盒'
 }
 
 const getCategoryName = (category: string): string => {

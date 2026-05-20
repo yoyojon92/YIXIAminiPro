@@ -24,6 +24,9 @@ export interface ProductSpec {
   stock: number
 }
 
+// 统一分类ID类型
+export type UnifiedCategoryId = 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift_box'
+
 // 产品实体
 export interface Product {
   id: string
@@ -34,7 +37,7 @@ export interface Product {
   image: string
   images: string[]
   tags: string[]
-  category: 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift'
+  category: UnifiedCategoryId
   alcohol: string
   capacity: string
   specs: ProductSpec[]
@@ -68,7 +71,7 @@ export interface ProductCategory {
   icon: string
   color: string
   bgColor: string
-  category: 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift'
+  category: UnifiedCategoryId
 }
 
 // 器官大人IP
@@ -430,19 +433,19 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     category: 'nfc_juice'
   },
   {
-    id: 'cat_gift',
+    id: 'cat_gift_box',
     name: '礼盒套装',
     icon: 'gift',
     color: 'text-amber-400',
     bgColor: 'bg-amber-500 bg-opacity-20',
-    category: 'gift'
+    category: 'gift_box'
   }
 ]
 
 // 根据分类获取产品
 export const getProductsByCategory = (category: string): Product[] => {
   if (category === 'all') return MOCK_PRODUCTS
-  return MOCK_PRODUCTS.filter(p => p.category === category)
+  return MOCK_PRODUCTS.filter(p => p.category === category as UnifiedCategoryId)
 }
 
 // 根据ID获取产品
@@ -453,4 +456,54 @@ export const getProductById = (id: string): Product | undefined => {
 // 根据器官大人获取产品
 export const getProductByOrganLord = (organLordId: string): Product | undefined => {
   return MOCK_PRODUCTS.find(p => p.organLord === organLordId)
+}
+
+// ============ 统一分类体系（所有页面共用） ============
+export interface UnifiedCategory {
+  id: UnifiedCategoryId
+  name: string
+  icon: string
+  brandName: string       // 品牌名
+  ageRequired: boolean    // 是否需要18+验证
+  description: string
+}
+
+export const UNIFIED_CATEGORIES: UnifiedCategory[] = [
+  {
+    id: 'fruit_wine',
+    name: '果酒系列',
+    icon: '🍷',
+    brandName: '邑夏',
+    ageRequired: true,
+    description: '5款果酒，低度微醺'
+  },
+  {
+    id: 'grain_wine',
+    name: '粮食酒系列',
+    icon: '🥃',
+    brandName: '兴水河',
+    ageRequired: true,
+    description: '3款粮食白酒'
+  },
+  {
+    id: 'nfc_juice',
+    name: '高端NFC果汁系列',
+    icon: '🧃',
+    brandName: '果粟盈',
+    ageRequired: false,
+    description: '3款NFC果汁，全年龄'
+  },
+  {
+    id: 'gift_box',
+    name: '礼盒套装',
+    icon: '🎁',
+    brandName: '邑夏',
+    ageRequired: true,
+    description: '组合装，送礼首选'
+  }
+]
+
+// 根据统一分类ID获取分类信息
+export const getUnifiedCategoryById = (id: UnifiedCategoryId): UnifiedCategory | undefined => {
+  return UNIFIED_CATEGORIES.find(c => c.id === id)
 }
