@@ -1,13 +1,12 @@
-// 标签分类
+// 标签分类（移除"消费行为"，符合微信审核合规）
 export const TAG_CATEGORIES = [
   { id: 'taste', name: '口味偏好', icon: '🍷' },
-  { id: 'behavior', name: '消费行为', icon: '💳' },
   { id: 'social', name: '社交属性', icon: '🎭' },
   { id: 'health', name: '养生倾向', icon: '🌿' },
   { id: 'identity', name: '身份标签', icon: '🎖' },
 ]
 
-// 标签定义
+// 标签定义（移除消费行为相关标签，符合微信审核合规）
 export const USER_TAGS = {
   // 口味偏好
   peach_lover: { name: '蜜桃控', category: 'taste', icon: '🍑', color: '#F59E0B' },
@@ -15,12 +14,6 @@ export const USER_TAGS = {
   pear_lover: { name: '梨酒爱好者', category: 'taste', icon: '🍐', color: '#06B6D4' },
   pomegranate_fan: { name: '石榴控', category: 'taste', icon: '🏅', color: '#BE185D' },
   grape_lover: { name: '葡萄酒爱好者', category: 'taste', icon: '🍇', color: '#7C3AED' },
-  
-  // 消费行为
-  bargain_hunter: { name: '薅羊毛达人', category: 'behavior', icon: '🔍', color: '#10B981' },
-  big_spender: { name: '豪客', category: 'behavior', icon: '💰', color: '#FBBF24' },
-  coupon_user: { name: '券王', category: 'behavior', icon: '🎫', color: '#8B5CF6' },
-  flash_sale_fan: { name: '拼团狂人', category: 'behavior', icon: '⚡', color: '#EF4444' },
   
   // 社交属性
   social_butterfly: { name: '社交达人', category: 'social', icon: '🦋', color: '#3B82F6' },

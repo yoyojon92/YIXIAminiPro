@@ -101,20 +101,10 @@ function getTasteTags(actions: UserActions): TagId[] {
   return tags
 }
 
-// 获取行为标签
-function getBehaviorTags(actions: UserActions): TagId[] {
-  const tags: TagId[] = []
-  
-  // 薅羊毛达人：使用过代券
-  if (actions.couponUses >= 3) tags.push('bargain_hunter')
-  
-  // 豪客：单笔消费>100或累计消费>500
-  if (actions.purchases.some(p => p.price > 100) || actions.totalSpend > 500) tags.push('big_spender')
-  
-  // 券王：使用过代券
-  if (actions.couponUses >= 2) tags.push('coupon_user')
-  
-  return tags
+// 获取行为标签（已移除消费行为标签，符合微信审核合规）
+function getBehaviorTags(_actions: UserActions): TagId[] {
+  // 不再计算消费行为相关标签
+  return []
 }
 
 // 获取社交标签

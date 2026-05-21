@@ -378,15 +378,15 @@ export default function Profile() {
         </Button>
       </View>
 
-      {/* 分享入口 */}
+      {/* 分享入口（已移除诱导分享文案，符合微信审核合规） */}
       <View className="px-4 mb-6">
         <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-100">
           <CardContent className="p-4 flex items-center justify-between">
             <View className="flex items-center gap-3">
               <Gift size={24} color="#FBBF24" />
               <View>
-                <Text className="text-sm font-medium text-gray-900">分享邀请好友</Text>
-                <Text className="text-xs text-gray-500 mt-1">邀请新用户可得优惠券</Text>
+                <Text className="text-sm font-medium text-gray-900">分享给好友</Text>
+                <Text className="text-xs text-gray-500 mt-1">把邑夏分享给朋友</Text>
               </View>
             </View>
             <Button size="sm" variant="secondary" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>

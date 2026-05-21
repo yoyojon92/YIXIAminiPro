@@ -21,17 +21,13 @@ export default function UserProfile() {
 
   const level = getLevel()
 
-  // 标签说明
+  // 标签说明（已移除消费行为标签，符合微信审核合规）
   const tagDescriptions: Record<TagId, string> = {
     peach_lover: '你最喜欢桃味果酒，甜蜜是你的主旋律~',
     hawthorn_fan: '山楂的酸甜是你的心头好，开胃解腻！',
     pear_lover: '清润的梨酒是你的首选，润肺养生派~',
     pomegranate_fan: '石榴的抗氧化属性吸引了你，精致养生达人！',
     grape_lover: '葡萄果酒让你沉醉，浪漫优雅~',
-    bargain_hunter: '你精打细算，总能找到最优价格！',
-    big_spender: '品质生活，追求最好的体验！',
-    coupon_user: '用券高手，每一张券都用到极致！',
-    flash_sale_fan: '拼团狂人，和朋友一起享受优惠！',
     social_butterfly: '社交达人，在邑夏找到志同道合的伙伴！',
     content_creator: '创作者，用作品表达你的态度！',
     voter: '投票积极分子，为喜欢的作品发声！',

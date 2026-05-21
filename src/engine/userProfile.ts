@@ -58,13 +58,7 @@ export function calculateTags(behavior: UserBehavior): TagId[] {
     }
   })
   
-  // === 消费行为 ===
-  const totalSpend = behavior.purchases.reduce((s, p) => s + p.price * p.quantity, 0)
-  if (totalSpend >= 500) tags.push('big_spender')
-  if (behavior.couponUses.length >= 3) tags.push('coupon_user')
-  if (behavior.cartAdds.length > behavior.purchases.length * 2) tags.push('bargain_hunter')
-  
-  // === 社交属性 ===
+  // === 社交属性 ===（已移除消费行为标签，符合微信审核合规）
   if (behavior.ugcWorks.length >= 3) tags.push('content_creator')
   if (behavior.votes.length >= 5) tags.push('voter')
   if (behavior.shareCount >= 5) tags.push('social_butterfly')
@@ -92,7 +86,6 @@ export function calculateTags(behavior: UserBehavior): TagId[] {
 export function generateProfileSummary(tags: TagId[]): string {
   const categoryNames = {
     taste: '口味偏好',
-    behavior: '消费行为',
     social: '社交属性',
     health: '养生倾向',
     identity: '身份标签',
