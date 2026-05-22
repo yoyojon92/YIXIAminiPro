@@ -65,6 +65,7 @@ export default function Profile() {
   ]
   
   const menuItems = [
+    { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pages/membership/index' },
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
     { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
@@ -248,57 +249,6 @@ export default function Profile() {
             </View>
           </View>
         </View>
-      </View>
-
-      {/* 会员专属权益 */}
-      <View className="px-4 mt-4">
-        <Card className="overflow-hidden">
-          <View className="p-4 bg-gradient-to-r from-purple-500 to-pink-500">
-            <View className="flex items-center justify-between">
-              <View className="flex items-center gap-2">
-                <Crown size={18} color="white" />
-                <Text className="text-white font-semibold">会员专属权益</Text>
-              </View>
-              {isMember ? (
-                <Badge variant="secondary" className="text-xs" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
-                  <Sparkles size={12} color="#FBBF24" />
-                  <Text className="text-white ml-1">已开通</Text>
-                </Badge>
-              ) : (
-                <Button 
-                  size="sm" 
-                  className="text-xs"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-                  onClick={() => setShowMemberModal(true)}
-                >
-                  <Text className="text-white">立即开通</Text>
-                </Button>
-              )}
-            </View>
-          </View>
-          <CardContent className="p-0">
-            {getMemberBenefits().map((benefit, index) => (
-              <View key={index}>
-                <View className="flex items-center gap-3 p-4">
-                  <Sparkles size={16} color="#8B5CF6" />
-                  <Text className="text-sm text-gray-800 font-medium flex-1">{benefit}</Text>
-                </View>
-                {index < getMemberBenefits().length - 1 && <Separator className="ml-14" />}
-              </View>
-            ))}
-            {!isMember && (
-              <View className="p-4 bg-purple-50">
-                <Button 
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-0"
-                  onClick={() => setShowMemberModal(true)}
-                >
-                  <Crown size={16} color="white" />
-                  <Text className="text-white ml-2">👑 9.9元/月 开通邑夏会员</Text>
-                </Button>
-              </View>
-            )}
-          </CardContent>
-        </Card>
       </View>
 
       {/* 功能菜单 */}

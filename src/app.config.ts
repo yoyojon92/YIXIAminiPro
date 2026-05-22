@@ -24,6 +24,7 @@ export default defineAppConfig({
     'pages/runner-list/index',
     'pages/runner-detail/index',
     'pages/runner-moment/index',
+    'pages/membership/index',
     'pages/shipping-address/index',
     'pages/shipping/index',
     'pages/tracking/index',
