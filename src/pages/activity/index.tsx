@@ -78,7 +78,7 @@ const activities: Activity[] = [
     status: 'ongoing',
     type: 'reward',
     reward: '满100减20优惠券',
-    description: '老用户回归专属福利，邀请好友下单双方都有优惠。'
+    description: '老用户回归专属福利，下单即享优惠。'
   }
 ]
 
