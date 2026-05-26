@@ -27,7 +27,7 @@ export default function Membership() {
           </View>
         </View>
         <Text className="text-white text-2xl font-bold text-center block">邑夏月卡会员</Text>
-        <Text className="text-white/70 text-sm text-center block mt-2">
+        <Text className="text-white text-opacity-70 text-sm text-center block mt-2">
           {isMember ? `剩余${remainingDays}天 · 到期${memberExpire ? new Date(memberExpire).toLocaleDateString() : ''}` : '9.9元/月 · 轻松开通'}
         </Text>
         {!isMember && (
@@ -40,7 +40,7 @@ export default function Membership() {
         )}
         {isMember && (
           <View className="flex justify-center mt-4">
-            <Badge className="text-sm bg-white/20 text-white border-0 px-4 py-1">
+            <Badge className="text-sm bg-white bg-opacity-20 text-white border-0 px-4 py-1">
               <Sparkles size={14} color="#FBBF24" />
               <Text className="ml-1">已开通</Text>
             </Badge>

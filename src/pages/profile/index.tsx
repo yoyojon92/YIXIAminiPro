@@ -23,7 +23,7 @@ import {
 export default function Profile() {
   const [showRegister, setShowRegister] = useState(false)
   
-  const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, getMemberBenefits, renewMember } = useMemberStore()
+  const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, renewMember } = useMemberStore()
   const { getUnusedCoupons } = useCouponStore()
   const profileStore = useUserProfileStore()
   const pushStore = usePushStore()
