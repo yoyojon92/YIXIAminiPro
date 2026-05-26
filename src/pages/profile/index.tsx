@@ -11,12 +11,13 @@ import { useUserProfileStore } from '@/store/userProfileStore'
 import { trackProfileAction } from '@/store/profileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useRunnerStore } from '@/store/runnerStore'
+import { useUserStore } from '@/store/userStore'
 import { MemberModal } from '@/components/member-modal'
 import { RegisterModal } from '@/components/RegisterModal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter, Users
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter, Users, Shield
 } from 'lucide-react-taro'
 
 export default function Profile() {
@@ -26,11 +27,15 @@ export default function Profile() {
   const { getUnusedCoupons } = useCouponStore()
   const profileStore = useUserProfileStore()
   const pushStore = usePushStore()
+  const userStore = useUserStore()
   
   // 从userStore读取用户信息
   const { nickname, school, college, isRegistered } = profileStore
   const { tags } = profileStore
   const runnerStore = useRunnerStore()
+  
+  // 检查是否是管理员
+  const isAdmin = userStore.userInfo?.role === 'super_admin'
   
   // 检查是否需要显示注册弹窗
   useEffect(() => {
@@ -315,6 +320,31 @@ export default function Profile() {
           </CardContent>
         </Card>
       </View>
+
+      {/* 管理员入口 */}
+      {isAdmin && (
+        <View className="px-4 mt-4">
+          <Card className="bg-gradient-to-r from-purple-600 to-indigo-600 border-0">
+            <CardContent className="p-4">
+              <View 
+                className="flex items-center justify-between"
+                onClick={() => Taro.navigateTo({ url: '/pages/admin/index' })}
+              >
+                <View className="flex items-center gap-3">
+                  <View className="w-12 h-12 rounded-xl bg-white bg-opacity-20 flex items-center justify-center">
+                    <Shield size={24} color="white" />
+                  </View>
+                  <View>
+                    <Text className="text-white font-bold text-lg">管理控制中心</Text>
+                    <Text className="text-white text-opacity-80 text-sm mt-1">产品管理 · 活动管理 · 数据看板</Text>
+                  </View>
+                </View>
+                <ChevronRight size={20} color="white" />
+              </View>
+            </CardContent>
+          </Card>
+        </View>
+      )}
 
       {/* 退出登录 */}
       <View className="px-4 mt-6 mb-6">

@@ -21,3 +21,6 @@ export type { PointsRecord, PointsRule, PointsReward } from './pointsStore'
 
 export { useRechargeStore } from './rechargeStore'
 export type { RechargeCard, RechargePackage, RechargeRecord } from './rechargeStore'
+
+export { useAdminStore } from './adminStore'
+export type { AdminProduct } from './adminStore'

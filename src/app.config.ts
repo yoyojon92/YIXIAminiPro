@@ -32,7 +32,14 @@ export default defineAppConfig({
     'pages/payment/index',
     'pages/points/index',
     'pages/recharge/index',
-    'pages/withdraw/index'
+    'pages/withdraw/index',
+    'pages/admin/index',
+    'pages/admin/products',
+    'pages/admin/counselor',
+    'pages/admin/activity',
+    'pages/admin/ip-manage',
+    'pages/admin/user-profile',
+    'pages/admin/links'
   ],
   window: {
     backgroundTextStyle: 'light',
