@@ -8,7 +8,7 @@ export type ProductStatus = 'on_sale' | 'off_sale' | 'pre_sale'
 export interface AdminProduct {
   id: string
   name: string
-  category: 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift_box'
+  category: 'fruit_wine' | 'nfc_juice' | 'gift_box'
   price: number
   originalPrice: number
   spec: string

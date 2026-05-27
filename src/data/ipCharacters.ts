@@ -128,8 +128,8 @@ const XIN_XIN: IPCharacter = {
     weaknesses: ['情绪波动', '心魔侵蚀', '孤独', '熬夜'],
   },
   
-  relatedProducts: ['似水榴年'],
-  productIds: ['prod_pomegranate_001'],
+  relatedProducts: ['榴红心事'],
+  productIds: ['prod_pomegranate_new'],
   image: '/assets/images/ip/xinxin.jpg',
   emoji: '❤️',
 };
@@ -190,8 +190,8 @@ const GAN_GAN: IPCharacter = {
     weaknesses: ['过度思虑', '完美主义', '难以表达情感'],
   },
   
-  relatedProducts: ['楂香四溢'],
-  productIds: ['prod_hawthorn_001'],
+  relatedProducts: ['番红暗许'],
+  productIds: ['prod_guava_001'],
   image: '/assets/images/ip/gangan.jpg',
   emoji: '💚',
 };
@@ -252,8 +252,8 @@ const PI_PI: IPCharacter = {
     weaknesses: ['过度付出', '不会拒绝', '容易被忽视'],
   },
   
-  relatedProducts: ['桃你欢心', '蜜桃微醺'],
-  productIds: ['prod_peach_001', 'prod_peach_002'],
+  relatedProducts: ['清苹微醉'],
+  productIds: ['prod_apple_001'],
   image: '/assets/images/ip/pipi.jpg',
   emoji: '💛',
 };
@@ -314,8 +314,8 @@ const FEI_FEI: IPCharacter = {
     weaknesses: ['太过随性', '回避深层情感', '边界感太强'],
   },
   
-  relatedProducts: ['大吉大梨', '柚见微醺'],
-  productIds: ['prod_pear_001', 'prod_pear_002'],
+  relatedProducts: ['清苹微醉'],
+  productIds: ['prod_apple_001'],
   image: '/assets/images/ip/feifei.jpg',
   emoji: '🤍',
 };
@@ -376,8 +376,8 @@ const SHEN_SHEN: IPCharacter = {
     weaknesses: ['不善表达', '容易压抑', '孤独感', '寒冷'],
   },
   
-  relatedProducts: ['葡写浪漫'],
-  productIds: ['prod_grape_001'],
+  relatedProducts: ['榴红心事'],
+  productIds: ['prod_pomegranate_new'],
   image: '/assets/images/ip/shenshen.jpg',
   emoji: '💜',
 };

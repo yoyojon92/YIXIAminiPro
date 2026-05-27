@@ -14,7 +14,7 @@ export interface Product {
   originalPrice: number
   alcohol: string
   capacity: string
-  category: 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift_box'
+  category: 'fruit_wine' | 'nfc_juice' | 'gift_box'
   tags: string[]
   images: {
     main: string

@@ -32,105 +32,29 @@ export interface Sprite {
   }
 }
 
-// 5位精灵数据
+// 3位精灵数据（对应3款果酒）
 export const MOCK_SPRITES: Sprite[] = [
   {
-    id: 'sprite_taoyao',
-    name: '桃夭',
-    alias: '桃花精灵',
-    color: 'text-pink-400',
-    bgColor: 'bg-pink-500 bg-opacity-20',
-    borderColor: 'border-pink-500',
-    description: '桃花精灵，粉色系，微醺系+清爽系双形态',
-    personality: '浪漫温柔，活泼可爱，喜欢用花瓣施魔法',
-    story: '"桃花灼灼，宜室宜家。我是桃花精灵桃夭，每一滴桃酒都承载着春日的浪漫。愿你的人生如桃花般绚烂芬芳~"',
-    products: ['prod_peach_001', 'prod_nfc_peach_001'],
-    productNames: ['桃你欢心', '鲜桃果汁'],
-    hasDualForm: true,
-    alcoholForm: {
-      name: '微醺态·桃夭',
-      desc: '带着微微酒香的桃花仙子，脸颊泛红，更加娇媚动人',
-      image: './assets/images/banner1.jpg'
-    },
-    freshForm: {
-      name: '清爽态·桃夭',
-      desc: '清新脱俗的桃花少女，没有酒精的束缚，更加轻盈灵动',
-      image: './assets/images/banner1.jpg'
-    }
-  },
-  {
-    id: 'sprite_shazha',
-    name: '楂楂',
-    alias: '山楂精灵',
-    color: 'text-red-400',
-    bgColor: 'bg-red-500 bg-opacity-20',
-    borderColor: 'border-red-500',
-    description: '山楂精灵，红色系，微醺系',
-    personality: '活泼开朗，调皮可爱，最爱恶作剧',
-    story: '"酸酸甜甜就是我，来自沂蒙山间的小楂。当你在课堂上打瞌睡时，一口山楂酒就能让你精神百倍！学习也要劳逸结合呀~"',
-    products: ['prod_hawthorn_001'],
-    productNames: ['楂香四溢'],
-    hasDualForm: false,
-    alcoholForm: {
-      name: '微醺态·楂楂',
-      desc: '带着山楂酸甜香气的活泼精灵，越喝越精神！',
-      image: './assets/images/banner3.jpg'
-    },
-    freshForm: {
-      name: '清爽态·楂楂',
-      desc: '清爽酸甜的山楂小精灵（暂无清爽版产品）',
-      image: './assets/images/banner3.jpg'
-    }
-  },
-  {
-    id: 'sprite_lili',
-    name: '梨梨',
-    alias: '梨精灵',
-    color: 'text-lime-400',
-    bgColor: 'bg-lime-500 bg-opacity-20',
-    borderColor: 'border-lime-500',
-    description: '梨精灵，淡黄绿色系，微醺系+清爽系双形态，器官联名：肺大人',
-    personality: '温柔体贴，善解人意，喜欢在夜晚给人们带去安宁',
-    story: '"秋高气爽，梨香满园。我是来自沂蒙山的小梨，每一颗梨都承载着果农的期盼。当月光洒落，我会悄悄走进你的梦，带去一份清甜与安宁。"',
-    products: ['prod_pear_001', 'prod_nfc_pear_001'],
-    productNames: ['大吉大梨', '鲜梨果汁'],
-    hasDualForm: true,
-    alcoholForm: {
-      name: '微醺态·梨梨',
-      desc: '带着梨酒清香的温柔精灵，月光下格外动人',
-      image: './assets/images/banner1.jpg'
-    },
-    freshForm: {
-      name: '清爽态·梨梨',
-      desc: '清新水润的鲜梨少女，更加健康自然',
-      image: './assets/images/banner1.jpg'
-    },
-    organLord: {
-      name: '肺大人',
-      quote: '梨润肺·肺大人说：秋燥伤肺，来杯梨酒润一润'
-    }
-  },
-  {
-    id: 'sprite_liuliu',
-    name: '榴榴',
-    alias: '石榴精灵',
+    id: 'sprite_xinxin',
+    name: '欣欣',
+    alias: '心之精灵',
     color: 'text-rose-400',
     bgColor: 'bg-rose-500 bg-opacity-20',
     borderColor: 'border-rose-500',
-    description: '石榴精灵，深红紫色系，微醺系，器官联名：心君',
-    personality: '热情奔放，落落大方，浑身散发着成熟魅力',
-    story: '"红宝石般的果实，蕴含着四季的阳光。我是石榴精灵榴榴，每一滴酒都是生命的馈赠。愿与你分享这份红彤彤的喜悦。"',
-    products: ['prod_pomegranate_001'],
-    productNames: ['似水榴年'],
+    description: '心之精灵，红色系，对应榴红心事和番红暗许',
+    personality: '热情温暖，善解人意，喜欢用心语抚慰人心',
+    story: '"心如红石榴，热烈而温润。我是藏府君欣欣，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
+    products: ['prod_pomegranate_new', 'prod_guava_001'],
+    productNames: ['榴红心事', '番红暗许'],
     hasDualForm: false,
     alcoholForm: {
-      name: '微醺态·榴榴',
-      desc: '如红宝石般璀璨的石榴精灵，散发着迷人的魅力',
+      name: '微醺态·欣欣',
+      desc: '如红石榴般温暖的心之精灵，散发着安神的魅力',
       image: './assets/images/banner2.jpg'
     },
     freshForm: {
-      name: '清爽态·榴榴',
-      desc: '清新甜美的石榴少女（暂无清爽版产品）',
+      name: '清爽态·欣欣',
+      desc: '清新温暖的心之少女',
       image: './assets/images/banner2.jpg'
     },
     organLord: {
@@ -139,27 +63,55 @@ export const MOCK_SPRITES: Sprite[] = [
     }
   },
   {
-    id: 'sprite_pupu',
-    name: '葡葡',
-    alias: '葡萄精灵',
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-500 bg-opacity-20',
-    borderColor: 'border-purple-500',
-    description: '葡萄精灵，紫蓝色系，微醺系+清爽系双形态',
-    personality: '优雅高贵，追求浪漫，擅长用歌声抚慰人心',
-    story: '"紫水晶般的葡萄，凝结了阳光的温度。我是葡萄精灵葡葡，每一瓶酒都是我对美好生活的诠释。愿与你共享这份紫色的浪漫。"',
-    products: ['prod_grape_001', 'prod_nfc_grape_001'],
-    productNames: ['葡写浪漫', '红葡萄果汁'],
-    hasDualForm: true,
+    id: 'sprite_feifei',
+    name: '霏霏',
+    alias: '肺之精灵',
+    color: 'text-cyan-400',
+    bgColor: 'bg-cyan-500 bg-opacity-20',
+    borderColor: 'border-cyan-500',
+    description: '肺之精灵，青绿色系，对应清苹微醉',
+    personality: '清新自然，轻盈自在，喜欢用清风抚慰人心',
+    story: '"清风徐来，苹果微醺。我是藏府君霏霏，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
+    products: ['prod_apple_001'],
+    productNames: ['清苹微醉'],
+    hasDualForm: false,
     alcoholForm: {
-      name: '微醺态·葡葡',
-      desc: '带着葡萄酒香的优雅精灵，散发着高贵的气质',
-      image: './assets/images/banner2.jpg'
+      name: '微醺态·霏霏',
+      desc: '带着青苹果清香的轻盈精灵，散发着清新的魅力',
+      image: './assets/images/banner1.jpg'
     },
     freshForm: {
-      name: '清爽态·葡葡',
-      desc: '清新甜美的葡萄少女，不用微醺也能感受甜蜜',
-      image: './assets/images/banner2.jpg'
+      name: '清爽态·霏霏',
+      desc: '清新轻盈的苹果少女',
+      image: './assets/images/banner1.jpg'
+    },
+    organLord: {
+      name: '肺大人',
+      quote: '青苹果清肺·肺大人说：清肺润燥，轻盈自在'
+    }
+  },
+  {
+    id: 'sprite_nfc',
+    name: '清爽精灵',
+    alias: '果汁精灵',
+    color: 'text-emerald-400',
+    bgColor: 'bg-emerald-500 bg-opacity-20',
+    borderColor: 'border-emerald-500',
+    description: '果汁精灵，绿色系，对应原果汁产品',
+    personality: '活力充沛，健康阳光，喜欢给人们带去自然的能量',
+    story: '"没有酒精的束缚，更加轻盈灵动~快来尝尝清爽版的果汁吧！"',
+    products: ['prod_nfc_peach_001', 'prod_nfc_grape_001', 'prod_nfc_pear_001'],
+    productNames: ['鲜桃果汁', '红葡萄果汁', '鲜梨果汁'],
+    hasDualForm: false,
+    alcoholForm: {
+      name: '微醺态·清爽精灵',
+      desc: '果汁精灵没有微醺态',
+      image: './assets/images/banner1.jpg'
+    },
+    freshForm: {
+      name: '清爽态·清爽精灵',
+      desc: '活力充沛的果汁少女，给人们带去自然的能量',
+      image: './assets/images/banner1.jpg'
     }
   }
 ]

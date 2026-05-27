@@ -39,7 +39,6 @@ export default function ProductManage() {
   const getCategoryName = (category: string) => {
     switch (category) {
       case 'fruit_wine': return '果酒'
-      case 'grain_wine': return '露酒'
       case 'nfc_juice': return '原果汁'
       case 'gift_box': return '礼盒'
       default: return category

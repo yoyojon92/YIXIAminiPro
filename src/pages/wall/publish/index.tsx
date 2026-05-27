@@ -11,11 +11,13 @@ import { trackProfileAction } from '@/store/profileStore'
 import { ArrowLeft, ImagePlus, X } from 'lucide-react-taro'
 
 const PRODUCT_OPTIONS = [
-  { id: 'prod_peach_001', name: '🍑 桃你欢心' },
-  { id: 'prod_hawthorn_001', name: '🍒 楂香四溢' },
-  { id: 'prod_pear_001', name: '🍐 大吉大梨' },
-  { id: 'prod_pomegranate_001', name: '🍎 似水榴年' },
-  { id: 'prod_grape_001', name: '🍇 葡写浪漫' },
+  { id: 'prod_pomegranate_new', name: '🥤 榴红心事' },
+  { id: 'prod_apple_001', name: '🍏 清苹微醉' },
+  { id: 'prod_guava_001', name: '🍹 番红暗许' },
+  { id: 'prod_nfc_peach_001', name: '🍑 鲜桃果汁' },
+  { id: 'prod_nfc_grape_001', name: '🍇 红葡萄果汁' },
+  { id: 'prod_nfc_pear_001', name: '🍐 鲜梨果汁' },
+  { id: 'prod_gift_box_001', name: '🎁 缤纷礼盒' },
 ]
 
 const TAGS = [

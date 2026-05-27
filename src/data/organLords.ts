@@ -16,49 +16,49 @@ export interface OrganLord {
   emoji: string;          // Emoji 占位符
 }
 
-// 脾将军 - 主脾经（对应：桃你欢心、蜜桃微醺、新桃酒款）
+// 脾将军 - 主脾经（对应：清苹微醉）
 const PI_JIANG_JUN: OrganLord = {
   id: 'pijiangjun',
   name: '脾将军',
   title: '后天之本',
   color: '#F59E0B',
   colorEnd: '#FF8C42',
-  healthText: '桃养脾胃 · 脾胃为后天之本，气血生化之源',
-  relatedProducts: ['桃你欢心', '蜜桃微醺', '桃韵微醺'],
-  productIds: ['prod_peach_001', 'prod_peach_002', 'prod_peach_003'],
+  healthText: '苹果健脾 · 脾胃为后天之本，气血生化之源',
+  relatedProducts: ['清苹微醉'],
+  productIds: ['prod_apple_001'],
   image: '/assets/images/organ-lords/pijiangjun.jpg',
   emoji: '🍑',
 };
 
-// 肺丞相 - 主肺经（对应：大吉大梨、柚见微醺、新梨酒款）
+// 肺丞相 - 主肺经（对应：清苹微醉）
 const FEI_CHENG_XIANG: OrganLord = {
   id: 'feichengxiang',
   name: '肺丞相',
   title: '相傅之官',
   color: '#E2E8F0',
   colorEnd: '#60A5FA',
-  healthText: '梨润肺 · 肺主气，司呼吸，润肺生津',
-  relatedProducts: ['大吉大梨', '柚见微醺', '梨香微醺'],
-  productIds: ['prod_pear_001', 'prod_pear_002', 'prod_pear_003'],
+  healthText: '苹果清肺 · 肺主气，司呼吸，清肺润燥',
+  relatedProducts: ['清苹微醉'],
+  productIds: ['prod_apple_001'],
   image: '/assets/images/organ-lords/feichengxiang.jpg',
   emoji: '🍐',
 };
 
-// 肝谋士 - 主肝经（对应：楂香四溢）
+// 肝谋士 - 主肝经（对应：番红暗许）
 const GAN_MOU_SHI: OrganLord = {
   id: 'ganmoushi',
   name: '肝谋士',
   title: '将军之官',
   color: '#059669',
   colorEnd: '#94A3B8',
-  healthText: '山楂消食 · 肝藏血，主疏泄，酸甘化阴',
-  relatedProducts: ['楂香四溢'],
-  productIds: ['prod_hawthorn_001'],
+  healthText: '番石榴养肝 · 肝藏血，主疏泄',
+  relatedProducts: ['番红暗许'],
+  productIds: ['prod_guava_001'],
   image: '/assets/images/organ-lords/ganmoushi.jpg',
   emoji: '🍒',
 };
 
-// 心君 - 主心经（对应：似水榴年、新石榴酒款）
+// 心君 - 主心经（对应：榴红心事）
 const XIN_JUN: OrganLord = {
   id: 'xinjun',
   name: '心君',
@@ -66,22 +66,22 @@ const XIN_JUN: OrganLord = {
   color: '#DC2626',
   colorEnd: '#F59E0B',
   healthText: '石榴养心 · 心主神明，养心安神',
-  relatedProducts: ['似水榴年', '石榴微醺'],
-  productIds: ['prod_pomegranate_001', 'prod_pomegranate_002'],
+  relatedProducts: ['榴红心事'],
+  productIds: ['prod_pomegranate_new'],
   image: '/assets/images/organ-lords/xinjun.jpg',
   emoji: '🍎',
 };
 
-// 肾智者 - 主肾经（对应：葡香暗度、新葡酒款）
+// 肾智者 - 主肾经（对应：榴红心事）
 const SHEN_ZHI_ZHE: OrganLord = {
   id: 'shenzhizhe',
   name: '肾智者',
   title: '先天之本',
   color: '#6366F1',
   colorEnd: '#1E3A5F',
-  healthText: '葡萄补肾 · 肾为先天之本，滋阴养血',
-  relatedProducts: ['葡香暗度', '葡写浪漫'],
-  productIds: ['prod_grape_001', 'prod_grape_002'],
+  healthText: '石榴补肾 · 肾为先天之本，滋阴养血',
+  relatedProducts: ['榴红心事'],
+  productIds: ['prod_pomegranate_new'],
   image: '/assets/images/organ-lords/shenzhizhe.jpg',
   emoji: '🍇',
 };

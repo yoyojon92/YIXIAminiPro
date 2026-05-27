@@ -35,61 +35,29 @@ const COMIC_DIALOGUES: Record<string, {
   lordImage: string
   lordLine: string
 }> = {
-  'prod_peach_001': {
-    spiritName: '桃夭',
-    spiritImage: '/assets/images/spirits/taoyao.jpg',
-    spiritLine: '论文还差3000字…我可能要原地升天了…',
-    lordName: '脾将军',
-    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
-    lordLine: '思虑过度伤的是我的脾哦…来，喝杯桃酒，让我替你分忧？别想太多，我护着你。',
-  },
-  'prod_peach_002': {
-    spiritName: '桃夭',
-    spiritImage: '/assets/images/spirits/taoyao.jpg',
-    spiritLine: '纠结选课选到头秃…救命…',
-    lordName: '脾将军',
-    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
-    lordLine: '选择困难？说明脾在抗议了。一杯桃酒下肚，跟着直觉走，我帮你稳住。',
-  },
-  'prod_hawthorn_001': {
-    spiritName: '楂楂',
-    spiritImage: '/assets/images/spirits/zhazha.jpg',
-    spiritLine: '她又在12点开外放！忍无可忍！！',
-    lordName: '肝谋士',
-    lordImage: '/assets/images/organ-lords/ganmoushi.jpg',
-    lordLine: '怒伤肝，别气别气，她不配让你肝疼。来杯山楂酒，疏疏肝气。',
-  },
-  'prod_pear_001': {
-    spiritName: '梨梨',
-    spiritImage: '/assets/images/spirits/lili.jpg',
-    spiritLine: '他说我们不合适…三年的感情就这么没了…',
-    lordName: '肺丞相',
-    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
-    lordLine: '悲伤肺，哭多了我会疼的。来杯梨酒润一润，眼泪流完了，心就轻了。',
-  },
-  'prod_grapefruit_001': {
-    spiritName: '梨梨',
-    spiritImage: '/assets/images/spirits/lili.jpg',
-    spiritLine: '天一凉就想哭…看落叶都觉得难过…',
-    lordName: '肺丞相',
-    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
-    lordLine: '秋气通肺，悲伤是肺在回应季节。柚见微醺，让秋天温柔一点。',
-  },
-  'prod_pomegranate_001': {
-    spiritName: '榴榴',
+  'prod_pomegranate_new': {
+    spiritName: '欣欣',
     spiritImage: '/assets/images/spirits/liuliu.jpg',
     spiritLine: '他跟我表白了啊啊啊啊！',
     lordName: '心君',
     lordImage: '/assets/images/organ-lords/xinjun.jpg',
-    lordLine: '心主喜，开心就好！但别喜极伤心哦…来杯石榴酒，让喜悦慢慢沉淀。',
+    lordLine: '心主喜，开心就好！但别喜极伤心哦…来杯榴红心事，让喜悦慢慢沉淀。',
   },
-  'prod_grape_001': {
-    spiritName: '葡葡',
-    spiritImage: '/assets/images/spirits/pupu.jpg',
-    spiritLine: '出分了…我不敢点…谁帮我查！！',
-    lordName: '肾智者',
-    lordImage: '/assets/images/organ-lords/shenzhizhe.jpg',
-    lordLine: '恐惧伤肾，但逃避更伤。来杯葡写浪漫壮壮胆，不管多少分，我在呢。',
+  'prod_apple_001': {
+    spiritName: '霏霏',
+    spiritImage: '/assets/images/spirits/lili.jpg',
+    spiritLine: '天一凉就想哭…看落叶都觉得难过…',
+    lordName: '肺丞相',
+    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
+    lordLine: '悲伤肺，哭多了我会疼的。来杯清苹微醉润一润，眼泪流完了，心就轻了。',
+  },
+  'prod_guava_001': {
+    spiritName: '番红',
+    spiritImage: '/assets/images/spirits/zhazha.jpg',
+    spiritLine: '纠结选课选到头秃…救命…',
+    lordName: '脾将军',
+    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
+    lordLine: '选择困难？说明脾在抗议了。一杯番红暗许下肚，跟着直觉走，我帮你稳住。',
   },
 }
 

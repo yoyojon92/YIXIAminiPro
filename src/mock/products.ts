@@ -1,25 +1,20 @@
 /**
  * 产品 Mock 数据
- * 邑夏果酒/果汁小程序 - 11款产品完整数据
+ * 邑夏果酒/果汁小程序 - 7款产品完整数据
  */
 
 // 产品图片路径映射（英文路径，兼容微信小程序）
 const PRODUCT_IMAGES: Record<string, string> = {
-  prod_peach_001: '/assets/images/products/yixia-products/01-tao-ni-huan-xin.png',
-  prod_hawthorn_001: '/assets/images/products/yixia-products/02-zha-xiang-si-yi.png',
-  prod_pear_001: '/assets/images/products/yixia-products/03-da-ji-da-li.png',
-  prod_pomegranate_001: '/assets/images/products/yixia-products/04-si-shui-liu-nian.png',
-  // ★ 新品产品图（葡香暗度替换葡写浪漫）
-  prod_grape_001: '/assets/images/products/yixia-new/03-pu-xiang-an-du.jpg',
+  // ★ 果酒新品
+  prod_pomegranate_new: '/assets/images/products/yixia-new/01-liu-hong-xin-shi.jpg',
+  prod_apple_001: '/assets/images/products/yixia-new/02-qing-ping-wei-zui.jpg',
+  prod_guava_001: '/assets/images/products/yixia-new/06-fan-hong-an-xu.jpg',
+  // ★ 原果汁
   prod_nfc_peach_001: '/assets/images/products/yixia-products/06-nfc-peach.png',
   prod_nfc_grape_001: '/assets/images/products/yixia-products/07-nfc-grape.png',
   prod_nfc_pear_001: '/assets/images/products/yixia-products/08-nfc-pear.png',
-  // ★ 新品产品图
-  prod_pomegranate_new: '/assets/images/products/yixia-new/01-liu-hong-xin-shi.jpg',
-  prod_apple_001: '/assets/images/products/yixia-new/02-qing-ping-wei-zui.jpg',
-  prod_mixed_001: '/assets/images/products/yixia-new/05-wei-ai-er-sheng.jpg',
-  prod_peach_new: '/assets/images/products/yixia-new/04-tao-xin-an-dong.jpg',
-  prod_guava_001: '/assets/images/products/yixia-new/06-fan-hong-an-xu.jpg',
+  // ★ 礼盒
+  prod_gift_box_001: '/assets/images/products/yixia-new/05-wei-ai-er-sheng.jpg',
   // ★ 新品场景图
   scene_pomegranate: '/assets/images/products/yixia-new/scene_pomegranate.jpeg',
   scene_apple: '/assets/images/products/yixia-new/scene_apple.jpeg',
@@ -39,7 +34,7 @@ export interface ProductSpec {
 }
 
 // 统一分类ID类型
-export type UnifiedCategoryId = 'fruit_wine' | 'grain_wine' | 'nfc_juice' | 'gift_box'
+export type UnifiedCategoryId = 'fruit_wine' | 'nfc_juice' | 'gift_box'
 
 // 产品实体
 export interface Product {
@@ -106,149 +101,103 @@ export const ORGAN_LORDS: OrganLord[] = [
   {
     id: 'organ_fei',
     name: '肺大人',
-    productId: 'prod_pear_001',
-    productName: '大吉大梨',
+    productId: 'prod_apple_001',
+    productName: '清苹微醉',
     avatar: '🫁',
-    quote: '梨润肺·肺大人说：秋燥伤肺，来杯梨酒润一润',
-    description: '中医认为"梨性寒味甘，有润肺止咳、滋阴清热"的功效。肺大人是五脏中最怕燥热的器官，秋季干燥时更需要滋润。'
+    quote: '青苹果清肺·肺大人说：清肺润燥，轻盈自在',
+    description: '中医认为"青苹果性凉味甘，有清热润肺、生津止渴"的功效。肺大人是五脏中最怕燥热的器官，秋季干燥时更需要滋润。'
   },
   {
     id: 'organ_xin',
     name: '心君',
-    productId: 'prod_pomegranate_001',
-    productName: '似水榴年',
+    productId: 'prod_pomegranate_new',
+    productName: '榴红心事',
     avatar: '❤️',
     quote: '心君说：石榴养心补血，让你的心更有力量',
     description: '中医认为"石榴性温味甘酸，有生津止渴、收敛固涩"的功效，对心脏健康大有裨益。'
   }
 ]
 
-// 官方产品数据 - 11款产品
+// 官方产品数据 - 7款产品
 export const MOCK_PRODUCTS: Product[] = [
-  // ============ 果酒系列（邑夏品牌，5款）============
+  // ============ 果酒系列（邑夏品牌，3款）============
   {
-    id: 'prod_peach_001',
-    name: '桃你欢心',
-    subtitle: '金银花发酵酒·桃',
-    price: 32.9,
-    originalPrice: 39.9,
-    image: PRODUCT_IMAGES.prod_peach_001,
-    images: [PRODUCT_IMAGES.prod_peach_001, PRODUCT_IMAGES.prod_pear_001, PRODUCT_IMAGES.prod_pomegranate_001],
-    tags: ['果酒', '桃花酿', '养颜', '金银花'],
+    id: 'prod_pomegranate_new',
+    name: '榴红心事',
+    subtitle: '石榴红酒',
+    price: 18.8,
+    originalPrice: 28.8,
+    image: PRODUCT_IMAGES.prod_pomegranate_new,
+    images: [PRODUCT_IMAGES.prod_pomegranate_new, PRODUCT_IMAGES.scene_pomegranate],
+    tags: ['果酒', '石榴酒', '新品', '养心', '安神'],
     category: 'fruit_wine',
-    alcohol: '7%vol',
+    alcohol: '6%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_peach_330', name: '330ml 单瓶装', price: 32.9, originalPrice: 39.9, stock: 100 }
+      { id: 'spec_pomegranate_new_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
     ],
-    description: '甄选新鲜蜜桃，搭配金银花精华，采用低温发酵工艺精制而成。酒体呈淡粉色，清甜醇厚，散发着蜜桃与金银花的双重香气。',
-    story: '"桃花灼灼，宜室宜家。我是桃花精灵桃夭，每一滴桃酒都承载着春日的浪漫。愿你的人生如桃花般绚烂芬芳~"',
-    spriteId: 'sprite_taoyao',
-    spriteAlias: '桃夭',
-    salesCount: 1568,
-    rating: 4.8,
-    isAlcohol: true,
-    brand: '邑夏'
-  },
-  {
-    id: 'prod_hawthorn_001',
-    name: '楂香四溢',
-    subtitle: '沂蒙山楂酒',
-    price: 24.9,
-    originalPrice: 29.9,
-    image: PRODUCT_IMAGES.prod_hawthorn_001,
-    images: [PRODUCT_IMAGES.prod_hawthorn_001, PRODUCT_IMAGES.prod_peach_001, PRODUCT_IMAGES.prod_pomegranate_001],
-    tags: ['果酒', '山楂酒', '开胃', '沂蒙山'],
-    category: 'fruit_wine',
-    alcohol: '12%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_hawthorn_330', name: '330ml 单瓶装', price: 24.9, originalPrice: 29.9, stock: 150 }
-    ],
-    description: '以沂蒙山新鲜山楂为原料，山楂富含维生素C和有机酸，经传统工艺酿造，酸甜适口，开胃消食。酒体呈淡红色，清新爽口。',
-    story: '"酸酸甜甜就是我，来自沂蒙山间的小楂。当你在课堂上打瞌睡时，一口山楂酒就能让你精神百倍！学习也要劳逸结合呀~"',
-    spriteId: 'sprite_shazha',
-    spriteAlias: '楂楂',
-    salesCount: 2103,
-    rating: 4.7,
-    isAlcohol: true,
-    brand: '邑夏'
-  },
-  {
-    id: 'prod_pear_001',
-    name: '大吉大梨',
-    subtitle: '金银花梨酒',
-    price: 32.9,
-    originalPrice: 39.9,
-    image: PRODUCT_IMAGES.prod_pear_001,
-    images: [PRODUCT_IMAGES.prod_pear_001, PRODUCT_IMAGES.prod_peach_001, PRODUCT_IMAGES.prod_pomegranate_001],
-    tags: ['果酒', '梨酒', '润肺', '金银花'],
-    category: 'fruit_wine',
-    alcohol: '7%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_pear_330', name: '330ml 单瓶装', price: 32.9, originalPrice: 39.9, stock: 100 }
-    ],
-    description: '精选沂蒙山新鲜大梨，采用传统酿造工艺，低温发酵，保留梨的自然清甜。酒体金黄透亮，口感清爽甘甜，是送礼自饮的绝佳选择。',
-    story: '"秋高气爽，梨香满园。我是来自沂蒙山的小梨，每一颗梨都承载着果农的期盼。当月光洒落，我会悄悄走进你的梦，带去一份清甜与安宁。"',
-    spriteId: 'sprite_lili',
-    spriteAlias: '梨梨',
-    organLord: 'organ_fei',
-    salesCount: 1856,
-    rating: 4.8,
-    isAlcohol: true,
-    brand: '邑夏'
-  },
-  {
-    id: 'prod_pomegranate_001',
-    name: '似水榴年',
-    subtitle: '金银花石榴酒',
-    price: 35.9,
-    originalPrice: 42.9,
-    image: PRODUCT_IMAGES.prod_pomegranate_001,
-    images: [PRODUCT_IMAGES.prod_pomegranate_001, PRODUCT_IMAGES.prod_peach_001, PRODUCT_IMAGES.prod_grape_001],
-    tags: ['果酒', '石榴酒', '养颜', '金银花'],
-    category: 'fruit_wine',
-    alcohol: '7.8%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_pomegranate_330', name: '330ml 单瓶装', price: 35.9, originalPrice: 42.9, stock: 80 }
-    ],
-    description: '甄选优质石榴，搭配金银花精华，采用现代酿造工艺精制而成。酒体呈宝石红色，晶莹剔透，口感醇厚绵甜，富含花青素，养颜美容两相宜。',
-    story: '"红宝石般的果实，蕴含着四季的阳光。我是石榴精灵榴榴，每一滴酒都是生命的馈赠。愿与你分享这份红彤彤的喜悦。"',
-    spriteId: 'sprite_liuliu',
-    spriteAlias: '榴榴',
-    organLord: 'organ_xin',
-    salesCount: 1392,
-    rating: 4.9,
-    isAlcohol: true,
-    brand: '邑夏'
-  },
-  {
-    id: 'prod_grape_001',
-    name: '葡香暗度',
-    subtitle: '金银花葡萄酒',
-    price: 36.8,
-    originalPrice: 46.8,
-    image: PRODUCT_IMAGES.prod_grape_001,
-    images: [PRODUCT_IMAGES.prod_grape_001, PRODUCT_IMAGES.scene_grape],
-    tags: ['果酒', '葡萄酒', '新品', '金银花', '养肝'],
-    category: 'fruit_wine',
-    alcohol: '7%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_grape_330', name: '330ml 单瓶装', price: 36.8, originalPrice: 46.8, stock: 120 }
-    ],
-    description: '金银花入酒，紫葡萄为魂。明目养肝，温柔如初。精选优质紫葡萄，搭配金银花精华，采用现代酿造工艺精制而成。酒体呈深紫红色，散发着葡萄的果香与金银花的清雅，口感柔和绵长。',
-    story: '"紫水晶般的葡萄，凝结了阳光的温度。我是藏府君甘甘，金银花入酒，养肝明目。每一瓶葡香暗度，都是我对健康生活的诠释。"',
-    spriteId: 'sprite_gangan',
-    spriteAlias: '甘甘',
+    description: '石榴入酒，红若丹心。养血安神，温润如玉。精选鲜红石榴，低温发酵酿造，酒体呈红宝石色，果香浓郁，入口绵柔，回甘悠长。',
+    story: '"心如红石榴，热烈而温润。我是藏府君欣欣，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
+    spriteId: 'sprite_xinxin',
+    spriteAlias: '欣欣',
     salesCount: 0,
     rating: 4.9,
     isAlcohol: true,
     brand: '邑夏',
     isNew: true,
-    relatedOrgan: 'liver'
+    relatedOrgan: 'heart'
+  },
+  {
+    id: 'prod_apple_001',
+    name: '清苹微醉',
+    subtitle: '青苹果起泡酒',
+    price: 18.8,
+    originalPrice: 28.8,
+    image: PRODUCT_IMAGES.prod_apple_001,
+    images: [PRODUCT_IMAGES.prod_apple_001, PRODUCT_IMAGES.scene_apple],
+    tags: ['果酒', '苹果酒', '新品', '起泡', '清肺'],
+    category: 'fruit_wine',
+    alcohol: '5%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_apple_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 150 }
+    ],
+    description: '青苹果的清新，碰上微醺的浪漫。清肺润燥，轻盈自在。精选青苹果低温发酵，保留了苹果的清脆与活力，微气泡感，适合年轻派对。',
+    story: '"清风徐来，苹果微醺。我是藏府君霏霏，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
+    spriteId: 'sprite_feifei',
+    spriteAlias: '霏霏',
+    salesCount: 0,
+    rating: 4.8,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'lung'
+  },
+  {
+    id: 'prod_guava_001',
+    name: '番红暗许',
+    subtitle: '番石榴红酒',
+    price: 18.8,
+    originalPrice: 28.8,
+    image: PRODUCT_IMAGES.prod_guava_001,
+    images: [PRODUCT_IMAGES.prod_guava_001, PRODUCT_IMAGES.scene_guava],
+    tags: ['果酒', '番石榴酒', '新品', '养心', '安神'],
+    category: 'fruit_wine',
+    alcohol: '6%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_guava_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
+    ],
+    description: '番石榴碰上红酒，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴与红葡萄混酿，热带果香与酒香交织，清新脱俗。',
+    story: '"番石榴的热情，红酒的优雅。我是藏府君欣欣，番石榴酒养心安神，愿每一杯都带给你热带的阳光。"',
+    spriteId: 'sprite_xinxin',
+    spriteAlias: '欣欣',
+    salesCount: 0,
+    rating: 4.9,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'heart'
   },
 
   // ============ 原果汁系列（果粟盈品牌，3款）============
@@ -325,233 +274,54 @@ export const MOCK_PRODUCTS: Product[] = [
     brand: '果粟盈'
   },
 
-  // ============ 露酒系列（兴水河品牌，3款）============
+  // ============ 礼盒套装 ============
   {
-    id: 'prod_xingshui_pinjian',
-    name: '兴水河·品鉴',
-    subtitle: '浓香型露酒',
-    price: 168,
-    originalPrice: 198,
-    image: PRODUCT_IMAGES.prod_grape_001,
-    images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['露酒', '白酒', '浓香型', '品鉴'],
-    category: 'grain_wine',
-    alcohol: '38%vol',
-    capacity: '500ml',
-    specs: [
-      { id: 'spec_xingshui_pinjian_500', name: '500ml 单瓶装', price: 168, originalPrice: 198, stock: 50 }
-    ],
-    description: '兴水河·品鉴，甄选优质高粱、小麦为原料，采用传统固态发酵工艺酿造。酒体清澈透明，窖香浓郁，绵甜醇和，回味悠长。',
-    story: '兴水河酒，传承百年酿造技艺，以匠心酿好酒，为您带来舌尖上的味蕾盛宴。',
-    spriteId: '',
-    spriteAlias: '',
-    salesCount: 456,
-    rating: 4.6,
-    isAlcohol: true,
-    brand: '兴水河'
-  },
-  {
-    id: 'prod_xingshui_jingdian',
-    name: '兴水河·经典',
-    subtitle: '浓香型露酒',
-    price: 128,
-    originalPrice: 158,
-    image: PRODUCT_IMAGES.prod_grape_001,
-    images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['露酒', '白酒', '浓香型', '经典'],
-    category: 'grain_wine',
-    alcohol: '38%vol',
-    capacity: '450ml',
-    specs: [
-      { id: 'spec_xingshui_jingdian_450', name: '450ml 单瓶装', price: 128, originalPrice: 158, stock: 80 }
-    ],
-    description: '兴水河·经典，选用优质粮食为原料，经过长期窖藏老熟，酒体醇厚丰满，香气协调，是商务宴请、馈赠亲友的上佳之选。',
-    story: '经典传承，品质如一。兴水河·经典，承载着几代人的记忆与情怀。',
-    spriteId: '',
-    spriteAlias: '',
-    salesCount: 678,
-    rating: 4.5,
-    isAlcohol: true,
-    brand: '兴水河'
-  },
-  {
-    id: 'prod_xingshui_xiyan',
-    name: '兴水河·禧宴',
-    subtitle: '浓香型露酒',
-    price: 228,
-    originalPrice: 268,
-    image: PRODUCT_IMAGES.prod_grape_001,
-    images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['露酒', '白酒', '浓香型', '喜宴'],
-    category: 'grain_wine',
-    alcohol: '38%vol',
-    capacity: '500ml',
-    specs: [
-      { id: 'spec_xingshui_xiyan_500', name: '500ml 单瓶装', price: 228, originalPrice: 268, stock: 40 }
-    ],
-    description: '兴水河·禧宴，专为喜庆场合打造。酒体醇厚绵柔，香气馥郁，寓意吉祥如意。无论是婚宴喜寿还是节日庆典，都是不可或缺的美酒佳酿。',
-    story: '"禧"从天降，喜庆满堂。兴水河·禧宴，为您的人生重要时刻增添一份醇香与欢乐。',
-    spriteId: '',
-    spriteAlias: '',
-    salesCount: 234,
-    rating: 4.7,
-    isAlcohol: true,
-    brand: '兴水河'
-  },
-  // ★ 新品上架 - 2026年新品
-  {
-    id: 'prod_pomegranate_new',
-    name: '榴红心事',
-    subtitle: '石榴红酒',
-    price: 18.8,
-    originalPrice: 28.8,
+    id: 'prod_gift_box_001',
+    name: '缤纷礼盒',
+    subtitle: '果酒果汁精选套装',
+    price: 68.8,
+    originalPrice: 88.8,
     image: PRODUCT_IMAGES.prod_pomegranate_new,
-    images: [PRODUCT_IMAGES.prod_pomegranate_new, PRODUCT_IMAGES.scene_pomegranate],
-    tags: ['果酒', '石榴酒', '新品', '养心', '安神'],
-    category: 'fruit_wine',
-    alcohol: '6%vol',
-    capacity: '330ml',
+    images: [PRODUCT_IMAGES.prod_pomegranate_new, PRODUCT_IMAGES.prod_apple_001, PRODUCT_IMAGES.prod_guava_001],
+    tags: ['礼盒', '套装', '送礼', '精选'],
+    category: 'gift_box',
+    alcohol: '0%vol',
+    capacity: '礼盒装',
     specs: [
-      { id: 'spec_pomegranate_new_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
+      { id: 'spec_gift_box_001', name: '缤纷礼盒装', price: 68.8, originalPrice: 88.8, stock: 50 }
     ],
-    description: '石榴入酒，红若丹心。养血安神，温润如玉。精选鲜红石榴，低温发酵酿造，酒体呈红宝石色，果香浓郁，入口绵柔，回甘悠长。',
-    story: '"心如红石榴，热烈而温润。我是藏府君欣欣，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
-    spriteId: 'sprite_xinxin',
-    spriteAlias: '欣欣',
-    salesCount: 0,
+    description: '精选邑夏果酒与果粟盈果汁组合套装，包含榴红心事、清苹微醉、番红暗许各一瓶，适合送礼自饮两相宜。',
+    story: '"缤纷礼盒，心意满满。送亲友、送爱人、送自己，都是最好的选择。"',
+    spriteId: '',
+    spriteAlias: '',
+    salesCount: 128,
     rating: 4.9,
-    isAlcohol: true,
-    brand: '邑夏',
-    isNew: true,
-    relatedOrgan: 'heart'
-  },
-  {
-    id: 'prod_apple_001',
-    name: '清苹微醺',
-    subtitle: '青苹果起泡酒',
-    price: 18.8,
-    originalPrice: 28.8,
-    image: PRODUCT_IMAGES.prod_apple_001,
-    images: [PRODUCT_IMAGES.prod_apple_001, PRODUCT_IMAGES.scene_apple],
-    tags: ['果酒', '苹果酒', '新品', '起泡', '清肺'],
-    category: 'fruit_wine',
-    alcohol: '5%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_apple_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 150 }
-    ],
-    description: '青苹果的清新，碰上微醺的浪漫。清肺润燥，轻盈自在。精选青苹果低温发酵，保留了苹果的清脆与活力，微气泡感，适合年轻派对。',
-    story: '"清风徐来，苹果微醺。我是藏府君霏霏，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
-    spriteId: 'sprite_feifei',
-    spriteAlias: '霏霏',
-    salesCount: 0,
-    rating: 4.8,
-    isAlcohol: true,
-    brand: '邑夏',
-    isNew: true,
-    relatedOrgan: 'lung'
-  },
-  {
-    id: 'prod_mixed_001',
-    name: '为爱而生',
-    subtitle: '草莓覆盆子酒',
-    price: 18.8,
-    originalPrice: 28.8,
-    image: PRODUCT_IMAGES.prod_mixed_001,
-    images: [PRODUCT_IMAGES.prod_mixed_001, PRODUCT_IMAGES.scene_mixed],
-    tags: ['果酒', '混合果酒', '新品', '草莓', '养肾'],
-    category: 'fruit_wine',
-    alcohol: '8%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_mixed_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 80 }
-    ],
-    description: '草莓遇见覆盆子，爱的味道在舌尖绽放。滋补养肾，甜美入心。精选草莓与覆盆子混合发酵，口感层次分明，酸甜适度，颜值担当。',
-    story: '"草莓覆盆子，爱的告白。我是藏府君沈沈，这款混合酒滋补肾气，愿每一杯都带给你甜蜜与活力。"',
-    spriteId: 'sprite_shenshen',
-    spriteAlias: '沈沈',
-    salesCount: 0,
-    rating: 4.9,
-    isAlcohol: true,
-    brand: '邑夏',
-    isNew: true,
-    relatedOrgan: 'kidney'
-  },
-  {
-    id: 'prod_peach_new',
-    name: '桃心暗动',
-    subtitle: '黄桃果酒',
-    price: 18.8,
-    originalPrice: 28.8,
-    image: PRODUCT_IMAGES.prod_peach_new,
-    images: [PRODUCT_IMAGES.prod_peach_new, PRODUCT_IMAGES.scene_peach],
-    tags: ['果酒', '桃酒', '新品', '黄桃', '养脾'],
-    category: 'fruit_wine',
-    alcohol: '6%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_peach_new_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 120 }
-    ],
-    description: '黄桃入酒，温润如阳。健脾养胃，甜而不腻。精选金黄黄桃，低温慢酿，酒体呈琥珀色，桃香馥郁，入口丝滑。',
-    story: '"黄桃如阳，温润入心。我是藏府君皮皮，黄桃酒健脾养胃，愿每一杯都带给你温和与滋养。"',
-    spriteId: 'sprite_pipi',
-    spriteAlias: '皮皮',
-    salesCount: 0,
-    rating: 4.8,
-    isAlcohol: true,
-    brand: '邑夏',
-    isNew: true,
-    relatedOrgan: 'spleen'
-  },
-  {
-    id: 'prod_guava_001',
-    name: '番红暗许',
-    subtitle: '番石榴红酒',
-    price: 18.8,
-    originalPrice: 28.8,
-    image: PRODUCT_IMAGES.prod_guava_001,
-    images: [PRODUCT_IMAGES.prod_guava_001, PRODUCT_IMAGES.scene_guava],
-    tags: ['果酒', '番石榴酒', '新品', '养心', '安神'],
-    category: 'fruit_wine',
-    alcohol: '6%vol',
-    capacity: '330ml',
-    specs: [
-      { id: 'spec_guava_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
-    ],
-    description: '番石榴碰上红酒，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴与红葡萄混酿，热带果香与酒香交织，清新脱俗。',
-    story: '"番石榴的热情，红酒的优雅。我是藏府君欣欣，番石榴酒养心安神，愿每一杯都带给你热带的阳光。"',
-    spriteId: 'sprite_xinxin',
-    spriteAlias: '欣欣',
-    salesCount: 0,
-    rating: 4.9,
-    isAlcohol: true,
-    brand: '邑夏',
-    isNew: true,
-    relatedOrgan: 'heart'
+    isAlcohol: false,
+    brand: '邑夏'
   }
 ]
 
 // 拼团产品
 export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
   {
-    id: 'prod_pear_001',
-    name: '大吉大梨',
-    price: 32.9,
-    pintuanPrice: 26.9,
-    pintuanCount: 156,
+    id: 'prod_pomegranate_new',
+    name: '榴红心事',
+    price: 28.8,
+    pintuanPrice: 18.8,
+    pintuanCount: 128,
     endTime: '2026-12-31 18:00:00',
-    image: PRODUCT_IMAGES.prod_pear_001,
-    spriteAlias: '梨梨'
+    image: PRODUCT_IMAGES.prod_pomegranate_new,
+    spriteAlias: '欣欣'
   },
   {
-    id: 'prod_hawthorn_001',
-    name: '楂香四溢',
-    price: 24.9,
-    pintuanPrice: 19.9,
-    pintuanCount: 89,
+    id: 'prod_apple_001',
+    name: '清苹微醉',
+    price: 28.8,
+    pintuanPrice: 18.8,
+    pintuanCount: 96,
     endTime: '2026-12-31 18:00:00',
-    image: PRODUCT_IMAGES.prod_hawthorn_001,
-    spriteAlias: '楂楂'
+    image: PRODUCT_IMAGES.prod_apple_001,
+    spriteAlias: '霏霏'
   }
 ]
 
@@ -564,14 +334,6 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
     color: 'text-pink-400',
     bgColor: 'bg-pink-500 bg-opacity-20',
     category: 'fruit_wine'
-  },
-  {
-    id: 'cat_grain_wine',
-    name: '露酒系列',
-    icon: 'glass-water',
-    color: 'text-red-400',
-    bgColor: 'bg-red-500 bg-opacity-20',
-    category: 'grain_wine'
   },
   {
     id: 'cat_nfc_juice',
@@ -624,15 +386,7 @@ export const UNIFIED_CATEGORIES: UnifiedCategory[] = [
     icon: '🍷',
     brandName: '邑夏',
     ageRequired: true,
-    description: '5款果酒，低度微醺'
-  },
-  {
-    id: 'grain_wine',
-    name: '露酒系列',
-    icon: '🥃',
-    brandName: '兴水河',
-    ageRequired: true,
-    description: '3款粮食白酒'
+    description: '3款果酒，低度微醺'
   },
   {
     id: 'nfc_juice',

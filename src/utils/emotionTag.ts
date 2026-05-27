@@ -73,7 +73,7 @@ export function recommendByEmotion(emotion: EmotionType): string[] {
     joy: ['fruit_wine_peach', 'fruit_wine_grape'], // 喜 - 桃子、葡萄
     anger: ['fruit_wine_hawthorn'], // 怒 - 山楂消食
     worry: ['fruit_wine_pomegranate', 'nfc_peach'], // 忧 - 石榴、果汁
-    thought: ['fruit_wine_pear', 'grain_wine_xingshui'], // 思 - 梨、露酒
+    thought: ['fruit_wine_pear', 'nfc_pear'], // 思 - 梨汁
     fear: ['nfc_grape', 'fruit_wine_peach'] // 恐 - 果汁、温和果酒
   }
   return recommendations[emotion] || []
