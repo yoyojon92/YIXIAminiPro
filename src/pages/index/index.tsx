@@ -1,4 +1,4 @@
-import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components'
+import { View, Text, ScrollView, Image } from '@tarojs/components'
 import { useState } from 'react'
 import Taro from '@tarojs/taro'
 
@@ -16,8 +16,23 @@ import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
 import RunnerEntryCard from '@/components/RunnerEntryCard'
 
-// 导入新品Banner图片
-import bannerNewImage from '../../assets/banner-new.png'
+// 果酒导航区产品图
+const winePomegranate = '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png'
+const wineGrape = '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png'
+const winePeach = '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png'
+const wineApple = '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'
+const wineGuava = '/assets/images/products/yixia-wine/05-fen-le-wu-qiong.png'
+const wineRed = '/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.png'
+
+/** 首页果酒导航区 - 6款果酒，每张图链到对应产品详情 */
+const WINE_NAV_ITEMS = [
+  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥49.9', image: winePomegranate },
+  { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥49.9', image: wineGrape },
+  { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥49.9', image: winePeach },
+  { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥49.9', image: wineApple },
+  { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥49.9', image: wineGuava },
+  { id: 'prod_red_wine',        name: '干红葡萄酒', sub: '干红·7°', price: '¥59.9', image: wineRed },
+]
 
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
@@ -30,17 +45,6 @@ const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
   }
   return iconMap[icon] || <Gift size={24} className={color} color={iconColor} />
 }
-
-// 轮播Banner数据 - 新品推荐
-const bannerList = [
-  {
-    id: 'new-banner',
-    image: bannerNewImage,
-    title: '新品上市',
-    subtitle: '邑夏果酒系列全新登场',
-    action: 'fruit_wine'
-  }
-]
 
 // 限时拼团
 const flashSaleProducts = MOCK_FLASH_SALE.map(p => ({
@@ -146,34 +150,38 @@ export default function Index() {
         </View>
       </View>
 
-      {/* 轮播图 */}
-      <View className="px-4 -mt-3">
-        <Swiper 
-          className="h-48 rounded-xl overflow-hidden" 
-          autoplay 
-          circular 
-          indicatorDots 
-          indicatorColor="rgba(255,255,255,0.5)"
-          indicatorActiveColor="#fff"
-        >
-          {bannerList.map((item) => (
-            <SwiperItem key={item.id}>
-              <View className="w-full h-full" onClick={() => {
-                if (item.action) {
-                  Taro.setStorageSync('selectedCategory', item.action)
-                  Taro.switchTab({ url: '/pages/category/index' })
-                }
-              }}
+      {/* ========== 果酒导航区 - 6款果酒横滑 ========== */}
+      <View className="my-6 px-6">
+        <View className="flex items-center justify-between mb-5">
+          <View className="flex items-baseline gap-3">
+            <Text className="text-3xl font-bold text-gray-800">邑夏果酒</Text>
+            <Text className="text-xl text-gray-400">7度微醺 · 养生果酒</Text>
+          </View>
+        </View>
+        <ScrollView scrollX className="w-full whitespace-nowrap" enhanced showScrollbar={false}>
+          <View className="inline-flex gap-5 px-1">
+            {WINE_NAV_ITEMS.map((item) => (
+              <View
+                key={item.id}
+                className="inline-flex flex-col w-52 rounded-2xl bg-white shadow-lg overflow-hidden flex-shrink-0"
+                onClick={() => goToProduct(item.id)}
               >
-                <Image src={item.image} mode="aspectFill" className="w-full h-full" />
-                <View className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black bg-opacity-60 to-transparent p-3">
-                  <Text className="text-white font-semibold">{item.title}</Text>
-                  <Text className="text-white text-xs mt-1">{item.subtitle}</Text>
+                <View className="w-52 h-52 overflow-hidden">
+                  <Image
+                    src={item.image}
+                    className="w-full h-full"
+                    mode="aspectFill"
+                  />
+                </View>
+                <View className="flex flex-col p-3 gap-1">
+                  <Text className="text-lg font-semibold text-gray-800 truncate">{item.name}</Text>
+                  <Text className="text-sm text-gray-400">{item.sub}</Text>
+                  <Text className="text-xl font-bold text-violet-500 mt-1">{item.price}</Text>
                 </View>
               </View>
-            </SwiperItem>
-          ))}
-        </Swiper>
+            ))}
+          </View>
+        </ScrollView>
       </View>
 
       {/* 送货到宿舍入口卡片 */}
