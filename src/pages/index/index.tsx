@@ -16,6 +16,9 @@ import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
 import RunnerEntryCard from '@/components/RunnerEntryCard'
 
+// 导入新品Banner图片
+import bannerNewImage from '../../assets/banner-new.png'
+
 // 分类图标映射
 const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
   const iconColor = color === 'text-amber-400' ? '#FBBF24' : '#8B5CF6'
@@ -28,13 +31,15 @@ const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
   return iconMap[icon] || <Gift size={24} className={color} color={iconColor} />
 }
 
-// 轮播Banner数据
-const bannerList = MOCK_PRODUCTS.slice(0, 4).map((p) => ({
-  id: p.id,
-  image: p.image,
-  title: p.name,
-  subtitle: p.subtitle
-}))
+// 轮播Banner数据 - 新品推荐
+const bannerList = [
+  {
+    id: 'new-banner',
+    image: bannerNewImage,
+    title: '新品上市',
+    subtitle: '邑夏果酒系列全新登场'
+  }
+]
 
 // 限时拼团
 const flashSaleProducts = MOCK_FLASH_SALE.map(p => ({
