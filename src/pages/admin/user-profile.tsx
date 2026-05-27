@@ -178,7 +178,7 @@ export default function UserProfileManage() {
                 <View className="bg-purple-50 rounded-lg p-2 flex items-start">
                   <ChartBarBig size={16} color="#8b5cf6" className="mt-1" />
                   <Text className="text-purple-700 text-sm ml-2">
-                    果酒系列占销售65%，建议加强粮食酒和果汁推广
+                    果酒系列占销售65%，建议加强露酒和果汁推广
                   </Text>
                 </View>
               </View>

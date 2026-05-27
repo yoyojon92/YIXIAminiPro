@@ -39,8 +39,8 @@ export default function ProductCard({
   const getCategoryName = (category: string) => {
     switch (category) {
       case 'fruit_wine': return '果酒'
-      case 'grain_wine': return '粮食酒'
-      case 'nfc_juice': return 'NFC果汁'
+      case 'grain_wine': return '露酒'
+      case 'nfc_juice': return '原果汁'
       case 'gift_box': return '礼盒'
       default: return category
     }

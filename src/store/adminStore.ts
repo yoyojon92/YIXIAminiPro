@@ -433,7 +433,7 @@ const MOCK_EXTERNAL_LINKS: ExternalLink[] = [
     url: 'https://xingshuihe.com',
     category: 'partner',
     icon: '🤝',
-    description: '粮食酒品牌合作方',
+    description: '露酒品牌合作方',
     isActive: true,
     sortOrder: 3
   }
@@ -452,8 +452,8 @@ const MOCK_USER_PROFILE: UserProfileData = {
   ],
   tastePreference: [
     { name: '果酒系列', count: 1856, percent: 65.0 },
-    { name: 'NFC果汁', count: 678, percent: 23.7 },
-    { name: '粮食酒', count: 322, percent: 11.3 }
+    { name: '原果汁', count: 678, percent: 23.7 },
+    { name: '露酒', count: 322, percent: 11.3 }
   ],
   consumptionLevel: [
     { level: 'high', label: '高消费(500+)', count: 456, percent: 16.0 },

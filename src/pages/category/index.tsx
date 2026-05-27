@@ -14,16 +14,16 @@ import type { Product, UnifiedCategoryId } from '@/mock/products'
 const categories = [
   { id: 1, name: '全部', icon: '🏠', key: '' as UnifiedCategoryId | '' },
   { id: 2, name: '果酒系列', icon: '🍷', key: 'fruit_wine' as UnifiedCategoryId },
-  { id: 3, name: '粮食酒系列', icon: '🥃', key: 'grain_wine' as UnifiedCategoryId },
-  { id: 4, name: 'NFC果汁', icon: '🧃', key: 'nfc_juice' as UnifiedCategoryId },
+  { id: 3, name: '露酒系列', icon: '🥃', key: 'grain_wine' as UnifiedCategoryId },
+  { id: 4, name: '原果汁', icon: '🧃', key: 'nfc_juice' as UnifiedCategoryId },
   { id: 5, name: '礼盒套装', icon: '🎁', key: 'gift_box' as UnifiedCategoryId }
 ]
 
 // 分类名称映射
 const categoryMap: Record<string, string> = {
   'fruit_wine': '果酒',
-  'grain_wine': '粮食酒',
-  'nfc_juice': 'NFC果汁',
+  'grain_wine': '露酒',
+  'nfc_juice': '原果汁',
   'gift_box': '礼盒'
 }
 

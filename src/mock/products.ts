@@ -251,7 +251,7 @@ export const MOCK_PRODUCTS: Product[] = [
     relatedOrgan: 'liver'
   },
 
-  // ============ NFC果汁系列（果粟盈品牌，3款）============
+  // ============ 原果汁系列（果粟盈品牌，3款）============
   {
     id: 'prod_nfc_peach_001',
     name: '鲜桃果汁',
@@ -260,7 +260,7 @@ export const MOCK_PRODUCTS: Product[] = [
     originalPrice: 22.9,
     image: PRODUCT_IMAGES.prod_nfc_peach_001,
     images: [PRODUCT_IMAGES.prod_nfc_peach_001, PRODUCT_IMAGES.prod_nfc_grape_001, PRODUCT_IMAGES.prod_nfc_pear_001],
-    tags: ['NFC果汁', '鲜桃', '100%', '全年龄'],
+    tags: ['原果汁', '鲜桃', '100%', '全年龄'],
     category: 'nfc_juice',
     alcohol: '0%vol',
     capacity: '300ml',
@@ -284,7 +284,7 @@ export const MOCK_PRODUCTS: Product[] = [
     originalPrice: 22.9,
     image: PRODUCT_IMAGES.prod_nfc_grape_001,
     images: [PRODUCT_IMAGES.prod_nfc_grape_001, PRODUCT_IMAGES.prod_nfc_peach_001, PRODUCT_IMAGES.prod_nfc_pear_001],
-    tags: ['NFC果汁', '红葡萄', '100%', '全年龄'],
+    tags: ['原果汁', '红葡萄', '100%', '全年龄'],
     category: 'nfc_juice',
     alcohol: '0%vol',
     capacity: '300ml',
@@ -308,7 +308,7 @@ export const MOCK_PRODUCTS: Product[] = [
     originalPrice: 22.9,
     image: PRODUCT_IMAGES.prod_nfc_pear_001,
     images: [PRODUCT_IMAGES.prod_nfc_pear_001, PRODUCT_IMAGES.prod_nfc_peach_001, PRODUCT_IMAGES.prod_nfc_grape_001],
-    tags: ['NFC果汁', '鲜梨', '100%', '全年龄'],
+    tags: ['原果汁', '鲜梨', '100%', '全年龄'],
     category: 'nfc_juice',
     alcohol: '0%vol',
     capacity: '300ml',
@@ -325,16 +325,16 @@ export const MOCK_PRODUCTS: Product[] = [
     brand: '果粟盈'
   },
 
-  // ============ 粮食酒系列（兴水河品牌，3款）============
+  // ============ 露酒系列（兴水河品牌，3款）============
   {
     id: 'prod_xingshui_pinjian',
     name: '兴水河·品鉴',
-    subtitle: '浓香型粮食酒',
+    subtitle: '浓香型露酒',
     price: 168,
     originalPrice: 198,
     image: PRODUCT_IMAGES.prod_grape_001,
     images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['粮食酒', '白酒', '浓香型', '品鉴'],
+    tags: ['露酒', '白酒', '浓香型', '品鉴'],
     category: 'grain_wine',
     alcohol: '38%vol',
     capacity: '500ml',
@@ -353,12 +353,12 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_xingshui_jingdian',
     name: '兴水河·经典',
-    subtitle: '浓香型粮食酒',
+    subtitle: '浓香型露酒',
     price: 128,
     originalPrice: 158,
     image: PRODUCT_IMAGES.prod_grape_001,
     images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['粮食酒', '白酒', '浓香型', '经典'],
+    tags: ['露酒', '白酒', '浓香型', '经典'],
     category: 'grain_wine',
     alcohol: '38%vol',
     capacity: '450ml',
@@ -377,12 +377,12 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_xingshui_xiyan',
     name: '兴水河·禧宴',
-    subtitle: '浓香型粮食酒',
+    subtitle: '浓香型露酒',
     price: 228,
     originalPrice: 268,
     image: PRODUCT_IMAGES.prod_grape_001,
     images: [PRODUCT_IMAGES.prod_grape_001],
-    tags: ['粮食酒', '白酒', '浓香型', '喜宴'],
+    tags: ['露酒', '白酒', '浓香型', '喜宴'],
     category: 'grain_wine',
     alcohol: '38%vol',
     capacity: '500ml',
@@ -403,8 +403,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'prod_pomegranate_new',
     name: '榴红心事',
     subtitle: '石榴红酒',
-    price: 38.8,
-    originalPrice: 48.8,
+    price: 18.8,
+    originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_pomegranate_new,
     images: [PRODUCT_IMAGES.prod_pomegranate_new, PRODUCT_IMAGES.scene_pomegranate],
     tags: ['果酒', '石榴酒', '新品', '养心', '安神'],
@@ -412,7 +412,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '6%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_pomegranate_new_330', name: '330ml 单瓶装', price: 38.8, originalPrice: 48.8, stock: 100 }
+      { id: 'spec_pomegranate_new_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
     ],
     description: '石榴入酒，红若丹心。养血安神，温润如玉。精选鲜红石榴，低温发酵酿造，酒体呈红宝石色，果香浓郁，入口绵柔，回甘悠长。',
     story: '"心如红石榴，热烈而温润。我是藏府君欣欣，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
@@ -427,10 +427,10 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_apple_001',
-    name: '苹醉微醺',
+    name: '清苹微醺',
     subtitle: '青苹果起泡酒',
-    price: 29.8,
-    originalPrice: 36.8,
+    price: 18.8,
+    originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_apple_001,
     images: [PRODUCT_IMAGES.prod_apple_001, PRODUCT_IMAGES.scene_apple],
     tags: ['果酒', '苹果酒', '新品', '起泡', '清肺'],
@@ -438,7 +438,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '5%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_apple_330', name: '330ml 单瓶装', price: 29.8, originalPrice: 36.8, stock: 150 }
+      { id: 'spec_apple_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 150 }
     ],
     description: '青苹果的清新，碰上微醺的浪漫。清肺润燥，轻盈自在。精选青苹果低温发酵，保留了苹果的清脆与活力，微气泡感，适合年轻派对。',
     story: '"清风徐来，苹果微醺。我是藏府君霏霏，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
@@ -453,10 +453,10 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_mixed_001',
-    name: '唯爱而生',
+    name: '为爱而生',
     subtitle: '草莓覆盆子酒',
-    price: 42.8,
-    originalPrice: 52.8,
+    price: 18.8,
+    originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_mixed_001,
     images: [PRODUCT_IMAGES.prod_mixed_001, PRODUCT_IMAGES.scene_mixed],
     tags: ['果酒', '混合果酒', '新品', '草莓', '养肾'],
@@ -464,7 +464,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '8%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_mixed_330', name: '330ml 单瓶装', price: 42.8, originalPrice: 52.8, stock: 80 }
+      { id: 'spec_mixed_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 80 }
     ],
     description: '草莓遇见覆盆子，爱的味道在舌尖绽放。滋补养肾，甜美入心。精选草莓与覆盆子混合发酵，口感层次分明，酸甜适度，颜值担当。',
     story: '"草莓覆盆子，爱的告白。我是藏府君沈沈，这款混合酒滋补肾气，愿每一杯都带给你甜蜜与活力。"',
@@ -479,10 +479,10 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_peach_new',
-    name: '桃心安动',
+    name: '桃心暗动',
     subtitle: '黄桃果酒',
-    price: 34.8,
-    originalPrice: 42.8,
+    price: 18.8,
+    originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_peach_new,
     images: [PRODUCT_IMAGES.prod_peach_new, PRODUCT_IMAGES.scene_peach],
     tags: ['果酒', '桃酒', '新品', '黄桃', '养脾'],
@@ -490,7 +490,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '6%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_peach_new_330', name: '330ml 单瓶装', price: 34.8, originalPrice: 42.8, stock: 120 }
+      { id: 'spec_peach_new_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 120 }
     ],
     description: '黄桃入酒，温润如阳。健脾养胃，甜而不腻。精选金黄黄桃，低温慢酿，酒体呈琥珀色，桃香馥郁，入口丝滑。',
     story: '"黄桃如阳，温润入心。我是藏府君皮皮，黄桃酒健脾养胃，愿每一杯都带给你温和与滋养。"',
@@ -505,10 +505,10 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_guava_001',
-    name: '番红安绪',
+    name: '番红暗许',
     subtitle: '番石榴红酒',
-    price: 32.8,
-    originalPrice: 40.8,
+    price: 18.8,
+    originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_guava_001,
     images: [PRODUCT_IMAGES.prod_guava_001, PRODUCT_IMAGES.scene_guava],
     tags: ['果酒', '番石榴酒', '新品', '养心', '安神'],
@@ -516,7 +516,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '6%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_guava_330', name: '330ml 单瓶装', price: 32.8, originalPrice: 40.8, stock: 100 }
+      { id: 'spec_guava_330', name: '330ml 单瓶装', price: 18.8, originalPrice: 28.8, stock: 100 }
     ],
     description: '番石榴碰上红酒，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴与红葡萄混酿，热带果香与酒香交织，清新脱俗。',
     story: '"番石榴的热情，红酒的优雅。我是藏府君欣欣，番石榴酒养心安神，愿每一杯都带给你热带的阳光。"',
@@ -567,7 +567,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
   },
   {
     id: 'cat_grain_wine',
-    name: '粮食酒系列',
+    name: '露酒系列',
     icon: 'glass-water',
     color: 'text-red-400',
     bgColor: 'bg-red-500 bg-opacity-20',
@@ -575,7 +575,7 @@ export const MOCK_CATEGORIES: ProductCategory[] = [
   },
   {
     id: 'cat_nfc_juice',
-    name: 'NFC果汁系列',
+    name: '原果汁系列',
     icon: 'apple',
     color: 'text-emerald-400',
     bgColor: 'bg-emerald-500 bg-opacity-20',
@@ -628,7 +628,7 @@ export const UNIFIED_CATEGORIES: UnifiedCategory[] = [
   },
   {
     id: 'grain_wine',
-    name: '粮食酒系列',
+    name: '露酒系列',
     icon: '🥃',
     brandName: '兴水河',
     ageRequired: true,
@@ -636,11 +636,11 @@ export const UNIFIED_CATEGORIES: UnifiedCategory[] = [
   },
   {
     id: 'nfc_juice',
-    name: '高端NFC果汁系列',
+    name: '原果汁系列',
     icon: '🧃',
     brandName: '果粟盈',
     ageRequired: false,
-    description: '3款NFC果汁，全年龄'
+    description: '3款原果汁，全年龄'
   },
   {
     id: 'gift_box',
