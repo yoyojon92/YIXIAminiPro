@@ -38,7 +38,7 @@ const bannerList = [
     image: bannerNewImage,
     title: '新品上市',
     subtitle: '邑夏果酒系列全新登场',
-    action: 'new'  // 点击跳转到新品列表
+    action: 'fruit_wine'
   }
 ]
 
@@ -159,15 +159,8 @@ export default function Index() {
           {bannerList.map((item) => (
             <SwiperItem key={item.id}>
               <View className="w-full h-full" onClick={() => {
-                if (item.action === 'new') {
-                  // 跳转到新品列表
-                  Taro.setStorageSync('selectedCategory', '')
-                  Taro.setStorageSync('categoryExtraType', 'new')
-                  Taro.switchTab({ url: '/pages/category/index' })
-                } else if (item.action) {
-                  // 跳转到指定分类
+                if (item.action) {
                   Taro.setStorageSync('selectedCategory', item.action)
-                  Taro.setStorageSync('categoryExtraType', '')
                   Taro.switchTab({ url: '/pages/category/index' })
                 }
               }}

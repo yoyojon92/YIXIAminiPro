@@ -31,7 +31,7 @@ export const COMIC_DIALOGUES: ComicDialogue[] = [
   // 清苹微醉（霏霏推荐）
   {
     id: 'dialog_apple_001',
-    productId: 'prod_apple_001',
+    productId: 'prod_apple_wine',
     characterId: 'lung',
     characterName: '霏霏',
     characterImage: '🤍',
@@ -42,7 +42,7 @@ export const COMIC_DIALOGUES: ComicDialogue[] = [
   // 番红暗许（欣欣推荐）
   {
     id: 'dialog_guava_001',
-    productId: 'prod_guava_001',
+    productId: 'prod_guava_wine',
     characterId: 'heart',
     characterName: '欣欣',
     characterImage: '❤️',

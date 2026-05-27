@@ -12,8 +12,8 @@ import { ArrowLeft, ImagePlus, X } from 'lucide-react-taro'
 
 const PRODUCT_OPTIONS = [
   { id: 'prod_pomegranate_new', name: '🥤 榴红心事' },
-  { id: 'prod_apple_001', name: '🍏 清苹微醉' },
-  { id: 'prod_guava_001', name: '🍹 番红暗许' },
+  { id: 'prod_apple_wine', name: '🍏 清苹微醉' },
+  { id: 'prod_guava_wine', name: '🍹 番红暗许' },
   { id: 'prod_nfc_peach_001', name: '🍑 鲜桃果汁' },
   { id: 'prod_nfc_grape_001', name: '🍇 红葡萄果汁' },
   { id: 'prod_nfc_pear_001', name: '🍐 鲜梨果汁' },

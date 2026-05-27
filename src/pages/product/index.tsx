@@ -43,7 +43,7 @@ const COMIC_DIALOGUES: Record<string, {
     lordImage: '/assets/images/organ-lords/xinjun.jpg',
     lordLine: '心主喜，开心就好！但别喜极伤心哦…来杯榴红心事，让喜悦慢慢沉淀。',
   },
-  'prod_apple_001': {
+  'prod_apple_wine': {
     spiritName: '霏霏',
     spiritImage: '/assets/images/spirits/lili.jpg',
     spiritLine: '天一凉就想哭…看落叶都觉得难过…',
@@ -51,7 +51,7 @@ const COMIC_DIALOGUES: Record<string, {
     lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
     lordLine: '悲伤肺，哭多了我会疼的。来杯清苹微醉润一润，眼泪流完了，心就轻了。',
   },
-  'prod_guava_001': {
+  'prod_guava_wine': {
     spiritName: '番红',
     spiritImage: '/assets/images/spirits/zhazha.jpg',
     spiritLine: '纠结选课选到头秃…救命…',

@@ -44,7 +44,7 @@ export const MOCK_SPRITES: Sprite[] = [
     description: '心之精灵，红色系，对应榴红心事和番红暗许',
     personality: '热情温暖，善解人意，喜欢用心语抚慰人心',
     story: '"心如红石榴，热烈而温润。我是藏府君欣欣，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
-    products: ['prod_pomegranate_new', 'prod_guava_001'],
+    products: ['prod_pomegranate_new', 'prod_guava_wine'],
     productNames: ['榴红心事', '番红暗许'],
     hasDualForm: false,
     alcoholForm: {
@@ -72,7 +72,7 @@ export const MOCK_SPRITES: Sprite[] = [
     description: '肺之精灵，青绿色系，对应清苹微醉',
     personality: '清新自然，轻盈自在，喜欢用清风抚慰人心',
     story: '"清风徐来，苹果微醺。我是藏府君霏霏，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
-    products: ['prod_apple_001'],
+    products: ['prod_apple_wine'],
     productNames: ['清苹微醉'],
     hasDualForm: false,
     alcoholForm: {

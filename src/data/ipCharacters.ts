@@ -191,7 +191,7 @@ const GAN_GAN: IPCharacter = {
   },
   
   relatedProducts: ['番红暗许'],
-  productIds: ['prod_guava_001'],
+  productIds: ['prod_guava_wine'],
   image: '/assets/images/ip/gangan.jpg',
   emoji: '💚',
 };
@@ -253,7 +253,7 @@ const PI_PI: IPCharacter = {
   },
   
   relatedProducts: ['清苹微醉'],
-  productIds: ['prod_apple_001'],
+  productIds: ['prod_apple_wine'],
   image: '/assets/images/ip/pipi.jpg',
   emoji: '💛',
 };
@@ -315,7 +315,7 @@ const FEI_FEI: IPCharacter = {
   },
   
   relatedProducts: ['清苹微醉'],
-  productIds: ['prod_apple_001'],
+  productIds: ['prod_apple_wine'],
   image: '/assets/images/ip/feifei.jpg',
   emoji: '🤍',
 };

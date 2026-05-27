@@ -28,8 +28,8 @@ export function calculateTags(behavior: UserBehavior): TagId[] {
   
   const productIdTagMap: Record<string, TagId> = {
     'prod_pomegranate_new': 'pomegranate_fan',
-    'prod_apple_001': 'pear_lover',
-    'prod_guava_001': 'hawthorn_fan',
+    'prod_apple_wine': 'pear_lover',
+    'prod_guava_wine': 'hawthorn_fan',
   }
   
   // 购买最多的产品标签
@@ -44,8 +44,8 @@ export function calculateTags(behavior: UserBehavior): TagId[] {
   // 精灵图鉴点击对应的口味标签
   const spriteProductMap: Record<string, string> = {
     'sprite-xinxin': 'prod_pomegranate_new',
-    'sprite-feifei': 'prod_apple_001',
-    'sprite-fanhong': 'prod_guava_001',
+    'sprite-feifei': 'prod_apple_wine',
+    'sprite-fanhong': 'prod_guava_wine',
   }
   behavior.spriteClicks.forEach(c => {
     const pid = spriteProductMap[c.spriteId]

@@ -34,7 +34,7 @@ export const SPRITES: Sprite[] = [
     emoji: '🫁',
     color: '#06B6D4', // 肺蓝
     image: liliImg,
-    productId: 'prod_apple_001', // 清苹微醉
+    productId: 'prod_apple_wine', // 清苹微醉
     productName: '清苹微醉',
   },
   {
@@ -43,7 +43,7 @@ export const SPRITES: Sprite[] = [
     emoji: '🍑',
     color: '#F59E0B', // 番石榴橙
     image: taoyaoImg,
-    productId: 'prod_guava_001', // 番红暗许
+    productId: 'prod_guava_wine', // 番红暗许
     productName: '番红暗许',
   },
 ];

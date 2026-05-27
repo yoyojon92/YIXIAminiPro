@@ -25,7 +25,7 @@ const PI_JIANG_JUN: OrganLord = {
   colorEnd: '#FF8C42',
   healthText: '苹果健脾 · 脾胃为后天之本，气血生化之源',
   relatedProducts: ['清苹微醉'],
-  productIds: ['prod_apple_001'],
+  productIds: ['prod_apple_wine'],
   image: '/assets/images/organ-lords/pijiangjun.jpg',
   emoji: '🍑',
 };
@@ -39,7 +39,7 @@ const FEI_CHENG_XIANG: OrganLord = {
   colorEnd: '#60A5FA',
   healthText: '苹果清肺 · 肺主气，司呼吸，清肺润燥',
   relatedProducts: ['清苹微醉'],
-  productIds: ['prod_apple_001'],
+  productIds: ['prod_apple_wine'],
   image: '/assets/images/organ-lords/feichengxiang.jpg',
   emoji: '🍐',
 };
@@ -53,7 +53,7 @@ const GAN_MOU_SHI: OrganLord = {
   colorEnd: '#94A3B8',
   healthText: '番石榴养肝 · 肝藏血，主疏泄',
   relatedProducts: ['番红暗许'],
-  productIds: ['prod_guava_001'],
+  productIds: ['prod_guava_wine'],
   image: '/assets/images/organ-lords/ganmoushi.jpg',
   emoji: '🍒',
 };
