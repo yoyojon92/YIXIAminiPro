@@ -24,3 +24,13 @@ export type { RechargeCard, RechargePackage, RechargeRecord } from './rechargeSt
 
 export { useAdminStore } from './adminStore'
 export type { AdminProduct } from './adminStore'
+
+// 新增：成本比例、批量配送、动态
+export { useCostStore } from './costStore'
+export type { CostRatio, CostBreakdown } from './costStore'
+
+export { useBatchOrderStore } from './batchOrderStore'
+export type { BatchOrder, BatchOrderItem, BatchOrderProgress } from './batchOrderStore'
+
+export { useMomentStore, ZANGFU_ROLE_INFO } from './momentStore'
+export type { RunnerMoment, MomentComment, ZangfuRole } from './momentStore'

@@ -14,7 +14,7 @@ import type { Coupon } from '@/data/coupons'
 const deliveryOptions = [
   { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '¥1跑腿费' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
-  { id: 'home_delivery', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
+  { id: 'mail', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
 
 export default function Cart() {
@@ -28,8 +28,8 @@ export default function Cart() {
     coupons 
   } = useCouponStore()
   const profileStore = useUserProfileStore()
-  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup' | 'home_delivery'>(
-    delivery.type === 'self_pickup' ? 'pickup' : delivery.type === 'home_delivery' ? 'home_delivery' : 'dormitory'
+  const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup' | 'mail'>(
+    delivery.type === 'self_pickup' ? 'pickup' : delivery.type === 'mail' ? 'mail' : 'dormitory'
   )
   const [showCouponSheet, setShowCouponSheet] = useState(false)
   
@@ -49,7 +49,7 @@ export default function Cart() {
   let shippingInfo: { zone: any; shippingFee: number; isFreeShipping: boolean } | null = null
   if (selectedDelivery === 'dormitory') {
     deliveryFee = 1
-  } else if (selectedDelivery === 'home_delivery' && delivery.shippingAddress?.province) {
+  } else if (selectedDelivery === 'mail' && delivery.shippingAddress?.province) {
     shippingInfo = calculateShipping(delivery.shippingAddress.province, bottleCount, totalPrice)
     deliveryFee = shippingInfo.shippingFee
   }
@@ -95,7 +95,7 @@ export default function Cart() {
       return
     }
     // 检查厂家直邮是否已填地址
-    if (selectedDelivery === 'home_delivery' && !delivery.shippingAddress) {
+    if (selectedDelivery === 'mail' && !delivery.shippingAddress) {
       Taro.showToast({ title: '请先填写收货地址', icon: 'none' })
       return
     }
@@ -221,7 +221,7 @@ export default function Cart() {
                     : 'border-gray-200 bg-gray-50'
                 }`}
                 onClick={() => {
-                  setSelectedDelivery(option.id as 'dormitory' | 'pickup' | 'home_delivery')
+                  setSelectedDelivery(option.id as 'dormitory' | 'pickup' | 'mail')
                   if (option.id === 'pickup') {
                     setDelivery({ type: 'self_pickup' })
                   } else {
@@ -299,7 +299,7 @@ export default function Cart() {
       )}
 
       {/* 邮寄地址选择（仅厂家直邮模式显示） */}
-      {selectedDelivery === 'home_delivery' && (
+      {selectedDelivery === 'mail' && (
         <View 
           className="px-4 py-3 bg-white mt-2"
           onClick={() => Taro.navigateTo({ url: '/pages/shipping-address/index' })}

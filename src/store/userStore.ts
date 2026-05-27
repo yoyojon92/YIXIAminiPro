@@ -16,7 +16,11 @@ export interface UserInfo {
   schoolId: string
   schoolName: string
   ageVerified: boolean // 年龄验证状态（果酒购买需要）
-  role: 'user' | 'agent' | 'super_admin' // 三角色体系：普通用户/跑腿员/超级管理员
+  // 四角色体系：普通用户/跑腿员/辅导员/超级管理员
+  role: 'user' | 'agent' | 'counselor' | 'super_admin'
+  // 辅导员专属字段
+  counselorCode?: string  // 一人一码推广码
+  counselorLevel?: number // 辅导员层级（1/2/3级）
 }
 
 interface UserState {

@@ -21,7 +21,11 @@ export interface CartItem {
   maxQuantity: number // 库存上限
 }
 
-export type DeliveryType = 'dormitory' | 'self_pickup' | 'home_delivery'
+// 配送方式类型
+// dormitory: 宿舍配送（校内，计入分销）
+// self_pickup: 校内自提（校内，计入分销）
+// mail: 邮寄（校外，不计入分销）
+export type DeliveryType = 'dormitory' | 'self_pickup' | 'mail'
 
 export interface DormitoryAddress {
   zoneId: string
@@ -47,6 +51,10 @@ export interface DeliveryInfo {
   pickupShopName?: string // 自提点名称
   shippingAddress?: ShippingAddressInfo // 邮寄地址
   shippingFee?: number // 运费
+  // 分销标记：校内配送/自提=true(计入辅导员分销)，邮寄=false(不计入)
+  distributionEligible: boolean
+  // 关联辅导员ID（从一人一码Scene参数获取）
+  counselorId?: string
 }
 
 interface CartState {
@@ -107,8 +115,7 @@ export const useCartStore = create<CartState>()(
       items: [],
       delivery: {
         type: 'dormitory',
-        dormitory: '',
-        roomNumber: ''
+        distributionEligible: true // 默认校内配送，计入分销
       },
       loading: false,
       syncing: false,
@@ -222,8 +229,10 @@ export const useCartStore = create<CartState>()(
       
       // 设置配送信息
       setDelivery: (delivery) => {
+        // 根据配送方式自动设置分销标记
+        const distributionEligible = delivery.type !== 'mail'
         set(state => ({
-          delivery: { ...state.delivery, ...delivery }
+          delivery: { ...state.delivery, ...delivery, distributionEligible }
         }))
       },
       
@@ -251,12 +260,13 @@ export const useCartStore = create<CartState>()(
       },
       
       // 设置邮寄地址（便捷方法）
-      setShippingAddress: (address: ShippingAddressInfo) => {
+      setShippingAddress: (address) => {
         set(state => ({
           delivery: {
             ...state.delivery,
-            type: 'home_delivery',
-            shippingAddress: address
+            type: 'mail',
+            shippingAddress: address,
+            distributionEligible: false // 邮寄不计入分销
           }
         }))
       },
