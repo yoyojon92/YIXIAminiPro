@@ -11,11 +11,11 @@ export type ZangfuRole = 'heart' | 'liver' | 'spleen' | 'lung' | 'kidney'
 
 // 藏府君角色信息
 export const ZANGFU_ROLE_INFO: Record<ZangfuRole, { name: string; emoji: string; color: string }> = {
-  heart: { name: '心心', emoji: '❤️', color: '#DC2626' },      // 心大人 - 朱砂红
-  liver: { name: '肝肝', emoji: '💚', color: '#059669' },      // 肝大人 - 翠玉绿
-  spleen: { name: '脾脾', emoji: '💛', color: '#D97706' },     // 脾大人 - 琥珀黄
-  lung: { name: '肺肺', emoji: '🤍', color: '#F8FAFC' },       // 肺大人 - 皓白
-  kidney: { name: '肾肾', emoji: '💜', color: '#7C3AED' }      // 肾大人 - 深紫
+  heart: { name: '欣欣', emoji: '❤️', color: '#DC2626' },      // 心大人 - 朱砂红
+  liver: { name: '甘甘', emoji: '💚', color: '#059669' },      // 肝大人 - 翠玉绿
+  spleen: { name: '皮皮', emoji: '💛', color: '#D97706' },     // 脾大人 - 琥珀黄
+  lung: { name: '霏霏', emoji: '🤍', color: '#F8FAFC' },       // 肺大人 - 皓白
+  kidney: { name: '沈沈', emoji: '💜', color: '#7C3AED' }      // 肾大人 - 深紫
 }
 
 // 跑腿员动态/时刻

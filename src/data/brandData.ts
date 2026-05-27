@@ -93,11 +93,11 @@ export interface Episode {
 }
 
 export const SEASON_ONE_EPISODES: Episode[] = [
-  { id: 1, title: '心心的一天', topic: '介绍心脏', description: '认识心心，了解心脏的功能与重要性', focusOrgan: '心' },
-  { id: 2, title: '肝肝的秘密', topic: '介绍肝脏', description: '探索肝肝的神秘世界，了解肝脏的解毒功能', focusOrgan: '肝' },
-  { id: 3, title: '脾脾的美食', topic: '介绍脾脏', description: '跟随脾脾学习脾胃运化，了解消化系统', focusOrgan: '脾' },
-  { id: 4, title: '肺肺的呼吸', topic: '介绍肺脏', description: '和肺肺一起呼吸，了解呼吸系统的工作原理', focusOrgan: '肺' },
-  { id: 5, title: '肾肾的力量', topic: '介绍肾脏', description: '感受肾肾的深邃力量，了解肾脏的重要功能', focusOrgan: '肾' },
+  { id: 1, title: '欣欣的一天', topic: '介绍心脏', description: '认识欣欣，了解心脏的功能与重要性', focusOrgan: '心' },
+  { id: 2, title: '甘甘的秘密', topic: '介绍肝脏', description: '探索甘甘的神秘世界，了解肝脏的解毒功能', focusOrgan: '肝' },
+  { id: 3, title: '皮皮的美食', topic: '介绍脾脏', description: '跟随皮皮学习脾胃运化，了解消化系统', focusOrgan: '脾' },
+  { id: 4, title: '霏霏的呼吸', topic: '介绍肺脏', description: '和霏霏一起呼吸，了解呼吸系统的工作原理', focusOrgan: '肺' },
+  { id: 5, title: '沈沈的力量', topic: '介绍肾脏', description: '感受沈沈的深邃力量，了解肾脏的重要功能', focusOrgan: '肾' },
   { id: 6, title: '五脏初相识', topic: '团队集结', description: '五位器官少女首次集结，建立藏府君联盟' },
   { id: 7, title: '养生小课堂', topic: '知识科普', description: '五脏养生知识大科普，学习中医智慧' },
   { id: 8, title: '四时养生', topic: '春夏秋冬', description: '春夏秋冬四季养生法则，顺应自然规律' },

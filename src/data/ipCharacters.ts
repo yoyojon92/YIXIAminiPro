@@ -71,10 +71,10 @@ export interface IPCharacter {
   emoji: string;
 }
 
-// ========== 心心 (Heart) ==========
+// ========== 欣欣 (Heart) ==========
 const XIN_XIN: IPCharacter = {
   id: 'xinxin',
-  name: '心心',
+  name: '欣欣',
   nameEn: 'Corrine',
   nicknames: ['小心脏', '跳动女王', '心宝'],
   gender: 'female',
@@ -103,15 +103,15 @@ const XIN_XIN: IPCharacter = {
   quote: '每一次跳动，都是为了让你好好活着。',
   
   story: {
-    suwen: '心心是"素问村"的村长助理，负责协调五大家族的日常事务。她从小就知道自己是"生命的核心"，这份使命感让她比同龄人更加成熟懂事。',
-    lingzhu: '心心是"灵枢王国"的女战神，驾驶名为「脉动号」的红色机甲。她是五脏战队的指挥官，在抵御外敌"浊气军团"的战役中从未败北。',
+    suwen: '欣欣是"素问村"的村长助理，负责协调五大家族的日常事务。她从小就知道自己是"生命的核心"，这份使命感让她比同龄人更加成熟懂事。',
+    lingzhu: '欣欣是"灵枢王国"的女战神，驾驶名为「脉动号」的红色机甲。她是五脏战队的指挥官，在抵御外敌"浊气军团"的战役中从未败北。',
   },
   
   relationships: [
-    { character: '肝肝', type: '挚友/对手', description: '欢喜冤家，理性与感性的碰撞' },
-    { character: '脾脾', type: '依赖', description: '最需要脾脾的运化支持' },
-    { character: '肺肺', type: '信任', description: '最佳拍档，共同完成气血循环' },
-    { character: '肾肾', type: '守护', description: '默默照顾的小妹妹' },
+    { character: '甘甘', type: '挚友/对手', description: '欢喜冤家，理性与感性的碰撞' },
+    { character: '皮皮', type: '依赖', description: '最需要皮皮的运化支持' },
+    { character: '霏霏', type: '信任', description: '最佳拍档，共同完成气血循环' },
+    { character: '沈沈', type: '守护', description: '默默照顾的小妹妹' },
   ],
   
   combat: {
@@ -134,10 +134,10 @@ const XIN_XIN: IPCharacter = {
   emoji: '❤️',
 };
 
-// ========== 肝肝 (Liver) ==========
+// ========== 甘甘 (Liver) ==========
 const GAN_GAN: IPCharacter = {
   id: 'gangan',
-  name: '肝肝',
+  name: '甘甘',
   nameEn: 'Logan',
   nicknames: ['解毒君', '肝大人', '肝宝'],
   gender: 'male',
@@ -166,15 +166,15 @@ const GAN_GAN: IPCharacter = {
   quote: '我的解毒，是对生命的承诺。',
   
   story: {
-    suwen: '肝肝是素问村的外科医师，专精"解毒之术"。他总是以冷漠的态度对待村民，但每当有人受伤，他总是第一个冲上去。',
-    lingzhu: '肝肝是灵枢王国的战略官，驾驶名为「解毒号」的绿色机甲。他的战斗风格冷静精准，从不浪费任何一次攻击。',
+    suwen: '甘甘是素问村的外科医师，专精"解毒之术"。他总是以冷漠的态度对待村民，但每当有人受伤，他总是第一个冲上去。',
+    lingzhu: '甘甘是灵枢王国的战略官，驾驶名为「解毒号」的绿色机甲。他的战斗风格冷静精准，从不浪费任何一次攻击。',
   },
   
   relationships: [
-    { character: '心心', type: '挚友/对手', description: '感性与理性的碰撞，互相补位' },
-    { character: '脾脾', type: '守护', description: '默默守护的对象' },
-    { character: '肺肺', type: '竞争', description: '总是比较谁更"完美"' },
-    { character: '肾肾', type: '理解', description: '少数能读懂他沉默的人' },
+    { character: '欣欣', type: '挚友/对手', description: '感性与理性的碰撞，互相补位' },
+    { character: '皮皮', type: '守护', description: '默默守护的对象' },
+    { character: '霏霏', type: '竞争', description: '总是比较谁更"完美"' },
+    { character: '沈沈', type: '理解', description: '少数能读懂他沉默的人' },
   ],
   
   combat: {
@@ -196,12 +196,12 @@ const GAN_GAN: IPCharacter = {
   emoji: '💚',
 };
 
-// ========== 脾脾 (Spleen) ==========
+// ========== 皮皮 (Spleen) ==========
 const PI_PI: IPCharacter = {
   id: 'pipi',
-  name: '脾脾',
+  name: '皮皮',
   nameEn: 'Penny',
-  nicknames: ['脾宝', '小脾脾', '大地之母'],
+  nicknames: ['皮宝', '小皮皮', '大地之母'],
   gender: 'female',
   age: '外表15岁',
   height: '150cm',
@@ -228,15 +228,15 @@ const PI_PI: IPCharacter = {
   quote: '我愿意成为所有人的后盾。',
   
   story: {
-    suwen: '脾脾是素问村的大厨娘，经营着"脾胃食堂"。她总是默默为所有人准备食物，却从不要求回报。',
-    lingzhu: '脾脾是灵枢王国的后勤官，驾驶名为「厚德号」的黄色重装机甲。她的机甲防御力最高，为队友抵挡一切伤害。',
+    suwen: '皮皮是素问村的大厨娘，经营着"脾胃食堂"。她总是默默为所有人准备食物，却从不要求回报。',
+    lingzhu: '皮皮是灵枢王国的后勤官，驾驶名为「厚德号」的黄色重装机甲。她的机甲防御力最高，为队友抵挡一切伤害。',
   },
   
   relationships: [
-    { character: '心心', type: '被依赖', description: '心心的运化支持者' },
-    { character: '肝肝', type: '被守护', description: '被肝肝默默守护' },
-    { character: '肺肺', type: '陪伴', description: '一起打理日常事务' },
-    { character: '肾肾', type: '照顾', description: '照顾这个不爱说话的孩子' },
+    { character: '欣欣', type: '被依赖', description: '欣欣的运化支持者' },
+    { character: '甘甘', type: '被守护', description: '被甘甘默默守护' },
+    { character: '霏霏', type: '陪伴', description: '一起打理日常事务' },
+    { character: '沈沈', type: '照顾', description: '照顾这个不爱说话的孩子' },
   ],
   
   combat: {
@@ -258,10 +258,10 @@ const PI_PI: IPCharacter = {
   emoji: '💛',
 };
 
-// ========== 肺肺 (Lung) ==========
+// ========== 霏霏 (Lung) ==========
 const FEI_FEI: IPCharacter = {
   id: 'feifei',
-  name: '肺肺',
+  name: '霏霏',
   nameEn: 'Luna',
   nicknames: ['风之子', '肺大人', '自由使者'],
   gender: 'female',
@@ -290,15 +290,15 @@ const FEI_FEI: IPCharacter = {
   quote: '呼吸之间，便是天地。',
   
   story: {
-    suwen: '肺肺是素问村的"风之行者"，负责调节村中的气息流通。她总是来去如风，神秘而自由。',
-    lingzhu: '肺肺是灵枢王国的侦察兵，驾驶名为「呼吸号」的白色轻装机甲。她的速度最快，来无影去无踪。',
+    suwen: '霏霏是素问村的"风之行者"，负责调节村中的气息流通。她总是来去如风，神秘而自由。',
+    lingzhu: '霏霏是灵枢王国的侦察兵，驾驶名为「呼吸号」的白色轻装机甲。她的速度最快，来无影去无踪。',
   },
   
   relationships: [
-    { character: '心心', type: '拍档', description: '共同完成气血循环' },
-    { character: '肝肝', type: '竞争', description: '总是比较谁更"完美"' },
-    { character: '脾脾', type: '陪伴', description: '一起打理日常事务' },
-    { character: '肾肾', type: '同频', description: '同属阴脏，默契十足' },
+    { character: '欣欣', type: '拍档', description: '共同完成气血循环' },
+    { character: '甘甘', type: '竞争', description: '总是比较谁更"完美"' },
+    { character: '皮皮', type: '陪伴', description: '一起打理日常事务' },
+    { character: '沈沈', type: '同频', description: '同属阴脏，默契十足' },
   ],
   
   combat: {
@@ -320,10 +320,10 @@ const FEI_FEI: IPCharacter = {
   emoji: '🤍',
 };
 
-// ========== 肾肾 (Kidney) ==========
+// ========== 沈沈 (Kidney) ==========
 const SHEN_SHEN: IPCharacter = {
   id: 'shenshen',
-  name: '肾肾',
+  name: '沈沈',
   nameEn: 'Kira',
   nicknames: ['暗影之子', '肾宝', '深渊行者'],
   gender: 'neutral',
@@ -352,15 +352,15 @@ const SHEN_SHEN: IPCharacter = {
   quote: '深渊之中，藏着最纯粹的力量。',
   
   story: {
-    suwen: '肾肾是素问村的隐士，住在村子最深处的"命门泉水"旁。他极少开口说话，但每当有人需要帮助，他总会默默出现。',
-    lingzhu: '肾肾是灵枢王国的暗影战士，驾驶名为「水寒号」的深蓝隐形机甲。他的战斗风格无声致命，专门执行隐秘任务。',
+    suwen: '沈沈是素问村的隐士，住在村子最深处的"命门泉水"旁。他极少开口说话，但每当有人需要帮助，他总会默默出现。',
+    lingzhu: '沈沈是灵枢王国的暗影战士，驾驶名为「水寒号」的深蓝隐形机甲。他的战斗风格无声致命，专门执行隐秘任务。',
   },
   
   relationships: [
-    { character: '心心', type: '被守护', description: '被心心默默照顾' },
-    { character: '肝肝', type: '被理解', description: '少数能读懂他沉默的人' },
-    { character: '脾脾', type: '被照顾', description: '被脾脾照顾的对象' },
-    { character: '肺肺', type: '同频', description: '同属阴脏，默契十足' },
+    { character: '欣欣', type: '被守护', description: '被欣欣默默照顾' },
+    { character: '甘甘', type: '被理解', description: '少数能读懂他沉默的人' },
+    { character: '皮皮', type: '被照顾', description: '被皮皮照顾的对象' },
+    { character: '霏霏', type: '同频', description: '同属阴脏，默契十足' },
   ],
   
   combat: {
