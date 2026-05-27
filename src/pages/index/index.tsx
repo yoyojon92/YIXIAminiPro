@@ -52,8 +52,8 @@ const flashSaleProducts = MOCK_FLASH_SALE.map(p => ({
   spriteAlias: p.spriteAlias
 }))
 
-// 新品推荐 - 取前6个
-const newProducts = MOCK_PRODUCTS.slice(0, 6).map(p => ({
+// 新品推荐 - 筛选isNew=true
+const newProducts = MOCK_PRODUCTS.filter(p => p.isNew).map(p => ({
   id: p.id,
   name: p.name,
   subtitle: p.subtitle,
