@@ -56,7 +56,7 @@ const orders: Order[] = [
     statusText: '待付款',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '蜜桃精灵果酒 330ml', image: 'https://picsum.photos/100/100?random=10', price: 29.9, quantity: 1, specs: '蜜桃味' }
+      { name: '蜜桃精灵果酒 330ml', image: '🍑', price: 29.9, quantity: 1, specs: '蜜桃味' }
     ],
     totalPrice: 29.9,
     deliveryFee: 3,
@@ -69,7 +69,7 @@ const orders: Order[] = [
     statusText: '待收货',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '蓝莓精灵果汁 250ml', image: 'https://picsum.photos/100/100?random=11', price: 19.9, quantity: 2, specs: '蓝莓味' }
+      { name: '蓝莓精灵果汁 250ml', image: '🫐', price: 19.9, quantity: 2, specs: '蓝莓味' }
     ],
     totalPrice: 39.8,
     deliveryFee: 0,
@@ -82,8 +82,8 @@ const orders: Order[] = [
     statusText: '已完成',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '草莓精灵气泡酒 280ml', image: 'https://picsum.photos/100/100?random=12', price: 24.9, quantity: 1, specs: '草莓味' },
-      { name: '柠檬精灵轻饮酒 250ml', image: 'https://picsum.photos/100/100?random=13', price: 22.9, quantity: 1, specs: '柠檬味' }
+      { name: '草莓精灵气泡酒 280ml', image: '🍓', price: 24.9, quantity: 1, specs: '草莓味' },
+      { name: '柠檬精灵轻饮酒 250ml', image: '🍋', price: 22.9, quantity: 1, specs: '柠檬味' }
     ],
     totalPrice: 47.8,
     deliveryFee: 3,

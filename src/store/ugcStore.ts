@@ -148,7 +148,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-006',
     title: '精灵陪你过生日',
-    image: 'https://picsum.photos/400/400?random=320',
+    image: '📸',
     author: '果酒爱好者',
     productId: 'prod_peach_001',
     productName: '桃你欢心',
@@ -167,7 +167,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-007',
     title: '宿舍微醺时刻',
-    image: 'https://picsum.photos/400/400?random=321',
+    image: '📸',
     author: '室友小王',
     school: '复旦大学',
     productId: 'prod_hawthorn_001',
@@ -187,7 +187,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-008',
     title: '送礼首选推荐',
-    image: 'https://picsum.photos/400/400?random=322',
+    image: '📸',
     author: '送礼达人',
     productId: 'prod_grape_001',
     productName: '葡写浪漫',
@@ -206,7 +206,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-009',
     title: '期末解压神器',
-    image: 'https://picsum.photos/400/400?random=323',
+    image: '📸',
     author: '学霸小李',
     school: '浙江大学',
     productId: 'prod_pear_001',
@@ -226,7 +226,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-010',
     title: '青梅清新口感',
-    image: 'https://picsum.photos/400/400?random=324',
+    image: '📸',
     author: '品酒师小张',
     productId: 'prod_hawthorn_001',
     productName: '楂香四溢',
@@ -245,7 +245,7 @@ const MOCK_WORKS: UGCWork[] = [
   {
     id: 'ugc-011',
     title: '包装太精美了',
-    image: 'https://picsum.photos/400/400?random=325',
+    image: '📸',
     author: '收藏爱好者',
     productId: 'prod_pomegranate_001',
     productName: '似水榴年',

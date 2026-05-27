@@ -27,7 +27,7 @@ const activities: Activity[] = [
   {
     id: 1,
     title: '周末精灵派对',
-    coverImage: 'https://picsum.photos/750/400?random=401',
+    coverImage: '🎪',
     startTime: '2025-01-18 19:00',
     endTime: '2025-01-18 22:00',
     location: '青岛农业大学南门咖啡厅',
@@ -41,7 +41,7 @@ const activities: Activity[] = [
   {
     id: 2,
     title: '新品品鉴会',
-    coverImage: 'https://picsum.photos/750/400?random=402',
+    coverImage: '🎉',
     startTime: '2025-01-15 14:00',
     endTime: '2025-01-15 17:00',
     location: '邑夏官方门店',
@@ -55,7 +55,7 @@ const activities: Activity[] = [
   {
     id: 3,
     title: '精灵知识问答',
-    coverImage: 'https://picsum.photos/750/400?random=403',
+    coverImage: '🥂',
     startTime: '2025-01-20 20:00',
     endTime: '2025-01-20 21:00',
     location: '线上活动群',
@@ -69,7 +69,7 @@ const activities: Activity[] = [
   {
     id: 4,
     title: '老用户专属福利',
-    coverImage: 'https://picsum.photos/750/400?random=404',
+    coverImage: '🌙',
     startTime: '2025-01-10',
     endTime: '2025-01-31',
     location: '线上',

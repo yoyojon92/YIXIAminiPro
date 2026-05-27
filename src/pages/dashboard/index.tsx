@@ -29,7 +29,7 @@ export default function Dashboard() {
   const maxSales = stats?.topProducts[0]?.sales || 1
 
   return (
-    <ScrollView className="min-h-screen bg-slate-900 pb-safe" scrollY>
+    <ScrollView className="min-h-screen bg-slate-900" scrollY>
       {/* 顶部标题 */}
       <View className="sticky top-0 z-10 bg-slate-900 px-4 py-3 flex items-center justify-between border-b border-slate-800">
         <Text className="block text-lg font-bold text-white">数据看板</Text>
@@ -50,7 +50,7 @@ export default function Dashboard() {
         </View>
       </View>
 
-      <View className="p-4 space-y-4">
+      <View className="p-4 space-y-4 pb-safe">
         {/* 核心指标卡片 */}
         <View className="grid grid-cols-2 gap-3">
           {/* 今日订单 */}

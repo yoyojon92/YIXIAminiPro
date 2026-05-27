@@ -20,8 +20,8 @@ import { trackProfileAction } from '@/store/profileStore'
 import './index.scss'
 
 const comments = [
-  { id: 1, user: '大学生***', avatar: 'https://picsum.photos/50/50?random=20', rating: 5, content: '超级好喝！蜜桃味很浓，酒精度数刚刚好，很适合女生喝~', images: [], time: '2024-01-15' },
-  { id: 2, user: '果酒***', avatar: 'https://picsum.photos/50/50?random=21', rating: 4, content: '包装很精美，送朋友很有面子。味道也不错，会回购的！', images: [], time: '2024-01-14' }
+  { id: 1, user: '大学生***', avatar: '😊', rating: 5, content: '超级好喝！蜜桃味很浓，酒精度数刚刚好，很适合女生喝~', images: [], time: '2024-01-15' },
+  { id: 2, user: '果酒***', avatar: '😊', rating: 4, content: '包装很精美，送朋友很有面子。味道也不错，会回购的！', images: [], time: '2024-01-14' }
 ]
 
 

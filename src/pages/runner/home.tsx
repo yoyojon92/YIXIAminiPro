@@ -223,8 +223,8 @@ export default function RunnerHome() {
       </View>
 
       {/* 订单列表 */}
-      <ScrollView scrollY className="h-screen pb-32">
-        <View className="px-4 py-4 space-y-3">
+      <ScrollView scrollY className="h-screen">
+        <View className="px-4 py-4 space-y-3 pb-32">
           {filteredOrders.length === 0 ? (
             <View className="flex flex-col items-center justify-center py-16">
               <Package size={48} color="#D1D5DB" />

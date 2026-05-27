@@ -228,7 +228,7 @@ const MOCK_COUNSELORS: CounselorData[] = [
   {
     id: 'c-001',
     name: '张明辉',
-    avatar: 'https://picsum.photos/100/100?random=1',
+    avatar: '👤',
     phone: '138****5678',
     tier: 'gold',
     registeredStudents: 156,
@@ -245,7 +245,7 @@ const MOCK_COUNSELORS: CounselorData[] = [
   {
     id: 'c-002',
     name: '李雅琪',
-    avatar: 'https://picsum.photos/100/100?random=2',
+    avatar: '👤',
     phone: '139****1234',
     tier: 'senior',
     registeredStudents: 89,
@@ -262,7 +262,7 @@ const MOCK_COUNSELORS: CounselorData[] = [
   {
     id: 'c-003',
     name: '王浩然',
-    avatar: 'https://picsum.photos/100/100?random=3',
+    avatar: '👤',
     phone: '137****9876',
     tier: 'junior',
     registeredStudents: 34,

@@ -111,7 +111,7 @@ export default function Profile() {
 
         <View className="flex items-center gap-4">
           <View className="w-16 h-16 rounded-full border-4 border-white overflow-hidden bg-purple-100">
-            <Image src="https://picsum.photos/100/100?random=30" mode="aspectFill" className="w-full h-full" />
+            <Image src="😊" mode="aspectFill" className="w-full h-full" />
           </View>
           
           <View className="flex-1">

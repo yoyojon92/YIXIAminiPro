@@ -48,9 +48,9 @@ const article: Article = {
 这款果酒的精灵图案真的太可爱了，每喝完一瓶就能收集到一个精灵碎片，感觉喝酒都变得有意义起来。我们已经开始集齐蜜桃精灵的碎片了，希望能早日集齐！
 
 姐妹们，考试周压力大的时候，不妨试试这种小确幸的治愈方式。精灵们会陪你度过每一个需要放松的时刻~`,
-  coverImage: 'https://picsum.photos/750/500?random=501',
+  coverImage: '📖',
   author: '蜜桃少女',
-  authorAvatar: 'https://picsum.photos/100/100?random=301',
+  authorAvatar: '✍️',
   readTime: '3分钟',
   likes: 328,
   comments: 45,
@@ -58,13 +58,13 @@ const article: Article = {
   reward: 1,
   tags: ['#期末治愈', '#精灵陪伴', '#宿舍生活'],
   relatedProducts: [
-    { id: 1, name: '蜜桃精灵果酒', image: 'https://picsum.photos/200/200?random=10', price: 29.9 },
-    { id: 2, name: '蓝莓精灵果汁', image: 'https://picsum.photos/200/200?random=11', price: 19.9 }
+    { id: 1, name: '蜜桃精灵果酒', image: '🍷', price: 29.9 },
+    { id: 2, name: '蓝莓精灵果汁', image: '🧃', price: 19.9 }
   ],
   createTime: '2025-01-15',
   relatedSprite: {
     name: '蜜桃精灵·小蜜',
-    image: 'https://picsum.photos/200/200?random=101'
+    image: '🖼️'
   }
 }
 
@@ -234,7 +234,7 @@ export default function Article() {
               <View key={i} className="flex-shrink-0 w-40">
                 <Card className="overflow-hidden">
                   <Image 
-                    src={`https://picsum.photos/200/200?random=60${i}`} 
+                    src={['🎉', '☕', '🥂'][i-1]} 
                     mode="aspectFill" 
                     className="w-full h-24" 
                   />
