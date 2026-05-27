@@ -38,3 +38,4 @@ pnpm-debug.log*
 # Key
 # key/
 key/*.key
+.cozeproj/reduction
