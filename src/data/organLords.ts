@@ -1,6 +1,6 @@
 /**
- * 器官大人 IP 数据
- * 5位器官大人对应多款果酒产品（按中医同经同治原则）
+ * 藏府君 IP 数据
+ * 5位藏府君对应多款果酒产品（按中医同经同治原则）
  */
 
 export interface OrganLord {
@@ -16,7 +16,7 @@ export interface OrganLord {
   emoji: string;          // Emoji 占位符
 }
 
-// 脾将军 - 主脾经（对应：桃你欢心、蜜桃微醺）
+// 脾将军 - 主脾经（对应：桃你欢心、蜜桃微醺、新桃酒款）
 const PI_JIANG_JUN: OrganLord = {
   id: 'pijiangjun',
   name: '脾将军',
@@ -24,13 +24,13 @@ const PI_JIANG_JUN: OrganLord = {
   color: '#F59E0B',
   colorEnd: '#FF8C42',
   healthText: '桃养脾胃 · 脾胃为后天之本，气血生化之源',
-  relatedProducts: ['桃你欢心', '蜜桃微醺'],
-  productIds: ['prod_peach_001', 'prod_peach_002'],
+  relatedProducts: ['桃你欢心', '蜜桃微醺', '桃韵微醺'],
+  productIds: ['prod_peach_001', 'prod_peach_002', 'prod_peach_003'],
   image: '/assets/images/organ-lords/pijiangjun.jpg',
   emoji: '🍑',
 };
 
-// 肺丞相 - 主肺经（对应：大吉大梨、柚见微醺）
+// 肺丞相 - 主肺经（对应：大吉大梨、柚见微醺、新梨酒款）
 const FEI_CHENG_XIANG: OrganLord = {
   id: 'feichengxiang',
   name: '肺丞相',
@@ -38,8 +38,8 @@ const FEI_CHENG_XIANG: OrganLord = {
   color: '#E2E8F0',
   colorEnd: '#60A5FA',
   healthText: '梨润肺 · 肺主气，司呼吸，润肺生津',
-  relatedProducts: ['大吉大梨', '柚见微醺'],
-  productIds: ['prod_pear_001', 'prod_pear_002'],
+  relatedProducts: ['大吉大梨', '柚见微醺', '梨香微醺'],
+  productIds: ['prod_pear_001', 'prod_pear_002', 'prod_pear_003'],
   image: '/assets/images/organ-lords/feichengxiang.jpg',
   emoji: '🍐',
 };
@@ -58,7 +58,7 @@ const GAN_MOU_SHI: OrganLord = {
   emoji: '🍒',
 };
 
-// 心君 - 主心经（对应：似水榴年）
+// 心君 - 主心经（对应：似水榴年、新石榴酒款）
 const XIN_JUN: OrganLord = {
   id: 'xinjun',
   name: '心君',
@@ -66,13 +66,13 @@ const XIN_JUN: OrganLord = {
   color: '#DC2626',
   colorEnd: '#F59E0B',
   healthText: '石榴养心 · 心主神明，养心安神',
-  relatedProducts: ['似水榴年'],
-  productIds: ['prod_pomegranate_001'],
+  relatedProducts: ['似水榴年', '石榴微醺'],
+  productIds: ['prod_pomegranate_001', 'prod_pomegranate_002'],
   image: '/assets/images/organ-lords/xinjun.jpg',
   emoji: '🍎',
 };
 
-// 肾智者 - 主肾经（对应：葡写浪漫）
+// 肾智者 - 主肾经（对应：葡香暗度、新葡酒款）
 const SHEN_ZHI_ZHE: OrganLord = {
   id: 'shenzhizhe',
   name: '肾智者',
@@ -80,8 +80,8 @@ const SHEN_ZHI_ZHE: OrganLord = {
   color: '#6366F1',
   colorEnd: '#1E3A5F',
   healthText: '葡萄补肾 · 肾为先天之本，滋阴养血',
-  relatedProducts: ['葡写浪漫'],
-  productIds: ['prod_grape_001'],
+  relatedProducts: ['葡香暗度', '葡写浪漫'],
+  productIds: ['prod_grape_001', 'prod_grape_002'],
   image: '/assets/images/organ-lords/shenzhizhe.jpg',
   emoji: '🍇',
 };
@@ -94,12 +94,12 @@ export const organLords: OrganLord[] = [
   SHEN_ZHI_ZHE,
 ];
 
-// 根据产品ID获取对应器官大人
+// 根据产品ID获取对应藏府君
 export function getOrganLordByProduct(productId: string): OrganLord | undefined {
   return organLords.find(lord => lord.productIds.includes(productId));
 }
 
-// 根据产品名称获取对应器官大人
+// 根据产品名称获取对应藏府君
 export function getOrganLordByProductName(productName: string): OrganLord | undefined {
   return organLords.find(lord => lord.relatedProducts.includes(productName));
 }

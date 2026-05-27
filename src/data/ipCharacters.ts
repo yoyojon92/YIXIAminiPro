@@ -439,12 +439,12 @@ export const organLords: OrganLord[] = ipCharacters.map(char => ({
   emoji: char.emoji,
 }));
 
-// 根据产品ID获取对应器官大人（兼容旧API）
+// 根据产品ID获取对应藏府君（兼容旧API）
 export function getOrganLordByProduct(productId: string): OrganLord | undefined {
   return organLords.find(lord => lord.productIds.includes(productId));
 }
 
-// 根据产品名称获取对应器官大人（兼容旧API）
+// 根据产品名称获取对应藏府君（兼容旧API）
 export function getOrganLordByProductName(productName: string): OrganLord | undefined {
   return organLords.find(lord => lord.relatedProducts.includes(productName));
 }

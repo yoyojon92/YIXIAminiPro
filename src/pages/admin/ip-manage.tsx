@@ -22,7 +22,7 @@ export default function IPManage() {
   
   return (
     <View className="min-h-screen bg-gray-50 p-4">
-      <Text className="text-gray-500 text-sm mb-3 block">官方IP角色管理 - 器官大人形象</Text>
+      <Text className="text-gray-500 text-sm mb-3 block">官方IP角色管理 - 藏府君形象</Text>
       
       {/* IP角色列表 */}
       <View className="space-y-3">

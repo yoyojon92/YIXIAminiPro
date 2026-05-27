@@ -26,7 +26,7 @@ const comments = [
 
 
 
-// 精灵×器官大人互动漫画映射数据
+// 精灵×藏府君互动漫画映射数据
 const COMIC_DIALOGUES: Record<string, {
   spiritName: string
   spiritImage: string
@@ -199,7 +199,7 @@ export default function Product() {
     })
   }
 
-  // 判断是否显示器官大人（仅果酒显示）
+  // 判断是否显示藏府君（仅果酒显示）
   const showOrganLord = product?.category === 'fruit_wine'
 
   if (!product) {
@@ -322,13 +322,13 @@ export default function Product() {
           <Text className="text-sm text-gray-600 leading-6">{product?.story}</Text>
         </View>
 
-        {/* 器官大人展示卡片（仅果酒显示） */}
+        {/* 藏府君展示卡片（仅果酒显示） */}
         {showOrganLord && (() => {
           const lord = getOrganLordByProduct(product?.id)
           return lord ? (
             <View className="bg-gray-900 px-4 py-4 mt-2">
               <View className="flex items-center gap-2 mb-3">
-                <Text className="text-amber-400 text-lg font-bold">🏛️ 器官大人说养生</Text>
+                <Text className="text-amber-400 text-lg font-bold">🏛️ 藏府君说养生</Text>
               </View>
               <OrganLordCard lord={lord} productId={product?.id} />
             </View>
@@ -358,12 +358,12 @@ export default function Product() {
 
           {activeTab === 'detail' && (
             <View className="p-4">
-              {/* 精灵×器官大人互动漫画（仅果酒显示） */}
+              {/* 精灵×藏府君互动漫画（仅果酒显示） */}
               {product?.category === 'fruit_wine' && COMIC_DIALOGUES[product.id] && (() => {
                 const comic = COMIC_DIALOGUES[product.id]
                 return (
                   <View className="mb-4">
-                    <Text className="text-sm font-medium text-gray-900 mb-3 block">精灵×器官大人 漫剧互动</Text>
+                    <Text className="text-sm font-medium text-gray-900 mb-3 block">精灵×藏府君 漫剧互动</Text>
                     <View className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4">
                       <View className="flex gap-3">
                         {/* 左侧：精灵 */}
@@ -382,7 +382,7 @@ export default function Product() {
                           <Text className="text-xs text-pink-500 font-medium mt-2">{comic.spiritName}</Text>
                         </View>
                         
-                        {/* 右侧：器官大人 */}
+                        {/* 右侧：藏府君 */}
                         <View className="flex-1 flex flex-col items-center">
                           <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
                             <Image 
@@ -392,7 +392,7 @@ export default function Product() {
                             />
                           </View>
                           <Text className="text-xs text-amber-500 font-medium mt-2">{comic.lordName}</Text>
-                          {/* 器官大人台词气泡 */}
+                          {/* 藏府君台词气泡 */}
                           <View className="mt-2 bg-gray-800 rounded-2xl rounded-tr-sm px-3 py-2 shadow-sm max-w-full">
                             <Text className="text-xs text-white leading-relaxed">{comic.lordLine}</Text>
                           </View>

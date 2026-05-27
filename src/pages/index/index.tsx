@@ -335,7 +335,7 @@ export default function Index() {
         <RunnerEntryCard />
       </View>
 
-      {/* 精灵图鉴 + 器官大人 双排Grid */}
+      {/* 精灵图鉴 + 藏府君 双排Grid */}
       <View className="px-4 mt-6">
         {/* 上排：邑夏精灵 */}
         <View className="mb-4">
@@ -381,9 +381,9 @@ export default function Index() {
           </View>
         </View>
 
-        {/* 下排：器官大人 */}
+        {/* 下排：藏府君 */}
         <View>
-          <Text className="text-sm font-medium text-white mb-3">🏛 器官大人</Text>
+          <Text className="text-sm font-medium text-white mb-3">🏛 藏府君</Text>
           <View className="flex justify-between">
             {Object.values(organLords).map((lord) => (
               <View 
@@ -392,7 +392,7 @@ export default function Index() {
                 onClick={() => {
                   // 埋点记录
                   profileStore.recordOrganLordClick(lord.id)
-                  console.log('器官大人点击埋点:', {
+                  console.log('藏府君点击埋点:', {
                     userId: 'user_' + Date.now(),
                     organLordId: lord.id,
                     targetProductId: lord.productIds[0],

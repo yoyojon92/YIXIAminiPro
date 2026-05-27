@@ -15,7 +15,7 @@ interface UserActions {
   shares: string[]
   // 精灵查看
   spiritViews: string[]
-  // 器官大人查看
+  // 藏府君查看
   organLordViews: string[]
   // 代券使用
   couponUses: number
@@ -133,7 +133,7 @@ function getSocialTags(actions: UserActions): TagId[] {
 function getHealthTags(actions: UserActions): TagId[] {
   const tags: TagId[] = []
   
-  // 器官大人粉丝：查看>=3
+  // 藏府君粉丝：查看>=3
   if (actions.organLordViews.length >= 3) tags.push('organ_lord_follower')
   
   // 精灵收集者：查看>=4

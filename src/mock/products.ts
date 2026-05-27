@@ -9,10 +9,24 @@ const PRODUCT_IMAGES: Record<string, string> = {
   prod_hawthorn_001: '/assets/images/products/yixia-products/02-zha-xiang-si-yi.png',
   prod_pear_001: '/assets/images/products/yixia-products/03-da-ji-da-li.png',
   prod_pomegranate_001: '/assets/images/products/yixia-products/04-si-shui-liu-nian.png',
-  prod_grape_001: '/assets/images/products/yixia-products/05-pu-xie-lang-man.png',
+  // ★ 新品产品图（葡香暗度替换葡写浪漫）
+  prod_grape_001: '/assets/images/products/yixia-new/03-pu-xiang-an-du.jpg',
   prod_nfc_peach_001: '/assets/images/products/yixia-products/06-nfc-peach.png',
   prod_nfc_grape_001: '/assets/images/products/yixia-products/07-nfc-grape.png',
   prod_nfc_pear_001: '/assets/images/products/yixia-products/08-nfc-pear.png',
+  // ★ 新品产品图
+  prod_pomegranate_new: '/assets/images/products/yixia-new/01-liu-hong-xin-shi.jpg',
+  prod_apple_001: '/assets/images/products/yixia-new/02-qing-ping-wei-zui.jpg',
+  prod_mixed_001: '/assets/images/products/yixia-new/05-wei-ai-er-sheng.jpg',
+  prod_peach_new: '/assets/images/products/yixia-new/04-tao-xin-an-dong.jpg',
+  prod_guava_001: '/assets/images/products/yixia-new/06-fan-hong-an-xu.jpg',
+  // ★ 新品场景图
+  scene_pomegranate: '/assets/images/products/yixia-new/scene_pomegranate.jpeg',
+  scene_apple: '/assets/images/products/yixia-new/scene_apple.jpeg',
+  scene_grape: '/assets/images/products/yixia-new/scene_grape.jpeg',
+  scene_peach: '/assets/images/products/yixia-new/scene_yellow_peach.jpeg',
+  scene_mixed: '/assets/images/products/yixia-new/scene_strawberry.jpeg',
+  scene_guava: '/assets/images/products/yixia-new/scene_guava.jpeg',
 }
 
 // 产品规格
@@ -50,6 +64,8 @@ export interface Product {
   rating: number
   isAlcohol: boolean
   brand: string
+  isNew?: boolean        // 是否新品
+  relatedOrgan?: string  // 关联的藏府君（心/肝/脾/肺/肾）
 }
 
 // 拼团产品
@@ -74,7 +90,7 @@ export interface ProductCategory {
   category: UnifiedCategoryId
 }
 
-// 器官大人IP
+// 藏府君IP
 export interface OrganLord {
   id: string
   name: string
@@ -85,7 +101,7 @@ export interface OrganLord {
   description: string
 }
 
-// 器官大人数据
+// 藏府君数据
 export const ORGAN_LORDS: OrganLord[] = [
   {
     id: 'organ_fei',
@@ -210,27 +226,29 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_grape_001',
-    name: '葡写浪漫',
+    name: '葡香暗度',
     subtitle: '金银花葡萄酒',
-    price: 32.9,
-    originalPrice: 39.9,
+    price: 36.8,
+    originalPrice: 46.8,
     image: PRODUCT_IMAGES.prod_grape_001,
-    images: [PRODUCT_IMAGES.prod_grape_001, PRODUCT_IMAGES.prod_pomegranate_001, PRODUCT_IMAGES.prod_nfc_grape_001],
-    tags: ['果酒', '葡萄酒', '浪漫', '金银花'],
+    images: [PRODUCT_IMAGES.prod_grape_001, PRODUCT_IMAGES.scene_grape],
+    tags: ['果酒', '葡萄酒', '新品', '金银花', '养肝'],
     category: 'fruit_wine',
     alcohol: '7%vol',
     capacity: '330ml',
     specs: [
-      { id: 'spec_grape_330', name: '330ml 单瓶装', price: 32.9, originalPrice: 39.9, stock: 90 }
+      { id: 'spec_grape_330', name: '330ml 单瓶装', price: 36.8, originalPrice: 46.8, stock: 120 }
     ],
-    description: '精选优质葡萄，搭配金银花精华，采用现代酿造工艺精制而成。酒体呈紫红色，散发着葡萄的果香与金银花的清雅，口感柔和绵长。',
-    story: '"紫水晶般的葡萄，凝结了阳光的温度。我是葡萄精灵葡葡，每一瓶酒都是我对美好生活的诠释。愿与你共享这份紫色的浪漫。"',
-    spriteId: 'sprite_pupu',
-    spriteAlias: '葡葡',
-    salesCount: 1234,
-    rating: 4.8,
+    description: '金银花入酒，紫葡萄为魂。明目养肝，温柔如初。精选优质紫葡萄，搭配金银花精华，采用现代酿造工艺精制而成。酒体呈深紫红色，散发着葡萄的果香与金银花的清雅，口感柔和绵长。',
+    story: '"紫水晶般的葡萄，凝结了阳光的温度。我是藏府君肝肝，金银花入酒，养肝明目。每一瓶葡香暗度，都是我对健康生活的诠释。"',
+    spriteId: 'sprite_gangan',
+    spriteAlias: '肝肝',
+    salesCount: 0,
+    rating: 4.9,
     isAlcohol: true,
-    brand: '邑夏'
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'liver'
   },
 
   // ============ NFC果汁系列（果粟盈品牌，3款）============
@@ -379,6 +397,137 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.7,
     isAlcohol: true,
     brand: '兴水河'
+  },
+  // ★ 新品上架 - 2026年新品
+  {
+    id: 'prod_pomegranate_new',
+    name: '榴红心事',
+    subtitle: '石榴红酒',
+    price: 38.8,
+    originalPrice: 48.8,
+    image: PRODUCT_IMAGES.prod_pomegranate_new,
+    images: [PRODUCT_IMAGES.prod_pomegranate_new, PRODUCT_IMAGES.scene_pomegranate],
+    tags: ['果酒', '石榴酒', '新品', '养心', '安神'],
+    category: 'fruit_wine',
+    alcohol: '6%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_pomegranate_new_330', name: '330ml 单瓶装', price: 38.8, originalPrice: 48.8, stock: 100 }
+    ],
+    description: '石榴入酒，红若丹心。养血安神，温润如玉。精选鲜红石榴，低温发酵酿造，酒体呈红宝石色，果香浓郁，入口绵柔，回甘悠长。',
+    story: '"心如红石榴，热烈而温润。我是藏府君心心，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
+    spriteId: 'sprite_xinxin',
+    spriteAlias: '心心',
+    salesCount: 0,
+    rating: 4.9,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'heart'
+  },
+  {
+    id: 'prod_apple_001',
+    name: '苹醉微醺',
+    subtitle: '青苹果起泡酒',
+    price: 29.8,
+    originalPrice: 36.8,
+    image: PRODUCT_IMAGES.prod_apple_001,
+    images: [PRODUCT_IMAGES.prod_apple_001, PRODUCT_IMAGES.scene_apple],
+    tags: ['果酒', '苹果酒', '新品', '起泡', '清肺'],
+    category: 'fruit_wine',
+    alcohol: '5%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_apple_330', name: '330ml 单瓶装', price: 29.8, originalPrice: 36.8, stock: 150 }
+    ],
+    description: '青苹果的清新，碰上微醺的浪漫。清肺润燥，轻盈自在。精选青苹果低温发酵，保留了苹果的清脆与活力，微气泡感，适合年轻派对。',
+    story: '"清风徐来，苹果微醺。我是藏府君肺肺，青苹果酒清肺润燥，愿每一杯都带给你轻盈与自在。"',
+    spriteId: 'sprite_feifei',
+    spriteAlias: '肺肺',
+    salesCount: 0,
+    rating: 4.8,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'lung'
+  },
+  {
+    id: 'prod_mixed_001',
+    name: '唯爱而生',
+    subtitle: '草莓覆盆子酒',
+    price: 42.8,
+    originalPrice: 52.8,
+    image: PRODUCT_IMAGES.prod_mixed_001,
+    images: [PRODUCT_IMAGES.prod_mixed_001, PRODUCT_IMAGES.scene_mixed],
+    tags: ['果酒', '混合果酒', '新品', '草莓', '养肾'],
+    category: 'fruit_wine',
+    alcohol: '8%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_mixed_330', name: '330ml 单瓶装', price: 42.8, originalPrice: 52.8, stock: 80 }
+    ],
+    description: '草莓遇见覆盆子，爱的味道在舌尖绽放。滋补养肾，甜美入心。精选草莓与覆盆子混合发酵，口感层次分明，酸甜适度，颜值担当。',
+    story: '"草莓覆盆子，爱的告白。我是藏府君肾肾，这款混合酒滋补肾气，愿每一杯都带给你甜蜜与活力。"',
+    spriteId: 'sprite_shenshen',
+    spriteAlias: '肾肾',
+    salesCount: 0,
+    rating: 4.9,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'kidney'
+  },
+  {
+    id: 'prod_peach_new',
+    name: '桃心安动',
+    subtitle: '黄桃果酒',
+    price: 34.8,
+    originalPrice: 42.8,
+    image: PRODUCT_IMAGES.prod_peach_new,
+    images: [PRODUCT_IMAGES.prod_peach_new, PRODUCT_IMAGES.scene_peach],
+    tags: ['果酒', '桃酒', '新品', '黄桃', '养脾'],
+    category: 'fruit_wine',
+    alcohol: '6%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_peach_new_330', name: '330ml 单瓶装', price: 34.8, originalPrice: 42.8, stock: 120 }
+    ],
+    description: '黄桃入酒，温润如阳。健脾养胃，甜而不腻。精选金黄黄桃，低温慢酿，酒体呈琥珀色，桃香馥郁，入口丝滑。',
+    story: '"黄桃如阳，温润入心。我是藏府君脾脾，黄桃酒健脾养胃，愿每一杯都带给你温和与滋养。"',
+    spriteId: 'sprite_pipi',
+    spriteAlias: '脾脾',
+    salesCount: 0,
+    rating: 4.8,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'spleen'
+  },
+  {
+    id: 'prod_guava_001',
+    name: '番红安绪',
+    subtitle: '番石榴红酒',
+    price: 32.8,
+    originalPrice: 40.8,
+    image: PRODUCT_IMAGES.prod_guava_001,
+    images: [PRODUCT_IMAGES.prod_guava_001, PRODUCT_IMAGES.scene_guava],
+    tags: ['果酒', '番石榴酒', '新品', '养心', '安神'],
+    category: 'fruit_wine',
+    alcohol: '6%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_guava_330', name: '330ml 单瓶装', price: 32.8, originalPrice: 40.8, stock: 100 }
+    ],
+    description: '番石榴碰上红酒，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴与红葡萄混酿，热带果香与酒香交织，清新脱俗。',
+    story: '"番石榴的热情，红酒的优雅。我是藏府君心心，番石榴酒养心安神，愿每一杯都带给你热带的阳光。"',
+    spriteId: 'sprite_xinxin',
+    spriteAlias: '心心',
+    salesCount: 0,
+    rating: 4.9,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    relatedOrgan: 'heart'
   }
 ]
 
@@ -453,7 +602,7 @@ export const getProductById = (id: string): Product | undefined => {
   return MOCK_PRODUCTS.find(p => p.id === id)
 }
 
-// 根据器官大人获取产品
+// 根据藏府君获取产品
 export const getProductByOrganLord = (organLordId: string): Product | undefined => {
   return MOCK_PRODUCTS.find(p => p.organLord === organLordId)
 }
