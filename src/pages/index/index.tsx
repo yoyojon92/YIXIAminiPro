@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, Image } from '@tarojs/components'
-import { useState } from 'react'
 import Taro from '@tarojs/taro'
 
 import { Card, CardContent } from '@/components/ui/card'
@@ -9,7 +8,6 @@ import {
   Flame, ShoppingCart, Sparkles, Search, Bell, Truck
 } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
-import { SPRITES } from '@/data/sprites'
 import { organLords } from '@/data/organLords'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
@@ -72,18 +70,11 @@ const newProducts = MOCK_PRODUCTS.filter(p => p.isNew).map(p => ({
 
 
 export default function Index() {
-  // 图片加载失败状态
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
   const profileStore = useUserProfileStore()
   
   // ✅ 响应式读取 store 状态
   const unreadCount = usePushStore(state => state.unreadCount)
   const cartCount = useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0))
-
-  // 处理图片加载失败
-  const handleImageError = (spriteId: string) => {
-    setImageErrors(prev => ({ ...prev, [spriteId]: true }))
-  }
 
   // 跳转到分类页（tabbar页面不能用navigateTo传参，用StorageSync）
   const goToCategory = (category: string) => {
@@ -350,56 +341,10 @@ export default function Index() {
         <RunnerEntryCard />
       </View>
 
-      {/* 精灵图鉴 + 藏府君 双排Grid */}
+      {/* 藏府君 */}
       <View className="px-4 mt-6">
-        {/* 上排：邑夏精灵 */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-white mb-3">🧚 邑夏精灵</Text>
-          <View className="flex justify-between">
-            {SPRITES.map((sprite) => (
-              <View 
-                key={sprite.id}
-                className="flex flex-col items-center"
-                onClick={() => {
-                  // 埋点记录
-                  profileStore.recordSpriteClick(sprite.id)
-                  console.log('精灵点击埋点:', {
-                    userId: 'user_' + Date.now(),
-                    spriteId: sprite.id,
-                    targetProductId: sprite.productId,
-                    action: 'sprite_click',
-                    timestamp: Date.now(),
-                  })
-                  Taro.navigateTo({ url: `/pages/product/index?id=${sprite.productId}` })
-                }}
-              >
-                <View 
-                  className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400"
-                  style={{ backgroundColor: sprite.color + '20' }}
-                >
-                  {imageErrors[sprite.id] ? (
-                    <View className="w-full h-full flex items-center justify-center">
-                      <Text className="text-2xl">{sprite.emoji}</Text>
-                    </View>
-                  ) : (
-                    <Image 
-                      src={sprite.image} 
-                      className="w-full h-full"
-                      mode="aspectFill"
-                      onError={() => handleImageError(sprite.id)}
-                    />
-                  )}
-                </View>
-                <Text className="text-xs text-slate-300 mt-1">{sprite.name}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* 下排：藏府君 */}
-        <View>
-          <Text className="text-sm font-medium text-white mb-3">🏛 藏府君</Text>
-          <View className="flex justify-between">
+        <Text className="text-sm font-medium text-white mb-3">🏛 藏府君</Text>
+        <View className="flex justify-between">
             {Object.values(organLords).map((lord) => (
               <View 
                 key={lord.id}
@@ -427,7 +372,6 @@ export default function Index() {
               </View>
             ))}
           </View>
-        </View>
       </View>
 
       {/* 活动入口 */}
