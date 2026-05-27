@@ -4,7 +4,7 @@ import Taro, { useDidShow } from '@tarojs/taro'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Search, Bell, ShoppingCart } from 'lucide-react-taro'
+import { Search, Bell, ShoppingCart, Sparkles } from 'lucide-react-taro'
 import { useCartStore } from '@/store/cartStore'
 import { usePushStore } from '@/store/pushStore'
 import { MOCK_PRODUCTS as products } from '@/mock/products'
@@ -41,6 +41,7 @@ export default function Category() {
   const [selectedCategory, setSelectedCategory] = useState(1)
   const [selectedSort, setSelectedSort] = useState('default')
   const [searchValue, setSearchValue] = useState('')
+  const [showNewProducts, setShowNewProducts] = useState(false)  // 是否展示新品
   
   // 响应式读取 store 状态
   const cartCount = useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0))
@@ -51,11 +52,21 @@ export default function Category() {
     const categoryFromStorage = Taro.getStorageSync('selectedCategory')
     const extraType = Taro.getStorageSync('categoryExtraType')
 
-    if (extraType === 'group' || extraType === 'new') {
-      // 拼团/新品特殊类型，暂时不切换分类，后续可扩展
+    if (extraType === 'new') {
+      // 新品展示模式
+      setShowNewProducts(true)
       Taro.removeStorageSync('categoryExtraType')
       return
     }
+    
+    if (extraType === 'group') {
+      // 拼团模式
+      Taro.removeStorageSync('categoryExtraType')
+      return
+    }
+    
+    // 正常分类模式
+    setShowNewProducts(false)
 
     if (categoryFromStorage) {
       // 根据 category key 找到对应的分类 id
@@ -68,11 +79,13 @@ export default function Category() {
     }
   })
 
-  const filteredProducts = products.filter((product: Product) => {
-    const cat = categories.find(c => c.id === selectedCategory)
-    if (!cat || !cat.key) return true
-    return product.category === cat.key
-  })
+  const filteredProducts = showNewProducts 
+    ? products.filter((p: Product) => p.isNew)  // 新品过滤
+    : products.filter((product: Product) => {
+        const cat = categories.find(c => c.id === selectedCategory)
+        if (!cat || !cat.key) return true
+        return product.category === cat.key
+      })
 
   const goToProduct = (id: string) => {
     Taro.navigateTo({ url: `/pages/product/index?id=${id}` })
@@ -126,39 +139,52 @@ export default function Category() {
           </View>
         </View>
 
-        {/* 分类标签 */}
-        <ScrollView className="mt-3" scrollX showScrollbar={false}>
-          <View className="flex gap-2">
-            {categories.map((cat) => (
+        {/* 新品模式标题 */}
+        {showNewProducts && (
+          <View className="mt-3 flex items-center gap-2 px-2">
+            <Sparkles size={18} color="#FFD700" />
+            <Text className="text-primary font-semibold">新品推荐</Text>
+            <Text className="text-gray-400 text-sm">— 最新上架</Text>
+          </View>
+        )}
+
+        {/* 分类标签 - 新品模式下隐藏 */}
+        {!showNewProducts && (
+          <ScrollView className="mt-3" scrollX showScrollbar={false}>
+            <View className="flex gap-2">
+              {categories.map((cat) => (
+                <View 
+                  key={cat.id}
+                  className={`px-4 py-2 rounded-full text-sm whitespace-nowrap ${
+                    selectedCategory === cat.id 
+                      ? 'bg-primary text-white' 
+                      : 'bg-gray-100 text-gray-600'
+                  }`}
+                  onClick={() => setSelectedCategory(cat.id)}
+                >
+                  <Text>{cat.icon} {cat.name}</Text>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        )}
+
+        {/* 排序选项 - 新品模式下隐藏 */}
+        {!showNewProducts && (
+          <View className="flex items-center justify-between mt-3">
+            {sortOptions.map((sort) => (
               <View 
-                key={cat.id}
-                className={`px-4 py-2 rounded-full text-sm whitespace-nowrap ${
-                  selectedCategory === cat.id 
-                    ? 'bg-primary text-white' 
-                    : 'bg-gray-100 text-gray-600'
+                key={sort.id}
+                className={`text-sm px-2 py-1 ${
+                  selectedSort === sort.id ? 'text-primary font-medium' : 'text-gray-500'
                 }`}
-                onClick={() => setSelectedCategory(cat.id)}
+                onClick={() => setSelectedSort(sort.id)}
               >
-                <Text>{cat.icon} {cat.name}</Text>
+                <Text>{sort.name}</Text>
               </View>
             ))}
           </View>
-        </ScrollView>
-
-        {/* 排序选项 */}
-        <View className="flex items-center justify-between mt-3">
-          {sortOptions.map((sort) => (
-            <View 
-              key={sort.id}
-              className={`text-sm px-2 py-1 ${
-                selectedSort === sort.id ? 'text-primary font-medium' : 'text-gray-500'
-              }`}
-              onClick={() => setSelectedSort(sort.id)}
-            >
-              <Text>{sort.name}</Text>
-            </View>
-          ))}
-        </View>
+        )}
       </View>
 
       {/* 商品列表 */}

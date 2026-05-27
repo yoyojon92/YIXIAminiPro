@@ -37,7 +37,8 @@ const bannerList = [
     id: 'new-banner',
     image: bannerNewImage,
     title: '新品上市',
-    subtitle: '邑夏果酒系列全新登场'
+    subtitle: '邑夏果酒系列全新登场',
+    action: 'new'  // 点击跳转到新品列表
   }
 ]
 
@@ -157,7 +158,20 @@ export default function Index() {
         >
           {bannerList.map((item) => (
             <SwiperItem key={item.id}>
-              <View className="w-full h-full" onClick={() => goToProduct(item.id)}>
+              <View className="w-full h-full" onClick={() => {
+                if (item.action === 'new') {
+                  // 跳转到新品列表
+                  Taro.setStorageSync('selectedCategory', '')
+                  Taro.setStorageSync('categoryExtraType', 'new')
+                  Taro.switchTab({ url: '/pages/category/index' })
+                } else if (item.action) {
+                  // 跳转到指定分类
+                  Taro.setStorageSync('selectedCategory', item.action)
+                  Taro.setStorageSync('categoryExtraType', '')
+                  Taro.switchTab({ url: '/pages/category/index' })
+                }
+              }}
+              >
                 <Image src={item.image} mode="aspectFill" className="w-full h-full" />
                 <View className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black bg-opacity-60 to-transparent p-3">
                   <Text className="text-white font-semibold">{item.title}</Text>

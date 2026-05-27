@@ -124,7 +124,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_pomegranate_new',
     name: '榴红心事',
-    subtitle: '石榴红酒',
+    subtitle: '石榴·红若丹心',
     price: 18.8,
     originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_pomegranate_new,
@@ -150,7 +150,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_apple_001',
     name: '清苹微醉',
-    subtitle: '青苹果起泡酒',
+    subtitle: '青苹果微醺气泡酒',
     price: 18.8,
     originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_apple_001,
@@ -176,7 +176,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_guava_001',
     name: '番红暗许',
-    subtitle: '番石榴红酒',
+    subtitle: '番石榴·红心告白',
     price: 18.8,
     originalPrice: 28.8,
     image: PRODUCT_IMAGES.prod_guava_001,
