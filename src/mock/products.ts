@@ -18,8 +18,8 @@ const PRODUCT_IMAGES: Record<string, string> = {
   juice_red_grape: '/assets/images/products/yixia-juice/03-hong-pu-tao.png',
   juice_white_grape: '/assets/images/products/yixia-juice/04-bai-pu-tao.png',
   // 礼盒产品图（暂用果汁图占位）
-  gift_juice_box: '/assets/images/products/yixia-juice/02-xian-tao.png',
-  gift_wine_box: '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png',
+  gift_juice_box: '/assets/images/products/yixia-gift/gift-juice-box.png',
+  gift_wine_box: '/assets/images/products/yixia-gift/gift-wine-box.png',
 }
 
 // 产品规格
@@ -373,7 +373,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 68.8,
     originalPrice: 88.8,
     image: PRODUCT_IMAGES.gift_juice_box,
-    images: [PRODUCT_IMAGES.gift_juice_box],
+    images: [PRODUCT_IMAGES.gift_juice_box, '/assets/images/products/yixia-juice/01-xian-li.png', '/assets/images/products/yixia-juice/02-xian-tao.png', '/assets/images/products/yixia-juice/03-hong-pu-tao.png', '/assets/images/products/yixia-juice/04-bai-pu-tao.png'],
     tags: ['礼盒', '果汁套装', '送礼', '家庭装'],
     category: 'gift_box',
     alcohol: '0%vol',
@@ -398,7 +398,7 @@ export const MOCK_PRODUCTS: Product[] = [
     price: 268.8,
     originalPrice: 328.8,
     image: PRODUCT_IMAGES.gift_wine_box,
-    images: [PRODUCT_IMAGES.gift_wine_box],
+    images: [PRODUCT_IMAGES.gift_wine_box, '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png', '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png', '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png', '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'],
     tags: ['礼盒', '果酒套装', '送礼', '珍藏'],
     category: 'gift_box',
     alcohol: '7%vol',
