@@ -1,0 +1,186 @@
+/* 配送方式选择区 */
+.delivery-mode-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(30, 30, 40, 0.8);
+  border-radius: 16px;
+  margin-top: 8px;
+}
+
+.delivery-mode-tabs {
+  display: flex;
+  gap: 16px;
+}
+
+.delivery-tab {
+  padding: 8px 24px;
+  border-radius: 24px;
+  background: #F3F4F6;
+}
+
+.delivery-tab-active {
+  background: #8B5CF6;
+}
+
+.delivery-tab-text {
+  font-size: 26px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.delivery-tab-text-active {
+  color: #FFFFFF;
+}
+
+.delivery-desc {
+  font-size: 24px;
+  color: #9CA3AF;
+}
+
+.pickup-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pickup-name {
+  font-size: 26px;
+  color: #1F2937;
+  font-weight: 600;
+}
+
+.pickup-distance {
+  font-size: 22px;
+  color: #8B5CF6;
+}
+
+.pickup-arrow {
+  font-size: 32px;
+  color: #9CA3AF;
+}
+
+/* 自提点弹窗 */
+.pickup-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.pickup-modal {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 32px 32px 0 0;
+  padding: 32px 24px;
+  padding-bottom: 60px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.pickup-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.pickup-modal-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.pickup-modal-close {
+  padding: 8px;
+}
+
+.pickup-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pickup-modal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: #F9FAFB;
+  border: 2px solid transparent;
+}
+
+.pickup-modal-item-active {
+  border-color: #8B5CF6;
+  background: #F5F3FF;
+}
+
+.pickup-modal-item-info {
+  flex: 1;
+}
+
+.pickup-modal-item-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pickup-modal-item-name {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.pickup-nearest-tag {
+  font-size: 20px;
+  color: #FFFFFF;
+  background: #8B5CF6;
+  padding: 2px 12px;
+  border-radius: 8px;
+}
+
+.pickup-rec-tag {
+  font-size: 20px;
+  color: #FFFFFF;
+  background: #F97316;
+  padding: 2px 12px;
+  border-radius: 8px;
+}
+
+.pickup-modal-item-addr {
+  font-size: 24px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+
+.pickup-modal-item-hours {
+  font-size: 22px;
+  color: #9CA3AF;
+}
+
+.pickup-modal-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.pickup-modal-item-dist {
+  font-size: 24px;
+  color: #8B5CF6;
+  font-weight: 600;
+}
+
+.pickup-check {
+  font-size: 28px;
+  color: #8B5CF6;
+  font-weight: 700;
+}

@@ -1,5 +1,6 @@
 import { View, Text, ScrollView, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
+import { useState } from 'react'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -13,6 +14,9 @@ import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
 import RunnerEntryCard from '@/components/RunnerEntryCard'
+import { useDeliveryStore } from '@/store/deliveryStore'
+import { PICKUP_POINTS } from '@/mock/delivery'
+import './index.scss'
 
 // 果酒导航区产品图
 const winePomegranate = '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png'
@@ -71,6 +75,8 @@ const newProducts = MOCK_PRODUCTS.filter(p => p.isNew).map(p => ({
 
 export default function Index() {
   const profileStore = useUserProfileStore()
+  const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
+  const [showPickupModal, setShowPickupModal] = useState(false)
   
   // ✅ 响应式读取 store 状态
   const unreadCount = usePushStore(state => state.unreadCount)
@@ -351,6 +357,85 @@ export default function Index() {
             ))}
           </View>
       </View>
+
+      {/* 配送方式选择 */}
+      <View className="px-4 mt-4">
+        <View className="delivery-mode-bar">
+          <View className="delivery-mode-tabs">
+            <View
+              className={`delivery-tab ${mode === 'delivery' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('delivery')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'delivery' ? 'delivery-tab-text-active' : ''}`}>配送到门</Text>
+            </View>
+            <View
+              className={`delivery-tab ${mode === 'pickup' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('pickup')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'pickup' ? 'delivery-tab-text-active' : ''}`}>到店自取</Text>
+            </View>
+            <View
+              className={`delivery-tab ${mode === 'shipping' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('shipping')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'shipping' ? 'delivery-tab-text-active' : ''}`}>厂家邮寄</Text>
+            </View>
+          </View>
+          {mode === 'delivery' && (
+            <Text className="delivery-desc">校内2瓶起送，配送费2元起</Text>
+          )}
+          {mode === 'pickup' && (
+            <View className="pickup-info" onClick={() => setShowPickupModal(true)}>
+              <Text className="pickup-name">{selectedPickupPoint.name}</Text>
+              <Text className="pickup-distance">{selectedPickupPoint.distance}</Text>
+              <Text className="pickup-arrow">›</Text>
+            </View>
+          )}
+          {mode === 'shipping' && (
+            <Text className="delivery-desc">京东快递·厂家直发</Text>
+          )}
+        </View>
+      </View>
+
+      {/* 自提点选择弹窗 */}
+      {showPickupModal && (
+        <View className="pickup-modal-mask" onClick={() => setShowPickupModal(false)}>
+          <View className="pickup-modal" onClick={(e) => e.stopPropagation()}>
+            <View className="pickup-modal-header">
+              <Text className="pickup-modal-title">选择自提点</Text>
+              <View className="pickup-modal-close" onClick={() => setShowPickupModal(false)}>
+                <Text>✕</Text>
+              </View>
+            </View>
+            <View className="pickup-modal-list">
+              {PICKUP_POINTS.map((point) => (
+                <View
+                  key={point.id}
+                  className={`pickup-modal-item ${selectedPickupPoint.id === point.id ? 'pickup-modal-item-active' : ''}`}
+                  onClick={() => {
+                    setPickupPoint(point)
+                    setShowPickupModal(false)
+                  }}
+                >
+                  <View className="pickup-modal-item-info">
+                    <View className="pickup-modal-item-name-row">
+                      <Text className="pickup-modal-item-name">{point.name}</Text>
+                      {point.isNearest && <Text className="pickup-nearest-tag">最近</Text>}
+                      {point.tag && <Text className="pickup-rec-tag">{point.tag}</Text>}
+                    </View>
+                    <Text className="pickup-modal-item-addr">{point.address}</Text>
+                    <Text className="pickup-modal-item-hours">营业时间: {point.businessHours}</Text>
+                  </View>
+                  <View className="pickup-modal-item-right">
+                    <Text className="pickup-modal-item-dist">{point.distance}</Text>
+                    {selectedPickupPoint.id === point.id && <Text className="pickup-check">✓</Text>}
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* 活动入口 */}
       <View className="px-4 mt-6 mb-6">
