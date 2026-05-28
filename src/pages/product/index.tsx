@@ -10,7 +10,7 @@ import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
 import { getOrganLordByProduct } from '@/data/organLords'
 import type { Product } from '@/mock/products'
-import { getProductById } from '@/mock/products'
+import { getProductById, MOCK_FLASH_SALE } from '@/mock/products'
 import { useCartStore } from '@/store/cartStore'
 import { useMemberStore } from '@/store/memberStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
@@ -71,8 +71,9 @@ export default function Product() {
 
   // 识别拼团入口
   const isPintuan = router.params.pintuan === 'true'
-  const pintuanPrice = 39.9
-  const originalPrice = 49.9
+  const flashSaleItem = isPintuan ? MOCK_FLASH_SALE.find(p => p.id === product?.id) : null
+  const pintuanPrice = flashSaleItem?.pintuanPrice || 0
+  const originalPrice = flashSaleItem?.price || product?.price || 0
 
   // 会员状态
   const { isMember, setShowMemberModal } = useMemberStore()
