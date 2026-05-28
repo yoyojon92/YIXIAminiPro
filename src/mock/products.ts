@@ -367,7 +367,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'juice_pear',
     name: '鲜梨果汁',
     subtitle: '100%原榨·雪梨汁',
-    price: 18.8,
+    price: 9.9,
+    originalPrice: 15.9,
     image: PRODUCT_IMAGES.juice_pear,
     images: [PRODUCT_IMAGES.juice_pear],
     tags: ['果汁', '梨汁', '100%原榨', '无添加', '润肺'],
@@ -375,7 +376,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '0%vol',
     capacity: '300ml',
     specs: [
-      { id: 'spec_juice_pear_300', name: '300ml 单瓶装', price: 18.8, stock: 200 }
+      { id: 'spec_juice_pear_300', name: '300ml 单瓶装', price: 9.9, originalPrice: 15.9, stock: 200 }
     ],
     description: '雪梨原榨，清甜滋润。不加水、不加糖、不加防腐剂，保留雪梨的原汁原味与天然营养。润肺生津，清凉解渴。',
     story: '"一颗雪梨，一杯清甜。果粟盈鲜梨果汁，让自然滋养每一天。"',
@@ -391,7 +392,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'juice_peach',
     name: '鲜桃果汁',
     subtitle: '100%原榨·水蜜桃汁',
-    price: 18.8,
+    price: 9.9,
+    originalPrice: 15.9,
     image: PRODUCT_IMAGES.juice_peach,
     images: [PRODUCT_IMAGES.juice_peach],
     tags: ['果汁', '桃汁', '100%原榨', '无添加', '养颜'],
@@ -399,7 +401,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '0%vol',
     capacity: '300ml',
     specs: [
-      { id: 'spec_juice_peach_300', name: '300ml 单瓶装', price: 18.8, stock: 180 }
+      { id: 'spec_juice_peach_300', name: '300ml 单瓶装', price: 9.9, originalPrice: 15.9, stock: 180 }
     ],
     description: '水蜜桃原榨，甜蜜芬芳。不加水、不加糖、不加防腐剂，保留水蜜桃的原汁原味与天然营养。养颜润肤，少女最爱。',
     story: '"水蜜桃的甜蜜，都在这杯果汁里。果粟盈鲜桃果汁，甜美如初恋。"',
@@ -415,7 +417,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'juice_red_grape',
     name: '红葡萄果汁',
     subtitle: '100%原榨·红葡萄汁',
-    price: 18.8,
+    price: 9.9,
+    originalPrice: 15.9,
     image: PRODUCT_IMAGES.juice_red_grape,
     images: [PRODUCT_IMAGES.juice_red_grape],
     tags: ['果汁', '葡萄汁', '100%原榨', '无添加', '抗氧化'],
@@ -423,7 +426,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '0%vol',
     capacity: '300ml',
     specs: [
-      { id: 'spec_juice_red_grape_300', name: '300ml 单瓶装', price: 18.8, stock: 160 }
+      { id: 'spec_juice_red_grape_300', name: '300ml 单瓶装', price: 9.9, originalPrice: 15.9, stock: 160 }
     ],
     description: '红葡萄原榨，醇香浓郁。不加水、不加糖、不加防腐剂，保留红葡萄的原汁原味与天然花青素。抗氧化，呵护年轻。',
     story: '"紫红色的神秘，藏在每一颗葡萄里。果粟盈红葡萄果汁，留住青春。"',
@@ -439,7 +442,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'juice_white_grape',
     name: '白葡萄果汁',
     subtitle: '100%原榨·白葡萄汁',
-    price: 18.8,
+    price: 9.9,
+    originalPrice: 15.9,
     image: PRODUCT_IMAGES.juice_white_grape,
     images: [PRODUCT_IMAGES.juice_white_grape],
     tags: ['果汁', '葡萄汁', '100%原榨', '无添加', '清润'],
@@ -447,7 +451,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '0%vol',
     capacity: '300ml',
     specs: [
-      { id: 'spec_juice_white_grape_300', name: '300ml 单瓶装', price: 18.8, stock: 150 }
+      { id: 'spec_juice_white_grape_300', name: '300ml 单瓶装', price: 9.9, originalPrice: 15.9, stock: 150 }
     ],
     description: '白葡萄原榨，清润甘甜。不加水、不加糖、不加防腐剂，保留白葡萄的原汁原味与天然营养。清热解渴，夏日首选。',
     story: '"晶莹剔透，如露如珠。果粟盈白葡萄果汁，清凉一整夏。"',
