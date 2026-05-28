@@ -173,9 +173,12 @@ export default function Product() {
 
   // 拼团发起逻辑
   const handlePintuan = () => {
+    const price = pintuanPrice || product?.price || 0
+    const orig = originalPrice || product?.originalPrice || 0
+    const saveAmount = orig - price
     Taro.showModal({
       title: '邀请好友拼团',
-      content: '分享给好友，2人成团即可享受¥15.8拼团价（原价¥18.8，省¥3）',
+      content: `分享给好友，2人成团即可享受¥${price}拼团价（原价¥${orig}，省¥${saveAmount.toFixed(1)}）`,
       confirmText: '去分享',
       success: (res) => {
         if (res.confirm) {
@@ -190,8 +193,11 @@ export default function Product() {
 
   // 配置分享
   Taro.useShareAppMessage(() => {
+    const price = pintuanPrice || product?.price || 0
+    const orig = originalPrice || product?.originalPrice || 0
+    const saveAmount = orig - price
     return {
-      title: `邑夏${product?.name || '果酒'}拼团，2人成团仅¥15.8，省¥3！`,
+      title: `邑夏${product?.name || '果酒'}拼团，2人成团仅¥${price}，省¥${saveAmount.toFixed(1)}！`,
       path: `/pages/product/index?id=${product?.id}&pintuan=true`,
       imageUrl: product?.images[0] || ''
     }
