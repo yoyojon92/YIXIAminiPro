@@ -285,7 +285,18 @@ export default function Orders() {
   // 结算模式UI
   if (isCheckout) {
     const couponDiscount = selectedCoupon ? selectedCoupon.discount : 0
-    const deliveryFee = delivery.type === 'dormitory' ? 3 : 0
+
+    // 配送费阶梯计算：3元起（2瓶以内），每多2瓶加1元
+    const calcDeliveryFee = (totalBottles: number, deliveryType: string): number => {
+      if (deliveryType !== 'dormitory') return 0  // 自取和邮寄免运费
+      if (totalBottles <= 0) return 0
+      if (totalBottles <= 2) return 3
+      return 3 + Math.ceil((totalBottles - 2) / 2)
+    }
+
+    // 计算总瓶数（每件商品数量 × 1瓶）
+    const totalBottles = items.reduce((sum, item) => sum + item.quantity, 0)
+    const deliveryFee = calcDeliveryFee(totalBottles, delivery.type)
     const totalPrice = totalAmount()
     const payAmount = Math.max(0, totalPrice + deliveryFee - couponDiscount)
     

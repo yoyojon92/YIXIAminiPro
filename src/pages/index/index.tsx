@@ -382,7 +382,7 @@ export default function Index() {
             </View>
           </View>
           {mode === 'delivery' && (
-            <Text className="delivery-desc">校内2瓶起送，配送费2元起</Text>
+            <Text className="delivery-desc">校内2瓶起送，配送费3元起</Text>
           )}
           {mode === 'pickup' && (
             <View className="pickup-info" onClick={() => setShowPickupModal(true)}>
