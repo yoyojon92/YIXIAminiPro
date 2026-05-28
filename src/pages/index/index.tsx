@@ -28,12 +28,12 @@ const wineRed = '/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.png'
 
 /** 首页果酒导航区 - 6款果酒，每张图链到对应产品详情 */
 const WINE_NAV_ITEMS = [
-  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥49.9', image: winePomegranate },
-  { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥49.9', image: wineGrape },
-  { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥49.9', image: winePeach },
-  { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥49.9', image: wineApple },
-  { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥49.9', image: wineGuava },
-  { id: 'prod_red_wine',        name: '干红葡萄酒', sub: '干红·7°', price: '¥59.9', image: wineRed },
+  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: winePomegranate },
+  { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥18.8', image: wineGrape },
+  { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥18.8', image: winePeach },
+  { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥18.8', image: wineApple },
+  { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥39.9', image: wineGuava },
+  { id: 'prod_red_wine',        name: '干红葡萄酒', sub: '干红·7°', price: '¥49.9', image: wineRed },
 ]
 
 // 分类图标映射
@@ -240,7 +240,7 @@ export default function Index() {
                     <Text className="text-xs text-slate-500 line-through">¥{product.originalPrice}</Text>
                   </View>
                   <View className="flex items-center justify-center mt-2">
-                    <Text className="text-xs text-red-400 font-semibold">2人成团·立减¥10</Text>
+                    <Text className="text-xs text-red-400 font-semibold">2人成团·省¥3</Text>
                   </View>
                   <Text className="text-xs text-slate-500 mt-1">{product.sold}人已拼</Text>
                 </CardContent>

@@ -174,7 +174,7 @@ export default function Product() {
   const handlePintuan = () => {
     Taro.showModal({
       title: '邀请好友拼团',
-      content: '分享给好友，2人成团即可享受¥39.9拼团价（原价¥49.9，立减¥10）',
+      content: '分享给好友，2人成团即可享受¥15.8拼团价（原价¥18.8，省¥3）',
       confirmText: '去分享',
       success: (res) => {
         if (res.confirm) {
@@ -190,7 +190,7 @@ export default function Product() {
   // 配置分享
   Taro.useShareAppMessage(() => {
     return {
-      title: `邑夏${product?.name || '果酒'}拼团，2人成团仅¥39.9，立减¥10！`,
+      title: `邑夏${product?.name || '果酒'}拼团，2人成团仅¥15.8，省¥3！`,
       path: `/pages/product/index?id=${product?.id}&pintuan=true`,
       imageUrl: product?.images[0] || ''
     }

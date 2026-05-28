@@ -59,6 +59,8 @@ export interface Product {
   brand: string
   isNew?: boolean
   relatedOrgan?: string
+  isPintuanPackage?: boolean
+  pintuanTiers?: { minPeople: number; pricePerPerson: number; label: string }[]
 }
 
 // 拼团产品
@@ -114,8 +116,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'prod_pomegranate_new',
     name: '榴红心事',
     subtitle: '石榴金银花果酒',
-    price: 49.9,
-    originalPrice: 68.8,
+    price: 18.8,
+    originalPrice: 29.9,
     image: PRODUCT_IMAGES.prod_pomegranate_new,
     images: [PRODUCT_IMAGES.prod_pomegranate_new],
     tags: ['果酒', '石榴酒', '新品', '金银花', '养心'],
@@ -123,7 +125,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_pomegranate_new_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 68.8, stock: 100 }
+      { id: 'spec_pomegranate_new_500', name: '500ml 单瓶装', price: 18.8, originalPrice: 29.9, stock: 100 }
     ],
     description: '石榴入酒，红若丹心。养血安神，温润如玉。精选鲜红石榴，搭配金银花精华，低温发酵酿造，酒体呈红宝石色，果香浓郁，入口绵柔，回甘悠长。',
     story: '"心如红石榴，热烈而温润。我是藏府君欣悦，石榴酒养心安神，愿每一杯都带给你温暖与平静。"',
@@ -140,8 +142,8 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'prod_grape_wine',
     name: '葡香暗度',
     subtitle: '葡萄金银花果酒',
-    price: 49.9,
-    originalPrice: 68.8,
+    price: 18.8,
+    originalPrice: 29.9,
     image: PRODUCT_IMAGES.prod_grape_wine,
     images: [PRODUCT_IMAGES.prod_grape_wine],
     tags: ['果酒', '葡萄酒', '新品', '金银花', '养肝'],
@@ -149,7 +151,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_grape_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 68.8, stock: 120 }
+      { id: 'spec_grape_wine_500', name: '500ml 单瓶装', price: 18.8, originalPrice: 29.9, stock: 120 }
     ],
     description: '金银花入酒，紫葡萄为魂。明目养肝，温柔如初。精选优质紫葡萄，搭配金银花精华，低温发酵酿造，酒体呈深紫红色，口感柔和绵长。',
     story: '"紫葡萄入肝经，明目养血。我是藏府君甘甘，这杯葡香暗度，愿你眼神清澈，心境明亮。"',
@@ -165,20 +167,20 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_peach_new',
     name: '桃心暗动',
-    subtitle: '水蜜桃金银花果酒',
-    price: 49.9,
-    originalPrice: 68.8,
+    subtitle: '黄桃金银花果酒',
+    price: 18.8,
+    originalPrice: 29.9,
     image: PRODUCT_IMAGES.prod_peach_new,
     images: [PRODUCT_IMAGES.prod_peach_new],
-    tags: ['果酒', '桃酒', '新品', '金银花', '养肺'],
+    tags: ['果酒', '桃酒', '新品', '金银花', '养脾'],
     category: 'fruit_wine',
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_peach_new_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 68.8, stock: 80 }
+      { id: 'spec_peach_new_500', name: '500ml 单瓶装', price: 18.8, originalPrice: 29.9, stock: 80 }
     ],
-    description: '水蜜桃入酒，粉若朝霞。润肺生津，沁人心脾。精选成熟水蜜桃，搭配金银花精华，低温发酵酿造，酒体呈粉红色，果香清甜，入口柔顺。',
-    story: '"桃之夭夭，灼灼其华。我是藏府君皮皮，这杯桃心暗动，愿你呼吸顺畅，气色如桃花。"',
+    description: '黄桃入酒，温润如阳。健脾养胃，甜而不腻。精选金黄黄桃，搭配金银花精华，低温慢酿，酒体呈琥珀色，桃香馥郁，入口丝滑。',
+    story: '"桃之夭夭，灼灼其华。我是藏府君皮皮，这杯桃心暗动，愿你脾胃调和，气色如桃花。"',
     spriteId: '',
     spriteAlias: '',
     salesCount: 0,
@@ -191,17 +193,17 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_apple_wine',
     name: '青苹微醺',
-    subtitle: '青苹果金银花果酒',
-    price: 49.9,
-    originalPrice: 68.8,
+    subtitle: '苹果金银花果酒',
+    price: 18.8,
+    originalPrice: 29.9,
     image: PRODUCT_IMAGES.prod_apple_wine,
     images: [PRODUCT_IMAGES.prod_apple_wine],
-    tags: ['果酒', '苹果酒', '新品', '金银花', '健脾'],
+    tags: ['果酒', '苹果酒', '新品', '金银花', '润肺'],
     category: 'fruit_wine',
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_apple_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 68.8, stock: 90 }
+      { id: 'spec_apple_wine_500', name: '500ml 单瓶装', price: 18.8, originalPrice: 29.9, stock: 90 }
     ],
     description: '青苹果入酒，翠色欲滴。健脾开胃，清新怡人。精选青苹果，搭配金银花精华，低温发酵酿造，酒体呈淡绿色，果酸清新，回味甘甜。',
     story: '"青青子衿，悠悠我心。我是藏府君霏霏，这杯青苹微醺，愿你脾胃调和，食欲常开。"',
@@ -217,20 +219,20 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_guava_wine',
     name: '粉乐雾琼',
-    subtitle: '番石榴金银花果酒',
-    price: 49.9,
-    originalPrice: 68.8,
+    subtitle: '芭乐金银花果酒',
+    price: 39.9,
+    originalPrice: 59.9,
     image: PRODUCT_IMAGES.prod_guava_wine,
     images: [PRODUCT_IMAGES.prod_guava_wine],
-    tags: ['果酒', '番石榴酒', '新品', '金银花', '养肾'],
+    tags: ['果酒', '芭乐酒', '新品', '金银花', '养心'],
     category: 'fruit_wine',
-    alcohol: '7%vol',
+    alcohol: '5%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_guava_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 68.8, stock: 70 }
+      { id: 'spec_guava_wine_500', name: '500ml 单瓶装', price: 39.9, originalPrice: 59.9, stock: 70 }
     ],
-    description: '番石榴入酒，粉雾朦胧。补肾固精，温润如春。精选红心番石榴，搭配金银花精华，低温发酵酿造，酒体呈粉雾色，果香馥郁，口感醇厚。',
-    story: '"雾里看花，朦胧之美。我是藏府君沈沈，这杯粉乐雾琼，愿你精气充沛，身心安泰。"',
+    description: '芭乐碰上微醺，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴搭配金银花精华，热带果香与酒香交织，清新脱俗。',
+    story: '"芭乐的热情，微醺的优雅。我是藏府君欣悦，这杯粉乐雾琼，愿你心安神定，热情如火。"',
     spriteId: '',
     spriteAlias: '',
     salesCount: 0,
@@ -243,20 +245,20 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod_red_wine',
     name: '干红葡萄酒',
-    subtitle: '经典干红·七年陈酿',
-    price: 128.8,
-    originalPrice: 168.8,
+    subtitle: '红葡萄果酒',
+    price: 49.9,
+    originalPrice: 79.9,
     image: PRODUCT_IMAGES.prod_red_wine,
     images: [PRODUCT_IMAGES.prod_red_wine],
-    tags: ['果酒', '葡萄酒', '经典', '七年陈酿', '珍藏'],
+    tags: ['果酒', '干红', '新品', '葡萄酒'],
     category: 'fruit_wine',
-    alcohol: '12%vol',
-    capacity: '750ml',
+    alcohol: '7%vol',
+    capacity: '500ml',
     specs: [
-      { id: 'spec_red_wine_750', name: '750ml 七年陈酿', price: 128.8, originalPrice: 168.8, stock: 50 }
+      { id: 'spec_red_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 79.9, stock: 80 }
     ],
-    description: '七年陈酿，经典干红。酒体醇厚，单宁柔顺，果香与橡木香交织，余韵悠长。精选赤霞珠葡萄，橡木桶陈酿七年，每一滴都是时光的馈赠。',
-    story: '"时光酿造经典，岁月沉淀醇香。这杯干红，敬懂生活的你。"',
+    description: '甄选优质红葡萄，传统工艺发酵，酒体醇厚丰满，呈深宝石红色，散发黑莓与橡木的复合香气，单宁柔和，回味悠长。',
+    story: '"一瓶好酒，一段好时光。邑夏干红，与好友共饮的每一刻都值得铭记。"',
     spriteId: '',
     spriteAlias: '',
     salesCount: 0,
@@ -369,19 +371,19 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'gift_juice_box',
     name: '缤纷礼盒',
-    subtitle: '果粟盈·4瓶果汁装',
-    price: 68.8,
-    originalPrice: 88.8,
+    subtitle: '果粟盈·原果汁8瓶礼盒装',
+    price: 69,
+    originalPrice: 79.2,
     image: PRODUCT_IMAGES.gift_juice_box,
     images: [PRODUCT_IMAGES.gift_juice_box, '/assets/images/products/yixia-juice/01-xian-li.png', '/assets/images/products/yixia-juice/02-xian-tao.png', '/assets/images/products/yixia-juice/03-hong-pu-tao.png', '/assets/images/products/yixia-juice/04-bai-pu-tao.png'],
     tags: ['礼盒', '果汁套装', '送礼', '家庭装'],
     category: 'gift_box',
     alcohol: '0%vol',
-    capacity: '300ml×4',
+    capacity: '300ml×8',
     specs: [
-      { id: 'spec_gift_juice_box', name: '果汁礼盒装（4瓶）', price: 68.8, originalPrice: 88.8, stock: 60 }
+      { id: 'spec_gift_juice_box', name: '果汁礼盒装（8瓶）', price: 69, originalPrice: 79.2, stock: 60 }
     ],
-    description: '果粟盈缤纷礼盒，内含鲜梨、鲜桃、红葡萄、白葡萄果汁各一瓶。精美包装，送礼首选，全家共享。',
+    description: '果粟盈缤纷礼盒，内含鲜梨、鲜桃、红葡萄、白葡萄果汁各两瓶。精美包装，送礼首选，全家共享。',
     story: '"缤纷礼盒，满满心意。送礼自用两相宜。"',
     spriteId: '',
     spriteAlias: '',
@@ -394,20 +396,20 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'gift_wine_box',
     name: '果酒混合礼盒',
-    subtitle: '邑夏·6瓶果酒装',
-    price: 268.8,
-    originalPrice: 328.8,
+    subtitle: '邑夏·4瓶果酒装',
+    price: 69,
+    originalPrice: 75.2,
     image: PRODUCT_IMAGES.gift_wine_box,
     images: [PRODUCT_IMAGES.gift_wine_box, '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png', '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png', '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png', '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'],
     tags: ['礼盒', '果酒套装', '送礼', '珍藏'],
     category: 'gift_box',
     alcohol: '7%vol',
-    capacity: '500ml×6',
+    capacity: '500ml×4',
     specs: [
-      { id: 'spec_gift_wine_box', name: '果酒礼盒装（6瓶）', price: 268.8, originalPrice: 328.8, stock: 30 }
+      { id: 'spec_gift_wine_box', name: '果酒礼盒装（4瓶）', price: 69, originalPrice: 75.2, stock: 30 }
     ],
-    description: '邑夏果酒混合礼盒，内含榴红心事、葡香暗度、桃心暗动、青苹微醺、粉乐雾琼各一瓶。精美包装，高端送礼首选。',
-    story: '"六款果酒，六种滋味。邑夏礼盒，尽显心意。"',
+    description: '邑夏果酒混合礼盒，内含榴红心事、葡香暗度、桃心暗动、青苹微醺各一瓶。精美包装，高端送礼首选。',
+    story: '"四款果酒，四种滋味。邑夏礼盒，尽显心意。"',
     spriteId: '',
     spriteAlias: '',
     salesCount: 0,
@@ -415,6 +417,37 @@ export const MOCK_PRODUCTS: Product[] = [
     isAlcohol: true,
     brand: '邑夏',
     isNew: true
+  },
+  // ============ 毕业套餐 ============
+  {
+    id: 'pkg_graduation_party',
+    name: '毕业派对套餐',
+    subtitle: '果酒11瓶畅饮装',
+    price: 699,
+    originalPrice: 899,
+    image: PRODUCT_IMAGES.gift_wine_box,
+    images: [PRODUCT_IMAGES.gift_wine_box],
+    tags: ['套餐', '毕业季', '派对', '拼团'],
+    category: 'gift_box',
+    alcohol: '7%vol',
+    capacity: '500ml×11',
+    specs: [
+      { id: 'spec_grad_party_11', name: '11瓶畅饮装', price: 699, originalPrice: 899, stock: 50 }
+    ],
+    description: '毕业派对套餐，内含：榴红心事×3、葡香暗度×2、桃心暗动×2、青苹微醺×2、干红葡萄酒×2，共11瓶。适合6-10人派对畅饮。拼团更优惠：10人团¥69/人，20人团¥29.9/人！',
+    story: '"青春不散场，友谊永长存。邑夏毕业派对套餐，和挚友们举杯告别，迎接未来！"',
+    spriteId: '',
+    spriteAlias: '',
+    salesCount: 0,
+    rating: 4.9,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: true,
+    isPintuanPackage: true,
+    pintuanTiers: [
+      { minPeople: 10, pricePerPerson: 69, label: '10人团' },
+      { minPeople: 20, pricePerPerson: 29.9, label: '20人团·推荐' }
+    ]
   }
 ]
 
@@ -423,8 +456,8 @@ export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
   {
     id: 'prod_pomegranate_new',
     name: '榴红心事',
-    price: 49.9,
-    pintuanPrice: 39.9,
+    price: 18.8,
+    pintuanPrice: 15.8,
     pintuanCount: 128,
     endTime: '2026-12-31 18:00:00',
     image: '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png',
@@ -433,8 +466,8 @@ export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
   {
     id: 'prod_peach_new',
     name: '桃心暗动',
-    price: 49.9,
-    pintuanPrice: 39.9,
+    price: 18.8,
+    pintuanPrice: 15.8,
     pintuanCount: 96,
     endTime: '2026-12-31 18:00:00',
     image: '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png',
