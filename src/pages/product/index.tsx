@@ -26,38 +26,36 @@ const comments = [
 
 
 
-// 精灵×藏府君互动漫画映射数据
+// 藏府君对话数据（微信对话气泡风格）
 const COMIC_DIALOGUES: Record<string, {
-  spiritName: string
-  spiritImage: string
-  spiritLine: string
-  lordName: string
-  lordImage: string
-  lordLine: string
+  spiritLine: string  // 用户发言
+  lordLine: string    // 藏府君回复
+  lordName: string    // 藏府君名字
 }> = {
   'prod_pomegranate_new': {
-    spiritName: '欣欣',
-    spiritImage: '/assets/images/spirits/liuliu.jpg',
     spiritLine: '他跟我表白了啊啊啊啊！',
-    lordName: '心君',
-    lordImage: '/assets/images/organ-lords/xinjun.jpg',
     lordLine: '心主喜，开心就好！但别喜极伤心哦…来杯榴红心事，让喜悦慢慢沉淀。',
+    lordName: '心君',
+  },
+  'prod_grape_wine': {
+    spiritLine: '最近老是熬夜刷手机…',
+    lordLine: '肝主目，累眼就是累肝。来杯葡香暗度，让眼睛和肝一起休息。',
+    lordName: '肝谋士',
+  },
+  'prod_peach_new': {
+    spiritLine: '压力大的时候就想吃甜的…',
+    lordLine: '脾主思，思虑过度伤脾。来杯桃心暗动，甜而不腻，温润养脾。',
+    lordName: '脾将军',
   },
   'prod_apple_wine': {
-    spiritName: '霏霏',
-    spiritImage: '/assets/images/spirits/lili.jpg',
     spiritLine: '天一凉就想哭…看落叶都觉得难过…',
+    lordLine: '悲伤肺，哭多了我会疼的。来杯青苹微醺润一润，眼泪流完了，心就轻了。',
     lordName: '肺丞相',
-    lordImage: '/assets/images/organ-lords/feichengxiang.jpg',
-    lordLine: '悲伤肺，哭多了我会疼的。来杯清苹微醉润一润，眼泪流完了，心就轻了。',
   },
   'prod_guava_wine': {
-    spiritName: '番红',
-    spiritImage: '/assets/images/spirits/zhazha.jpg',
-    spiritLine: '纠结选课选到头秃…救命…',
-    lordName: '脾将军',
-    lordImage: '/assets/images/organ-lords/pijiangjun.jpg',
-    lordLine: '选择困难？说明脾在抗议了。一杯番红暗许下肚，跟着直觉走，我帮你稳住。',
+    spiritLine: '最近总是心神不宁的…',
+    lordLine: '心主神明，安神才能定心。来杯粉乐雾琼，芭乐微甜，静心养神。',
+    lordName: '心君',
   },
 }
 
@@ -326,45 +324,26 @@ export default function Product() {
 
           {activeTab === 'detail' && (
             <View className="p-4">
-              {/* 精灵×藏府君互动漫画（仅果酒显示） */}
+              {/* 藏府君对话区（微信对话气泡风格，仅果酒显示） */}
               {product?.category === 'fruit_wine' && COMIC_DIALOGUES[product.id] && (() => {
                 const comic = COMIC_DIALOGUES[product.id]
                 return (
                   <View className="mb-4">
-                    <Text className="text-sm font-medium text-gray-900 mb-3 block">精灵×藏府君 漫剧互动</Text>
-                    <View className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-4">
-                      <View className="flex gap-3">
-                        {/* 左侧：精灵 */}
-                        <View className="flex-1 flex flex-col items-center">
-                          {/* 精灵台词气泡（在图片上方） */}
-                          <View className="w-full bg-pink-100 rounded-2xl rounded-tr-sm px-3 py-2 shadow-sm mb-2">
-                            <Text className="text-xs text-pink-600 font-medium leading-relaxed">{comic.spiritLine}</Text>
-                          </View>
-                          <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
-                            <Image 
-                              src={comic.spiritImage} 
-                              mode="aspectFill" 
-                              className="w-full h-full"
-                            />
-                          </View>
-                          <Text className="text-xs text-pink-500 font-medium mt-2">{comic.spiritName}</Text>
+                    <View className="bg-gray-50 rounded-2xl p-4">
+                      {/* 标题 */}
+                      <View className="mb-4 pb-3 border-b border-gray-200">
+                        <Text className="text-base font-bold text-gray-900">藏府君</Text>
+                      </View>
+                      {/* 用户发言气泡（左对齐，白色背景） */}
+                      <View className="inline-block max-w-[85%] mb-3 bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+                        <Text className="text-sm text-gray-700 leading-relaxed">{comic.spiritLine}</Text>
+                      </View>
+                      {/* 藏府君回复气泡（右对齐，紫色背景） */}
+                      <View className="flex flex-col items-end mb-2">
+                        <View className="inline-block max-w-[85%] bg-purple-500 rounded-2xl rounded-tr-sm px-4 py-3 shadow-sm">
+                          <Text className="text-sm text-white leading-relaxed">{comic.lordLine}</Text>
                         </View>
-                        
-                        {/* 右侧：藏府君 */}
-                        <View className="flex-1 flex flex-col items-center">
-                          <View className="w-full aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
-                            <Image 
-                              src={comic.lordImage} 
-                              mode="aspectFill" 
-                              className="w-full h-full"
-                            />
-                          </View>
-                          <Text className="text-xs text-amber-500 font-medium mt-2">{comic.lordName}</Text>
-                          {/* 藏府君台词气泡 */}
-                          <View className="mt-2 bg-gray-800 rounded-2xl rounded-tr-sm px-3 py-2 shadow-sm max-w-full">
-                            <Text className="text-xs text-white leading-relaxed">{comic.lordLine}</Text>
-                          </View>
-                        </View>
+                        <Text className="text-xs text-gray-400 mt-1 mr-1">{'· ' + comic.lordName}</Text>
                       </View>
                     </View>
                   </View>
