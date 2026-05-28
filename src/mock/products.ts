@@ -421,23 +421,23 @@ export const MOCK_PRODUCTS: Product[] = [
 // ============ 拼团数据 ============
 export const MOCK_FLASH_SALE: FlashSaleProduct[] = [
   {
-    id: 'flash_pomegranate',
+    id: 'prod_pomegranate_new',
     name: '榴红心事',
     price: 49.9,
     pintuanPrice: 39.9,
-    pintuanCount: 2,
-    endTime: '2025-01-01 23:59:59',
-    image: PRODUCT_IMAGES.prod_pomegranate_new,
+    pintuanCount: 128,
+    endTime: '2026-12-31 18:00:00',
+    image: '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png',
     spriteAlias: ''
   },
   {
-    id: 'flash_peach',
+    id: 'prod_peach_new',
     name: '桃心暗动',
     price: 49.9,
     pintuanPrice: 39.9,
-    pintuanCount: 2,
-    endTime: '2025-01-01 23:59:59',
-    image: PRODUCT_IMAGES.prod_peach_new,
+    pintuanCount: 96,
+    endTime: '2026-12-31 18:00:00',
+    image: '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png',
     spriteAlias: ''
   }
 ]

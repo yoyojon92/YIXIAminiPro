@@ -69,6 +69,11 @@ export default function Product() {
   const [liked, setLiked] = useState(false)
   const [showSpecPicker, setShowSpecPicker] = useState(false)
 
+  // 识别拼团入口
+  const isPintuan = router.params.pintuan === 'true'
+  const pintuanPrice = 39.9
+  const originalPrice = 49.9
+
   // 会员状态
   const { isMember, setShowMemberModal } = useMemberStore()
   
@@ -165,6 +170,32 @@ export default function Product() {
     })
   }
 
+  // 拼团发起逻辑
+  const handlePintuan = () => {
+    Taro.showModal({
+      title: '邀请好友拼团',
+      content: '分享给好友，2人成团即可享受¥39.9拼团价（原价¥49.9，立减¥10）',
+      confirmText: '去分享',
+      success: (res) => {
+        if (res.confirm) {
+          // 触发微信分享
+          Taro.showShareMenu({
+            withShareTicket: true
+          })
+        }
+      }
+    })
+  }
+
+  // 配置分享
+  Taro.useShareAppMessage(() => {
+    return {
+      title: `邑夏${product?.name || '果酒'}拼团，2人成团仅¥39.9，立减¥10！`,
+      path: `/pages/product/index?id=${product?.id}&pintuan=true`,
+      imageUrl: product?.images[0] || ''
+    }
+  })
+
   // 判断是否显示藏府君（仅果酒显示）
   const showOrganLord = product?.category === 'fruit_wine'
 
@@ -229,7 +260,14 @@ export default function Product() {
           )}
           
           <View className="flex items-baseline gap-2">
-            {isMember && product?.category === 'fruit_wine' ? (
+            {isPintuan ? (
+              // 拼团价格展示
+              <>
+                <Text className="pintuan-price">¥{pintuanPrice}</Text>
+                <Text className="original-price-line">¥{originalPrice}</Text>
+                <View className="pintuan-badge">2人拼团价</View>
+              </>
+            ) : isMember && product?.category === 'fruit_wine' ? (
               <>
                 <Text className="text-primary text-2xl font-bold">¥{memberPrice}</Text>
                 <Text className="text-gray-400 text-sm line-through">¥{product?.price}</Text>
@@ -398,25 +436,36 @@ export default function Product() {
           </View>
         )}
         
-        <View className="flex items-center gap-3">
-          <View className="flex items-center gap-1">
-            <View className="flex flex-col items-center px-3">
-              <ShoppingCart size={22} color="#6B7280" />
-              <Text className="text-xs text-gray-500 mt-1">购物车</Text>
+        {isPintuan ? (
+          // 拼团操作栏
+          <View className="pintuan-action-bar">
+            <View className="pintuan-btn" onClick={handlePintuan}>
+              <Text className="pintuan-btn-text">邀请好友拼团</Text>
+              <Text className="pintuan-btn-sub">2人成团·¥{pintuanPrice}/人</Text>
             </View>
           </View>
+        ) : (
+          // 原有操作栏
+          <View className="flex items-center gap-3">
+            <View className="flex items-center gap-1">
+              <View className="flex flex-col items-center px-3">
+                <ShoppingCart size={22} color="#6B7280" />
+                <Text className="text-xs text-gray-500 mt-1">购物车</Text>
+              </View>
+            </View>
 
-          <Button 
-            variant="outline" 
-            className="flex-1" 
-            onClick={() => setShowSpecPicker(true)}
-          >
-            <Text className="text-sm">选规格</Text>
-          </Button>
-          <Button className="flex-1" onClick={addToCart}>
-            <Text className="text-sm">加入购物车</Text>
-          </Button>
-        </View>
+            <Button 
+              variant="outline" 
+              className="flex-1" 
+              onClick={() => setShowSpecPicker(true)}
+            >
+              <Text className="text-sm">选规格</Text>
+            </Button>
+            <Button className="flex-1" onClick={addToCart}>
+              <Text className="text-sm">加入购物车</Text>
+            </Button>
+          </View>
+        )}
       </View>
 
       {/* 选规格弹窗 */}

@@ -207,8 +207,7 @@ export default function Index() {
             </View>
           </View>
           <View className="flex items-center gap-1 text-white" onClick={() => {
-              Taro.setStorageSync('selectedCategory', '')
-              Taro.setStorageSync('categoryExtraType', 'group')
+              Taro.setStorageSync('selectedCategory', 'fruit_wine')
               Taro.switchTab({ url: '/pages/category/index' })
             }}
           >
@@ -219,7 +218,7 @@ export default function Index() {
 
         <View className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
           {flashSaleProducts.map((product) => (
-            <View key={product.id} className="flex-shrink-0 w-40" onClick={() => goToProduct(product.id)}>
+            <View key={product.id} className="flex-shrink-0 w-40" onClick={() => Taro.navigateTo({ url: `/pages/product/index?id=${product.id}&pintuan=true` })}>
               <Card className="bg-slate-800 border-slate-700 overflow-hidden">
                 <View className="relative">
                   <Image src={product.image} mode="widthFix" className="w-full h-36" />
@@ -227,17 +226,15 @@ export default function Index() {
                     <Flame size={10} color="#ffffff" />
                     <Text>拼团</Text>
                   </View>
-                  {/* 精灵标签 */}
-                  <View className="absolute top-2 right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                    <Text>精灵</Text>
-                  </View>
                 </View>
                 <CardContent className="p-3">
                   <Text className="text-sm text-white font-medium line-clamp-1">{product.name}</Text>
-                  <Text className="text-xs text-slate-400 mt-1">{product.spriteAlias}</Text>
                   <View className="flex items-baseline gap-2 mt-2">
-                    <Text className="text-purple-400 font-bold text-lg">¥{product.price}</Text>
+                    <Text className="text-red-400 font-bold text-lg">¥{product.price}</Text>
                     <Text className="text-xs text-slate-500 line-through">¥{product.originalPrice}</Text>
+                  </View>
+                  <View className="flex items-center justify-center mt-2">
+                    <Text className="text-xs text-red-400 font-semibold">2人成团·立减¥10</Text>
                   </View>
                   <Text className="text-xs text-slate-500 mt-1">{product.sold}人已拼</Text>
                 </CardContent>
