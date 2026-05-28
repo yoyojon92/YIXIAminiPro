@@ -24,6 +24,8 @@ const PRODUCT_IMAGES: Record<string, string> = {
   prod_pomelo_old: '/assets/images/products/yixia-old/01-you-zi-jiu.png',
   prod_hawthorn_old: '/assets/images/products/yixia-old/02-yi-meng-shan-zha-jiu.png',
   prod_hawthorn_oolong_old: '/assets/images/products/yixia-old/03-shan-zha-wu-long-jiu.png',
+  // 毕业派对套餐图
+  pkg_graduation_party: '/assets/images/products/yixia-party/01-banner.png',
 }
 
 // 产品规格
@@ -516,8 +518,15 @@ export const MOCK_PRODUCTS: Product[] = [
     subtitle: '果酒11瓶畅饮装',
     price: 699,
     originalPrice: 899,
-    image: PRODUCT_IMAGES.gift_wine_box,
-    images: [PRODUCT_IMAGES.gift_wine_box],
+    image: PRODUCT_IMAGES.pkg_graduation_party,
+    images: [
+      '/assets/images/products/yixia-party/01-banner.png',
+      '/assets/images/products/yixia-party/02-scene1.jpg',
+      '/assets/images/products/yixia-party/03-scene2.jpg',
+      '/assets/images/products/yixia-party/04-scene3.jpg',
+      '/assets/images/products/yixia-party/05-scene4.jpg',
+      '/assets/images/products/yixia-party/06-detail.png',
+    ],
     tags: ['套餐', '毕业季', '派对', '拼团'],
     category: 'gift_box',
     alcohol: '7%vol',
