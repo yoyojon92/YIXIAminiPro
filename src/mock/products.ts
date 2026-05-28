@@ -20,6 +20,10 @@ const PRODUCT_IMAGES: Record<string, string> = {
   // 礼盒产品图（暂用果汁图占位）
   gift_juice_box: '/assets/images/products/yixia-gift/gift-juice-box.png',
   gift_wine_box: '/assets/images/products/yixia-gift/gift-wine-box.png',
+  // 老款果酒产品图
+  prod_pomelo_old: '/assets/images/products/yixia-old/01-you-zi-jiu.png',
+  prod_hawthorn_old: '/assets/images/products/yixia-old/02-yi-meng-shan-zha-jiu.png',
+  prod_hawthorn_oolong_old: '/assets/images/products/yixia-old/03-shan-zha-wu-long-jiu.png',
 }
 
 // 产品规格
@@ -111,7 +115,7 @@ export const ORGAN_LORDS: OrganLord[] = [
 
 // ============ 官方产品数据 - 12款产品 ============
 export const MOCK_PRODUCTS: Product[] = [
-  // ============ 果酒系列（邑夏品牌，6款）============
+  // ============ 果酒系列（邑夏品牌，9款）============
   {
     id: 'prod_pomegranate_new',
     name: '榴红心事',
@@ -267,6 +271,93 @@ export const MOCK_PRODUCTS: Product[] = [
     brand: '邑夏',
     isNew: false,
     relatedOrgan: 'heart'
+  },
+  {
+    id: 'prod_pomelo_old',
+    name: '柚见微醺',
+    subtitle: '柚子酒',
+    price: 16.8,
+    originalPrice: 28.8,
+    image: '/assets/images/products/yixia-old/01-you-zi-jiu.png',
+    images: ['/assets/images/products/yixia-old/01-you-zi-jiu.png'],
+    tags: ['果酒', '柚子酒', '低度', '润肺', '经典款'],
+    category: 'fruit_wine',
+    alcohol: '5%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_pomelo_old_1', name: '单瓶装', price: 16.8, originalPrice: 28.8, stock: 100 },
+      { id: 'spec_pomelo_old_2', name: '2瓶装(9折)', price: 30.24, originalPrice: 57.6, stock: 80 },
+      { id: 'spec_pomelo_old_3', name: '3瓶装(9折)', price: 45.36, originalPrice: 86.4, stock: 60 },
+      { id: 'spec_pomelo_old_4', name: '4瓶装(8.5折)', price: 57.12, originalPrice: 115.2, stock: 40 }
+    ],
+    description: '柚子入酒，甘洌沁爽。酒体呈淡鹅黄色，口感清爽回甘，酒精度仅5%vol，微醺刚好。选用新鲜柚子低温发酵，保留柚子的天然果香与清润。',
+    story: '「柚子甘寒润肺，一杯微醺肺气清。——肺丞相」',
+    spriteId: '',
+    spriteAlias: '',
+    salesCount: 0,
+    rating: 4.8,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: false,
+    relatedOrgan: 'lung'
+  },
+  {
+    id: 'prod_hawthorn_old',
+    name: '沂蒙山楂酒',
+    subtitle: '沂蒙山楂酒',
+    price: 16.8,
+    originalPrice: 28.8,
+    image: '/assets/images/products/yixia-old/02-yi-meng-shan-zha-jiu.png',
+    images: ['/assets/images/products/yixia-old/02-yi-meng-shan-zha-jiu.png'],
+    tags: ['果酒', '山楂酒', '沂蒙山', '消食', '经典款'],
+    category: 'fruit_wine',
+    alcohol: '12%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_hawthorn_old_1', name: '单瓶装', price: 16.8, originalPrice: 28.8, stock: 100 },
+      { id: 'spec_hawthorn_old_2', name: '2瓶装(9折)', price: 30.24, originalPrice: 57.6, stock: 80 },
+      { id: 'spec_hawthorn_old_3', name: '3瓶装(9折)', price: 45.36, originalPrice: 86.4, stock: 60 },
+      { id: 'spec_hawthorn_old_4', name: '4瓶装(8.5折)', price: 57.12, originalPrice: 115.2, stock: 40 }
+    ],
+    description: '沂蒙山新鲜山楂酿造，酸甜适口，开胃消食。酒体呈琥珀色，澄澈透亮，山楂果香浓郁，12度醇厚回甘。传统工艺发酵，保留山楂天然有机酸与维C。',
+    story: '「山楂酸甘化阴，疏肝消食佐酒一杯。——肝谋士」',
+    spriteId: '',
+    spriteAlias: '',
+    salesCount: 0,
+    rating: 4.7,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: false,
+    relatedOrgan: 'liver'
+  },
+  {
+    id: 'prod_hawthorn_oolong_old',
+    name: '山楂乌龙酒',
+    subtitle: '山楂乌龙茶酒',
+    price: 16.8,
+    originalPrice: 28.8,
+    image: '/assets/images/products/yixia-old/03-shan-zha-wu-long-jiu.png',
+    images: ['/assets/images/products/yixia-old/03-shan-zha-wu-long-jiu.png'],
+    tags: ['果酒', '山楂酒', '乌龙茶', '低度', '经典款'],
+    category: 'fruit_wine',
+    alcohol: '3.8%vol',
+    capacity: '330ml',
+    specs: [
+      { id: 'spec_hawthorn_oolong_old_1', name: '单瓶装', price: 16.8, originalPrice: 28.8, stock: 100 },
+      { id: 'spec_hawthorn_oolong_old_2', name: '2瓶装(9折)', price: 30.24, originalPrice: 57.6, stock: 80 },
+      { id: 'spec_hawthorn_oolong_old_3', name: '3瓶装(9折)', price: 45.36, originalPrice: 86.4, stock: 60 },
+      { id: 'spec_hawthorn_oolong_old_4', name: '4瓶装(8.5折)', price: 57.12, originalPrice: 115.2, stock: 40 }
+    ],
+    description: '山楂香甜，乌龙芬芳。山楂与乌龙茶巧妙融合，酒体呈琥珀色，入口酸甜柔和，茶香悠长回味，酒精度仅3.8%vol，轻饮无负担。冰镇更佳。',
+    story: '「山楂消食，乌龙解腻，一杯双效。——肝谋士」',
+    spriteId: '',
+    spriteAlias: '',
+    salesCount: 0,
+    rating: 4.8,
+    isAlcohol: true,
+    brand: '邑夏',
+    isNew: false,
+    relatedOrgan: 'liver'
   },
 
   // ============ 原果汁系列（果粟盈品牌，4款）============
