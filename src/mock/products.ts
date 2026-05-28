@@ -372,7 +372,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'gift_juice_box',
     name: '缤纷礼盒',
     subtitle: '果粟盈·原果汁8瓶礼盒装',
-    price: 69,
+    price: 79,
     originalPrice: 79.2,
     image: PRODUCT_IMAGES.gift_juice_box,
     images: [PRODUCT_IMAGES.gift_juice_box, '/assets/images/products/yixia-juice/01-xian-li.png', '/assets/images/products/yixia-juice/02-xian-tao.png', '/assets/images/products/yixia-juice/03-hong-pu-tao.png', '/assets/images/products/yixia-juice/04-bai-pu-tao.png'],
@@ -381,7 +381,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '0%vol',
     capacity: '300ml×8',
     specs: [
-      { id: 'spec_gift_juice_box', name: '果汁礼盒装（8瓶）', price: 69, originalPrice: 79.2, stock: 60 }
+      { id: 'spec_gift_juice_box', name: '果汁礼盒装（8瓶）', price: 79, originalPrice: 79.2, stock: 60 }
     ],
     description: '果粟盈缤纷礼盒，内含鲜梨、鲜桃、红葡萄、白葡萄果汁各两瓶。精美包装，送礼首选，全家共享。',
     story: '"缤纷礼盒，满满心意。送礼自用两相宜。"',
@@ -397,7 +397,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'gift_wine_box',
     name: '果酒混合礼盒',
     subtitle: '邑夏·4瓶果酒装',
-    price: 69,
+    price: 79,
     originalPrice: 75.2,
     image: PRODUCT_IMAGES.gift_wine_box,
     images: [PRODUCT_IMAGES.gift_wine_box, '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png', '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png', '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png', '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'],
@@ -406,7 +406,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '7%vol',
     capacity: '500ml×4',
     specs: [
-      { id: 'spec_gift_wine_box', name: '果酒礼盒装（4瓶）', price: 69, originalPrice: 75.2, stock: 30 }
+      { id: 'spec_gift_wine_box', name: '果酒礼盒装（4瓶）', price: 79, originalPrice: 75.2, stock: 30 }
     ],
     description: '邑夏果酒混合礼盒，内含榴红心事、葡香暗度、桃心暗动、青苹微醺各一瓶。精美包装，高端送礼首选。',
     story: '"四款果酒，四种滋味。邑夏礼盒，尽显心意。"',
