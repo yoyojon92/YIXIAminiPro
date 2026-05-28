@@ -6,9 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Alert } from '@/components/ui/alert'
 import { useCartStore } from '@/store/cartStore'
-import { useUserProfileStore } from '@/store/userProfileStore'
-import { generatePickupCode, formatPickupCode } from '@/utils/pickupCode'
 import { getShopById } from '@/data/pickupShops'
+import { formatPickupCode } from '@/utils/pickupCode'
 import {
   Clock4, Truck, Package, CircleCheck, CircleX,
   Star, CircleAlert, Store, MapPin, Clock, Check
@@ -117,13 +116,12 @@ const MAX_REFUND_PER_MONTH = 3
 export default function Orders() {
   const [activeTab, setActiveTab] = useState('all')
   const [isCheckout, setIsCheckout] = useState(false)
-  const [pickupCode, setPickupCode] = useState<string | null>(null)
+  const [pickupCode] = useState<string | null>(null)
   const [showDisputeModal, setShowDisputeModal] = useState(false)
   const [selectedDisputeOrder, setSelectedDisputeOrder] = useState<Order | null>(null)
   const [selectedReason, setSelectedReason] = useState<DisputeReason | null>(null)
   
   const cartStore = useCartStore()
-  const profileStore = useUserProfileStore()
   const { items, totalAmount, delivery, selectedCoupon, finalAmount } = cartStore
   
   // 从URL参数判断是否是结算模式
@@ -223,20 +221,48 @@ export default function Orders() {
 
   // 结算模式 - 确认订单
   const handleCheckoutConfirm = () => {
-    // 生成取餐码
-    const code = generatePickupCode()
-    setPickupCode(code)
-    
-    // 埋点：取餐码已生成
-    profileStore.recordPageView?.('pickup_code_generated')
-    console.log('[埋点] 取餐码生成', {
-      userId: 'user_001',
-      pickupCode: code,
-      deliveryType: delivery.type,
-      shopId: delivery.pickupShopId,
-      amount: finalAmount(),
-      action: 'pickup_code_generated',
-      timestamp: Date.now()
+    // 模拟支付弹窗
+    Taro.showModal({
+      title: '模拟支付',
+      content: `确认支付 ¥${finalAmount().toFixed(2)}？\n（当前为测试版，无需真实支付）`,
+      confirmText: '确认支付',
+      confirmColor: '#8B5CF6',
+      success: (res) => {
+        if (res.confirm) {
+          // 生成订单号
+          const orderNo = 'YX' + Date.now()
+          // 保存订单到本地storage
+          const savedOrders = Taro.getStorageSync('orders') || []
+          const newOrder = {
+            id: orderNo,
+            status: 'paid' as OrderStatus,
+            statusText: '待发货',
+            shopName: '邑夏官方旗舰店',
+            items: items.map(item => ({
+              name: item.name,
+              image: item.image,
+              price: item.price,
+              quantity: item.quantity,
+              specs: item.spec || ''
+            })),
+            totalPrice: totalAmount,
+            deliveryFee: 2,
+            createTime: new Date().toLocaleString('zh-CN'),
+            fragmentCount: items.length,
+            deliveryMode: delivery.type
+          }
+          savedOrders.unshift(newOrder)
+          Taro.setStorageSync('orders', savedOrders)
+          
+          // 清空购物车
+          cartStore.clearCart()
+          
+          // 跳转下单成功页
+          Taro.redirectTo({
+            url: `/pages/order/success?orderNo=${orderNo}&amount=${finalAmount().toFixed(2)}`
+          })
+        }
+      }
     })
   }
 
