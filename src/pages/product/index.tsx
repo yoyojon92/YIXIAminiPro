@@ -395,9 +395,11 @@ export default function Product() {
               {/* 未成年人警示语 */}
               {product?.isAlcohol && (
                 <View className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
-                  <Text className="text-xs text-amber-700 leading-5">
-                    ⚠️ 根据法律法规，未成年人禁止饮酒。请在购买前确认您已年满18周岁。
-                  </Text>
+                  <View className="flex items-center gap-1 mb-1">
+                    <Text className="text-amber-700 text-sm">⚠️</Text>
+                    <Text className="text-xs font-medium text-amber-700">温馨提示</Text>
+                  </View>
+                  <Text className="text-xs text-amber-600 leading-4">未成年人禁止饮酒 · 孕妇及饮酒后请勿驾车 · 适量饮酒，健康生活</Text>
                 </View>
               )}
             </View>

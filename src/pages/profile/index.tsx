@@ -67,10 +67,10 @@ export default function Profile() {
     { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
     { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/payment/index' },
     { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/shipping-address/index' },
-    { id: 6, icon: Shield, title: '隐私政策', badge: null, path: '/pages/privacy/index' },
+    { id: 6, icon: Shield, title: '隐私政策', badge: null, action: 'privacy' },
   ]
   
-  const menuItems = [
+  const menuItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path: string; dynamicBadge?: () => number | null; action?: string }> = [
     { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pages/membership/index' },
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
@@ -268,7 +268,18 @@ export default function Profile() {
                 <View key={item.id}>
                   <View 
                     className="flex items-center justify-between p-4"
-                    onClick={() => item.path && navigateTo(item.path)}
+                    onClick={() => {
+                      if (item.action === 'privacy') {
+                        Taro.showModal({
+                          title: '隐私政策',
+                          content: '邑夏果酒小程序重视您的隐私保护。我们仅收集必要信息（昵称、学校、年龄）用于订单配送和年龄验证，不会向第三方分享您的个人信息。您可随时在"设置"中删除账户数据。',
+                          showCancel: false,
+                          confirmText: '我知道了'
+                        })
+                      } else if (item.path) {
+                        navigateTo(item.path)
+                      }
+                    }}
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
@@ -301,7 +312,18 @@ export default function Profile() {
                 <View key={item.id}>
                   <View 
                     className="flex items-center justify-between p-4"
-                    onClick={() => item.path && navigateTo(item.path)}
+                    onClick={() => {
+                      if (item.action === 'privacy') {
+                        Taro.showModal({
+                          title: '隐私政策',
+                          content: '邑夏果酒小程序重视您的隐私保护。我们仅收集必要信息（昵称、学校、年龄）用于订单配送和年龄验证，不会向第三方分享您的个人信息。您可随时在"设置"中删除账户数据。',
+                          showCancel: false,
+                          confirmText: '我知道了'
+                        })
+                      } else if (item.path) {
+                        navigateTo(item.path)
+                      }
+                    }}
                   >
                     <View className="flex items-center gap-3">
                       <View className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
