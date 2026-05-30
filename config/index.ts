@@ -76,7 +76,8 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
     },
     copy: {
       patterns: [
-        { from: 'src/assets/images/', to: 'dist/assets/images/' }
+        // 只复制tabbar图标（小程序tabbar必须使用本地文件）
+        { from: 'src/assets/tabbar/', to: 'dist/assets/tabbar/' }
       ],
       options: {},
     },

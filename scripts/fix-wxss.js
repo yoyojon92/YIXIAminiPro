@@ -171,11 +171,8 @@ function copyImages() {
   const srcDir = path.resolve(__dirname, '../src/assets/images');
   const distAssetsDir = path.resolve(distDir, 'assets/images');
   
-  // 需要拷贝的图片目录
+  // 需要拷贝的图片目录（只保留tabbar，其他图片使用TOS对象存储）
   const imageDirs = [
-    'products/yixia-products',
-    'spirits',
-    'organ-lords',
     'tabbar'
   ];
   

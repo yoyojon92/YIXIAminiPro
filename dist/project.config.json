@@ -1,41 +1,44 @@
 {
   "miniprogramRoot": "./",
-  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudfunctionRoot": "./cloudfunctions/",
   "projectname": "yixia-mini-program",
   "description": "邑夏果酒果汁小程序 - 基于微信云开发",
-  "appid": "wxd006de892f57a2f5",
+  "appid": "wx9127a9df7a4fd36d",
   "setting": {
     "urlCheck": true,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false,
-    "compileWorklet": false,
-    "uglifyFileName": false,
-    "uploadWithSourceMap": true,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "minifyWXML": true,
-    "localPlugins": false,
-    "disableUseStrict": false,
-    "useCompilerPlugins": false,
-    "condition": false,
-    "swc": false,
-    "disableSWC": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    }
+    "minified": false
   },
   "compileType": "miniprogram",
-  "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
-    "include": []
-  },
-  "editorSetting": {},
-  "libVersion": "3.16.1"
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "assets/images/products"
+      },
+      {
+        "type": "folder",
+        "value": "assets/images/organ-lords"
+      },
+      {
+        "type": "folder",
+        "value": "assets/images/spirits"
+      },
+      {
+        "type": "file",
+        "value": "assets/images/banner1.jpg"
+      },
+      {
+        "type": "file",
+        "value": "assets/images/banner2.jpg"
+      },
+      {
+        "type": "file",
+        "value": "assets/images/banner3.jpg"
+      }
+    ]
+  }
 }
