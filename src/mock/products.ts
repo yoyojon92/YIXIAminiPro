@@ -495,7 +495,7 @@ export const MOCK_PRODUCTS: Product[] = [
     name: '果酒混合礼盒',
     subtitle: '邑夏·4瓶果酒装',
     price: 79,
-    originalPrice: 75.2,
+    originalPrice: 119.6,
     image: PRODUCT_IMAGES.gift_wine_box,
     images: [PRODUCT_IMAGES.gift_wine_box, '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png', '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png', '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png', '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'],
     tags: ['礼盒', '果酒套装', '送礼', '珍藏'],
@@ -503,7 +503,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '7%vol',
     capacity: '500ml×4',
     specs: [
-      { id: 'spec_gift_wine_box', name: '果酒礼盒装（4瓶）', price: 79, originalPrice: 75.2, stock: 30 }
+      { id: 'spec_gift_wine_box', name: '果酒礼盒装（4瓶）', price: 79, originalPrice: 119.6, stock: 30 }
     ],
     description: '邑夏果酒混合礼盒，内含榴红心事、葡香暗度、桃心暗动、青苹微醺各一瓶。精美包装，高端送礼首选。',
     story: '"四款果酒，四种滋味。邑夏礼盒，尽显心意。"',

@@ -101,18 +101,14 @@ export default function Product() {
   const profileStore = useUserProfileStore()
 
   const addToCart = async () => {
-    console.log('[addToCart] 开始执行')
-    
     // 重新获取最新产品数据
     const productId = router.params.id
-    console.log('[addToCart] productId:', productId)
     
     if (!productId) {
       Taro.showToast({ title: '产品信息加载中', icon: 'none' })
       return
     }
     const currentProduct = getProductById(productId)
-    console.log('[addToCart] currentProduct:', currentProduct?.name)
     
     if (!currentProduct) {
       Taro.showToast({ title: '产品信息获取失败', icon: 'none' })
@@ -122,7 +118,6 @@ export default function Product() {
     // 酒精产品需要年龄验证
     if (currentProduct.isAlcohol) {
       const userAge = profileStore.age
-      console.log('[addToCart] 用户年龄:', userAge, '产品类型: 果酒')
       
       if (userAge !== null && userAge < 18) {
         // 已注册但年龄不足18岁
@@ -136,7 +131,6 @@ export default function Product() {
       }
       if (userAge === null) {
         // 未注册，需要弹窗确认年龄
-        console.log('[addToCart] 用户未注册，弹出年龄验证')
         const verified = await ageVerify()
         if (!verified) return
       }
@@ -144,7 +138,6 @@ export default function Product() {
     }
 
     // 添加到购物车
-    console.log('[addToCart] 开始添加到购物车')
     await cartStore.addItem({
       productId: currentProduct.id,
       name: currentProduct.name,
@@ -156,7 +149,6 @@ export default function Product() {
       maxQuantity: 99
     })
 
-    console.log('[addToCart] 添加成功')
     Taro.showToast({ title: '已加入购物车', icon: 'success' })
     
     // 记录加购行为（用于用户画像）
@@ -399,6 +391,15 @@ export default function Product() {
               <Text className="text-sm text-gray-600 leading-6">
                 {product?.description || `邑夏${product?.name}，选用优质原料精心制作。酒体色泽纯净，口感独特回味悠长，非常适合年轻人品鉴。产品包装精美，是送礼和聚会的理想选择。`}
               </Text>
+              
+              {/* 未成年人警示语 */}
+              {product?.isAlcohol && (
+                <View className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                  <Text className="text-xs text-amber-700 leading-5">
+                    ⚠️ 根据法律法规，未成年人禁止饮酒。请在购买前确认您已年满18周岁。
+                  </Text>
+                </View>
+              )}
             </View>
           )}
 
