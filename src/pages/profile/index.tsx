@@ -61,7 +61,7 @@ export default function Profile() {
   
   const couponBadgeCount = getUnusedCoupons().length
   
-  const toolItems = [
+  const toolItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path?: string; dynamicBadge?: () => number | null; action?: string }> = [
     { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pages/notifications/index' },
     { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/orders/index?tab=settings' },
     { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
