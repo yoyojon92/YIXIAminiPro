@@ -2,10 +2,12 @@
  * 邑夏精灵 IP 数据
  */
 
-// 导入精灵图片
-import taoyaoImg from '@/assets/images/spirits/taoyao.jpg'
-import liliImg from '@/assets/images/spirits/lili.jpg'
-import liuliuImg from '@/assets/images/spirits/liuliu.jpg'
+// 精灵图片URL（已迁移至图床）
+const SPIRIT_URLS = {
+  taoyao: 'https://www.coze.cn/s/f-AqnolgzpA/',
+  lili: 'https://www.coze.cn/s/hl6miSOxK_0/',
+  liuliu: 'https://www.coze.cn/s/hQw4OmEvrMQ/',
+}
 
 export interface Sprite {
   id: string;
@@ -24,7 +26,7 @@ export const SPRITES: Sprite[] = [
     name: '欣欣',
     emoji: '❤️',
     color: '#DC2626', // 心红
-    image: liuliuImg,
+    image: SPIRIT_URLS.liuliu,
     productId: 'prod_pomegranate_new', // 榴红心事
     productName: '榴红心事',
   },
@@ -33,7 +35,7 @@ export const SPRITES: Sprite[] = [
     name: '霏霏',
     emoji: '🫁',
     color: '#06B6D4', // 肺蓝
-    image: liliImg,
+    image: SPIRIT_URLS.lili,
     productId: 'prod_apple_wine', // 清苹微醉
     productName: '清苹微醉',
   },
@@ -42,7 +44,7 @@ export const SPRITES: Sprite[] = [
     name: '番番',
     emoji: '🍑',
     color: '#F59E0B', // 番石榴橙
-    image: taoyaoImg,
+    image: SPIRIT_URLS.taoyao,
     productId: 'prod_guava_wine', // 番红暗许
     productName: '番红暗许',
   },

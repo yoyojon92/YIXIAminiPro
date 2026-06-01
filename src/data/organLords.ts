@@ -26,7 +26,7 @@ const PI_JIANG_JUN: OrganLord = {
   healthText: '苹果健脾 · 脾胃为后天之本，气血生化之源',
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: '/assets/images/organ-lords/pijiangjun.jpg',
+  image: 'https://www.coze.cn/s/6-Q_g0-4Hls/',
   emoji: '🍑',
 };
 
@@ -40,7 +40,7 @@ const FEI_CHENG_XIANG: OrganLord = {
   healthText: '苹果清肺 · 肺主气，司呼吸，清肺润燥',
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: '/assets/images/organ-lords/feichengxiang.jpg',
+  image: 'https://www.coze.cn/s/69fTLvyprsY/',
   emoji: '🍐',
 };
 
@@ -54,7 +54,7 @@ const GAN_MOU_SHI: OrganLord = {
   healthText: '番石榴养肝 · 肝藏血，主疏泄',
   relatedProducts: ['番红暗许'],
   productIds: ['prod_guava_wine'],
-  image: '/assets/images/organ-lords/ganmoushi.jpg',
+  image: 'https://www.coze.cn/s/5_u20GpicfU/',
   emoji: '🍒',
 };
 
@@ -68,7 +68,7 @@ const XIN_JUN: OrganLord = {
   healthText: '石榴养心 · 心主神明，养心安神',
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: '/assets/images/organ-lords/xinjun.jpg',
+  image: 'https://www.coze.cn/s/5dfDwwYdlvU/',
   emoji: '🍎',
 };
 
@@ -82,7 +82,7 @@ const SHEN_ZHI_ZHE: OrganLord = {
   healthText: '石榴补肾 · 肾为先天之本，滋阴养血',
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: '/assets/images/organ-lords/shenzhizhe.jpg',
+  image: 'https://www.coze.cn/s/5ura8eFc_yE/',
   emoji: '🍇',
 };
 
