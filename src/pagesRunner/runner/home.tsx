@@ -24,7 +24,7 @@ export default function RunnerHome() {
   // 未注册跳转注册页
   useEffect(() => {
     if (!isRegistered) {
-      Taro.redirectTo({ url: '/pages/runner/register' })
+      Taro.redirectTo({ url: '/pagesRunner/runner/register' })
     }
   }, [isRegistered])
 

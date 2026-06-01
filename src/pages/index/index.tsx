@@ -111,7 +111,7 @@ export default function Index() {
           </View>
           <View className="flex items-center gap-3">
             {/* 通知铃铛 */}
-            <View className="relative" onClick={() => Taro.navigateTo({ url: '/pages/notifications/index' })}>
+            <View className="relative" onClick={() => Taro.navigateTo({ url: '/pagesSocial/notifications/index' })}>
               {unreadCount > 0 && (
                 <Badge variant="destructive" className="absolute -top-1 -right-1 z-10 w-5 h-5 flex items-center justify-center text-xs p-0 bg-red-500">
                   {unreadCount > 99 ? '99+' : unreadCount}
@@ -440,7 +440,7 @@ export default function Index() {
       {/* 活动入口 */}
       <View className="px-4 mt-6 mb-6">
         <View className="grid grid-cols-2 gap-3">
-          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pages/wall/index' })}>
+          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/wall/index' })}>
             <CardContent className="p-4 flex items-center gap-3">
               <Text className="text-3xl">🎨</Text>
               <View>
@@ -449,7 +449,7 @@ export default function Index() {
               </View>
             </CardContent>
           </Card>
-          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pages/activity/index' })}>
+          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/activity/index' })}>
             <CardContent className="p-4 flex items-center gap-3">
               <Text className="text-3xl">🎉</Text>
               <View>

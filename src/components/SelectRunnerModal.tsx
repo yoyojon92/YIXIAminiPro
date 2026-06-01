@@ -50,7 +50,7 @@ export default function SelectRunnerModal({ visible, onClose, onSelect }: Select
   }
 
   const handleViewAll = () => {
-    Taro.navigateTo({ url: '/pages/runner-list/index' })
+    Taro.navigateTo({ url: '/pagesRunner/runner-list/index' })
     onClose()
   }
 

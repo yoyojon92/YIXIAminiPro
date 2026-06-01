@@ -97,7 +97,7 @@ export default function RunnerRegister() {
 
     Taro.showToast({ title: "注册成功", icon: "success" })
     setTimeout(() => {
-      Taro.redirectTo({ url: '/pages/runner/home' })
+      Taro.redirectTo({ url: '/pagesRunner/runner/home' })
     }, 1500)
   }
 

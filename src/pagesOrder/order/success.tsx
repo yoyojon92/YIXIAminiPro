@@ -33,7 +33,7 @@ export default function OrderSuccess() {
         </Button>
         <Button 
           className="flex-1 bg-violet-600"
-          onClick={() => Taro.redirectTo({ url: '/pages/orders/index' })}
+          onClick={() => Taro.redirectTo({ url: '/pagesOrder/orders/index' })}
         >
           <FileText size={18} color="#fff" className="mr-2" />
           <Text className="text-white">查看订单</Text>

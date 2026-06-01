@@ -96,7 +96,7 @@ export default function Category() {
   }
 
   const goToNotifications = () => {
-    Taro.navigateTo({ url: '/pages/notifications/index' })
+    Taro.navigateTo({ url: '/pagesSocial/notifications/index' })
   }
 
   return (

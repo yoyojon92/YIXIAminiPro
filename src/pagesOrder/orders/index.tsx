@@ -535,7 +535,7 @@ export default function Orders() {
                             variant="outline" 
                             size="sm" 
                             className="px-4"
-                            onClick={() => Taro.navigateTo({ url: '/pages/tracking/index' })}
+                            onClick={() => Taro.navigateTo({ url: '/pagesOrder/tracking/index' })}
                           >
                             <Text className="text-xs">查看物流</Text>
                           </Button>

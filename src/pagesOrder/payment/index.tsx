@@ -68,7 +68,7 @@ export default function PaymentPage() {
   }
 
   const handleRecharge = () => {
-    Taro.navigateTo({ url: '/pages/recharge/index' })
+    Taro.navigateTo({ url: '/pagesMember/recharge/index' })
   }
 
   const bestCard = getBestDiscountCard()
@@ -98,7 +98,7 @@ export default function PaymentPage() {
               <Separator className="my-3" />
               <View 
                 className="flex items-center justify-between"
-                onClick={() => Taro.navigateTo({ url: '/pages/recharge/index' })}
+                onClick={() => Taro.navigateTo({ url: '/pagesMember/recharge/index' })}
               >
                 <View className="flex items-center gap-2">
                   <Gift size={16} color="#FBBF24" />

@@ -143,8 +143,8 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
           JSON.stringify({
             miniprogramRoot: './',
             projectname: '邑夏',
-            appid: process.env.TARO_APP_WEAPP_APPID || 'wx9127a9df7a4fd36d',
-            setting: { urlCheck: false, es6: true, enhance: true, compileHotReLoad: true, postcss: false, minified: false },
+            appid: process.env.TARO_APP_WEAPP_APPID || 'wxd006de892f57a2f5',
+            setting: { urlCheck: false, es6: true, enhance: true, compileHotReLoad: true, postcss: false, minified: true },
           }, null, 2),
         );
       }

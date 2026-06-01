@@ -16,11 +16,11 @@ export default function RunnerEntryCard({
   showStats = true
 }: RunnerEntryCardProps) {
   const handleTap = () => {
-    Taro.navigateTo({ url: '/pages/runner/home' })
+    Taro.navigateTo({ url: '/pagesRunner/runner/home' })
   }
 
   const handleBeRunner = () => {
-    Taro.navigateTo({ url: '/pages/runner/register' })
+    Taro.navigateTo({ url: '/pagesRunner/runner/register' })
   }
 
   return (

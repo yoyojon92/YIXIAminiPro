@@ -103,7 +103,7 @@ export default function Cart() {
     if (selectedCoupon) {
       profileStore.recordCouponUse(selectedCoupon.id, selectedCoupon.discount)
     }
-    Taro.navigateTo({ url: '/pages/orders/index?type=checkout' })
+    Taro.navigateTo({ url: '/pagesOrder/orders/index?type=checkout' })
   }
 
   // 检查是否可以结算
@@ -254,7 +254,7 @@ export default function Cart() {
       {selectedDelivery === 'dormitory' && (
         <View 
           className="px-4 py-3 bg-white mt-2"
-          onClick={() => Taro.navigateTo({ url: '/pages/dormitory/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pagesOrder/dormitory/index' })}
         >
           <View className="flex items-center justify-between">
             <View className="flex items-center gap-2">
@@ -279,7 +279,7 @@ export default function Cart() {
       {selectedDelivery === 'pickup' && (
         <View 
           className="px-4 py-3 bg-white mt-2"
-          onClick={() => Taro.navigateTo({ url: '/pages/pickup/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pagesOrder/pickup/index' })}
         >
           <View className="flex items-center justify-between">
             <View className="flex items-center gap-2">
@@ -302,7 +302,7 @@ export default function Cart() {
       {selectedDelivery === 'mail' && (
         <View 
           className="px-4 py-3 bg-white mt-2"
-          onClick={() => Taro.navigateTo({ url: '/pages/shipping-address/index' })}
+          onClick={() => Taro.navigateTo({ url: '/pagesOrder/shipping-address/index' })}
         >
           <View className="flex items-center justify-between">
             <View className="flex items-center gap-2">

@@ -34,7 +34,7 @@ export function generatePushMessage(
         content: '你还有3张会员代券未使用，本月有效～去看看吧',
         scenario,
         targetTags: ['member'],
-        action: { text: '查看代券', url: '/pages/coupons/index' },
+        action: { text: '查看代券', url: '/pagesMember/coupons/index' },
       }
     
     case 'coupon_expire_warning':
@@ -76,7 +76,7 @@ export function generatePushMessage(
           : '本月投票通道即将关闭，还有作品值得你一票！',
         scenario,
         targetTags: ['voter', 'content_creator'],
-        action: { text: '去投票', url: '/pages/wall/index?tab=ranking' },
+        action: { text: '去投票', url: '/pagesSocial/wall/index?tab=ranking' },
       }
     
     case 'ranking_change':
@@ -84,7 +84,7 @@ export function generatePushMessage(
         title: '🏆 排名变动',
         content: `你的作品"${data?.workTitle || ''}"当前排名第${data?.rank || 0}名，还差${data?.votesNeeded || 0}票就能超越上一名！`,
         scenario,
-        action: { text: '拉票去', url: '/pages/wall/index?tab=ranking' },
+        action: { text: '拉票去', url: '/pagesSocial/wall/index?tab=ranking' },
       }
     
     case 'repurchase_suggestion': {

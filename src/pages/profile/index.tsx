@@ -62,23 +62,23 @@ export default function Profile() {
   const couponBadgeCount = getUnusedCoupons().length
   
   const toolItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path?: string; dynamicBadge?: () => number | null; action?: string }> = [
-    { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pages/notifications/index' },
-    { id: 2, icon: Settings, title: '设置', badge: null, path: '/pages/orders/index?tab=settings' },
-    { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pages/orders/index?tab=help' },
-    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pages/payment/index' },
-    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pages/shipping-address/index' },
+    { id: 1, icon: Bell, title: '消息通知', badge: null, dynamicBadge: () => unreadCount > 0 ? unreadCount : null, path: '/pagesSocial/notifications/index' },
+    { id: 2, icon: Settings, title: '设置', badge: null, path: '/pagesOrder/orders/index?tab=settings' },
+    { id: 3, icon: CircleQuestionMark, title: '帮助与反馈', badge: null, path: '/pagesOrder/orders/index?tab=help' },
+    { id: 4, icon: CreditCard, title: '支付方式', badge: null, path: '/pagesOrder/payment/index' },
+    { id: 5, icon: MapPinned, title: '收货地址', badge: null, path: '/pagesOrder/shipping-address/index' },
     { id: 6, icon: Shield, title: '隐私政策', badge: null, action: 'privacy' },
   ]
   
   const menuItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path: string; dynamicBadge?: () => number | null; action?: string }> = [
-    { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pages/membership/index' },
-    { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pages/orders/index' },
-    { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pages/coupons/index' },
+    { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pagesMember/membership/index' },
+    { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pagesOrder/orders/index' },
+    { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pagesMember/coupons/index' },
     { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
-    { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pages/wall/index?tab=favorite' },
-    { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pages/sprites/index' },
-    { id: 6, icon: Users, title: '我的送酒员', badge: null, path: '/pages/runner-list/index' },
-    { id: 7, icon: Sparkles, title: '成为送酒员', badge: '招募中', path: '/pages/runner-moment/index' }
+    { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pagesSocial/wall/index?tab=favorite' },
+    { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pagesSocial/sprites/index' },
+    { id: 6, icon: Users, title: '我的送酒员', badge: null, path: '/pagesRunner/runner-list/index' },
+    { id: 7, icon: Sparkles, title: '成为送酒员', badge: '招募中', path: '/pagesRunner/runner-moment/index' }
   ]
 
   const navigateTo = (path: string) => {
@@ -101,7 +101,7 @@ export default function Profile() {
         <View className="flex items-center justify-between mb-4">
           <Text className="text-white text-lg font-semibold">我的</Text>
           <View className="flex items-center gap-4">
-            <View onClick={() => Taro.navigateTo({ url: '/pages/notifications/index' })}>
+            <View onClick={() => Taro.navigateTo({ url: '/pagesSocial/notifications/index' })}>
               <Bell size={22} color="white" />
             </View>
             <View onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
@@ -149,22 +149,22 @@ export default function Profile() {
         <Card className="overflow-hidden">
           <CardContent className="p-4">
             <View className="flex justify-around">
-              <View className="flex flex-col items-center" onClick={() => navigateTo('/pages/orders/index?tab=pending')}>
+              <View className="flex flex-col items-center" onClick={() => navigateTo('/pagesOrder/orders/index?tab=pending')}>
                 <Text className="text-xl font-bold text-gray-900">3</Text>
                 <Text className="text-xs text-gray-500 mt-1">待付款</Text>
               </View>
               <Separator orientation="vertical" className="h-10" />
-              <View className="flex flex-col items-center" onClick={() => navigateTo('/pages/orders/index?tab=shipped')}>
+              <View className="flex flex-col items-center" onClick={() => navigateTo('/pagesOrder/orders/index?tab=shipped')}>
                 <Text className="text-xl font-bold text-gray-900">2</Text>
                 <Text className="text-xs text-gray-500 mt-1">待发货</Text>
               </View>
               <Separator orientation="vertical" className="h-10" />
-              <View className="flex flex-col items-center" onClick={() => navigateTo('/pages/orders/index?tab=delivered')}>
+              <View className="flex flex-col items-center" onClick={() => navigateTo('/pagesOrder/orders/index?tab=delivered')}>
                 <Text className="text-xl font-bold text-gray-900">5</Text>
                 <Text className="text-xs text-gray-500 mt-1">待收货</Text>
               </View>
               <Separator orientation="vertical" className="h-10" />
-              <View className="flex flex-col items-center" onClick={() => navigateTo('/pages/orders/index?tab=completed')}>
+              <View className="flex flex-col items-center" onClick={() => navigateTo('/pagesOrder/orders/index?tab=completed')}>
                 <Text className="text-xl font-bold text-gray-900">12</Text>
                 <Text className="text-xs text-gray-500 mt-1">已完成</Text>
               </View>
@@ -229,7 +229,7 @@ export default function Profile() {
             // 埋点
             trackProfileAction('runner_entry')
             // 未注册跳注册页，已注册跳主页
-            const path = runnerStore.isRegistered ? '/pages/runner/home' : '/pages/runner/register'
+            const path = runnerStore.isRegistered ? '/pagesRunner/runner/home' : '/pagesRunner/runner/register'
             Taro.navigateTo({ url: path })
           }}
         >
@@ -351,7 +351,7 @@ export default function Profile() {
             <CardContent className="p-4">
               <View 
                 className="flex items-center justify-between"
-                onClick={() => Taro.navigateTo({ url: '/pages/admin/index' })}
+                onClick={() => Taro.navigateTo({ url: '/pagesAdmin/admin/index' })}
               >
                 <View className="flex items-center gap-3">
                   <View className="w-12 h-12 rounded-xl bg-white bg-opacity-20 flex items-center justify-center">

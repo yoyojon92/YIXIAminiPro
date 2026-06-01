@@ -176,7 +176,7 @@ export default function RunnerCenter() {
             <View 
               className="w-9 h-9 rounded-full flex items-center justify-center"
               style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-              onClick={() => Taro.navigateTo({ url: '/pages/withdraw/index' })}
+              onClick={() => Taro.navigateTo({ url: '/pagesMember/withdraw/index' })}
             >
               <Wallet size={18} color="#fff" />
             </View>

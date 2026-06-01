@@ -70,7 +70,7 @@ export default function Wall() {
     if (!isMember) {
       setShowPublishGuide(true)
     } else {
-      Taro.navigateTo({ url: '/pages/wall/publish/index' })
+      Taro.navigateTo({ url: '/pagesSocial/wall/publish/index' })
     }
   }
 
