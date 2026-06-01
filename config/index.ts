@@ -136,6 +136,33 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
         return;
       }
 
+      // 修正 app.json：强制分包配置（Taro可能将分包页面平铺到pages里）
+      if (process.env.TARO_ENV === 'weapp') {
+        const appJsonPath = path.resolve(distDir, 'app.json');
+        if (fs.existsSync(appJsonPath)) {
+          const appJson = JSON.parse(fs.readFileSync(appJsonPath, 'utf-8'));
+          const mainPages = [
+            'pages/index/index',
+            'pages/category/index',
+            'pages/cart/index',
+            'pages/profile/index',
+            'pages/product/index',
+          ];
+          const subPackages = [
+            { root: 'pagesOrder', pages: ['orders/index','order/success','payment/index','shipping-address/index','shipping/index','tracking/index','pickup/index','dormitory/index'] },
+            { root: 'pagesRunner', pages: ['runner/home','runner/register','runner-list/index','runner-detail/index','runner-moment/index','runner-center/index'] },
+            { root: 'pagesMember', pages: ['membership/index','points/index','recharge/index','withdraw/index','coupons/index'] },
+            { root: 'pagesSocial', pages: ['sprites/index','wall/index','wall/publish/index','activity/index','diary/index','article/index','notifications/index','profile/user-profile/index'] },
+            { root: 'pagesAdmin', pages: ['admin/index','admin/products','admin/counselor','admin/activity','admin/ip-manage','admin/user-profile','admin/links'] },
+            { root: 'pagesExtra', pages: ['dashboard/index','stats/index'] },
+          ];
+          appJson.pages = mainPages;
+          appJson.subPackages = subPackages;
+          fs.writeFileSync(appJsonPath, JSON.stringify(appJson, null, 2));
+          console.log('[fix] ✓ app.json 分包配置已修正: 主包5页 + 6分包');
+        }
+      }
+
       // 生成 project.config.json（仅 production）
       if (process.env.TARO_ENV === 'weapp' && process.env.NODE_ENV === 'production') {
         fs.writeFileSync(

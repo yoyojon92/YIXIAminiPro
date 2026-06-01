@@ -50,12 +50,12 @@ export const MOCK_SPRITES: Sprite[] = [
     alcoholForm: {
       name: '微醺态·欣欣',
       desc: '如红石榴般温暖的心之精灵，散发着安神的魅力',
-      image: 'https://www.coze.cn/s/47MNb9W0oS8/'
+      image: './assets/images/banner2.jpg'
     },
     freshForm: {
       name: '清爽态·欣欣',
       desc: '清新温暖的心之少女',
-      image: 'https://www.coze.cn/s/47MNb9W0oS8/'
+      image: './assets/images/banner2.jpg'
     },
     organLord: {
       name: '心君',
@@ -78,12 +78,12 @@ export const MOCK_SPRITES: Sprite[] = [
     alcoholForm: {
       name: '微醺态·霏霏',
       desc: '带着青苹果清香的轻盈精灵，散发着清新的魅力',
-      image: 'https://www.coze.cn/s/4vidK4JYA4I/'
+      image: './assets/images/banner1.jpg'
     },
     freshForm: {
       name: '清爽态·霏霏',
       desc: '清新轻盈的苹果少女',
-      image: 'https://www.coze.cn/s/4vidK4JYA4I/'
+      image: './assets/images/banner1.jpg'
     },
     organLord: {
       name: '肺大人',
@@ -106,12 +106,12 @@ export const MOCK_SPRITES: Sprite[] = [
     alcoholForm: {
       name: '微醺态·清爽精灵',
       desc: '果汁精灵没有微醺态',
-      image: 'https://www.coze.cn/s/4vidK4JYA4I/'
+      image: './assets/images/banner1.jpg'
     },
     freshForm: {
       name: '清爽态·清爽精灵',
       desc: '活力充沛的果汁少女，给人们带去自然的能量',
-      image: 'https://www.coze.cn/s/4vidK4JYA4I/'
+      image: './assets/images/banner1.jpg'
     }
   }
 ]

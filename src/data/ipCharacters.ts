@@ -130,7 +130,7 @@ const XIN_XIN: IPCharacter = {
   
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: 'https://www.coze.cn/s/5dfDwwYdlvU/',
+  image: '/assets/images/ip/xinxin.jpg',
   emoji: '❤️',
 };
 
@@ -192,7 +192,7 @@ const GAN_GAN: IPCharacter = {
   
   relatedProducts: ['番红暗许'],
   productIds: ['prod_guava_wine'],
-  image: 'https://www.coze.cn/s/5_u20GpicfU/',
+  image: '/assets/images/ip/gangan.jpg',
   emoji: '💚',
 };
 
@@ -254,7 +254,7 @@ const PI_PI: IPCharacter = {
   
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: 'https://www.coze.cn/s/6-Q_g0-4Hls/',
+  image: '/assets/images/ip/pipi.jpg',
   emoji: '💛',
 };
 
@@ -316,7 +316,7 @@ const FEI_FEI: IPCharacter = {
   
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: 'https://www.coze.cn/s/69fTLvyprsY/',
+  image: '/assets/images/ip/feifei.jpg',
   emoji: '🤍',
 };
 
@@ -378,7 +378,7 @@ const SHEN_SHEN: IPCharacter = {
   
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: 'https://www.coze.cn/s/5ura8eFc_yE/',
+  image: '/assets/images/ip/shenshen.jpg',
   emoji: '💜',
 };
 
