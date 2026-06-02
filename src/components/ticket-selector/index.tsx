@@ -1,8 +1,8 @@
 import { View, Text, Image } from '@tarojs/components'
-import { useState, useEffect } from 'react'
-import { useMemberStore, TICKET_WINE_NAMES } from '@/store/memberStore'
+import { useState } from 'react'
+import { useMemberStore, TICKET_WINE_NAMES, TICKET_WINE_IDS } from '@/store/memberStore'
 import { getProductById } from '@/mock/products'
-import { Crown, X } from 'lucide-react-taro'
+import { Crown } from 'lucide-react-taro'
 
 export function TicketSelector() {
   const {
@@ -10,14 +10,13 @@ export function TicketSelector() {
     setShowTicketModal,
     canClaimTicket,
     claimTicket,
-    ticketClaimedMonth,
     ticketSelectedWine,
   } = useMemberStore()
   const [selectedWineId, setSelectedWineId] = useState<string | null>(null)
 
   if (!showTicketModal) return null
 
-  const wines = useMemberStore.getState().TICKET_WINE_IDS.map(id => ({
+  const wines = TICKET_WINE_IDS.map(id => ({
     id,
     name: TICKET_WINE_NAMES[id],
     product: getProductById(id),

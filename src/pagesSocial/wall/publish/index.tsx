@@ -38,7 +38,7 @@ export default function Publish() {
   const { memberLevel } = useMemberStore()
   const profileStore = useUserProfileStore()
 
-  const maxPublish = memberLevel === 'annual' ? 10 : 5
+  const maxPublish = memberLevel === 'founding' ? 10 : 5
   const remainingPublish = maxPublish - publishCount
 
   const handleChooseImage = () => {

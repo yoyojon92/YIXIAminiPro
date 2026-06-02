@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Wine, GlassWater, Apple, Gift, Clock4, ChevronRight, 
-  Flame, ShoppingCart, Sparkles, Search, Bell, Crown, Ticket, Zap
+  Wine, GlassWater, Apple, Gift, ChevronRight, 
+  ShoppingCart, Sparkles, Search, Bell, Crown, Ticket, Zap
 } from 'lucide-react-taro'
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '@/mock/products'
 import { organLords } from '@/data/organLords'

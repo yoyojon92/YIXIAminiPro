@@ -85,8 +85,8 @@ export default function Profile() {
     Taro.navigateTo({ url: path })
   }
 
-  const levelText = memberLevel === 'annual' ? '年卡会员' : memberLevel === 'monthly' ? '月卡会员' : '普通会员'
-  const levelColor = isMember ? (memberLevel === 'annual' ? '#FBBF24' : '#8B5CF6') : '#9CA3AF'
+  const levelText = memberLevel === 'founding' ? '创始会员' : '普通会员'
+  const levelColor = isMember ? '#FBBF24' : '#9CA3AF'
   const remainingDays = getRemainingDays()
 
   return (

@@ -67,7 +67,6 @@ export default function Product() {
   const [activeTab, setActiveTab] = useState('detail')
   const [liked, setLiked] = useState(false)
   const [showSpecPicker, setShowSpecPicker] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
 
   // 识别拼团入口
   const isPintuan = router.params.pintuan === 'true'
@@ -250,7 +249,7 @@ export default function Product() {
 
   // 图片加载完成
   const handleImageLoad = () => {
-    setImageLoaded(true)
+    // 图片加载完成，可以进行后续处理
   }
 
   // 图片加载失败

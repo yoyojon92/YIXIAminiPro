@@ -45,7 +45,7 @@ export default function Cart() {
     coupons 
   } = useCouponStore()
   const profileStore = useUserProfileStore()
-  const { isMember, ticketClaimedMonth, ticketSelectedWine, setShowTicketModal } = useMemberStore()
+  const { isMember, canClaimTicket, ticketClaimedMonth, ticketSelectedWine, setShowTicketModal } = useMemberStore()
   const [selectedDelivery, setSelectedDelivery] = useState<'dormitory' | 'pickup' | 'mail'>(
     delivery.type === 'self_pickup' ? 'pickup' : delivery.type === 'mail' ? 'mail' : 'dormitory'
   )
@@ -317,14 +317,10 @@ export default function Cart() {
               <MapPin size={18} color="#8B5CF6" />
               <Text className="text-sm font-medium text-gray-700">自提点</Text>
             </View>
-            <Picker
-              mode="selector"
-              range={PICKUP_POINTS.map(p => p.name)}
-              onChange={(e) => {
-                const idx = e.detail.value
-                setDelivery({ type: 'self_pickup', pickupShopId: PICKUP_POINTS[idx].id, pickupShopName: PICKUP_POINTS[idx].name })
-              }}
-            >
+            <Picker mode="selector" range={PICKUP_POINTS.map(p => p.name)} onChange={(e) => {
+              const idx = e.detail.value
+              setDelivery({ type: 'self_pickup', pickupShopId: PICKUP_POINTS[idx].id, pickupShopName: PICKUP_POINTS[idx].name })
+            }}>
               <View className="flex items-center gap-2">
                 {delivery.pickupShopName ? (
                   <Text className="text-sm text-primary">{delivery.pickupShopName}</Text>
@@ -360,7 +356,7 @@ export default function Cart() {
                   <Text>{opt.label}</Text>
                 </View>
               ))}
-              <Picker mode="selector" range={PICKUP_TIME_SLOTS} onChange={(e) => setPickupTime(Number(e.detail.value))}>
+              <Picker mode="selector" range={PICKUP_TIME_SLOTS} onChange={(e) => setPickupTime(e.detail.value)}>
                 <View className="px-3 py-1 rounded-full bg-purple-50 text-xs">
                   <Text className="text-primary">{PICKUP_TIME_SLOTS[pickupTime]}</Text>
                 </View>
@@ -455,7 +451,7 @@ export default function Cart() {
                 <Text className="text-sm font-medium text-amber-600">{TICKET_WINE_NAMES[ticketSelectedWine!]}</Text>
               </View>
               <Text className="text-xs text-gray-500 mt-1">
-                {selectedDelivery === 'pickup' ? '自提无门槛可用' : selectedDelivery === 'dormitory' ? '同城满50元可用' : '邮寄满30元可用'}
+                {selectedDelivery === 'pickup' ? '自提无门槛可用' : selectedDelivery === 'delivery' ? '同城满50元可用' : '邮寄满30元可用'}
               </Text>
             </View>
             <View className="flex items-center gap-2">
