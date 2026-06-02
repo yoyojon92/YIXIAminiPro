@@ -6,15 +6,16 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { 
   Wine, GlassWater, Apple, Gift, Clock4, ChevronRight, 
-  Flame, ShoppingCart, Sparkles, Search, Bell
+  Flame, ShoppingCart, Sparkles, Search, Bell, Crown, Ticket, Zap
 } from 'lucide-react-taro'
-import { MOCK_PRODUCTS, MOCK_FLASH_SALE, MOCK_CATEGORIES } from '@/mock/products'
+import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '@/mock/products'
 import { organLords } from '@/data/organLords'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useCartStore } from '@/store/cartStore'
 import RunnerEntryCard from '@/components/RunnerEntryCard'
 import { useDeliveryStore } from '@/store/deliveryStore'
+import { useMemberStore } from '@/store/memberStore'
 import { PICKUP_POINTS } from '@/mock/delivery'
 import './index.scss'
 
@@ -48,17 +49,6 @@ const CategoryIcon = ({ icon, color }: { icon: string; color: string }) => {
   return iconMap[icon] || <Gift size={24} className={color} color={iconColor} />
 }
 
-// 限时拼团
-const flashSaleProducts = MOCK_FLASH_SALE.map(p => ({
-  id: p.id,
-  name: p.name,
-  price: p.pintuanPrice,
-  originalPrice: p.price,
-  image: p.image,
-  sold: p.pintuanCount,
-  spriteAlias: p.spriteAlias
-}))
-
 // 新品推荐 - 筛选isNew=true
 const newProducts = MOCK_PRODUCTS.filter(p => p.isNew).map(p => ({
   id: p.id,
@@ -72,15 +62,27 @@ const newProducts = MOCK_PRODUCTS.filter(p => p.isNew).map(p => ({
   spriteAlias: p.spriteAlias
 }))
 
+// 会员福利项
+const MEMBER_BENEFITS = [
+  { id: 'ticket', icon: Ticket, title: '1元小酒票', sub: '每月免费领', color: 'text-amber-400', bgColor: 'bg-amber-500' },
+  { id: 'special', icon: Zap, title: '每周特价¥9.9', sub: '限时抢购', color: 'text-red-400', bgColor: 'bg-red-500' },
+  { id: 'gift', icon: Gift, title: '入会赠饮1瓶', sub: '开通即送', color: 'text-purple-400', bgColor: 'bg-purple-500' },
+]
+
 
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
+  const { isMember, setShowMemberModal, getRemainingDays } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   // ✅ 响应式读取 store 状态
   const unreadCount = usePushStore(state => state.unreadCount)
   const cartCount = useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0))
+  const remainingDays = getRemainingDays()
+
+  // 图片加载状态管理
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({})
 
   // 跳转到分类页（tabbar页面不能用navigateTo传参，用StorageSync）
   const goToCategory = (category: string) => {
@@ -96,6 +98,16 @@ export default function Index() {
   // 跳转到商品详情
   const goToProduct = (id: string) => {
     Taro.navigateTo({ url: `/pages/product/index?id=${id}` })
+  }
+
+  // 图片加载完成
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => ({ ...prev, [id]: true }))
+  }
+
+  // 图片加载失败
+  const handleImageError = (id: string) => {
+    console.log('图片加载失败:', id)
   }
 
   return (
@@ -147,6 +159,130 @@ export default function Index() {
         </View>
       </View>
 
+      {/* Slogan Banner - 轻量小图 */}
+      <View className="px-4 -mt-3 relative">
+        <Image
+          src="https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@6911dae/src/assets/images/banner-slogan.png"
+          className="w-full h-24 rounded-xl"
+          mode="aspectFill"
+          lazyLoad
+          onLoad={() => handleImageLoad('slogan-banner')}
+          onError={() => handleImageError('slogan-banner')}
+        />
+        {!loadedImages['slogan-banner'] && (
+          <View className="absolute inset-0 bg-slate-700 rounded-xl animate-pulse flex items-center justify-center">
+            <Text className="text-white text-lg font-bold">喝点小酒 微醺邑夏</Text>
+          </View>
+        )}
+        <View className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <Text className="text-white text-lg font-bold drop-shadow-lg">喝点小酒 微醺邑夏</Text>
+        </View>
+      </View>
+
+      {/* 配送方式选择 - 移到搜索框下方 */}
+      <View className="px-4 mt-4">
+        <View className="delivery-mode-bar">
+          <View className="delivery-mode-tabs">
+            <View
+              className={`delivery-tab ${mode === 'delivery' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('delivery')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'delivery' ? 'delivery-tab-text-active' : ''}`}>配送到门</Text>
+            </View>
+            <View
+              className={`delivery-tab ${mode === 'pickup' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('pickup')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'pickup' ? 'delivery-tab-text-active' : ''}`}>到店自取</Text>
+            </View>
+            <View
+              className={`delivery-tab ${mode === 'shipping' ? 'delivery-tab-active' : ''}`}
+              onClick={() => setMode('shipping')}
+            >
+              <Text className={`delivery-tab-text ${mode === 'shipping' ? 'delivery-tab-text-active' : ''}`}>厂家邮寄</Text>
+            </View>
+          </View>
+          {mode === 'delivery' && (
+            <Text className="delivery-desc">同城满50起送</Text>
+          )}
+          {mode === 'pickup' && (
+            <View className="pickup-info" onClick={() => setShowPickupModal(true)}>
+              <Text className="pickup-name">{selectedPickupPoint.name}</Text>
+              <Text className="pickup-distance">{selectedPickupPoint.distance}</Text>
+              <Text className="pickup-arrow">›</Text>
+            </View>
+          )}
+          {mode === 'shipping' && (
+            <Text className="delivery-desc">满30包邮</Text>
+          )}
+        </View>
+      </View>
+
+      {/* ========== 会员福利专区 ========== */}
+      <View className="px-4 mt-6">
+        <View className="flex items-center justify-between mb-3">
+          <View className="flex items-center gap-2">
+            <Crown size={20} color="#FBBF24" />
+            <Text className="text-white font-semibold">会员福利专区</Text>
+          </View>
+          {!isMember && (
+            <View 
+              className="flex items-center gap-1 text-amber-400"
+              onClick={() => setShowMemberModal(true)}
+            >
+              <Text className="text-xs">开通9.9创始会员</Text>
+              <ChevronRight size={14} color="#FBBF24" />
+            </View>
+          )}
+          {isMember && (
+            <View className="flex items-center gap-1 text-purple-400">
+              <Badge className="text-xs bg-purple-500 text-white border-0">会员剩余{remainingDays}天</Badge>
+            </View>
+          )}
+        </View>
+
+        {/* 福利卡片 */}
+        <View className="flex gap-3">
+          {MEMBER_BENEFITS.map((benefit) => {
+            const IconComponent = benefit.icon
+            return (
+              <View 
+                key={benefit.id} 
+                className="flex-1 bg-slate-800 rounded-xl p-3 border border-slate-700"
+                onClick={() => {
+                  if (!isMember) {
+                    setShowMemberModal(true)
+                  }
+                }}
+              >
+                <View className={`w-10 h-10 ${benefit.bgColor} rounded-lg flex items-center justify-center mb-2`}>
+                  <IconComponent size={20} color="white" />
+                </View>
+                <Text className={`text-sm font-medium ${benefit.color}`}>{benefit.title}</Text>
+                <Text className="text-xs text-slate-400 mt-1">{benefit.sub}</Text>
+              </View>
+            )
+          })}
+        </View>
+
+        {/* 非会员引导按钮 */}
+        {!isMember && (
+          <View 
+            className="mt-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl px-4 py-3 flex items-center justify-between"
+            onClick={() => setShowMemberModal(true)}
+          >
+            <View className="flex items-center gap-2">
+              <Crown size={18} color="white" />
+              <Text className="text-white font-medium">开通9.9创始会员解锁权益</Text>
+            </View>
+            <View className="flex items-center gap-1">
+              <Text className="text-white text-sm">立即开通</Text>
+              <ChevronRight size={16} color="white" />
+            </View>
+          </View>
+        )}
+      </View>
+
       {/* ========== 果酒导航区 - 6款果酒横滑 ========== */}
       <View className="my-6 px-6">
         <View className="flex items-center justify-between mb-5">
@@ -163,12 +299,17 @@ export default function Index() {
                 className="inline-flex flex-col w-52 rounded-2xl bg-white shadow-lg overflow-hidden flex-shrink-0"
                 onClick={() => goToProduct(item.id)}
               >
-                <View className="w-52 h-52 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    className="w-full h-full"
-                    mode="aspectFill"
-                  />
+                <View className="w-52 h-52 overflow-hidden bg-slate-200 animate-pulse">
+                  {loadedImages[item.id] !== false && (
+                    <Image
+                      src={item.image}
+                      className="w-full h-full"
+                      mode="aspectFill"
+                      lazyLoad
+                      onLoad={() => handleImageLoad(item.id)}
+                      onError={() => handleImageError(item.id)}
+                    />
+                  )}
                 </View>
                 <View className="flex flex-col p-3 gap-1">
                   <Text className="text-lg font-semibold text-gray-800 truncate">{item.name}</Text>
@@ -199,57 +340,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* 限时拼团 */}
-      <View className="px-4 mt-6">
-        <View className="flex items-center justify-between mb-3">
-          <View className="flex items-center gap-2">
-            <View className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-              <Clock4 size={14} color="white" />
-            </View>
-            <Text className="text-white font-semibold">限时拼团</Text>
-            <View className="bg-red-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-              <Flame size={10} color="#ffffff" />
-              <Text>限时</Text>
-            </View>
-          </View>
-          <View className="flex items-center gap-1 text-white" onClick={() => {
-              Taro.setStorageSync('selectedCategory', 'fruit_wine')
-              Taro.switchTab({ url: '/pages/category/index' })
-            }}
-          >
-            <Text className="text-sm text-gray-300">更多</Text>
-            <ChevronRight size={16} color="#ffffff" />
-          </View>
-        </View>
-
-        <View className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
-          {flashSaleProducts.map((product) => (
-            <View key={product.id} className="flex-shrink-0 w-40" onClick={() => Taro.navigateTo({ url: `/pages/product/index?id=${product.id}&pintuan=true` })}>
-              <Card className="bg-slate-800 border-slate-700 overflow-hidden">
-                <View className="relative">
-                  <Image src={product.image} mode="widthFix" className="w-full h-36" />
-                  <View className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                    <Flame size={10} color="#ffffff" />
-                    <Text>拼团</Text>
-                  </View>
-                </View>
-                <CardContent className="p-3">
-                  <Text className="text-sm text-white font-medium line-clamp-1">{product.name}</Text>
-                  <View className="flex items-baseline gap-2 mt-2">
-                    <Text className="text-red-400 font-bold text-lg">¥{product.price}</Text>
-                    <Text className="text-xs text-slate-500 line-through">¥{product.originalPrice}</Text>
-                  </View>
-                  <View className="flex items-center justify-center mt-2">
-                    <Text className="text-xs text-red-400 font-semibold">2人成团·省¥3</Text>
-                  </View>
-                  <Text className="text-xs text-slate-500 mt-1">{product.sold}人已拼</Text>
-                </CardContent>
-              </Card>
-            </View>
-          ))}
-        </View>
-      </View>
-
       {/* 新品推荐 */}
       <View className="px-4 mt-6">
         <View className="flex items-center justify-between mb-3">
@@ -274,7 +364,16 @@ export default function Index() {
             <View key={product.id} onClick={() => goToProduct(product.id)}>
               <Card className="bg-slate-800 border-slate-700 overflow-hidden">
                 <View className="relative">
-                  <Image src={product.image} mode="aspectFill" className="w-full h-32" />
+                  <View className="w-full h-32 bg-slate-200 animate-pulse">
+                    <Image 
+                      src={product.image} 
+                      mode="aspectFill" 
+                      className="w-full h-full"
+                      lazyLoad
+                      onLoad={() => handleImageLoad(product.id)}
+                      onError={() => handleImageError(product.id)}
+                    />
+                  </View>
                   {/* 标签区 */}
                   <View className="absolute top-2 left-2 flex flex-col gap-1">
                     {/* 18+ 标识 */}
@@ -350,7 +449,7 @@ export default function Index() {
                   className="w-12 h-12 rounded-full overflow-hidden border-2 flex items-center justify-center"
                   style={{ borderColor: lord.color, backgroundColor: lord.color + '20' }}
                 >
-                  <Image src={lord.image} className="w-full h-full" mode="aspectFill" />
+                  <Image src={lord.image} className="w-full h-full" mode="aspectFill" lazyLoad />
                 </View>
                 <Text className="text-xs text-slate-300 mt-1">{lord.name}</Text>
               </View>
@@ -358,42 +457,27 @@ export default function Index() {
           </View>
       </View>
 
-      {/* 配送方式选择 */}
-      <View className="px-4 mt-4">
-        <View className="delivery-mode-bar">
-          <View className="delivery-mode-tabs">
-            <View
-              className={`delivery-tab ${mode === 'delivery' ? 'delivery-tab-active' : ''}`}
-              onClick={() => setMode('delivery')}
-            >
-              <Text className={`delivery-tab-text ${mode === 'delivery' ? 'delivery-tab-text-active' : ''}`}>配送到门</Text>
-            </View>
-            <View
-              className={`delivery-tab ${mode === 'pickup' ? 'delivery-tab-active' : ''}`}
-              onClick={() => setMode('pickup')}
-            >
-              <Text className={`delivery-tab-text ${mode === 'pickup' ? 'delivery-tab-text-active' : ''}`}>到店自取</Text>
-            </View>
-            <View
-              className={`delivery-tab ${mode === 'shipping' ? 'delivery-tab-active' : ''}`}
-              onClick={() => setMode('shipping')}
-            >
-              <Text className={`delivery-tab-text ${mode === 'shipping' ? 'delivery-tab-text-active' : ''}`}>厂家邮寄</Text>
-            </View>
-          </View>
-          {mode === 'delivery' && (
-            <Text className="delivery-desc">校内2瓶起送，配送费3元起</Text>
-          )}
-          {mode === 'pickup' && (
-            <View className="pickup-info" onClick={() => setShowPickupModal(true)}>
-              <Text className="pickup-name">{selectedPickupPoint.name}</Text>
-              <Text className="pickup-distance">{selectedPickupPoint.distance}</Text>
-              <Text className="pickup-arrow">›</Text>
-            </View>
-          )}
-          {mode === 'shipping' && (
-            <Text className="delivery-desc">京东快递·厂家直发</Text>
-          )}
+      {/* 活动入口 */}
+      <View className="px-4 mt-6 mb-6">
+        <View className="grid grid-cols-2 gap-3">
+          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/wall/index' })}>
+            <CardContent className="p-4 flex items-center gap-3">
+              <Text className="text-3xl">🎨</Text>
+              <View>
+                <Text className="text-sm font-medium text-white">创意墙</Text>
+                <Text className="text-xs text-slate-400 mt-1">分享你的故事</Text>
+              </View>
+            </CardContent>
+          </Card>
+          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/activity/index' })}>
+            <CardContent className="p-4 flex items-center gap-3">
+              <Text className="text-3xl">🎉</Text>
+              <View>
+                <Text className="text-sm font-medium text-white">社群活动</Text>
+                <Text className="text-xs text-slate-400 mt-1">参与精彩活动</Text>
+              </View>
+            </CardContent>
+          </Card>
         </View>
       </View>
 
@@ -436,30 +520,6 @@ export default function Index() {
           </View>
         </View>
       )}
-
-      {/* 活动入口 */}
-      <View className="px-4 mt-6 mb-6">
-        <View className="grid grid-cols-2 gap-3">
-          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/wall/index' })}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <Text className="text-3xl">🎨</Text>
-              <View>
-                <Text className="text-sm font-medium text-white">创意墙</Text>
-                <Text className="text-xs text-slate-400 mt-1">分享你的故事</Text>
-              </View>
-            </CardContent>
-          </Card>
-          <Card className="bg-slate-800 border-slate-700" onClick={() => Taro.navigateTo({ url: '/pagesSocial/activity/index' })}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <Text className="text-3xl">🎉</Text>
-              <View>
-                <Text className="text-sm font-medium text-white">社群活动</Text>
-                <Text className="text-xs text-slate-400 mt-1">参与精彩活动</Text>
-              </View>
-            </CardContent>
-          </Card>
-        </View>
-      </View>
     </View>
   )
 }

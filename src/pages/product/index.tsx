@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
-  Heart, Share2, ShoppingCart, Gift, Star, CircleAlert, Crown
+  Heart, Share2, ShoppingCart, Gift, Star, CircleAlert, Crown, Plus, CreditCard
 } from 'lucide-react-taro'
 import { SpecPicker } from '@/components/spec-picker/spec-picker'
 import { OrganLordCard } from '@/components/organ-lord-card'
@@ -68,6 +67,7 @@ export default function Product() {
   const [activeTab, setActiveTab] = useState('detail')
   const [liked, setLiked] = useState(false)
   const [showSpecPicker, setShowSpecPicker] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   // 识别拼团入口
   const isPintuan = router.params.pintuan === 'true'
@@ -163,6 +163,56 @@ export default function Product() {
     })
   }
 
+  // 立即购买
+  const handleBuyNow = () => {
+    const productId = router.params.id
+    if (!productId) return
+    
+    const currentProduct = getProductById(productId)
+    if (!currentProduct) return
+
+    // 酒精产品需要年龄验证
+    if (currentProduct.isAlcohol) {
+      const userAge = profileStore.age
+      
+      if (userAge !== null && userAge < 18) {
+        Taro.showModal({
+          title: '年龄限制',
+          content: '根据法律法规，购买果酒需年满18周岁',
+          showCancel: false,
+          confirmText: '我知道了'
+        })
+        return
+      }
+      if (userAge === null) {
+        ageVerify().then(verified => {
+          if (!verified) return
+          goToCheckout(currentProduct)
+        })
+        return
+      }
+    }
+
+    goToCheckout(currentProduct)
+  }
+
+  // 跳转结算页
+  const goToCheckout = (currentProduct: Product) => {
+    // 先加入购物车再跳转
+    cartStore.addItem({
+      productId: currentProduct.id,
+      name: currentProduct.name,
+      price: currentProduct.price,
+      originalPrice: currentProduct.originalPrice || currentProduct.price,
+      quantity: 1,
+      image: currentProduct.images[0],
+      spec: '单瓶装',
+      maxQuantity: 99
+    })
+    
+    Taro.switchTab({ url: '/pages/cart/index' })
+  }
+
   // 拼团发起逻辑
   const handlePintuan = () => {
     const price = pintuanPrice || product?.price || 0
@@ -198,6 +248,16 @@ export default function Product() {
   // 判断是否显示藏府君（仅果酒显示）
   const showOrganLord = product?.category === 'fruit_wine'
 
+  // 图片加载完成
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
+
+  // 图片加载失败
+  const handleImageError = () => {
+    console.log('商品图片加载失败')
+  }
+
   if (!product) {
     return (
       <View className="flex items-center justify-center h-screen">
@@ -212,7 +272,16 @@ export default function Product() {
         {/* 商品图片轮播 */}
         <View className="relative">
           <View className="w-full aspect-square bg-gray-100">
-            <Image src={product?.images[0]} mode="aspectFill" className="w-full h-full" />
+            <View className="w-full h-full bg-slate-200 animate-pulse">
+              <Image 
+                src={product?.images[0]} 
+                mode="aspectFill" 
+                className="w-full h-full"
+                lazyLoad
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+              />
+            </View>
           </View>
           <View className="absolute top-4 right-4 flex gap-2">
             {/* 购物车图标 */}
@@ -301,6 +370,11 @@ export default function Product() {
                 {tag}
               </Badge>
             ))}
+          </View>
+
+          {/* AI免责声明 */}
+          <View className="mt-3 pt-3 border-t border-gray-100">
+            <Text className="text-xs text-gray-400">* 部分图片为AI辅助生成，实物以实拍为准</Text>
           </View>
         </View>
 
@@ -410,7 +484,7 @@ export default function Product() {
               {comments.map((comment) => (
                 <View key={comment.id} className="mb-4 pb-4 border-b border-gray-100 last:border-0">
                   <View className="flex items-center gap-3">
-                    <Image src={comment.avatar} mode="aspectFill" className="w-10 h-10 rounded-full" />
+                    <Image src={comment.avatar} mode="aspectFill" className="w-10 h-10 rounded-full" lazyLoad />
                     <View className="flex-1">
                       <Text className="text-sm font-medium text-gray-900">{comment.user}</Text>
                       <View className="flex items-center gap-1 mt-1">
@@ -433,7 +507,7 @@ export default function Product() {
         </View>
       </ScrollView>
 
-      {/* 底部操作栏 */}
+      {/* 底部操作栏 - 简化版：加入购物车 + 立即购买 */}
       <View 
         className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 pb-safe"
         style={{ zIndex: 100 }}
@@ -455,25 +529,25 @@ export default function Product() {
             </View>
           </View>
         ) : (
-          // 原有操作栏
+          // 简化操作栏：加入购物车 + 立即购买
           <View className="flex items-center gap-3">
-            <View className="flex items-center gap-1">
-              <View className="flex flex-col items-center px-3">
-                <ShoppingCart size={22} color="#6B7280" />
-                <Text className="text-xs text-gray-500 mt-1">购物车</Text>
-              </View>
-            </View>
-
-            <Button 
-              variant="outline" 
-              className="flex-1" 
-              onClick={() => setShowSpecPicker(true)}
+            {/* 加入购物车 - 紫色圆角按钮 */}
+            <View 
+              className="flex-1 bg-purple-500 rounded-full py-3 flex items-center justify-center gap-2"
+              onClick={addToCart}
             >
-              <Text className="text-sm">选规格</Text>
-            </Button>
-            <Button className="flex-1" onClick={addToCart}>
-              <Text className="text-sm">加入购物车</Text>
-            </Button>
+              <Plus size={18} color="white" />
+              <Text className="text-white font-medium">加入购物车</Text>
+            </View>
+            
+            {/* 立即购买 - 红色圆角按钮 */}
+            <View 
+              className="flex-1 bg-red-500 rounded-full py-3 flex items-center justify-center gap-2"
+              onClick={handleBuyNow}
+            >
+              <CreditCard size={18} color="white" />
+              <Text className="text-white font-medium">立即购买</Text>
+            </View>
           </View>
         )}
       </View>
