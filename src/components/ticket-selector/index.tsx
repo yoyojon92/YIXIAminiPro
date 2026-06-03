@@ -63,7 +63,7 @@ export function TicketSelector() {
         {/* 老款酒选择 */}
         <View className="px-5 pb-4">
           <Text className="text-sm text-gray-300 mb-3">选一款老款酒（330ml）：</Text>
-          <View className="space-y-2">
+          <View className="">
             {wines.map((wine) => {
               const isSelected = selectedWineId === wine.id
               const isClaimed = ticketSelectedWine === wine.id

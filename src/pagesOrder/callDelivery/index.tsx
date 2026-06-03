@@ -101,7 +101,7 @@ export default function CallDeliveryPage() {
 
         {/* 配送平台列表 */}
         <Text className="text-sm text-gray-400 mb-3">选择配送平台</Text>
-        <View className="space-y-3">
+        <View className="">
           {DELIVERY_PLATFORMS.map(platform => (
             <View
               key={platform.id}

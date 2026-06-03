@@ -129,7 +129,7 @@ export function WelcomeGiftModal() {
         {step === 1 && (
           <View className="px-5 pb-4">
             <Text className="text-sm text-gray-300 mb-3">选择你想要的赠饮（330ml老款）：</Text>
-            <View className="space-y-2">
+            <View className="">
               {wines.map(wine => {
                 const sel = selectedWineId === wine.id
                 return (
@@ -156,7 +156,7 @@ export function WelcomeGiftModal() {
         {step === 2 && (
           <View className="px-5 pb-4">
             <Text className="text-sm text-gray-300 mb-3">选择领取方式：</Text>
-            <View className="space-y-3">
+            <View className="">
               {/* 同城自提 */}
               <View className={`p-4 rounded-xl border-2 ${selectedMode === 'pickup' ? 'border-green-500 bg-green-500 bg-opacity-10' : 'border-slate-700 bg-slate-800'}`} onClick={() => setSelectedMode('pickup')}>
                 <View className="flex items-center gap-3">
