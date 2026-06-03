@@ -8,7 +8,7 @@ const benefits = [
   { icon: '🎁', text: '入会赠饮1瓶（老款果酒随机）' },
   { icon: '🎫', text: '每月1元小酒票（3种老款酒3选1）' },
   { icon: '⚡', text: '每周特价¥9.9（老款果酒）' },
-  { icon: '💰', text: '全场果酒享8.5折（会员价实时计算）' },
+  { icon: '🎂', text: '生日礼遇（生日当天全场9折，可叠加）' },
 ]
 
 export function MemberModal() {

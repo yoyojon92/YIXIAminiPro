@@ -17,15 +17,17 @@ import RunnerEntryCard from '@/components/RunnerEntryCard'
 import { useDeliveryStore } from '@/store/deliveryStore'
 import { useMemberStore } from '@/store/memberStore'
 import { PICKUP_POINTS } from '@/mock/delivery'
+import { MemberModal } from '@/components/member-modal'
+import { TicketSelector } from '@/components/ticket-selector'
 import './index.scss'
 
 // 果酒导航区产品图
-const winePomegranate = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png'
-const wineGrape = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/02-pu-xiang-an-du.png'
-const winePeach = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/03-tao-xin-an-dong.png'
-const wineApple = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'
-const wineGuava = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/05-fen-le-wu-qiong.png'
-const wineRed = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.png'
+const winePomegranate = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/01-liu-hong-xin-shi.webp'
+const wineGrape = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/02-pu-xiang-an-du.webp'
+const winePeach = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/03-tao-xin-an-dong.webp'
+const wineApple = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/04-qing-ping-wei-zui.webp'
+const wineGuava = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/05-fen-le-wu-qiong.webp'
+const wineRed = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.webp'
 
 /** 首页果酒导航区 - 6款果酒，每张图链到对应产品详情 */
 const WINE_NAV_ITEMS = [
@@ -73,7 +75,7 @@ const MEMBER_BENEFITS = [
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
-  const { isMember, setShowMemberModal, getRemainingDays } = useMemberStore()
+  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   // ✅ 响应式读取 store 状态
@@ -252,6 +254,15 @@ export default function Index() {
                 onClick={() => {
                   if (!isMember) {
                     setShowMemberModal(true)
+                  } else {
+                    if (benefit.id === 'ticket') {
+                      setShowTicketModal(true)
+                    } else if (benefit.id === 'special') {
+                      Taro.setStorageSync('selectedCategory', 'yixia-old')
+                      Taro.switchTab({ url: '/pages/category/index' })
+                    } else if (benefit.id === 'gift') {
+                      Taro.showToast({ title: '入会赠饮待下单', icon: 'none' })
+                    }
                   }
                 }}
               >
@@ -273,7 +284,7 @@ export default function Index() {
           >
             <View className="flex items-center gap-2">
               <Crown size={18} color="white" />
-              <Text className="text-white font-medium">开通9.9创始会员解锁权益</Text>
+              <Text className="text-white font-medium">注册9.9创始会员享价值112.9元新人奖励</Text>
             </View>
             <View className="flex items-center gap-1">
               <Text className="text-white text-sm">立即开通</Text>
@@ -282,6 +293,23 @@ export default function Index() {
           </View>
         )}
       </View>
+
+      {/* 会员1元小酒票未领取提醒 */}
+      {isMember && canClaimTicket() && (
+        <View
+          className="mx-4 my-4 p-3 rounded-xl border-2 border-amber-400 bg-amber-900 bg-opacity-30 flex items-center gap-3"
+          onClick={() => setShowTicketModal(true)}
+        >
+          <View className="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0">
+            <Ticket size={20} color="white" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-sm font-medium text-amber-300">你的1元小酒票未领取</Text>
+            <Text className="text-xs text-amber-400 mt-1">点击领取，3种老款酒3选1</Text>
+          </View>
+          <ChevronRight size={18} color="#FBBF24" />
+        </View>
+      )}
 
       {/* ========== 果酒导航区 - 6款果酒横滑 ========== */}
       <View className="my-6 px-6">
@@ -520,6 +548,11 @@ export default function Index() {
           </View>
         </View>
       )}
+
+      {/* 会员弹窗 */}
+      <MemberModal />
+      {/* 1元小酒票选择弹窗 */}
+      <TicketSelector />
     </View>
   )
 }

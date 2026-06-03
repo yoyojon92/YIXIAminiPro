@@ -32,6 +32,9 @@ interface MemberState {
   // 入会赠饮
   welcomeGiftClaimed: boolean // 是否已领入会赠饮
 
+  // 生日礼遇
+  birthdayDate: string | null // 格式 'MM-DD'，会员生日
+
   // 每周特价
   weeklySpecialUsed: string | null // 本周特价已用日期 '2026-W23'
 
@@ -89,6 +92,9 @@ export const useMemberStore = create<MemberState>()(
 
       // 入会赠饮
       welcomeGiftClaimed: false,
+
+      // 生日礼遇
+      birthdayDate: null,
 
       // 每周特价
       weeklySpecialUsed: null,
@@ -156,14 +162,14 @@ export const useMemberStore = create<MemberState>()(
             '入会赠饮1瓶（老款果酒随机）',
             '每月1元小酒票（3种老款酒3选1）',
             '每周特价¥9.9（老款果酒）',
-            '全场果酒享8.5折',
+            '生日礼遇（生日当天全场9折）',
           ]
         }
         return [
-          '专属会员价（全场果酒8.5折）',
           '每月1元小酒票（老款酒3选1）',
           '每周特价¥9.9（老款果酒）',
           '入会赠饮1瓶',
+          '生日礼遇（生日当天全场9折）',
         ]
       },
 
@@ -184,6 +190,7 @@ export const useMemberStore = create<MemberState>()(
         ticketClaimedMonth: state.ticketClaimedMonth,
         ticketSelectedWine: state.ticketSelectedWine,
         welcomeGiftClaimed: state.welcomeGiftClaimed,
+        birthdayDate: state.birthdayDate,
         weeklySpecialUsed: state.weeklySpecialUsed,
       }),
     }

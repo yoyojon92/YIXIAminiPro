@@ -141,7 +141,7 @@ export default function Cart() {
 
   // 检查是否可以结算
   const canCheckout = selectedItems.length > 0 && 
-    (selectedDelivery === 'pickup' ? !!delivery.pickupShopId : !!delivery.dormitoryAddress)
+    (selectedDelivery === 'pickup' ? true : selectedDelivery === 'mail' ? !!delivery.shippingAddress : !!delivery.dormitoryAddress)
 
   if (items.length === 0) {
     return (
