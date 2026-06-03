@@ -10,14 +10,15 @@ import { useCouponStore } from '@/store/couponStore'
 import { useUserProfileStore } from '@/store/userProfileStore'
 import { trackProfileAction } from '@/store/profileStore'
 import { usePushStore } from '@/store/pushStore'
-import { useRunnerStore } from '@/store/runnerStore'
 import { useUserStore } from '@/store/userStore'
+import { useDealerStore } from '@/store/dealerStore'
 import { MemberModal } from '@/components/member-modal'
 import { RegisterModal } from '@/components/RegisterModal'
 import { 
   Settings, Bell, Gift, CreditCard, 
   MapPinned, CircleQuestionMark, Share2, LogOut, ChevronRight,
-  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Scooter, Users, Shield
+  Package, Star, Ticket, Crown, Sparkles, RefreshCcw, Tag, Shield,
+  Store, TrendingUp, Users, ShoppingCart
 } from 'lucide-react-taro'
 
 export default function Profile() {
@@ -28,23 +29,21 @@ export default function Profile() {
   const profileStore = useUserProfileStore()
   const pushStore = usePushStore()
   const userStore = useUserStore()
+  const dealerStore = useDealerStore()
   
-  // 从userStore读取用户信息
   const { nickname, school, college, isRegistered } = profileStore
   const { tags } = profileStore
-  const runnerStore = useRunnerStore()
   
-  // 检查是否是管理员
   const isAdmin = userStore.userInfo?.role === 'super_admin'
+  const { isDealer, dealerLevel, referralCount, availableCommission, getDealerLevelName } = dealerStore
+  const { isAgent, todayCommission, todayOrderCount, getAgentLevelName } = dealerStore
   
-  // 检查是否需要显示注册弹窗
   useEffect(() => {
     if (!isRegistered) {
       setShowRegister(true)
     }
   }, [isRegistered])
   
-  // 初始化推送检查和会员状态同步（只在挂载时执行一次）
   useEffect(() => {
     pushStore.checkAndGeneratePushes(tags, {
       lastPurchaseDays: profileStore.purchases.length > 0
@@ -58,7 +57,6 @@ export default function Profile() {
   }, [])
   
   const unreadCount = pushStore.unreadCount
-  
   const couponBadgeCount = getUnusedCoupons().length
   
   const toolItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path?: string; dynamicBadge?: () => number | null; action?: string }> = [
@@ -77,8 +75,6 @@ export default function Profile() {
     { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
     { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pagesSocial/wall/index?tab=favorite' },
     { id: 5, icon: Gift, title: '精灵碎片', badge: '8', path: '/pagesSocial/sprites/index' },
-    { id: 6, icon: Users, title: '我的送酒员', badge: null, path: '/pagesRunner/runner-list/index' },
-    { id: 7, icon: Sparkles, title: '成为送酒员', badge: '招募中', path: '/pagesRunner/runner-moment/index' }
   ]
 
   const navigateTo = (path: string) => {
@@ -197,22 +193,12 @@ export default function Profile() {
                 </View>
               </View>
               {isMember ? (
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => {
-                    renewMember()
-                  }}
-                >
+                <Button size="sm" variant="outline" onClick={() => renewMember()}>
                   <RefreshCcw size={14} color="#8B5CF6" />
                   <Text className="ml-1">续费</Text>
                 </Button>
               ) : (
-                <Button 
-                  size="sm" 
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 border-0"
-                  onClick={() => setShowMemberModal(true)}
-                >
+                <Button size="sm" className="bg-gradient-to-r from-purple-500 to-pink-500 border-0" onClick={() => setShowMemberModal(true)}>
                   <Text className="text-white">立即开通</Text>
                 </Button>
               )}
@@ -221,37 +207,65 @@ export default function Profile() {
         </Card>
       </View>
 
-      {/* 送酒赚钱入口 */}
+      {/* 经销商入口 */}
       <View className="px-4 mt-4">
         <View 
-          className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-4 shadow-lg relative overflow-hidden border border-gray-700"
+          className="bg-gradient-to-br from-amber-600 to-orange-700 rounded-2xl p-4 shadow-lg relative overflow-hidden border border-amber-500"
           onClick={() => {
-            // 埋点
-            trackProfileAction('runner_entry')
-            // 未注册跳注册页，已注册跳主页
-            const path = runnerStore.isRegistered ? '/pagesRunner/runner/home' : '/pagesRunner/runner/register'
-            Taro.navigateTo({ url: path })
+            trackProfileAction('dealer_entry')
+            Taro.navigateTo({ url: '/pagesDealer/dealer/index' })
           }}
         >
-          {/* 装饰性光斑 */}
           <View className="absolute -top-4 -right-4 w-20 h-20 bg-amber-500 bg-opacity-10 rounded-full" />
           <View className="absolute -bottom-6 -left-6 w-24 h-24 bg-amber-500 bg-opacity-10 rounded-full" />
           
           <View className="flex items-center justify-between relative z-10">
             <View className="flex items-center gap-3">
-              <View className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-md">
-                <Scooter size={32} color="white" />
+              <View className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center shadow-md">
+                <Store size={32} color="white" />
               </View>
               <View>
-                <Text className="text-white font-bold text-lg">送酒赚钱</Text>
-                <Text className="text-gray-300 text-sm mt-1">
-                  {runnerStore.isRegistered ? '今日收入 ¥' + runnerStore.getTodayEarnings() : '成为跑腿员，轻松赚零花钱'}
+                <Text className="text-white font-bold text-lg">经销商中心</Text>
+                <Text className="text-amber-200 text-sm mt-1">
+                  {isDealer ? `${getDealerLevelName()} · 推荐${referralCount}人` : '推荐20人解锁经销商赚返利'}
                 </Text>
               </View>
             </View>
             <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
-              <Text className="text-orange-500 text-sm font-bold">立即加入</Text>
+              <Text className="text-orange-500 text-sm font-bold">{isDealer ? '¥' + availableCommission.toFixed(2) : '去推广'}</Text>
               <ChevronRight size={16} color="#EA580C" />
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* 代理商入口 */}
+      <View className="px-4 mt-3">
+        <View 
+          className="bg-gradient-to-br from-blue-700 to-indigo-800 rounded-2xl p-4 shadow-lg relative overflow-hidden border border-blue-600"
+          onClick={() => {
+            trackProfileAction('agent_entry')
+            Taro.navigateTo({ url: '/pagesDealer/agent/index' })
+          }}
+        >
+          <View className="absolute -top-4 -right-4 w-20 h-20 bg-blue-400 bg-opacity-10 rounded-full" />
+          <View className="absolute -bottom-6 -left-6 w-24 h-24 bg-blue-400 bg-opacity-10 rounded-full" />
+          
+          <View className="flex items-center justify-between relative z-10">
+            <View className="flex items-center gap-3">
+              <View className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-400 flex items-center justify-center shadow-md">
+                <TrendingUp size={32} color="white" />
+              </View>
+              <View>
+                <Text className="text-white font-bold text-lg">代理商中心</Text>
+                <Text className="text-blue-200 text-sm mt-1">
+                  {isAgent ? `${getAgentLevelName()} · 今日¥${todayCommission.toFixed(2)}` : '替客户下单赚5%提成'}
+                </Text>
+              </View>
+            </View>
+            <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
+              <Text className="text-blue-600 text-sm font-bold">{isAgent ? `${todayOrderCount}单` : '去下单'}</Text>
+              <ChevronRight size={16} color="#2563EB" />
             </View>
           </View>
         </View>
@@ -269,14 +283,7 @@ export default function Profile() {
                   <View 
                     className="flex items-center justify-between p-4"
                     onClick={() => {
-                      if (item.action === 'privacy') {
-                        Taro.showModal({
-                          title: '隐私政策',
-                          content: '邑夏果酒小程序重视您的隐私保护。我们仅收集必要信息（昵称、学校、年龄）用于订单配送和年龄验证，不会向第三方分享您的个人信息。您可随时在"设置"中删除账户数据。',
-                          showCancel: false,
-                          confirmText: '我知道了'
-                        })
-                      } else if (item.path) {
+                      if (item.path) {
                         navigateTo(item.path)
                       }
                     }}
@@ -371,33 +378,10 @@ export default function Profile() {
 
       {/* 退出登录 */}
       <View className="px-4 mt-6 mb-6">
-        <Button 
-          variant="outline" 
-          className="w-full text-gray-600 border-gray-200"
-          onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}
-        >
+        <Button variant="outline" className="w-full text-gray-600 border-gray-200" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
           <LogOut size={18} color="#6B7280" />
           <Text>退出登录</Text>
         </Button>
-      </View>
-
-      {/* 分享入口（已移除诱导分享文案，符合微信审核合规） */}
-      <View className="px-4 mb-6">
-        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-amber-100">
-          <CardContent className="p-4 flex items-center justify-between">
-            <View className="flex items-center gap-3">
-              <Gift size={24} color="#FBBF24" />
-              <View>
-                <Text className="text-sm font-medium text-gray-900">分享给好友</Text>
-                <Text className="text-xs text-gray-500 mt-1">把邑夏分享给朋友</Text>
-              </View>
-            </View>
-            <Button size="sm" variant="secondary" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
-              <Share2 size={14} color="#FBBF24" />
-              <Text>分享</Text>
-            </Button>
-          </CardContent>
-        </Card>
       </View>
     </View>
   )

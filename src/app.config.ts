@@ -24,14 +24,10 @@ export default defineAppConfig({
       ],
     },
     {
-      root: 'pagesRunner',
+      root: 'pagesDealer',
       pages: [
-        'runner/home',
-        'runner/register',
-        'runner-list/index',
-        'runner-detail/index',
-        'runner-moment/index',
-        'runner-center/index',
+        'dealer/index',
+        'agent/index',
       ],
     },
     {

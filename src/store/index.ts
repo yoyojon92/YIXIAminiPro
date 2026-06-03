@@ -10,9 +10,6 @@ export type { CartItem, DeliveryInfo, DeliveryType } from './cartStore'
 export { useSpriteStore, MOCK_SPRITES } from './spriteStore'
 export type { Sprite, UserSprite } from './spriteStore'
 
-export { useRunnerStore } from './runnerStore'
-export type { RunnerInfo, RunnerOrder } from './runnerStore'
-
 export { usePaymentStore } from './paymentStore'
 export type { PaymentMethod, PaymentType, PaymentResult, PaymentParams } from './paymentStore'
 
@@ -25,7 +22,11 @@ export type { RechargeCard, RechargePackage, RechargeRecord } from './rechargeSt
 export { useAdminStore } from './adminStore'
 export type { AdminProduct } from './adminStore'
 
-// 新增：成本比例、批量配送、动态
+// 经销商+代理商（替代跑腿员）
+export { useDealerStore } from './dealerStore'
+export type { DealerLevel, AgentLevel, CommissionRecord, WithdrawRecord, DealerPickupOrder, AgentOrder } from './dealerStore'
+
+// 成本比例、批量配送
 export { useCostStore } from './costStore'
 export type { CostRatio, CostBreakdown } from './costStore'
 
