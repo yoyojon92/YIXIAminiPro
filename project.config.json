@@ -10,17 +10,11 @@
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false
+    "minified": true,
+    "lazyCodeLoading": "requiredComponents"
   },
   "compileType": "miniprogram",
   "packOptions": {
-    "ignore": [
-      { "type": "folder", "value": "assets/images/products" },
-      { "type": "folder", "value": "assets/images/organ-lords" },
-      { "type": "folder", "value": "assets/images/spirits" },
-      { "type": "file", "value": "assets/images/banner1.jpg" },
-      { "type": "file", "value": "assets/images/banner2.jpg" },
-      { "type": "file", "value": "assets/images/banner3.jpg" }
-    ]
+    "ignore": []
   }
 }
