@@ -78,8 +78,6 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
       patterns: [
         // tabbar图标（小程序tabbar必须使用本地文件）
         { from: 'src/assets/tabbar/', to: 'dist/assets/tabbar/' },
-        // 产品图片（果酒/果汁/礼盒/老款/派对）
-        { from: 'src/assets/images/products/', to: 'dist/assets/images/products/' },
       ],
       options: {},
     },

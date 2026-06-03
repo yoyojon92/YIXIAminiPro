@@ -130,7 +130,7 @@ const XIN_XIN: IPCharacter = {
   
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: '/assets/images/ip/xinxin.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/ip/xinxin.jpg',
   emoji: '❤️',
 };
 
@@ -192,7 +192,7 @@ const GAN_GAN: IPCharacter = {
   
   relatedProducts: ['番红暗许'],
   productIds: ['prod_guava_wine'],
-  image: '/assets/images/ip/gangan.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/ip/gangan.jpg',
   emoji: '💚',
 };
 
@@ -254,7 +254,7 @@ const PI_PI: IPCharacter = {
   
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: '/assets/images/ip/pipi.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/ip/pipi.jpg',
   emoji: '💛',
 };
 
@@ -316,7 +316,7 @@ const FEI_FEI: IPCharacter = {
   
   relatedProducts: ['清苹微醉'],
   productIds: ['prod_apple_wine'],
-  image: '/assets/images/ip/feifei.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/ip/feifei.jpg',
   emoji: '🤍',
 };
 
@@ -378,7 +378,7 @@ const SHEN_SHEN: IPCharacter = {
   
   relatedProducts: ['榴红心事'],
   productIds: ['prod_pomegranate_new'],
-  image: '/assets/images/ip/shenshen.jpg',
+  image: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/ip/shenshen.jpg',
   emoji: '💜',
 };
 

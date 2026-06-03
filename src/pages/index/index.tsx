@@ -20,12 +20,12 @@ import { PICKUP_POINTS } from '@/mock/delivery'
 import './index.scss'
 
 // 果酒导航区产品图
-const winePomegranate = '/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png'
-const wineGrape = '/assets/images/products/yixia-wine/02-pu-xiang-an-du.png'
-const winePeach = '/assets/images/products/yixia-wine/03-tao-xin-an-dong.png'
-const wineApple = '/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'
-const wineGuava = '/assets/images/products/yixia-wine/05-fen-le-wu-qiong.png'
-const wineRed = '/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.png'
+const winePomegranate = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/01-liu-hong-xin-shi.png'
+const wineGrape = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/02-pu-xiang-an-du.png'
+const winePeach = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/03-tao-xin-an-dong.png'
+const wineApple = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/04-qing-ping-wei-zui.png'
+const wineGuava = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/05-fen-le-wu-qiong.png'
+const wineRed = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@9556998/src/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.png'
 
 /** 首页果酒导航区 - 6款果酒，每张图链到对应产品详情 */
 const WINE_NAV_ITEMS = [
