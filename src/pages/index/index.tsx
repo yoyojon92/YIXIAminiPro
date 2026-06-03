@@ -18,6 +18,7 @@ import { useDeliveryStore } from '@/store/deliveryStore'
 import { useMemberStore } from '@/store/memberStore'
 import { PICKUP_POINTS } from '@/mock/delivery'
 import { MemberModal } from '@/components/member-modal'
+import { WelcomeGiftModal } from '@/components/welcome-gift'
 import { TicketSelector } from '@/components/ticket-selector'
 import './index.scss'
 
@@ -75,7 +76,7 @@ const MEMBER_BENEFITS = [
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
-  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket } = useMemberStore()
+  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, setShowWelcomeGiftModal } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   // ✅ 响应式读取 store 状态
@@ -310,6 +311,38 @@ export default function Index() {
           <ChevronRight size={18} color="#FBBF24" />
         </View>
       )}
+
+      {/* 入会赠饮未领取提醒 */}
+      {isMember && !welcomeGiftClaimed && (
+        <View
+          className="mx-4 mb-4 p-3 rounded-xl border-2 border-purple-400 bg-purple-900 bg-opacity-30 flex items-center gap-3"
+          onClick={() => setShowWelcomeGiftModal(true)}
+        >
+          <View className="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0">
+            <Gift size={20} color="white" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-sm font-medium text-purple-300">你的入会赠饮未领取</Text>
+            <Text className="text-xs text-purple-400 mt-1">选1瓶老款果酒，自提免运费</Text>
+          </View>
+          <ChevronRight size={18} color="#A855F7" />
+        </View>
+      )}
+
+      {/* 同城配送呼叫入口 */}
+      <View
+        className="mx-4 mb-4 p-3 rounded-xl bg-slate-800 flex items-center gap-3"
+        onClick={() => Taro.navigateTo({ url: '/pagesOrder/callDelivery/index' })}
+      >
+        <View className="w-10 h-10 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center flex-shrink-0">
+          <Truck size={20} color="#22C55E" />
+        </View>
+        <View className="flex-1">
+          <Text className="text-sm font-medium text-white">呼叫同城配送</Text>
+          <Text className="text-xs text-gray-400 mt-1">美团·饿了么·闪送·滴滴 一键呼叫骑手</Text>
+        </View>
+        <ChevronRight size={18} color="#9CA3AF" />
+      </View>
 
       {/* ========== 果酒导航区 - 6款果酒横滑 ========== */}
       <View className="my-6 px-6">
@@ -553,6 +586,8 @@ export default function Index() {
       <MemberModal />
       {/* 1元小酒票选择弹窗 */}
       <TicketSelector />
+      {/* 入会赠饮弹窗 */}
+      <WelcomeGiftModal />
     </View>
   )
 }

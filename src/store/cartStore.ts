@@ -19,6 +19,8 @@ export interface CartItem {
   quantity: number
   image: string
   maxQuantity: number // 库存上限
+  isGift?: boolean // 入会赠饮标记
+  isTicket?: boolean // 1元小酒票标记
 }
 
 // 配送方式类型

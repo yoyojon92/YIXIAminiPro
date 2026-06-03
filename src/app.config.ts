@@ -19,6 +19,8 @@ export default defineAppConfig({
         'tracking/index',
         'pickup/index',
         'dormitory/index',
+        'redeem/index',
+        'callDelivery/index',
       ],
     },
     {

@@ -30,7 +30,12 @@ interface MemberState {
   showTicketModal: boolean         // 小酒票弹窗
 
   // 入会赠饮
-  welcomeGiftClaimed: boolean // 是否已领入会赠饮
+  welcomeGiftClaimed: boolean      // 是否已领入会赠饮
+  welcomeGiftWineId: string | null // 赠饮选的酒ID
+  welcomeGiftDeliveryMode: 'pickup' | 'delivery' | null // 赠饮领取方式
+  welcomeGiftRedeemCode: string | null // 核销码（自提时）
+  welcomeGiftRedeemed: boolean     // 核销码是否已使用
+  showWelcomeGiftModal: boolean    // 入会赠饮弹窗
 
   // 生日礼遇
   birthdayDate: string | null // 格式 'MM-DD'，会员生日
@@ -50,7 +55,9 @@ interface MemberState {
   setShowTicketModal: (show: boolean) => void
 
   // 入会赠饮
-  claimWelcomeGift: () => void
+  claimWelcomeGiftWithWine: (wineId: string, mode: 'pickup' | 'delivery') => string | null
+  redeemWelcomeGift: () => void
+  setShowWelcomeGiftModal: (show: boolean) => void
 
   // 每周特价
   useWeeklySpecial: () => void
@@ -77,6 +84,17 @@ const getCurrentWeek = () => {
 /** 创始会员统一到期：2026-12-31 23:59:59 */
 const FOUNDING_EXPIRE = new Date('2026-12-31T23:59:59').getTime()
 
+/** 生成核销码：YX + 时间戳36进制后4位 + 随机4位大写字母数字 */
+const generateRedeemCode = (): string => {
+  const ts = Date.now().toString(36).slice(-4).toUpperCase()
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  let rand = ''
+  for (let i = 0; i < 4; i++) {
+    rand += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return `YX${ts}${rand}`
+}
+
 export const useMemberStore = create<MemberState>()(
   persist(
     (set, get) => ({
@@ -92,6 +110,11 @@ export const useMemberStore = create<MemberState>()(
 
       // 入会赠饮
       welcomeGiftClaimed: false,
+      welcomeGiftWineId: null,
+      welcomeGiftDeliveryMode: null,
+      welcomeGiftRedeemCode: null,
+      welcomeGiftRedeemed: false,
+      showWelcomeGiftModal: false,
 
       // 生日礼遇
       birthdayDate: null,
@@ -107,6 +130,8 @@ export const useMemberStore = create<MemberState>()(
           memberExpire: FOUNDING_EXPIRE,
           memberLevel: 'founding',
           showMemberModal: false,
+          // 入会后自动弹出赠饮弹窗
+          showWelcomeGiftModal: true,
         })
         Taro.showToast({ title: '9.9创始会员开通成功！', icon: 'success' })
       },
@@ -139,10 +164,22 @@ export const useMemberStore = create<MemberState>()(
       setShowTicketModal: (show) => set({ showTicketModal: show }),
 
       // === 入会赠饮 ===
-      claimWelcomeGift: () => {
-        set({ welcomeGiftClaimed: true })
-        Taro.showToast({ title: '入会赠饮已领取！', icon: 'success' })
+      claimWelcomeGiftWithWine: (wineId: string, mode: 'pickup' | 'delivery') => {
+        const redeemCode = mode === 'pickup' ? generateRedeemCode() : null
+        set({
+          welcomeGiftClaimed: true,
+          welcomeGiftWineId: wineId,
+          welcomeGiftDeliveryMode: mode,
+          welcomeGiftRedeemCode: redeemCode,
+        })
+        return redeemCode
       },
+
+      redeemWelcomeGift: () => {
+        set({ welcomeGiftRedeemed: true })
+      },
+
+      setShowWelcomeGiftModal: (show) => set({ showWelcomeGiftModal: show }),
 
       // === 每周特价 ===
       canUseWeeklySpecial: () => {
@@ -159,17 +196,17 @@ export const useMemberStore = create<MemberState>()(
         const { isMember } = get()
         if (!isMember) {
           return [
-            '入会赠饮1瓶（老款果酒随机）',
-            '每月1元小酒票（3种老款酒3选1）',
-            '每周特价¥9.9（老款果酒）',
-            '生日礼遇（生日当天全场9折）',
+            '入会赠饮1瓶（老款果酒3选1）',
+            '每月1元小酒票（3种老款酒3选1，当月不领失效）',
+            '每周特价9.9元（老款果酒）',
+            '生日礼遇（生日当天全场9折，可叠加）',
           ]
         }
         return [
-          '每月1元小酒票（老款酒3选1）',
-          '每周特价¥9.9（老款果酒）',
-          '入会赠饮1瓶',
-          '生日礼遇（生日当天全场9折）',
+          '每月1元小酒票（老款酒3选1，当月不领失效不累加）',
+          '每周特价9.9元（老款果酒）',
+          '入会赠饮1瓶（凭核销码自提/配送）',
+          '生日礼遇（生日当天全场9折，可叠加）',
         ]
       },
 
@@ -190,6 +227,10 @@ export const useMemberStore = create<MemberState>()(
         ticketClaimedMonth: state.ticketClaimedMonth,
         ticketSelectedWine: state.ticketSelectedWine,
         welcomeGiftClaimed: state.welcomeGiftClaimed,
+        welcomeGiftWineId: state.welcomeGiftWineId,
+        welcomeGiftDeliveryMode: state.welcomeGiftDeliveryMode,
+        welcomeGiftRedeemCode: state.welcomeGiftRedeemCode,
+        welcomeGiftRedeemed: state.welcomeGiftRedeemed,
         birthdayDate: state.birthdayDate,
         weeklySpecialUsed: state.weeklySpecialUsed,
       }),
