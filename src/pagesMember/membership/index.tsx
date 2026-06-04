@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Crown, Sparkles, Tag, Gift, ChevronRight } from 'lucide-react-taro'
 import { useMemberStore } from '@/store/memberStore'
+import { WelcomeGiftModal } from '@/components/welcome-gift'
+import { TicketSelector } from '@/components/ticket-selector'
 
 // Status is now computed dynamically in the component
 const BENEFIT_CONFIG = [
