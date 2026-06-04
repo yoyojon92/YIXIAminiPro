@@ -43,7 +43,6 @@ export default defineAppConfig({
     {
       root: 'pagesSocial',
       pages: [
-        'sprites/index',
         'wall/index',
         'wall/publish/index',
         'activity/index',
