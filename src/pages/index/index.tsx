@@ -45,7 +45,7 @@ export default function Index() {
   const goToCart = () => Taro.switchTab({ url: '/pages/cart/index' })
 
   return (
-    <View className="min-h-screen bg-slate-900 pb-safe">
+    <View className="min-h-screen bg-purple-50 pb-safe">
       {/* ====== 顶部导航 ====== */}
       <View className="bg-gradient-to-r from-purple-600 to-violet-600 px-4 pt-4 pb-5">
         <View className="flex items-center justify-between">
@@ -78,20 +78,20 @@ export default function Index() {
 
       {/* ====== 配送方式 ====== */}
       <View className="px-4 -mt-3 relative">
-        <View className="bg-slate-800 rounded-xl p-3 flex items-center gap-2">
-          <View className={`flex-1 py-2 rounded-lg text-center ${mode !== 'mail' && mode !== 'self_pickup' ? 'bg-purple-600' : 'bg-slate-700'}`} onClick={() => setMode('dormitory')}>
+        <View className="bg-white rounded-xl p-3 flex items-center gap-2 shadow-sm">
+          <View className={`flex-1 py-2 rounded-lg text-center ${mode !== 'mail' && mode !== 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => setMode('dormitory')}>
             <Text className={`text-xs ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
               <Truck size={14} color={mode !== 'mail' && mode !== 'self_pickup' ? 'white' : '#9CA3AF'} /> 配送到门
             </Text>
             <Text className={`text-xs mt-0.5 ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>同城满50起送</Text>
           </View>
-          <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'self_pickup' ? 'bg-purple-600' : 'bg-slate-700'}`} onClick={() => { setMode('self_pickup'); setShowPickupModal(true) }}>
+          <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => { setMode('self_pickup'); setShowPickupModal(true) }}>
             <Text className={`text-xs ${mode === 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
               <Store size={14} color={mode === 'self_pickup' ? 'white' : '#9CA3AF'} /> 到店自取
             </Text>
             <Text className={`text-xs mt-0.5 ${mode === 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>免配送费</Text>
           </View>
-          <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'mail' ? 'bg-purple-600' : 'bg-slate-700'}`} onClick={() => setMode('mail')}>
+          <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'mail' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => setMode('mail')}>
             <Text className={`text-xs ${mode === 'mail' ? 'text-white' : 'text-gray-400'}`}>
               <Send size={14} color={mode === 'mail' ? 'white' : '#9CA3AF'} /> 厂家邮寄
             </Text>
@@ -116,7 +116,7 @@ export default function Index() {
           )}
         </View>
         <View className="flex gap-2">
-          <View className="flex-1 bg-slate-800 rounded-xl p-3 text-center"
+          <View className="flex-1 bg-white rounded-xl p-3 text-center shadow-sm"
             onClick={() => { if (isMember) setShowTicketModal(true); else setShowMemberModal(true) }}>
             <View className="w-8 h-8 bg-amber-500 bg-opacity-20 rounded-lg mx-auto flex items-center justify-center mb-1">
               <Ticket size={16} color="#FBBF24" />
@@ -124,7 +124,7 @@ export default function Index() {
             <Text className="text-xs font-medium text-amber-400">1元小酒票</Text>
             <Text className="text-xs text-gray-500">每月领</Text>
           </View>
-          <View className="flex-1 bg-slate-800 rounded-xl p-3 text-center"
+          <View className="flex-1 bg-white rounded-xl p-3 text-center shadow-sm"
             onClick={() => { if (isMember) setShowMemberModal(true); else setShowMemberModal(true) }}>
             <View className="w-8 h-8 bg-red-500 bg-opacity-20 rounded-lg mx-auto flex items-center justify-center mb-1">
               <Zap size={16} color="#F87171" />
@@ -132,7 +132,7 @@ export default function Index() {
             <Text className="text-xs font-medium text-red-400">每周特价¥9.9</Text>
             <Text className="text-xs text-gray-500">限时抢</Text>
           </View>
-          <View className="flex-1 bg-slate-800 rounded-xl p-3 text-center"
+          <View className="flex-1 bg-white rounded-xl p-3 text-center shadow-sm"
             onClick={() => { if (isMember) setShowWelcomeGiftModal(true); else setShowMemberModal(true) }}>
             <View className="w-8 h-8 bg-purple-500 bg-opacity-20 rounded-lg mx-auto flex items-center justify-center mb-1">
               <Gift size={16} color="#A855F7" />
@@ -172,7 +172,7 @@ export default function Index() {
         <View className="flex items-center justify-between mb-4">
           <View className="flex items-center gap-2">
             <Sparkles size={20} color="#FBBF24" />
-            <Text className="text-xl font-bold text-white">新品果酒</Text>
+            <Text className="text-xl font-bold text-gray-900">新品果酒</Text>
             <Badge className="text-xs bg-amber-500 text-white border-0">NEW</Badge>
           </View>
           <View className="flex items-center gap-1" onClick={() => {
@@ -180,20 +180,20 @@ export default function Index() {
             Taro.setStorageSync('categoryExtraType', 'new')
             Taro.switchTab({ url: '/pages/category/index' })
           }}>
-            <Text className="text-sm text-gray-400">更多</Text>
+            <Text className="text-sm text-purple-500">更多</Text>
             <ChevronRight size={16} color="#9CA3AF" />
           </View>
         </View>
         <View className="grid grid-cols-2 gap-3">
           {NEW_WINES.map((wine) => (
-            <View key={wine.id} className="rounded-2xl bg-slate-800 overflow-hidden" onClick={() => goToProduct(wine.id)}>
-              <View className="w-full h-40 bg-slate-700 overflow-hidden">
+            <View key={wine.id} className="rounded-2xl bg-white overflow-hidden shadow-sm" onClick={() => goToProduct(wine.id)}>
+              <View className="w-full h-40 bg-purple-100 overflow-hidden">
                 <Image src={wine.image} className="w-full h-full" mode="aspectFill" lazyLoad />
               </View>
               <View className="p-3">
-                <Text className="text-sm font-semibold text-white">{wine.name}</Text>
-                <Text className="text-xs text-gray-400">{wine.sub}</Text>
-                <Text className="text-lg font-bold text-violet-400 mt-1">{wine.price}</Text>
+                <Text className="text-sm font-semibold text-gray-900">{wine.name}</Text>
+                <Text className="text-xs text-gray-500">{wine.sub}</Text>
+                <Text className="text-lg font-bold text-purple-600 mt-1">{wine.price}</Text>
               </View>
             </View>
           ))}
@@ -202,7 +202,7 @@ export default function Index() {
 
       {/* ====== 藏府君 ====== */}
       <View className="px-4 mt-6 mb-6">
-        <Text className="text-sm font-medium text-white mb-3">🏛 藏府君 · 养生果酒CP</Text>
+        <Text className="text-sm font-medium text-gray-900 mb-3">🏛 藏府君 · 养生果酒CP</Text>
         <View className="flex justify-between">
           {Object.values(organLords).map((lord) => (
             <View key={lord.id} className="flex flex-col items-center"
@@ -214,7 +214,7 @@ export default function Index() {
                 style={{ borderColor: lord.color, backgroundColor: lord.color + '20' }}>
                 <Image src={lord.image} className="w-full h-full" mode="aspectFill" lazyLoad />
               </View>
-              <Text className="text-xs text-slate-300 mt-1">{lord.name}</Text>
+              <Text className="text-xs text-gray-600 mt-1">{lord.name}</Text>
             </View>
           ))}
         </View>

@@ -86,7 +86,7 @@ export default function Profile() {
   const remainingDays = getRemainingDays()
 
   return (
-    <View className="min-h-screen bg-gray-50 pb-safe">
+    <View className="min-h-screen bg-purple-50 pb-safe">
       {/* 会员模态框 */}
       <MemberModal />
       {/* 注册模态框 */}
@@ -289,7 +289,7 @@ export default function Profile() {
                     }}
                   >
                     <View className="flex items-center gap-3">
-                      <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                      <View className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
                         <Icon size={20} color="#8B5CF6" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
@@ -333,8 +333,8 @@ export default function Profile() {
                     }}
                   >
                     <View className="flex items-center gap-3">
-                      <View className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                        <Icon size={20} color="#6B7280" />
+                      <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                        <Icon size={20} color="#8B5CF6" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>
                       {item.dynamicBadge && item.dynamicBadge() && (
@@ -378,7 +378,7 @@ export default function Profile() {
 
       {/* 退出登录 */}
       <View className="px-4 mt-6 mb-6">
-        <Button variant="outline" className="w-full text-gray-600 border-gray-200" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
+        <Button variant="outline" className="w-full text-gray-700 border-purple-200" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
           <LogOut size={18} color="#6B7280" />
           <Text>退出登录</Text>
         </Button>

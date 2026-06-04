@@ -14,24 +14,29 @@ import { WelcomeGiftModal } from '@/components/welcome-gift'
 
 /**
  * 外卖风格左侧导航分类页
- * 左侧：会员专区 / 新品尝鲜 / 微醺小果酒 / 情绪小露酒 / 养身小果汁 / 礼盒套装
+ * 左侧：会员专区 / 厂长推荐 / 微醺小果酒 / 经典特调 / 养身小果汁 / 礼盒套装
  * 右侧：对应商品列表
  */
 
 const CATEGORIES = [
   { id: 'member', name: '会员专区', icon: '👑' },
-  { id: 'new', name: '新品尝鲜', icon: '✨' },
+  { id: 'new', name: '厂长推荐', icon: '⭐' },
   { id: 'new_wine', name: '微醺小果酒', icon: '🍷' },
-  { id: 'old_wine', name: '情绪小露酒', icon: '🥂' },
+  { id: 'old_wine', name: '经典特调', icon: '🍸' },
   { id: 'juice', name: '养身小果汁', icon: '🧃' },
   { id: 'gift', name: '礼盒套装', icon: '🎁' },
 ]
 
+// 厂长推荐：榴红心事、桃心暗动、红葡萄果酒
+const BOSS_PICK_IDS = ['prod_pomegranate_new', 'prod_peach_new', 'prod_red_wine']
+// 经典特调：3款老款果酒
+const CLASSIC_IDS = ['prod_pomelo_old', 'prod_hawthorn_old', 'prod_hawthorn_oolong_old']
+
 function filterProducts(catId: string): Product[] {
   switch (catId) {
-    case 'new': return products.filter(p => p.isNew)
+    case 'new': return products.filter(p => BOSS_PICK_IDS.includes(p.id))
     case 'new_wine': return products.filter(p => p.category === 'fruit_wine' && p.isNew)
-    case 'old_wine': return products.filter(p => p.category === 'fruit_wine' && !p.isNew)
+    case 'old_wine': return products.filter(p => CLASSIC_IDS.includes(p.id))
     case 'juice': return products.filter(p => p.category === 'nfc_juice')
     case 'gift': return products.filter(p => p.category === 'gift_box')
     default: return []
@@ -82,10 +87,10 @@ export default function Category() {
   }
 
   return (
-    <View className="min-h-screen bg-slate-900 flex flex-col pb-safe">
+    <View className="min-h-screen bg-purple-50 flex flex-col pb-safe">
       {/* 顶部搜索栏 */}
-      <View className="bg-slate-800 px-3 py-2 flex items-center gap-2">
-        <View className="flex-1 bg-slate-700 rounded-full px-3 py-2 flex items-center">
+      <View className="bg-white px-3 py-2 flex items-center gap-2">
+        <View className="flex-1 bg-purple-50 rounded-full px-3 py-2 flex items-center">
           <Search size={14} color="#6B7280" />
           <Text className="text-xs text-gray-500 ml-2">搜索果酒、果汁...</Text>
         </View>
@@ -95,7 +100,7 @@ export default function Category() {
               {cartCount > 99 ? '99+' : cartCount}
             </Badge>
           )}
-          <View className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center">
+          <View className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
             <ShoppingCart size={16} color="white" />
           </View>
         </View>
@@ -104,38 +109,38 @@ export default function Category() {
       {/* 主体：左导航 + 右列表 */}
       <View className="flex flex-1" style={{ height: '600px' }}>
         {/* 左侧导航 - 固定宽度80px */}
-        <ScrollView scrollY style={{ width: '80px', height: '600px' }} className="bg-slate-800">
+        <ScrollView scrollY style={{ width: '80px', height: '600px' }} className="bg-white">
           {CATEGORIES.map(cat => (
             <View
               key={cat.id}
-              className={`py-3 px-2 flex flex-col items-center justify-center relative ${selectedCategory === cat.id ? 'bg-slate-900' : 'bg-slate-800'}`}
+              className={`py-3 px-2 flex flex-col items-center justify-center relative ${selectedCategory === cat.id ? 'bg-purple-50' : 'bg-white'}`}
               onClick={() => setSelectedCategory(cat.id)}
             >
               {selectedCategory === cat.id && (
                 <View className="absolute left-0 top-2 bottom-2 w-1 bg-purple-500 rounded-r" />
               )}
               <Text className="text-lg mb-1">{cat.icon}</Text>
-              <Text className={`text-xs text-center ${selectedCategory === cat.id ? 'text-white font-bold' : 'text-gray-400'}`}>{cat.name}</Text>
+              <Text className={`text-xs text-center ${selectedCategory === cat.id ? 'text-purple-700 font-bold' : 'text-gray-700'}`}>{cat.name}</Text>
             </View>
           ))}
         </ScrollView>
 
         {/* 右侧内容 - 填满剩余空间 */}
-        <ScrollView scrollY style={{ flex: 1, height: '600px' }} className="bg-slate-900">
+        <ScrollView scrollY style={{ flex: 1, height: '600px' }} className="bg-purple-50">
           {/* 会员专区 */}
           {selectedCategory === 'member' && (
             <View className="p-3">
               <View className="flex items-center gap-2 mb-4">
                 <Crown size={20} color="#FBBF24" />
-                <Text className="text-lg font-bold text-amber-400">会员福利专区</Text>
+                <Text className="text-lg font-bold text-purple-700">会员福利专区</Text>
               </View>
               
               {!isMember ? (
-                <View className="rounded-xl border-2 border-amber-500 p-5 text-center mb-4" style={{ backgroundColor: 'rgba(251,191,36,0.08)' }}>
-                  <Text className="text-xl font-bold text-white">9.9创始会员</Text>
-                  <Text className="text-sm text-gray-400 mt-2">入会赠饮1瓶+每月1元小酒票+生日9折</Text>
+                <View className="rounded-xl border-2 border-purple-300 p-5 text-center mb-4" style={{ backgroundColor: 'rgba(139,92,246,0.05)' }}>
+                  <Text className="text-xl font-bold text-purple-700">9.9创始会员</Text>
+                  <Text className="text-sm text-gray-600 mt-2">入会赠饮1瓶+每月1元小酒票+生日9折</Text>
                   <View className="mt-4 rounded-xl py-3" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24)' }} onClick={() => setShowMemberModal(true)}>
-                    <Text className="text-gray-900 font-bold text-center">立即开通 ¥9.9</Text>
+                    <Text className="text-white font-bold text-center">立即开通 ¥9.9</Text>
                   </View>
                 </View>
               ) : (
@@ -177,7 +182,7 @@ export default function Category() {
                 {['入会赠饮1瓶（老款3选1，自提免运费）', '每月1元小酒票（当月不领失效不累加）', '每周特价¥9.9（老款果酒）', '生日礼遇（全场9折可叠加）'].map((b, i) => (
                   <View key={i} className="flex items-center gap-2 mt-2">
                     <Text className="text-xs text-gray-500">•</Text>
-                    <Text className="text-xs text-gray-300">{b}</Text>
+                    <Text className="text-xs text-gray-700">{b}</Text>
                   </View>
                 ))}
               </View>
@@ -189,30 +194,30 @@ export default function Category() {
             <View className="p-3">
               <View className="flex items-center gap-2 mb-3">
                 <Text className="text-lg">{currentCat?.icon}</Text>
-                <Text className="text-base font-bold text-white">{currentCat?.name}</Text>
+                <Text className="text-base font-bold text-gray-900">{currentCat?.name}</Text>
                 <Text className="text-xs text-gray-500">{filteredProducts.length}款</Text>
               </View>
 
               {filteredProducts.map((product) => (
                 <View key={product.id}
-                  className="flex gap-3 bg-slate-800 rounded-xl p-3 mb-3"
+                  className="flex gap-3 bg-white rounded-xl shadow-sm p-3 mb-3"
                   onClick={() => goToProduct(product.id)}>
-                  <View className="flex-shrink-0 rounded-lg overflow-hidden bg-slate-700" style={{ width: '96px', height: '96px' }}>
+                  <View className="flex-shrink-0 rounded-lg overflow-hidden bg-purple-100" style={{ width: '96px', height: '96px' }}>
                     <Image src={product.images[0]} style={{ width: '96px', height: '96px' }} mode="aspectFill" lazyLoad />
                   </View>
                   <View className="flex-1 flex flex-col justify-between">
                     <View>
-                      <Text className="text-sm font-medium text-white">{product.name}</Text>
-                      <Text className="text-xs text-gray-400 mt-1">{product.subtitle}</Text>
+                      <Text className="text-sm font-medium text-gray-900">{product.name}</Text>
+                      <Text className="text-xs text-gray-600 mt-1">{product.subtitle}</Text>
                       {product.capacity && <Text className="text-xs text-gray-500">{product.capacity}</Text>}
                     </View>
                     <View className="flex items-center justify-between mt-2">
                       <View className="flex items-baseline gap-1">
-                        <Text className="text-lg font-bold text-violet-400">¥{product.price}</Text>
+                        <Text className="text-lg font-bold text-purple-600">¥{product.price}</Text>
                         <Text className="text-xs text-gray-500 line-through">¥{product.originalPrice}</Text>
                       </View>
                       <View
-                        className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center"
+                        className="w-7 h-7 rounded-full bg-purple-500 flex items-center justify-center"
                         onClick={(e) => handleAddToCart(product, e)}
                       >
                         <Plus size={16} color="white" />
