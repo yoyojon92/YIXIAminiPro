@@ -365,8 +365,8 @@ export default function Profile() {
                     <Shield size={24} color="white" />
                   </View>
                   <View>
-                    <Text className="text-white font-bold text-lg">管理控制中心</Text>
-                    <Text className="text-white text-opacity-80 text-sm mt-1">产品管理 · 活动管理 · 数据看板</Text>
+                    <Text className="text-white font-bold text-lg">邑夏老板台</Text>
+                    <Text className="text-white text-opacity-80 text-sm mt-1">数据看板 · 生产调配 · 配货管理 · 活动上新</Text>
                   </View>
                 </View>
                 <ChevronRight size={20} color="white" />
