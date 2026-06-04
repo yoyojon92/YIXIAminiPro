@@ -147,21 +147,21 @@ export default function Category() {
                 <View>
                   {/* 入会赠饮 */}
                   <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
-                    onClick={() => { if (!welcomeGiftClaimed) setShowWelcomeGiftModal(true) }}>
+                    onClick={() => { setShowWelcomeGiftModal(true) }}>
                     <View className="w-10 h-10 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center"><Gift size={20} color="#A855F7" /></View>
                     <View className="flex-1">
                       <Text className="text-white font-medium">入会赠饮</Text>
-                      <Text className="text-xs text-gray-400 mt-1">{welcomeGiftClaimed ? '已领取' : '未领取，点击领取'}</Text>
+                      <Text className="text-xs text-gray-400 mt-1">{welcomeGiftClaimed ? '已领取✓' : '点击领取3款经典款任选1'}</Text>
                     </View>
                     {!welcomeGiftClaimed && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
                   </View>
                   {/* 1元小酒票 */}
                   <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
-                    onClick={() => { if (canClaimTicket()) setShowTicketModal(true) }}>
+                    onClick={() => { setShowTicketModal(true) }}>
                     <View className="w-10 h-10 rounded-lg bg-amber-500 bg-opacity-20 flex items-center justify-center"><Ticket size={20} color="#FBBF24" /></View>
                     <View className="flex-1">
                       <Text className="text-white font-medium">1元小酒票</Text>
-                      <Text className="text-xs text-gray-400 mt-1">{canClaimTicket() ? '本月未领取' : '本月已领取'}</Text>
+                      <Text className="text-xs text-gray-400 mt-1">{canClaimTicket() ? '点击领取3款经典款任选1' : '本月已领取✓'}</Text>
                     </View>
                     {canClaimTicket() && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
                   </View>

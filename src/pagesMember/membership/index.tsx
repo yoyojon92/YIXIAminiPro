@@ -7,14 +7,15 @@ import { Separator } from '@/components/ui/separator'
 import { Crown, Sparkles, Tag, Gift, ChevronRight } from 'lucide-react-taro'
 import { useMemberStore } from '@/store/memberStore'
 
-const MEMBER_BENEFITS = [
-  { icon: Gift, title: '首单0元送酒', desc: '经典款果酒3选1，自提核销', action: 'welcome' },
-  { icon: Tag, title: '每月1元加购', desc: '经典款果酒3选1，当月不领失效', action: 'ticket' },
-  { icon: Gift, title: '生日礼遇', desc: '全场9折，全年1次', action: 'birthday' },
+// Status is now computed dynamically in the component
+const BENEFIT_CONFIG = [
+  { icon: Gift, title: '首单0元送酒', action: 'welcome' },
+  { icon: Tag, title: '每月1元加购', action: 'ticket' },
+  { icon: Gift, title: '生日礼遇', action: 'birthday' },
 ]
 
 export default function Membership() {
-  const { isMember, memberExpire, setShowMemberModal, getRemainingDays } = useMemberStore()
+  const { isMember, memberExpire, setShowMemberModal, getRemainingDays, welcomeGiftClaimed, welcomeGiftRedeemed, canClaimTicket, setShowWelcomeGiftModal, setShowTicketModal } = useMemberStore()
   const remainingDays = getRemainingDays()
 
   return (
@@ -53,15 +54,26 @@ export default function Membership() {
             <View className="p-4 border-b border-gray-100">
               <Text className="text-lg font-semibold text-gray-900">创始会员权益</Text>
             </View>
-            {MEMBER_BENEFITS.map((benefit, index) => {
+            {BENEFIT_CONFIG.map((benefit, index) => {
               const Icon = benefit.icon
+              const statusText = benefit.action === 'welcome'
+                ? (!welcomeGiftClaimed ? '点击领取' : welcomeGiftRedeemed ? '已核销✓' : '已领取')
+                : benefit.action === 'ticket'
+                ? (canClaimTicket() ? '点击领取' : '本月已领✓')
+                : '全年1次'
+              const statusColor = statusText.includes('点击') ? '#FBBF24' : '#6B7280'
+              const descText = benefit.action === 'welcome'
+                ? '经典款果酒3选1，自提核销'
+                : benefit.action === 'ticket'
+                ? '经典款果酒3选1仅¥1，当月不领失效'
+                : '全场9折，需完善个人信息'
               return (
                 <View key={index}>
                   <View className="flex items-center gap-4 p-4" onClick={() => {
                     if (benefit.action === 'welcome') {
-                      Taro.navigateTo({ url: '/pagesOrder/redeem/index' })
+                      setShowWelcomeGiftModal(true)
                     } else if (benefit.action === 'ticket') {
-                      useMemberStore.getState().setShowTicketModal(true)
+                      setShowTicketModal(true)
                     } else if (benefit.action === 'birthday') {
                       Taro.navigateTo({ url: '/pagesMember/profile/index' })
                     }
@@ -70,12 +82,15 @@ export default function Membership() {
                       <Icon size={20} color="#8B5CF6" />
                     </View>
                     <View className="flex-1">
-                      <Text className="text-sm font-medium text-gray-900">{benefit.title}</Text>
-                      <Text className="text-xs text-gray-500 mt-1">{benefit.desc}</Text>
+                      <View className="flex items-center gap-2">
+                        <Text className="text-sm font-medium text-gray-900">{benefit.title}</Text>
+                        <Text className="text-xs font-bold" style={{ color: statusColor }}>{statusText}</Text>
+                      </View>
+                      <Text className="text-xs text-gray-500 mt-1">{descText}</Text>
                     </View>
                     <ChevronRight size={16} color="#D1D5DB" />
                   </View>
-                  {index < MEMBER_BENEFITS.length - 1 && <Separator className="ml-14" />}
+                  {index < BENEFIT_CONFIG.length - 1 && <Separator className="ml-14" />}
                 </View>
               )
             })}
@@ -111,6 +126,10 @@ export default function Membership() {
           </Button>
         </View>
       )}
+    
+      {/* 弹窗组件 */}
+      <WelcomeGiftModal />
+      <TicketSelector />
     </View>
   )
 }

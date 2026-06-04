@@ -37,7 +37,7 @@ const CLASSIC_WINES = [
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
-  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, setShowWelcomeGiftModal } = useMemberStore()
+  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, canClaimTicket, setShowWelcomeGiftModal } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   const unreadCount = usePushStore(state => state.unreadCount)
@@ -125,7 +125,7 @@ export default function Index() {
               <Ticket size={16} color="#FBBF24" />
             </View>
             <Text className="text-xs font-medium text-amber-400">1元小酒票</Text>
-            <Text className="text-xs text-gray-500">每月领</Text>
+            <Text className="text-xs text-gray-500">{!isMember ? '每月领' : canClaimTicket() ? '点击领取' : '本月已领'}</Text>
           </View>
           <View className="flex-1 bg-white rounded-xl p-3 text-center shadow-sm"
             onClick={() => { if (isMember) setShowMemberModal(true); else setShowMemberModal(true) }}>
@@ -141,7 +141,7 @@ export default function Index() {
               <Gift size={16} color="#A855F7" />
             </View>
             <Text className="text-xs font-medium text-purple-400">入会赠饮1瓶</Text>
-            <Text className="text-xs text-gray-500">开通送</Text>
+            <Text className="text-xs text-gray-500">{!isMember ? '开通送' : welcomeGiftClaimed ? '已领取' : '点击领取'}</Text>
           </View>
         </View>
       </View>
