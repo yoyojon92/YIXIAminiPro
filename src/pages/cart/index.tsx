@@ -15,7 +15,7 @@ import { PICKUP_POINTS } from '@/mock/delivery'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
-  { id: 'dormitory', name: '送货上门', icon: Truck, desc: '预计15-30分钟送达', extra: '免跑腿费' },
+  { id: 'dormitory', name: '送货上门', icon: Truck, desc: '最近自提点配送，预计15-30分钟', extra: '' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
   { id: 'mail', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
@@ -580,10 +580,12 @@ export default function Cart() {
                   <Text className="text-amber-600">+¥1.00</Text>
                 </View>
               )}
+              {deliveryFee > 0 && (
               <View className="flex justify-between text-sm">
                 <Text className="text-gray-500">配送费</Text>
                 <Text className="text-gray-900">+¥{deliveryFee.toFixed(2)}</Text>
               </View>
+              )}
               {fullReduction > 0 && (
                 <View className="flex justify-between text-sm">
                   <Text className="text-red-500">{fullReductionLabel}</Text>

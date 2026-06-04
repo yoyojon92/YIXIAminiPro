@@ -84,9 +84,9 @@ export default function Index() {
         <View className="bg-white rounded-xl p-3 flex items-center gap-2 shadow-sm">
           <View className={`flex-1 py-2 rounded-lg text-center ${mode !== 'mail' && mode !== 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => setMode('dormitory')}>
             <Text className={`text-xs ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
-              <Truck size={14} color={mode !== 'mail' && mode !== 'self_pickup' ? 'white' : '#9CA3AF'} /> 配送到门
+              <Truck size={14} color={mode !== 'mail' && mode !== 'self_pickup' ? 'white' : '#9CA3AF'} /> 送货上门
             </Text>
-            <Text className={`text-xs mt-0.5 ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>同城满50起送</Text>
+            <Text className={`text-xs mt-0.5 ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>最近自提点配送</Text>
           </View>
           <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => { setMode('self_pickup'); setShowPickupModal(true) }}>
             <Text className={`text-xs ${mode === 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
