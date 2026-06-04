@@ -57,12 +57,6 @@ export default defineAppConfig({
       root: 'pagesAdmin',
       pages: [
         'admin/index',
-        'admin/products',
-        'admin/counselor',
-        'admin/activity',
-        'admin/ip-manage',
-        'admin/user-profile',
-        'admin/links',
       ],
     },
     {

@@ -1,0 +1,62 @@
+.order-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120px;
+  background-color: #FAF5FF;
+  min-height: 100vh;
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8B5CF6, #EC4899);
+    color: #fff;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .success-title {
+    font-size: 20px;
+    color: #1F2937;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .order-id {
+    font-size: 14px;
+    color: #6B7280;
+    margin-bottom: 40px;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 200px;
+
+    .btn {
+      height: 44px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .btn-outline {
+      border: 1px solid #8B5CF6;
+      color: #8B5CF6;
+      background: #fff;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8B5CF6, #EC4899);
+      color: #fff;
+    }
+  }
+}
