@@ -60,6 +60,19 @@ export default function RedeemPage() {
         // 核销成功
         useMemberStore.getState().redeemWelcomeGift()
         setResult('success')
+        // 核销后自动触发评价邀请（1元小酒票激励真实反馈）
+        setTimeout(() => {
+          Taro.showModal({
+            title: '🎁 评价赢1元小酒票',
+            content: '分享您的品饮体验，真实评价即可获得1元小酒票一张！',
+            confirmText: '去评价',
+            confirmColor: '#7C3AED',
+            cancelText: '稍后',
+            success: (res) => {
+              if (res.confirm) Taro.showToast({ title: '评价页面开发中', icon: 'none' })
+            }
+          })
+        }, 1500)
       }
     } else {
       setResult('fail')

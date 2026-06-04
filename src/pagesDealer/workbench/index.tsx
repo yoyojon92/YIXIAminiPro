@@ -58,7 +58,13 @@ export default function Workbench() {
       content: `顾客：${order.customerName || order.customerPhone}\n商品：${order.items.map(i => i.productName + 'x' + i.quantity).join('、')}\n金额：¥${order.totalAmount.toFixed(2)}\n\n确认发货？`,
       confirmText: '确认核销',
       confirmColor: '#059669',
-      success: (res) => { if (res.confirm) confirmVerify(order.id) }
+      success: (res) => {
+        if (res.confirm) {
+          confirmVerify(order.id)
+          // 核销成功后24h自动推送评价提醒（1元小酒票激励）
+          Taro.showToast({ title: '核销成功！已向顾客推送评价邀请', icon: 'success', duration: 2000 })
+        }
+      }
     })
   }
 

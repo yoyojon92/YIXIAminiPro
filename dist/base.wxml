@@ -105,6 +105,12 @@
   </image>
 </template>
 
+<template name="tmpl_0_41">
+  <map longitude="{{i.p16}}" latitude="{{i.p14}}" scale="{{xs.b(i.p23,16)}}" markers="{{i.p17||[]}}" covers="{{i.p2}}" polyline="{{i.p21||[]}}" circles="{{i.p0||[]}}" controls="{{i.p1||[]}}" include-points="{{i.p13||[]}}" show-location="{{i.p26}}" layer-style="{{xs.b(i.p15,1)}}" bindmarkertap="eh" bindcontroltap="eh" bindcallouttap="eh" bindupdated="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" polygons="{{i.p20||[]}}" subkey="{{i.p29}}" rotate="{{xs.b(i.p22,0)}}" skew="{{xs.b(i.p28,0)}}" max-scale="{{xs.b(i.p18,20)}}" min-scale="{{xs.b(i.p19,3)}}" enable-3D="{{xs.b(i.p3,false)}}" show-compass="{{xs.b(i.p25,false)}}" show-scale="{{xs.b(i.p27,false)}}" enable-overlooking="{{xs.b(i.p6,false)}}" enable-auto-max-overlooking="{{xs.b(i.p4,false)}}" enable-zoom="{{xs.b(i.p12,true)}}" enable-scroll="{{xs.b(i.p10,true)}}" enable-rotate="{{xs.b(i.p8,false)}}" enable-satellite="{{xs.b(i.p9,false)}}" enable-traffic="{{xs.b(i.p11,false)}}" enable-poi="{{xs.b(i.p7,true)}}" enable-building="{{xs.b(i.p5,true)}}" setting="{{xs.d(i.p24)}}" bindlabeltap="eh" bindregionchange="eh" bindpoitap="eh" bindpolylinetap="eh" bindabilitysuccess="eh" bindabilityfailed="eh" bindauthsuccess="eh" bindinterpolatepoint="eh" binderror="eh" bindanchorpointtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
+  </map>
+</template>
+
 <template name="tmpl_0_63">
   <root-portal enable="{{xs.b(i.p0,true)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />

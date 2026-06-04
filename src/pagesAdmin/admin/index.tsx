@@ -1,8 +1,8 @@
-import { View, Text } from '@tarojs/components'
+import { View, Text, Map } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { useState } from 'react'
 import {
-  BarChart3, Package, Truck, CalendarPlus, Users, Wallet,
+  ChartBar, Package, Truck, CalendarPlus, Users, Wallet,
   TrendingUp, AlertTriangle, ArrowRight, DollarSign,
   ShoppingBag, Clock, CheckCircle, XCircle, Plus,
   ChevronRight, Bell, Settings, Store, Award, Gift,
@@ -190,7 +190,7 @@ export default function BossDashboard() {
       {/* Tab切换 */}
       <View className="flex bg-white mt-3 border-b border-gray-100">
         {([
-          { key: 'data', label: '数据', icon: BarChart3 },
+          { key: 'data', label: '数据', icon: ChartBar },
           { key: 'production', label: '生产', icon: Package },
           { key: 'distribution', label: '配货', icon: Truck },
           { key: 'activity', label: '活动', icon: CalendarPlus },
@@ -641,35 +641,45 @@ export default function BossDashboard() {
               </View>
             </View>
 
-            {/* 第二层：代理升级窗口期巡查 */}
+            {/* ====== 第二层：代理服务跟进 + 销售热点地图 + 配货路线 ====== */}
+
+            {/* 2A. 升级代理服务跟进 */}
             <View className="bg-white rounded-xl p-4 mb-3">
               <View className="flex items-center mb-3">
                 <Award size={16} color="#F59E0B" />
-                <Text className="text-gray-800 font-bold ml-1">第二层·代理升级巡店</Text>
+                <Text className="text-gray-800 font-bold ml-1">升级代理服务跟进</Text>
+                <View className="ml-auto px-2 py-0.5 bg-yellow-50 rounded-full">
+                  <Text className="text-yellow-600 text-xs">实时巡店</Text>
+                </View>
               </View>
 
               {/* 代理升级进度列表 */}
               {[
-                { name: '张明辉', level: 'bronze', totalSales: 1800, target: 2000, daysLeft: 42, canCross: true },
-                { name: '李雅琪', level: 'silver', totalSales: 3200, target: 5000, daysLeft: 128, canCross: true },
-                { name: '王浩然', level: 'bronze', totalSales: 600, target: 2000, daysLeft: 60, canCross: true },
+                { name: '张明辉', level: 'bronze', totalSales: 1800, target: 2000, daysLeft: 42, canCross: true, salesVelocity: 43, lastRestock: '2026-06-03', phone: '138****5521' },
+                { name: '李雅琪', level: 'silver', totalSales: 3200, target: 5000, daysLeft: 128, canCross: true, salesVelocity: 67, lastRestock: '2026-06-04', phone: '159****8832' },
+                { name: '王浩然', level: 'bronze', totalSales: 600, target: 2000, daysLeft: 60, canCross: true, salesVelocity: 15, lastRestock: '2026-06-01', phone: '177****3301' },
               ].map((agent, i) => {
                 const progress = Math.min(100, Math.round(agent.totalSales / agent.target * 100))
                 const levelName = agent.level === 'bronze' ? '铜牌' : agent.level === 'silver' ? '银牌' : '金牌'
-                const levelColor = agent.level === 'bronze' ? '#F59E0B' : agent.level === 'silver' ? '#9CA3AF' : '#D97706'
-                const nextLevel = agent.level === 'bronze' ? '银牌' : '金牌'
+                const levelEmoji = agent.level === 'bronze' ? '🥉' : '🥈'
+                const levelColor = agent.level === 'bronze' ? '#F59E0B' : '#9CA3AF'
                 const crossDeposit = agent.level === 'bronze' ? 8000 : 5000
-                
+                const estDaysToUpgrade = agent.salesVelocity > 0 ? Math.ceil((agent.target - agent.totalSales) / agent.salesVelocity) : 999
+                const isFastest = i === 0 // 模拟排名
+
                 return (
                   <View key={i} className="py-3 border-b border-gray-50">
                     <View className="flex items-center justify-between">
                       <View className="flex items-center">
                         <View className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: levelColor + '20' }}>
-                          <Text className="text-sm">{agent.level === 'bronze' ? '🥉' : '🥈'}</Text>
+                          <Text className="text-sm">{levelEmoji}</Text>
                         </View>
                         <View className="ml-2">
-                          <Text className="text-gray-800 text-sm font-medium">{agent.name}</Text>
-                          <Text className="text-gray-500 text-xs">{levelName}代理 · 剩余{agent.daysLeft}天</Text>
+                          <View className="flex items-center">
+                            <Text className="text-gray-800 text-sm font-medium">{agent.name}</Text>
+                            {isFastest && <View className="ml-2 px-2 py-0.5 bg-orange-500 rounded-full"><Text className="text-white text-xs">最快达标</Text></View>}
+                          </View>
+                          <Text className="text-gray-500 text-xs">{levelName}代理 · 剩余{agent.daysLeft}天 · 日均¥{agent.salesVelocity}</Text>
                         </View>
                       </View>
                       <View className="px-2 py-1 rounded-full" style={{ backgroundColor: progress >= 80 ? '#DCFCE7' : progress >= 50 ? '#FEF3C7' : '#FEE2E2' }}>
@@ -686,10 +696,14 @@ export default function BossDashboard() {
 
                     <View className="flex items-center justify-between mt-2">
                       <Text className="text-gray-500 text-xs">销售¥{agent.totalSales}/{agent.target}</Text>
-                      
-                      {/* 跨层级升级提示 */}
+                      <Text className="text-gray-400 text-xs">预计{estDaysToUpgrade < 999 ? estDaysToUpgrade + '天达标' : '待加速'}</Text>
+                    </View>
+
+                    {/* 操作按钮区 */}
+                    <View className="flex items-center gap-2 mt-2">
+                      {/* 跨层级升级 */}
                       {agent.canCross && (
-                        <View className="flex items-center gap-1" onClick={() => Taro.showModal({
+                        <View className="px-2 py-1 bg-purple-100 rounded-full" onClick={() => Taro.showModal({
                           title: '跨层级升级',
                           content: `${agent.name}可直接补¥${crossDeposit}升级为金牌代理，无需逐级升级。是否推送升级提示？`,
                           confirmText: '推送提示',
@@ -697,86 +711,542 @@ export default function BossDashboard() {
                           success: (res) => { if (res.confirm) Taro.showToast({ title: '升级提示已推送', icon: 'success' }) }
                         })}>
                           <Text className="text-purple-600 text-xs font-bold">跨级升级→金牌¥{crossDeposit}</Text>
-                          <ArrowRight size={12} color="#7C3AED" />
+                        </View>
+                      )}
+                      {/* 电话跟进 */}
+                      <View className="px-2 py-1 bg-blue-100 rounded-full" onClick={() => Taro.makePhoneCall({ phoneNumber: '13800005521' })}>
+                        <Text className="text-blue-600 text-xs">电话跟进</Text>
+                      </View>
+                      {/* 催促囤货 */}
+                      {progress >= 50 && (
+                        <View className="px-2 py-1 bg-yellow-100 rounded-full" onClick={() => Taro.showToast({ title: '催促消息已发送', icon: 'success' })}>
+                          <Text className="text-yellow-700 text-xs">催促囤货</Text>
                         </View>
                       )}
                     </View>
-
-                    {/* 快达标催促 */}
-                    {progress >= 70 && progress < 100 && (
-                      <View className="mt-2 bg-yellow-50 rounded-lg px-3 py-2 flex items-center justify-between">
-                        <Text className="text-yellow-700 text-xs">距升级还差¥{agent.target - agent.totalSales}，快达标了！</Text>
-                        <View className="px-2 py-1 bg-yellow-500 rounded-full" onClick={() => Taro.showToast({ title: '催促消息已发送', icon: 'success' })}>
-                          <Text className="text-white text-xs">催促囤货</Text>
-                        </View>
-                      </View>
-                    )}
                   </View>
                 )
               })}
 
-              {/* 跨层级升级说明 */}
+              {/* 跨层级升级规则 */}
               <View className="mt-3 bg-purple-50 rounded-lg p-3">
                 <Text className="text-purple-700 text-sm font-bold">跨层级升级规则</Text>
                 <Text className="text-purple-600 text-xs mt-1" style={{ lineHeight: '18px' }}>
                   · 铜牌代理可直接补¥8000升级金牌（跳过银牌）{'\n'}
                   · 银牌代理可直接补¥5000升级金牌{'\n'}
-                  · 3个月窗口期内，按达成销售目标速度排名{'\n'}
-                  · 最快达成者优先获升级权提示{'\n'}
-                  · 厂家实时巡店跟进，主动推送升级机会
+                  · 按达成速度排名，最快者优先获升级权提示{'\n'}
+                  · 例：铜牌¥2000不够卖，3个月内充¥8000直接拿金牌
                 </Text>
               </View>
             </View>
 
-            {/* 第三层：数据总览 */}
+            {/* 2B. 代理补货服务跟进 */}
             <View className="bg-white rounded-xl p-4 mb-3">
               <View className="flex items-center mb-3">
-                <PieChart size={16} color="#8B5CF6" />
-                <Text className="text-gray-800 font-bold ml-1">第三层·数据总览</Text>
+                <RefreshCcw size={16} color="#059669" />
+                <Text className="text-gray-800 font-bold ml-1">代理补货服务跟进</Text>
               </View>
 
-              <View className="grid grid-cols-2 gap-3 mb-3">
-                <View className="bg-gray-50 rounded-lg p-3">
-                  <Text className="text-gray-500 text-xs">全渠道日销量</Text>
-                  <Text className="text-gray-900 text-xl font-bold">486瓶</Text>
-                  <Text className="text-green-600 text-xs">较昨日+12%</Text>
-                </View>
-                <View className="bg-gray-50 rounded-lg p-3">
-                  <Text className="text-gray-500 text-xs">代理商日销量</Text>
-                  <Text className="text-gray-900 text-xl font-bold">218瓶</Text>
-                  <Text className="text-green-600 text-xs">占比44.9%</Text>
-                </View>
-                <View className="bg-gray-50 rounded-lg p-3">
-                  <Text className="text-gray-500 text-xs">生产建议</Text>
-                  <Text className="text-gray-900 text-xl font-bold">+320瓶</Text>
-                  <Text className="text-yellow-600 text-xs">基于7日趋势</Text>
-                </View>
-                <View className="bg-gray-50 rounded-lg p-3">
-                  <Text className="text-gray-500 text-xs">代理活跃度</Text>
-                  <Text className="text-gray-900 text-xl font-bold">87%</Text>
-                  <Text className="text-green-600 text-xs">3/4代理在售</Text>
-                </View>
-              </View>
-
-              {/* 各单品7日销量趋势 */}
-              <View className="bg-gray-50 rounded-lg p-3">
-                <Text className="text-gray-700 text-sm font-bold mb-2">单品7日趋势（调整生产策略）</Text>
-                {MOCK_PRODUCTS.filter(p => p.status === 'on_sale').sort((a, b) => b.weekSales - a.weekSales).slice(0, 6).map(p => {
-                  const dailyAvg = Math.round(p.weekSales / 7)
-                  const trend = p.velocity > 0.5 ? '↑' : '→'
-                  const trendColor = p.velocity > 0.5 ? '#16A34A' : '#6B7280'
-                  return (
-                    <View key={p.id} className="flex items-center justify-between py-1">
-                      <Text className="text-gray-600 text-xs">{p.name}</Text>
-                      <View className="flex items-center gap-2">
-                        <Text className="text-gray-500 text-xs">日均{dailyAvg}瓶</Text>
-                        <Text className="text-xs font-bold" style={{ color: trendColor }}>{trend}</Text>
+              {/* 补货需求列表 */}
+              {[
+                { name: '张明辉', level: '铜牌', items: '榴红心事×15+桃心微醺×10', urgency: 'high', stockDays: 5, lastRestock: '6月3日', suggestion: '青苹微醉周转快，建议补20瓶' },
+                { name: '李雅琪', level: '银牌', items: '芭乐×8+红葡萄×5', urgency: 'medium', stockDays: 12, lastRestock: '6月4日', suggestion: '经典特调三款库存充裕' },
+                { name: '王浩然', level: '铜牌', items: '全品类补货', urgency: 'low', stockDays: 28, lastRestock: '6月1日', suggestion: '销售偏慢，建议先推1元小酒票引流' },
+              ].map((item, i) => {
+                const urgColor = item.urgency === 'high' ? '#DC2626' : item.urgency === 'medium' ? '#D97706' : '#16A34A'
+                const urgBg = item.urgency === 'high' ? '#FEE2E2' : item.urgency === 'medium' ? '#FEF3C7' : '#DCFCE7'
+                const urgText = item.urgency === 'high' ? '紧急' : item.urgency === 'medium' ? '一般' : '充足'
+                return (
+                  <View key={i} className="py-3 border-b border-gray-50">
+                    <View className="flex items-center justify-between">
+                      <View className="flex items-center">
+                        <Text className="text-gray-800 text-sm font-medium">{item.name}</Text>
+                        <View className="ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: urgBg }}>
+                          <Text className="text-xs" style={{ color: urgColor }}>{urgText}</Text>
+                        </View>
                       </View>
+                      <Text className="text-gray-400 text-xs">库存可售{item.stockDays}天</Text>
+                    </View>
+                    <Text className="text-gray-600 text-xs mt-1">需补：{item.items}</Text>
+                    <Text className="text-green-600 text-xs mt-1">💡 {item.suggestion}</Text>
+                    <View className="flex items-center gap-2 mt-2">
+                      <View className="px-3 py-1 bg-green-500 rounded-full" onClick={() => Taro.showToast({ title: '补货单已生成', icon: 'success' })}>
+                        <Text className="text-white text-xs">生成补货单</Text>
+                      </View>
+                      <View className="px-3 py-1 bg-blue-500 rounded-full" onClick={() => Taro.makePhoneCall({ phoneNumber: '13800005521' })}>
+                        <Text className="text-white text-xs">电话确认</Text>
+                      </View>
+                    </View>
+                  </View>
+                )
+              })}
+            </View>
+
+            {/* 2C. 销售热点地图看板 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center justify-between mb-3">
+                <View className="flex items-center">
+                  <PieChart size={16} color="#EF4444" />
+                  <Text className="text-gray-800 font-bold ml-1">销售热点地图</Text>
+                </View>
+                <View className="flex items-center gap-2">
+                  <View className="px-2 py-0.5 bg-red-100 rounded-full"><Text className="text-red-600 text-xs">高</Text></View>
+                  <View className="px-2 py-0.5 bg-yellow-100 rounded-full"><Text className="text-yellow-600 text-xs">中</Text></View>
+                  <View className="px-2 py-0.5 bg-green-100 rounded-full"><Text className="text-green-600 text-xs">低</Text></View>
+                </View>
+              </View>
+
+              {/* 腾讯地图组件 - 青岛城阳区为中心（自提点集中区） */}
+              <View className="rounded-xl overflow-hidden mb-3" style={{ height: '220px' }}>
+                <Map
+                  style={{ width: '100%', height: '220px' }}
+                  latitude={36.307}
+                  longitude={120.397}
+                  scale={13}
+                  markers={[
+                    { id: 1, latitude: 36.307, longitude: 120.397, title: '南门店', iconPath: '', width: 20, height: 20, callout: { content: '南门店 日销¥860', color: '#fff', bgColor: '#DC2626', fontSize: 11, borderRadius: 8, padding: 4, display: 'ALWAYS' } },
+                    { id: 2, latitude: 36.312, longitude: 120.403, title: '东区店', iconPath: '', width: 20, height: 20, callout: { content: '东区店 日销¥520', color: '#fff', bgColor: '#D97706', fontSize: 11, borderRadius: 8, padding: 4, display: 'ALWAYS' } },
+                    { id: 3, latitude: 36.302, longitude: 120.392, title: '北苑店', iconPath: '', width: 20, height: 20, callout: { content: '北苑店 日销¥380', color: '#fff', bgColor: '#16A34A', fontSize: 11, borderRadius: 8, padding: 4, display: 'ALWAYS' } },
+                  ]}
+                  showLocation={false}
+                  enableZoom={true}
+                />
+              </View>
+
+              {/* 热点排名 */}
+              <View className="bg-gray-50 rounded-lg p-3 mb-3">
+                <Text className="text-gray-700 text-sm font-bold mb-2">自提点日销排名</Text>
+                {[
+                  { name: '南门店', sales: 860, orders: 11, trend: '+15%', color: '#DC2626' },
+                  { name: '东区店', sales: 520, orders: 7, trend: '+8%', color: '#D97706' },
+                  { name: '北苑店', sales: 380, orders: 5, trend: '-3%', color: '#16A34A' },
+                ].map((point, i) => (
+                  <View key={i} className="flex items-center justify-between py-2 border-b border-gray-100">
+                    <View className="flex items-center">
+                      <View className="w-6 h-6 rounded-full flex items-center justify-center mr-2" style={{ backgroundColor: point.color + '20' }}>
+                        <Text className="text-xs font-bold" style={{ color: point.color }}>{i + 1}</Text>
+                      </View>
+                      <View>
+                        <Text className="text-gray-800 text-sm">{point.name}</Text>
+                        <Text className="text-gray-400 text-xs">{point.orders}单/日</Text>
+                      </View>
+                    </View>
+                    <View className="flex items-center gap-2">
+                      <Text className="text-gray-800 text-sm font-bold">¥{point.sales}</Text>
+                      <Text className="text-xs" style={{ color: point.trend.startsWith('+') ? '#16A34A' : '#DC2626' }}>{point.trend}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* 地图数据源说明 */}
+              <View className="bg-blue-50 rounded-lg p-2">
+                <Text className="text-blue-600 text-xs">📍 地图数据对接：腾讯地图(默认) / 百度地图 / 高德地图（可切换）</Text>
+              </View>
+            </View>
+
+            {/* 2D. 配货成本计算 + 统一配货路线规划 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <Truck size={16} color="#3B82F6" />
+                <Text className="text-gray-800 font-bold ml-1">配货路线规划</Text>
+              </View>
+
+              {/* 配货成本概览 */}
+              <View className="grid grid-cols-3 gap-2 mb-3">
+                <View className="bg-blue-50 rounded-lg p-2 text-center">
+                  <Text className="text-blue-500 text-xs">今日配货量</Text>
+                  <Text className="text-blue-800 text-lg font-bold">186瓶</Text>
+                </View>
+                <View className="bg-green-50 rounded-lg p-2 text-center">
+                  <Text className="text-green-500 text-xs">预估成本</Text>
+                  <Text className="text-green-800 text-lg font-bold">¥128</Text>
+                </View>
+                <View className="bg-purple-50 rounded-lg p-2 text-center">
+                  <Text className="text-purple-500 text-xs">配送点数</Text>
+                  <Text className="text-purple-800 text-lg font-bold">3站</Text>
+                </View>
+              </View>
+
+              {/* 最优路线 */}
+              <View className="bg-gray-50 rounded-lg p-3 mb-3">
+                <View className="flex items-center justify-between mb-2">
+                  <Text className="text-gray-700 text-sm font-bold">📍 最优路线（TSP算法）</Text>
+                  <View className="px-2 py-0.5 bg-blue-500 rounded-full" onClick={() => Taro.showToast({ title: '路线已刷新', icon: 'success' })}>
+                    <Text className="text-white text-xs">重新计算</Text>
+                  </View>
+                </View>
+                
+                {/* 路线可视化 */}
+                <View className="flex items-center mb-3" style={{ overflowX: 'auto' }}>
+                  <View className="flex items-center">
+                    <View className="px-3 py-2 bg-blue-500 rounded-lg">
+                      <Text className="text-white text-xs font-bold">🏭 总仓</Text>
+                    </View>
+                    <Text className="text-gray-400 text-lg mx-1">→</Text>
+                    <View className="px-3 py-2 bg-red-100 rounded-lg">
+                      <Text className="text-red-700 text-xs font-bold">①南门店</Text>
+                      <Text className="text-red-500 text-xs">68瓶·3.2km</Text>
+                    </View>
+                    <Text className="text-gray-400 text-lg mx-1">→</Text>
+                    <View className="px-3 py-2 bg-yellow-100 rounded-lg">
+                      <Text className="text-yellow-700 text-xs font-bold">②东区店</Text>
+                      <Text className="text-yellow-600 text-xs">52瓶·1.8km</Text>
+                    </View>
+                    <Text className="text-gray-400 text-lg mx-1">→</Text>
+                    <View className="px-3 py-2 bg-green-100 rounded-lg">
+                      <Text className="text-green-700 text-xs font-bold">③北苑店</Text>
+                      <Text className="text-green-600 text-xs">66瓶·2.5km</Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* 成本明细 */}
+                <View className="bg-white rounded-lg p-2">
+                  <View className="flex items-center justify-between py-1">
+                    <Text className="text-gray-500 text-xs">总里程</Text>
+                    <Text className="text-gray-800 text-xs">7.5km</Text>
+                  </View>
+                  <View className="flex items-center justify-between py-1">
+                    <Text className="text-gray-500 text-xs">油费/运费</Text>
+                    <Text className="text-gray-800 text-xs">¥45 (¥6/km)</Text>
+                  </View>
+                  <View className="flex items-center justify-between py-1">
+                    <Text className="text-gray-500 text-xs">人工费</Text>
+                    <Text className="text-gray-800 text-xs">¥80 (1趟·2小时)</Text>
+                  </View>
+                  <View className="flex items-center justify-between py-1">
+                    <Text className="text-gray-500 text-xs">包装耗材</Text>
+                    <Text className="text-gray-800 text-xs">¥3</Text>
+                  </View>
+                  <View className="flex items-center justify-between py-1 border-t border-gray-100 mt-1">
+                    <Text className="text-gray-700 text-xs font-bold">总成本</Text>
+                    <Text className="text-blue-600 text-sm font-bold">¥128</Text>
+                  </View>
+                  <View className="flex items-center justify-between py-1">
+                    <Text className="text-gray-500 text-xs">单瓶成本</Text>
+                    <Text className="text-gray-600 text-xs">¥0.69/瓶</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* 配货操作 */}
+              <View className="flex items-center gap-3">
+                <View className="flex-1 py-2 bg-blue-500 rounded-xl text-center" onClick={() => Taro.showToast({ title: '配货单已下发', icon: 'success' })}>
+                  <Text className="text-white text-sm font-bold">下发配货单</Text>
+                </View>
+                <View className="flex-1 py-2 bg-gray-100 rounded-xl text-center" onClick={() => Taro.showToast({ title: '路线已导出至导航', icon: 'success' })}>
+                  <Text className="text-gray-700 text-sm font-bold">导出导航</Text>
+                </View>
+              </View>
+            </View>
+
+            {/* ====== 第三层：品牌暴露服务·产销用零距离 ====== */}
+
+            {/* 3A. 月度销冠 & 客户榜 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center justify-between mb-3">
+                <View className="flex items-center">
+                  <Award size={16} color="#F59E0B" />
+                  <Text className="text-gray-800 font-bold ml-1">月度销冠 & 客户榜</Text>
+                </View>
+                <View className="px-2 py-0.5 bg-yellow-50 rounded-full">
+                  <Text className="text-yellow-600 text-xs">6月</Text>
+                </View>
+              </View>
+
+              {/* 月度销冠 */}
+              <View className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-3 mb-3">
+                <View className="flex items-center justify-between">
+                  <View className="flex items-center">
+                    <View className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center">
+                      <Text className="text-white text-lg">🏆</Text>
+                    </View>
+                    <View className="ml-3">
+                      <Text className="text-gray-800 text-sm font-bold">销冠代理：张明辉</Text>
+                      <Text className="text-gray-500 text-xs">铜牌·本月¥12850 · 推荐112人</Text>
+                    </View>
+                  </View>
+                  <View className="px-3 py-1 bg-yellow-500 rounded-full" onClick={() => Taro.showToast({ title: '已通知销冠并安排走访', icon: 'success' })}>
+                    <Text className="text-white text-xs font-bold">安排走访</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* 代理排行 */}
+              <View className="mb-3">
+                <Text className="text-gray-700 text-sm font-bold mb-2">代理销售榜</Text>
+                {[
+                  { name: '张明辉', sales: 12850, orders: 168, badge: '🥇' },
+                  { name: '李雅琪', sales: 8960, orders: 112, badge: '🥈' },
+                  { name: '王浩然', sales: 4580, orders: 56, badge: '🥉' },
+                ].map((a, i) => (
+                  <View key={i} className="flex items-center justify-between py-2 border-b border-gray-50">
+                    <View className="flex items-center">
+                      <Text className="text-lg mr-2">{a.badge}</Text>
+                      <View><Text className="text-gray-800 text-sm font-medium">{a.name}</Text><Text className="text-gray-400 text-xs">{a.orders}单</Text></View>
+                    </View>
+                    <Text className="text-gray-800 text-sm font-bold">¥{a.sales.toLocaleString()}</Text>
+                  </View>
+                ))}
+              </View>
+
+              {/* 用户消费榜 */}
+              <View>
+                <Text className="text-gray-700 text-sm font-bold mb-2">用户消费榜（高频核心用户）</Text>
+                {[
+                  { name: '陈小花', consume: 680, freq: 12, fav: '榴红心事', tag: '超级复购' },
+                  { name: '刘大壮', consume: 520, freq: 8, fav: '芭乐金银花', tag: '品质种草' },
+                  { name: '赵甜心', consume: 380, freq: 7, fav: '桃心微醺', tag: '社交达人' },
+                  { name: '周同学', consume: 290, freq: 5, fav: '柚见倾心', tag: '潜力用户' },
+                  { name: '吴小姐', consume: 260, freq: 5, fav: '红葡萄果酒', tag: '新品尝鲜' },
+                ].map((u, i) => {
+                  const tc = ['超级复购','品质种草','社交达人','潜力用户','新品尝鲜'][i]
+                  const colors = ['#7C3AED','#D97706','#DC2626','#059669','#3B82F6']
+                  return (
+                    <View key={i} className="flex items-center justify-between py-2 border-b border-gray-50">
+                      <View className="flex items-center">
+                        <Text className="text-gray-500 text-sm w-5">{i+1}</Text>
+                        <View className="ml-1">
+                          <View className="flex items-center">
+                            <Text className="text-gray-800 text-sm">{u.name}</Text>
+                            <View className="ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: colors[i] + '15' }}>
+                              <Text className="text-xs" style={{ color: colors[i] }}>{u.tag}</Text>
+                            </View>
+                          </View>
+                          <Text className="text-gray-400 text-xs">消费{u.freq}次 · 最爱{u.fav}</Text>
+                        </View>
+                      </View>
+                      <Text className="text-gray-800 text-sm font-bold">¥{u.consume}</Text>
                     </View>
                   )
                 })}
               </View>
             </View>
+
+            {/* 3B. 核心用户筛选 & 价值回馈 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <Users size={16} color="#7C3AED" />
+                <Text className="text-gray-800 font-bold ml-1">核心用户筛选 & 价值回馈</Text>
+              </View>
+
+              <View className="grid grid-cols-3 gap-2 mb-3">
+                <View className="bg-purple-50 rounded-lg p-3 text-center">
+                  <Text className="text-purple-500 text-xs">超级用户</Text>
+                  <Text className="text-purple-800 text-xl font-bold">23</Text>
+                  <Text className="text-purple-500 text-xs">月消费≥3次</Text>
+                </View>
+                <View className="bg-blue-50 rounded-lg p-3 text-center">
+                  <Text className="text-blue-500 text-xs">活跃用户</Text>
+                  <Text className="text-blue-800 text-xl font-bold">89</Text>
+                  <Text className="text-blue-500 text-xs">月消费1-2次</Text>
+                </View>
+                <View className="bg-gray-50 rounded-lg p-3 text-center">
+                  <Text className="text-gray-500 text-xs">沉默用户</Text>
+                  <Text className="text-gray-800 text-xl font-bold">156</Text>
+                  <Text className="text-gray-400 text-xs">30天未消费</Text>
+                </View>
+              </View>
+
+              {/* 超级用户详情 */}
+              <View className="bg-purple-50 rounded-lg p-3 mb-3">
+                <View className="flex items-center justify-between mb-2">
+                  <Text className="text-purple-700 text-sm font-bold">🔥 超级用户甄选</Text>
+                  <View className="px-2 py-0.5 bg-purple-500 rounded-full" onClick={() => Taro.showToast({ title: '已导出核心用户名单', icon: 'success' })}>
+                    <Text className="text-white text-xs">导出名单</Text>
+                  </View>
+                </View>
+                {[
+                  { name: '陈小花', freq: 12, feedback: '榴红心事回购5次，朋友都种草了', action: '邀请品鉴' },
+                  { name: '刘大壮', freq: 8, feedback: '芭乐口感独特，夏天冰一下绝了', action: '赠送新品' },
+                  { name: '赵甜心', freq: 7, feedback: '送闺蜜很有面子', action: '小红书合作' },
+                ].map((u, i) => (
+                  <View key={i} className="flex items-center justify-between py-2 border-b border-purple-100">
+                    <View>
+                      <Text className="text-purple-800 text-sm font-medium">{u.name} · {u.freq}次/月</Text>
+                      <Text className="text-purple-600 text-xs">💬 "{u.feedback}"</Text>
+                    </View>
+                    <View className="px-2 py-1 bg-purple-500 rounded-full" onClick={() => Taro.showToast({ title: '已安排：' + u.action, icon: 'success', duration: 2000 })}>
+                      <Text className="text-white text-xs">{u.action}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* 沉默用户唤醒 */}
+              <View className="bg-gray-50 rounded-lg p-3">
+                <View className="flex items-center justify-between mb-2">
+                  <Text className="text-gray-700 text-sm font-bold">💤 沉默用户唤醒</Text>
+                  <Text className="text-gray-400 text-xs">156人30天未消费</Text>
+                </View>
+                <View className="flex items-center gap-2">
+                  <View className="flex-1 py-2 bg-yellow-500 rounded-lg text-center" onClick={() => Taro.showToast({ title: '1元小酒票已批量推送', icon: 'success' })}>
+                    <Text className="text-white text-xs font-bold">推1元小酒票</Text>
+                  </View>
+                  <View className="flex-1 py-2 bg-red-500 rounded-lg text-center" onClick={() => Taro.showToast({ title: '生日9折已批量推送', icon: 'success' })}>
+                    <Text className="text-white text-xs font-bold">推生日9折</Text>
+                  </View>
+                  <View className="flex-1 py-2 bg-blue-500 rounded-lg text-center" onClick={() => Taro.showToast({ title: '新品品鉴邀请已发送', icon: 'success' })}>
+                    <Text className="text-white text-xs font-bold">新品品鉴</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {/* 3C. 真实反馈收集 & 营销素材库 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <Gift size={16} color="#DC2626" />
+                <Text className="text-gray-800 font-bold ml-1">真实反馈收集 & 营销素材库</Text>
+              </View>
+
+              {/* 反馈入口：核销后自动触发 + 主动收集 */}
+              <View className="bg-red-50 rounded-lg p-3 mb-3">
+                <Text className="text-red-700 text-sm font-bold mb-1">📬 反馈收集机制</Text>
+                <Text className="text-red-600 text-xs" style={{ lineHeight: '18px' }}>
+                  · 核销后24h自动推送评价提醒（1元小酒票激励）{'\n'}
+                  · 会员生日使用9折后自动收集体验反馈{'\n'}
+                  · 核心用户每月1次深度访谈（电话/微信）{'\n'}
+                  · 代理补货时同步收集终端客户口碑
+                </Text>
+              </View>
+
+              {/* 真实反馈流 */}
+              <View className="mb-3">
+                <View className="flex items-center justify-between mb-2">
+                  <Text className="text-gray-700 text-sm font-bold">💬 真实用户反馈</Text>
+                  <View className="px-2 py-0.5 bg-red-50 rounded-full"><Text className="text-red-600 text-xs">本月+38条</Text></View>
+                </View>
+                {[
+                  { user: '陈小花', text: '榴红心事太好喝了！第5次回购，朋友都被我种草了', product: '榴红心事', source: '核销后评价', time: '2小时前', hot: true, imgs: 2 },
+                  { user: '刘大壮', text: '芭乐金银花口感独特，夏天冰一下绝了，准备整箱囤', product: '芭乐金银花', source: '订单备注', time: '5小时前', hot: true, imgs: 1 },
+                  { user: '赵甜心', text: '桃心微醺送闺蜜很有面子，包装也好看，拍照超上镜', product: '桃心微醺', source: '朋友圈截图', time: '昨天', hot: false, imgs: 3 },
+                  { user: '周同学', text: '9.9会员太值了，首单免费喝了一瓶柚见，现在每周回购', product: '柚见倾心', source: '核销后评价', time: '2天前', hot: false, imgs: 0 },
+                  { user: '吴小姐', text: '红葡萄果酒比干红好入口，不喝酒的朋友也能接受', product: '红葡萄果酒', source: '微信私聊', time: '3天前', hot: true, imgs: 1 },
+                ].map((fb, i) => (
+                  <View key={i} className="py-2 border-b border-gray-50">
+                    <View className="flex items-center justify-between">
+                      <View className="flex items-center">
+                        <Text className="text-gray-800 text-sm font-medium">{fb.user}</Text>
+                        {fb.hot && <View className="ml-2 px-2 py-0.5 bg-red-100 rounded-full"><Text className="text-red-600 text-xs">🔥爆款口碑</Text></View>}
+                      </View>
+                      <Text className="text-gray-400 text-xs">{fb.time}</Text>
+                    </View>
+                    <Text className="text-gray-600 text-xs mt-1" style={{ lineHeight: '16px' }}>"{fb.text}"</Text>
+                    <View className="flex items-center justify-between mt-1">
+                      <View className="flex items-center gap-2">
+                        <Text className="text-gray-400 text-xs">🎁 {fb.product}</Text>
+                        <Text className="text-gray-400 text-xs">📎 {fb.source}</Text>
+                        {fb.imgs > 0 && <Text className="text-blue-500 text-xs">🖼 {fb.imgs}张图</Text>}
+                      </View>
+                      <View className="flex items-center gap-2">
+                        <View className="px-2 py-0.5 bg-red-100 rounded-full" onClick={() => Taro.showToast({ title: '已收录至营销素材库', icon: 'success' })}>
+                          <Text className="text-red-600 text-xs">收录素材</Text>
+                        </View>
+                        <View className="px-2 py-0.5 bg-blue-100 rounded-full" onClick={() => Taro.showToast({ title: '已推送至小红书素材库', icon: 'success' })}>
+                          <Text className="text-blue-600 text-xs">推小红书</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* 厂家走访 */}
+              <View className="bg-orange-50 rounded-lg p-3 mb-3">
+                <View className="flex items-center justify-between mb-2">
+                  <Text className="text-orange-700 text-sm font-bold">🏭 厂家走访计划</Text>
+                  <View className="px-2 py-0.5 bg-orange-500 rounded-full" onClick={() => Taro.showToast({ title: '走访日程已创建', icon: 'success' })}>
+                    <Text className="text-white text-xs">+新建走访</Text>
+                  </View>
+                </View>
+                {[
+                  { target: '张明辉·南门店', date: '6月8日', purpose: '销冠走访·录使用体验视频', status: '待执行' },
+                  { target: '李雅琪·东区店', date: '6月12日', purpose: '补货跟进·收集客户反馈', status: '待执行' },
+                  { target: '核心用户茶话会', date: '6月15日', purpose: '新品品鉴·抖音直播素材采集', status: '筹备中' },
+                ].map((p, i) => (
+                  <View key={i} className="flex items-center justify-between py-2 border-b border-orange-100">
+                    <View>
+                      <Text className="text-orange-800 text-sm">{p.target}</Text>
+                      <Text className="text-orange-600 text-xs">{p.purpose}</Text>
+                    </View>
+                    <View className="flex items-center gap-1">
+                      <Text className="text-orange-500 text-xs">{p.date}</Text>
+                      <View className="px-2 py-0.5 rounded-full" style={{ backgroundColor: p.status === '待执行' ? '#FEF3C7' : '#DBEAFE' }}>
+                        <Text className="text-xs" style={{ color: p.status === '待执行' ? '#D97706' : '#2563EB' }}>{p.status}</Text>
+                      </View>
+                    </View>
+                  </View>
+                ))}
+              </View>
+
+              {/* 线上营销矩阵 */}
+              <View className="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg p-3">
+                <Text className="text-red-700 text-sm font-bold mb-2">📱 线上营销矩阵对接</Text>
+                <View className="grid grid-cols-3 gap-2">
+                  <View className="bg-white rounded-lg p-2 text-center" onClick={() => Taro.showToast({ title: '抖音素材库：12条待发布', icon: 'none', duration: 2000 })}>
+                    <Text className="text-2xl">🎵</Text>
+                    <Text className="text-gray-700 text-xs font-bold">抖音</Text>
+                    <Text className="text-gray-400 text-xs">12条素材</Text>
+                  </View>
+                  <View className="bg-white rounded-lg p-2 text-center" onClick={() => Taro.showToast({ title: '小红书素材库：8篇待发布', icon: 'none', duration: 2000 })}>
+                    <Text className="text-2xl">📕</Text>
+                    <Text className="text-gray-700 text-xs font-bold">小红书</Text>
+                    <Text className="text-gray-400 text-xs">8篇素材</Text>
+                  </View>
+                  <View className="bg-white rounded-lg p-2 text-center" onClick={() => Taro.showToast({ title: '微信私域：3条群发待执行', icon: 'none', duration: 2000 })}>
+                    <Text className="text-2xl">💬</Text>
+                    <Text className="text-gray-700 text-xs font-bold">微信私域</Text>
+                    <Text className="text-gray-400 text-xs">3条待发</Text>
+                  </View>
+                </View>
+                <Text className="text-red-500 text-xs mt-2" style={{ lineHeight: '16px' }}>
+                  💡 素材来源：用户真实反馈 + 销冠走访视频 + 核心用户种草截图 + 新品品鉴会实录
+                </Text>
+              </View>
+            </View>
+
+            {/* 3D. 品牌复购率看板 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <TrendingUp size={16} color="#059669" />
+                <Text className="text-gray-800 font-bold ml-1">品牌复购率看板</Text>
+              </View>
+              <View className="grid grid-cols-2 gap-3 mb-3">
+                <View className="bg-green-50 rounded-lg p-3 text-center">
+                  <Text className="text-green-500 text-xs">月复购率</Text>
+                  <Text className="text-green-800 text-2xl font-bold">38.6%</Text>
+                  <Text className="text-green-600 text-xs">↑5.2% 较上月</Text>
+                </View>
+                <View className="bg-blue-50 rounded-lg p-3 text-center">
+                  <Text className="text-blue-500 text-xs">用户NPS</Text>
+                  <Text className="text-blue-800 text-2xl font-bold">72</Text>
+                  <Text className="text-blue-600 text-xs">净推荐值·优秀</Text>
+                </View>
+                <View className="bg-purple-50 rounded-lg p-3 text-center">
+                  <Text className="text-purple-500 text-xs">核心用户占比</Text>
+                  <Text className="text-purple-800 text-2xl font-bold">8.9%</Text>
+                  <Text className="text-purple-600 text-xs">23/268人</Text>
+                </View>
+                <View className="bg-yellow-50 rounded-lg p-3 text-center">
+                  <Text className="text-yellow-500 text-xs">正反馈率</Text>
+                  <Text className="text-yellow-800 text-2xl font-bold">91%</Text>
+                  <Text className="text-yellow-600 text-xs">38/42条好评</Text>
+                </View>
+              </View>
+              <View className="bg-green-50 rounded-lg p-3">
+                <Text className="text-green-700 text-sm font-bold mb-1">📈 复购提升建议</Text>
+                <Text className="text-green-600 text-xs" style={{ lineHeight: '18px' }}>
+                  · 沉默用户156人→推送1元小酒票唤醒，预计召回15%{'\n'}
+                  · 核心用户23人→每月新品品鉴+专属折扣锁定{'\n'}
+                  · 销冠代理走访→采集真实使用场景视频→抖音/小红书{'\n'}
+                  · 核销后24h自动推送评价→1元小酒票激励反馈{'\n'}
+                  · 目标：下月复购率突破45%
+                </Text>
+              </View>
+            </View>
+
           </View>
         )}
       </View>
