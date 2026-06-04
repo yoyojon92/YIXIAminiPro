@@ -88,15 +88,15 @@ export function WelcomeGiftModal() {
     return (
       <View className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
         <View className="absolute inset-0" onClick={handleClose} />
-        <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#1E293B' }}>
+        <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#FAF5FF' }}>
           <View className="pt-8 pb-6 px-5 text-center">
             <CheckCircle size={48} color="#22C55E" />
             <Text className="block text-xl font-bold text-white mt-4">赠饮已核销</Text>
             <Text className="block text-sm text-gray-400 mt-2">感谢您的支持，祝您品酒愉快！</Text>
           </View>
           <View className="p-5 pt-2">
-            <View className="rounded-xl bg-slate-800 py-3 text-center" onClick={handleClose}>
-              <Text className="text-gray-300 text-sm">关闭</Text>
+            <View className="rounded-xl bg-white py-3 text-center" onClick={handleClose}>
+              <Text className="text-gray-600 text-sm">关闭</Text>
             </View>
           </View>
         </View>
@@ -107,7 +107,7 @@ export function WelcomeGiftModal() {
   return (
     <View className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
       <View className="absolute inset-0" onClick={handleClose} />
-      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#1E293B' }}>
+      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#FAF5FF' }}>
         {/* 标题 */}
         <View className="pt-6 pb-3 px-5 text-center">
           <View className="flex items-center justify-center gap-2 mb-1">
@@ -132,12 +132,12 @@ export function WelcomeGiftModal() {
         {/* 步骤1：选酒 */}
         {step === 1 && (
           <View className="px-5 pb-4">
-            <Text className="text-sm text-gray-300 mb-3">选择你想要的赠饮（330ml老款）：</Text>
+            <Text className="text-sm text-gray-600 mb-3">选择你想要的赠饮（330ml老款）：</Text>
             <View className="">
               {wines.map(wine => {
                 const sel = selectedWineId === wine.id
                 return (
-                  <View key={wine.id} className={`p-3 rounded-xl border-2 flex items-center gap-3 ${sel ? 'border-amber-500 bg-amber-500 bg-opacity-10' : 'border-slate-700 bg-slate-800'}`} onClick={() => setSelectedWineId(wine.id)}>
+                  <View key={wine.id} className={`p-3 rounded-xl border-2 flex items-center gap-3 ${sel ? 'border-amber-500 bg-amber-500 bg-opacity-10' : 'border-purple-200 bg-white'}`} onClick={() => setSelectedWineId(wine.id)}>
                     {wine.product && <Image src={wine.product.images[0]} className="w-14 h-14 rounded-lg" mode="aspectFill" />}
                     <View className="flex-1">
                       <Text className="text-sm text-white font-medium">{wine.name}</Text>
@@ -159,10 +159,10 @@ export function WelcomeGiftModal() {
         {/* 步骤2：选领取方式 */}
         {step === 2 && (
           <View className="px-5 pb-4">
-            <Text className="text-sm text-gray-300 mb-3">选择领取方式：</Text>
+            <Text className="text-sm text-gray-600 mb-3">选择领取方式：</Text>
             <View className="">
               {/* 同城自提 */}
-              <View className={`p-4 rounded-xl border-2 ${selectedMode === 'pickup' ? 'border-green-500 bg-green-500 bg-opacity-10' : 'border-slate-700 bg-slate-800'}`} onClick={() => setSelectedMode('pickup')}>
+              <View className={`p-4 rounded-xl border-2 ${selectedMode === 'pickup' ? 'border-green-500 bg-green-500 bg-opacity-10' : 'border-purple-200 bg-white'}`} onClick={() => setSelectedMode('pickup')}>
                 <View className="flex items-center gap-3">
                   <View className="w-10 h-10 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center"><MapPin size={20} color="#22C55E" /></View>
                   <View className="flex-1">
@@ -174,7 +174,7 @@ export function WelcomeGiftModal() {
               </View>
 
               {/* 需要配送 */}
-              <View className={`p-4 rounded-xl border-2 ${selectedMode === 'delivery' ? 'border-purple-500 bg-purple-500 bg-opacity-10' : 'border-slate-700 bg-slate-800'}`} onClick={() => setSelectedMode('delivery')}>
+              <View className={`p-4 rounded-xl border-2 ${selectedMode === 'delivery' ? 'border-purple-500 bg-purple-500 bg-opacity-10' : 'border-purple-200 bg-white'}`} onClick={() => setSelectedMode('delivery')}>
                 <View className="flex items-center gap-3">
                   <View className="w-10 h-10 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center"><Truck size={20} color="#A855F7" /></View>
                   <View className="flex-1">
@@ -188,7 +188,7 @@ export function WelcomeGiftModal() {
               </View>
             </View>
             <View className="flex gap-3 mt-4">
-              <View className="flex-1 rounded-xl bg-slate-700 py-3 text-center" onClick={() => setStep(1)}><Text className="text-gray-300 text-sm">上一步</Text></View>
+              <View className="flex-1 rounded-xl bg-slate-700 py-3 text-center" onClick={() => setStep(1)}><Text className="text-gray-600 text-sm">上一步</Text></View>
               <View className="flex-1 rounded-xl overflow-hidden py-3 text-center" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24)' }} onClick={handleConfirmMode}><Text className="text-gray-900 font-semibold">确认</Text></View>
             </View>
           </View>
@@ -216,7 +216,7 @@ export function WelcomeGiftModal() {
                 <Text className="block text-xs text-gray-400 mt-3">到取货点出示此码，店员扫码核销后领取酒水</Text>
                 <Text className="block text-xs text-red-400 mt-1">⚠ 此码仅限使用一次，核销后即失效</Text>
               </View>
-              <View className="rounded-xl bg-slate-800 p-3 flex items-center justify-center gap-2" onClick={handleCopyCode}>
+              <View className="rounded-xl bg-white p-3 flex items-center justify-center gap-2" onClick={handleCopyCode}>
                 <Copy size={16} color="#FBBF24" />
                 <Text className="text-amber-400 text-sm">复制取货码</Text>
               </View>

@@ -53,7 +53,7 @@ export function TicketSelector() {
   return (
     <View className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
       <View className="absolute inset-0" onClick={() => setShowTicketModal(false)} />
-      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#1E293B' }}>
+      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#FAF5FF' }}>
         {/* 标题 */}
         <View className="pt-6 pb-4 px-5 text-center">
           <View className="flex items-center justify-center gap-2 mb-2">
@@ -66,7 +66,7 @@ export function TicketSelector() {
 
         {/* 老款酒选择 */}
         <View className="px-5 pb-4">
-          <Text className="text-sm text-gray-300 mb-3">选一款老款酒（330ml）：</Text>
+          <Text className="text-sm text-gray-600 mb-3">选一款老款酒（330ml）：</Text>
           <View className="">
             {wines.map((wine) => {
               const isSelected = selectedWineId === wine.id
@@ -77,7 +77,7 @@ export function TicketSelector() {
                   className={`p-3 rounded-xl border-2 flex items-center gap-3 ${
                     isSelected ? 'border-purple-500 bg-purple-500 bg-opacity-10'
                     : isClaimed ? 'border-green-500 bg-green-500 bg-opacity-10'
-                    : 'border-slate-700 bg-slate-800'
+                    : 'border-purple-200 bg-white'
                   }`}
                   onClick={() => !isClaimed && setSelectedWineId(wine.id)}
                 >

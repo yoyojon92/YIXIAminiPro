@@ -68,7 +68,7 @@ export default function StatsPage() {
       </View>
       
       {/* 画像摘要 */}
-      <View className="mx-4 mb-4 p-4 rounded-2xl bg-slate-800 border border-slate-700" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+      <View className="mx-4 mb-4 p-4 rounded-2xl bg-white border border-purple-200" style={{ backgroundColor: '#F3E8FF' }}>
         <Text className="block text-sm text-gray-400 mb-2">📝 画像摘要</Text>
         <Text className="block text-base text-white leading-relaxed">{profile.summary}</Text>
       </View>
@@ -78,7 +78,7 @@ export default function StatsPage() {
         <Text className="block text-lg font-bold text-white mb-4">🏷️ 我的标签</Text>
         
         {tagsByCategory.length === 0 ? (
-          <View className="p-6 rounded-2xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-6 rounded-2xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-4xl mb-2">🌱</Text>
             <Text className="block text-gray-400">暂无标签</Text>
             <Text className="block text-sm text-gray-500 mt-1">去体验更多功能，解锁专属标签~</Text>
@@ -116,37 +116,37 @@ export default function StatsPage() {
         <Text className="block text-lg font-bold text-white mb-4">📊 行为数据</Text>
         
         <View className="grid grid-cols-3 gap-3">
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">🛒</Text>
             <Text className="block text-xl font-bold text-white">{actions.purchases.length}</Text>
             <Text className="block text-xs text-gray-400">购买</Text>
           </View>
           
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">✏️</Text>
             <Text className="block text-xl font-bold text-white">{actions.ugcPosts.length}</Text>
             <Text className="block text-xs text-gray-400">投稿</Text>
           </View>
           
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">🗳️</Text>
             <Text className="block text-xl font-bold text-white">{actions.votes.length}</Text>
             <Text className="block text-xs text-gray-400">投票</Text>
           </View>
           
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">🔗</Text>
             <Text className="block text-xl font-bold text-white">{actions.shares.length}</Text>
             <Text className="block text-xs text-gray-400">分享</Text>
           </View>
           
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">🎫</Text>
             <Text className="block text-xl font-bold text-white">{actions.couponUses}</Text>
             <Text className="block text-xs text-gray-400">用券</Text>
           </View>
           
-          <View className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-center" style={{ backgroundColor: 'rgba(30, 41, 59, 0.5)' }}>
+          <View className="p-3 rounded-xl bg-white border border-purple-200 text-center" style={{ backgroundColor: '#F3E8FF' }}>
             <Text className="block text-2xl mb-1">💰</Text>
             <Text className="block text-xl font-bold text-white">{actions.totalSpend.toFixed(0)}</Text>
             <Text className="block text-xs text-gray-400">消费</Text>

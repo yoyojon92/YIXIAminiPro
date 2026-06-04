@@ -146,7 +146,7 @@ export default function Category() {
               ) : (
                 <View>
                   {/* 入会赠饮 */}
-                  <View className="rounded-xl bg-slate-800 p-4 flex items-center gap-3 mb-3"
+                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
                     onClick={() => { if (!welcomeGiftClaimed) setShowWelcomeGiftModal(true) }}>
                     <View className="w-10 h-10 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center"><Gift size={20} color="#A855F7" /></View>
                     <View className="flex-1">
@@ -156,7 +156,7 @@ export default function Category() {
                     {!welcomeGiftClaimed && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
                   </View>
                   {/* 1元小酒票 */}
-                  <View className="rounded-xl bg-slate-800 p-4 flex items-center gap-3 mb-3"
+                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
                     onClick={() => { if (canClaimTicket()) setShowTicketModal(true) }}>
                     <View className="w-10 h-10 rounded-lg bg-amber-500 bg-opacity-20 flex items-center justify-center"><Ticket size={20} color="#FBBF24" /></View>
                     <View className="flex-1">
@@ -166,7 +166,7 @@ export default function Category() {
                     {canClaimTicket() && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
                   </View>
                   {/* 每周特价 */}
-                  <View className="rounded-xl bg-slate-800 p-4 flex items-center gap-3 mb-3">
+                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3">
                     <View className="w-10 h-10 rounded-lg bg-red-500 bg-opacity-20 flex items-center justify-center"><Zap size={20} color="#F87171" /></View>
                     <View className="flex-1">
                       <Text className="text-white font-medium">每周特价¥9.9</Text>
@@ -177,7 +177,7 @@ export default function Category() {
               )}
 
               {/* 会员权益说明 */}
-              <View className="rounded-xl bg-slate-800 p-4">
+              <View className="rounded-xl bg-white p-4">
                 <Text className="text-sm text-amber-400 font-medium mb-2">创始会员权益</Text>
                 {['入会赠饮1瓶（老款3选1，自提免运费）', '每月1元小酒票（当月不领失效不累加）', '每周特价¥9.9（老款果酒）', '生日礼遇（全场9折可叠加）'].map((b, i) => (
                   <View key={i} className="flex items-center gap-2 mt-2">

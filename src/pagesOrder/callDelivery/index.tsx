@@ -70,7 +70,7 @@ export default function CallDeliveryPage() {
   }
 
   return (
-    <View className="min-h-screen bg-slate-900">
+    <View className="min-h-screen bg-purple-50">
       {/* 顶部 */}
       <View className="bg-gradient-to-r from-purple-600 to-violet-600 px-4 pt-4 pb-6">
         <View className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export default function CallDeliveryPage() {
 
       <View className="px-4 pt-4">
         {/* 自提点信息 */}
-        <View className="bg-slate-800 rounded-2xl p-4 mb-4">
+        <View className="bg-white rounded-2xl p-4 mb-4">
           <View className="flex items-center gap-2 mb-3">
             <MapPin size={16} color="#A855F7" />
             <Text className="text-sm text-purple-400 font-medium">发货地址</Text>
@@ -141,7 +141,7 @@ export default function CallDeliveryPage() {
         </View>
 
         {/* 提示 */}
-        <View className="mt-4 mb-6 bg-slate-800 rounded-xl p-3">
+        <View className="mt-4 mb-6 bg-white rounded-xl p-3">
           <View className="flex items-start gap-2">
             <Shield size={14} color="#9CA3AF" />
             <Text className="text-xs text-gray-400">提示：呼叫配送员后，将酒水交给骑手并告知收货地址。配送费由客户承担，具体费用以平台实际报价为准。</Text>

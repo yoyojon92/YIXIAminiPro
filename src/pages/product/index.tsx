@@ -402,7 +402,7 @@ export default function Product() {
         {showOrganLord && (() => {
           const lord = getOrganLordByProduct(product?.id)
           return lord ? (
-            <View className="bg-gray-900 px-4 py-4 mt-2">
+            <View className="bg-purple-50 px-4 py-4 mt-2">
               <View className="flex items-center gap-2 mb-3">
                 <Text className="text-amber-400 text-lg font-bold">🏛️ 藏府君说养生</Text>
               </View>

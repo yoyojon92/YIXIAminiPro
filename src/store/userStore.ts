@@ -41,6 +41,8 @@ interface UserState {
   
   // 微信登录
   loginWithWechat: () => Promise<void>
+  // 管理员口令激活
+  activateAdmin: (code: string) => boolean
 }
 
 export const useUserStore = create<UserState>()(
@@ -77,6 +79,17 @@ export const useUserStore = create<UserState>()(
       joinMember: () => {
         const expire = Date.now() + 30 * 24 * 60 * 60 * 1000 // 30天后
         set({ isMember: true, memberExpire: expire })
+      },
+      
+      // 管理员口令激活
+      activateAdmin: (code: string) => {
+        if (code === 'yixia2026') {
+          set((state) => ({
+            userInfo: state.userInfo ? { ...state.userInfo, role: 'super_admin' } : null
+          }))
+          return true
+        }
+        return false
       },
       
       // 微信登录 - 实际需要调用 wx.login 获取 code

@@ -18,7 +18,7 @@ export default function Membership() {
   const remainingDays = getRemainingDays()
 
   return (
-    <View className="min-h-screen bg-gray-50 pb-safe">
+    <View className="min-h-screen bg-purple-50 pb-safe">
       <View className="bg-gradient-to-br from-purple-500 to-pink-500 px-4 pt-6 pb-12">
         <View className="flex items-center justify-center mb-4">
           <View className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
@@ -27,7 +27,7 @@ export default function Membership() {
         </View>
         <Text className="text-white text-2xl font-bold text-center block">邑夏创始会员</Text>
         <Text className="text-white text-opacity-70 text-sm text-center block mt-2">
-          {isMember ? `剩余${remainingDays}天 · 到期${memberExpire ? new Date(memberExpire).toLocaleDateString() : ''}` : '¥9.9 · 有效期至2026.12.31'}
+          {isMember ? `有效期至2026.12.31` : '¥9.9 · 有效期至2026.12.31'}
         </Text>
         {!isMember && (
           <View className="flex justify-center mt-4">
@@ -51,7 +51,7 @@ export default function Membership() {
         <Card>
           <CardContent className="p-0">
             <View className="p-4 border-b border-gray-100">
-              <Text className="text-lg font-semibold text-gray-900">月卡会员权益</Text>
+              <Text className="text-lg font-semibold text-gray-900">创始会员权益</Text>
             </View>
             {MEMBER_BENEFITS.map((benefit, index) => {
               const Icon = benefit.icon
@@ -79,9 +79,10 @@ export default function Membership() {
         <Card>
           <CardContent className="p-4">
             <Text className="text-sm font-medium text-gray-900 block mb-2">会员须知</Text>
-            <Text className="text-xs text-gray-500 block">· 创始会员有效期为30天，到期后自动失效，无需续费</Text>
-            <Text className="text-xs text-gray-500 block">· 免配送费权益每月4次，次月重置</Text>
-            <Text className="text-xs text-gray-500 block">· 9折优惠与优惠券不可叠加使用</Text>
+            <Text className="text-xs text-gray-500 block">· 创始会员有效期至2026年12月31日</Text>
+            <Text className="text-xs text-gray-500 block">· 首单0元送酒为一次性权益，核销后不可重复领取</Text>
+            <Text className="text-xs text-gray-500 block">· 每月1元加购当月不领自动失效，不累加不折现</Text>
+            <Text className="text-xs text-gray-500 block">· 生日9折全年仅1次，需完善个人信息后解锁</Text>
             <Text className="text-xs text-gray-500 block">· 会员权益仅限本人使用，不可转让</Text>
           </CardContent>
         </Card>

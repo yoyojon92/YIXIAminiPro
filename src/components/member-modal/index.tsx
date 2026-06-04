@@ -58,7 +58,7 @@ export function MemberModal() {
   return (
     <View className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
       <View className="absolute inset-0" onClick={() => setShowMemberModal(false)} />
-      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#1E293B' }}>
+      <View className="relative w-11/12 max-w-sm rounded-3xl overflow-hidden" style={{ backgroundColor: '#FAF5FF' }}>
         {/* 头部 */}
         <View className="pt-6 pb-4 px-5 text-center">
           <Text className="block text-2xl font-bold" style={{ color: '#FBBF24' }}>👑 9.9创始会员</Text>
@@ -73,7 +73,7 @@ export function MemberModal() {
               <View style={{ flex: 1 }}>
                 <View style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Text style={{ fontSize: '16px' }}>🎁</Text>
-                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#fff' }}>首单0元送酒</Text>
+                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>首单0元送酒</Text>
                 </View>
                 <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px', display: 'block' }}>
                   老款果酒3选1，自提核销或配送
@@ -93,7 +93,7 @@ export function MemberModal() {
               <View style={{ flex: 1 }}>
                 <View style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Text style={{ fontSize: '16px' }}>🎫</Text>
-                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#fff' }}>每月1元加购</Text>
+                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>每月1元加购</Text>
                 </View>
                 <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px', display: 'block' }}>
                   三种特价老款酒3选1，当月不领失效
@@ -131,7 +131,7 @@ export function MemberModal() {
           {/* 生日礼遇 */}
           <View style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px' }}>
             <Text style={{ fontSize: '16px' }}>🎂</Text>
-            <Text style={{ fontSize: '14px', color: '#fff', flex: 1 }}>生日全场9折（全年1次·需完善信息）</Text>
+            <Text style={{ fontSize: '14px', color: '#1F2937', flex: 1 }}>生日全场9折（全年1次·需完善信息）</Text>
           </View>
         </View>
 

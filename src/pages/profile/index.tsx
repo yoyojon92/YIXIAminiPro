@@ -23,6 +23,9 @@ import {
 
 export default function Profile() {
   const [showRegister, setShowRegister] = useState(false)
+  const [adminTapCount, setAdminTapCount] = useState(0)
+  const [showAdminInput, setShowAdminInput] = useState(false)
+  const [adminCode, setAdminCode] = useState('')
   
   const { isMember, memberLevel, memberExpire, setShowMemberModal, getRemainingDays, renewMember } = useMemberStore()
   const { getUnusedCoupons } = useCouponStore()
@@ -35,6 +38,26 @@ export default function Profile() {
   const { tags } = profileStore
   
   const isAdmin = userStore.userInfo?.role === 'super_admin'
+  
+  const handleAdminTap = () => {
+    if (isAdmin) return
+    const newCount = adminTapCount + 1
+    setAdminTapCount(newCount)
+    if (newCount >= 5) {
+      setShowAdminInput(true)
+      setAdminTapCount(0)
+    }
+  }
+
+  const handleAdminActivate = () => {
+    if (userStore.activateAdmin(adminCode)) {
+      Taro.showToast({ title: '管理员已激活', icon: 'success' })
+      setShowAdminInput(false)
+      setAdminCode('')
+    } else {
+      Taro.showToast({ title: '口令错误', icon: 'error' })
+    }
+  }
   const { isDealer, dealerLevel, referralCount, availableCommission, getDealerLevelName } = dealerStore
   const { isAgent, todayCommission, todayOrderCount, getAgentLevelName } = dealerStore
   
@@ -376,13 +399,43 @@ export default function Profile() {
         </View>
       )}
 
+      {/* 版本号-隐藏管理员入口 */}
+      <View className="text-center mt-4 mb-2" onClick={handleAdminTap}>
+        <Text className="text-xs text-gray-400">邑夏 V2.0</Text>
+      </View>
+
       {/* 退出登录 */}
-      <View className="px-4 mt-6 mb-6">
+      <View className="px-4 mt-2 mb-6">
         <Button variant="outline" className="w-full text-gray-700 border-purple-200" onClick={() => Taro.showToast({ title: '功能开发中', icon: 'none' })}>
           <LogOut size={18} color="#6B7280" />
           <Text>退出登录</Text>
         </Button>
       </View>
+
+      {/* 管理员口令弹窗 */}
+      {showAdminInput && (
+        <View className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View className="absolute inset-0" onClick={() => setShowAdminInput(false)} />
+          <View className="relative w-4/5 bg-white rounded-2xl p-6">
+            <Text className="text-lg font-bold text-gray-900 block text-center mb-4">管理员口令</Text>
+            <View className="bg-purple-50 rounded-xl px-4 py-3 mb-4">
+              <input
+                type="text"
+                placeholder="请输入管理员口令"
+                value={adminCode}
+                onInput={(e) => setAdminCode((e as any).detail.value || '')}
+                className="w-full bg-transparent text-gray-900 text-sm outline-none"
+              />
+            </View>
+            <View className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl py-3 text-center" onClick={handleAdminActivate}>
+              <Text className="text-white font-bold">确认激活</Text>
+            </View>
+            <View className="text-center mt-3" onClick={() => setShowAdminInput(false)}>
+              <Text className="text-sm text-gray-400">取消</Text>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   )
 }

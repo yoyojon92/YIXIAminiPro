@@ -72,7 +72,7 @@ export default function RedeemPage() {
   }
 
   return (
-    <View className="min-h-screen bg-slate-900 flex flex-col">
+    <View className="min-h-screen bg-purple-50 flex flex-col">
       {/* 顶部 */}
       <View className="bg-gradient-to-r from-purple-600 to-violet-600 px-4 pt-4 pb-6">
         <View className="flex items-center gap-2">
@@ -85,7 +85,7 @@ export default function RedeemPage() {
       <View className="flex-1 px-4 pt-6">
         {result === 'idle' && (
           <View className="text-center">
-            <View className="w-32 h-32 mx-auto bg-slate-800 rounded-3xl flex items-center justify-center mb-6">
+            <View className="w-32 h-32 mx-auto bg-white rounded-3xl flex items-center justify-center mb-6">
               <ScanLine size={56} color="#A855F7" />
             </View>
             <Text className="text-lg text-white font-medium mb-2">扫描客户取货码</Text>
@@ -93,7 +93,7 @@ export default function RedeemPage() {
             <View className="rounded-xl overflow-hidden py-4 text-center mb-4" style={{ background: 'linear-gradient(135deg, #8B5CF6, #A855F7)' }} onClick={handleScan}>
               <Text className="text-white font-semibold text-lg">扫一扫</Text>
             </View>
-            <View className="rounded-xl bg-slate-800 py-3 text-center" onClick={handleManualInput}>
+            <View className="rounded-xl bg-white py-3 text-center" onClick={handleManualInput}>
               <Text className="text-purple-400 text-sm">手动输入取货码</Text>
             </View>
           </View>
@@ -107,8 +107,8 @@ export default function RedeemPage() {
             <Text className="text-2xl font-bold text-white mb-2">核销成功</Text>
             <Text className="text-sm text-gray-400 mb-1">取货码：{scannedCode}</Text>
             <Text className="text-sm text-green-400">可以交付酒水了</Text>
-            <View className="mt-8 rounded-xl bg-slate-800 py-3 text-center" onClick={resetState}>
-              <Text className="text-gray-300 text-sm">继续核销</Text>
+            <View className="mt-8 rounded-xl bg-white py-3 text-center" onClick={resetState}>
+              <Text className="text-gray-600 text-sm">继续核销</Text>
             </View>
           </View>
         )}
@@ -121,8 +121,8 @@ export default function RedeemPage() {
             <Text className="text-2xl font-bold text-white mb-2">核销失败</Text>
             <Text className="text-sm text-gray-400 mb-1">取货码：{scannedCode}</Text>
             <Text className="text-sm text-red-400">无效的取货码，请确认后重试</Text>
-            <View className="mt-8 rounded-xl bg-slate-800 py-3 text-center" onClick={resetState}>
-              <Text className="text-gray-300 text-sm">重新扫码</Text>
+            <View className="mt-8 rounded-xl bg-white py-3 text-center" onClick={resetState}>
+              <Text className="text-gray-600 text-sm">重新扫码</Text>
             </View>
           </View>
         )}
@@ -135,8 +135,8 @@ export default function RedeemPage() {
             <Text className="text-2xl font-bold text-white mb-2">已核销</Text>
             <Text className="text-sm text-gray-400 mb-1">取货码：{scannedCode}</Text>
             <Text className="text-sm text-amber-400">此取货码已使用过，不可重复核销</Text>
-            <View className="mt-8 rounded-xl bg-slate-800 py-3 text-center" onClick={resetState}>
-              <Text className="text-gray-300 text-sm">重新扫码</Text>
+            <View className="mt-8 rounded-xl bg-white py-3 text-center" onClick={resetState}>
+              <Text className="text-gray-600 text-sm">重新扫码</Text>
             </View>
           </View>
         )}

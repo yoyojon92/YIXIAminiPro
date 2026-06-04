@@ -29,9 +29,9 @@ export default function Dashboard() {
   const maxSales = stats?.topProducts[0]?.sales || 1
 
   return (
-    <ScrollView className="min-h-screen bg-slate-900" scrollY>
+    <ScrollView className="min-h-screen bg-purple-50" scrollY>
       {/* 顶部标题 */}
-      <View className="sticky top-0 z-10 bg-slate-900 px-4 py-3 flex items-center justify-between border-b border-slate-800">
+      <View className="sticky top-0 z-10 bg-purple-50 px-4 py-3 flex items-center justify-between border-b border-purple-200">
         <Text className="block text-lg font-bold text-white">数据看板</Text>
         <View className="flex gap-2">
           {(['today', 'week', 'month'] as const).map(range => (
@@ -41,7 +41,7 @@ export default function Dashboard() {
               className={`px-3 py-1 rounded-full text-xs ${
                 dateRange === range
                   ? 'bg-purple-500 text-white'
-                  : 'bg-slate-800 text-gray-300'
+                  : 'bg-white text-gray-600'
               }`}
             >
               <Text className="block text-xs">{range === 'today' ? '今日' : range === 'week' ? '本周' : '本月'}</Text>
@@ -54,40 +54,40 @@ export default function Dashboard() {
         {/* 核心指标卡片 */}
         <View className="grid grid-cols-2 gap-3">
           {/* 今日订单 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <ShoppingBag size={16} color="#10B981" />
-              <Text className="block text-xs text-gray-300">今日订单</Text>
+              <Text className="block text-xs text-gray-600">今日订单</Text>
             </View>
             <Text className="block text-2xl font-bold text-green-400">{stats?.todayOrders || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">金额 ¥{stats?.todayRevenue?.toFixed(2) || '0.00'}</Text>
           </View>
 
           {/* 活跃用户 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <Users size={16} color="#3B82F6" />
-              <Text className="block text-xs text-gray-300">活跃用户</Text>
+              <Text className="block text-xs text-gray-600">活跃用户</Text>
             </View>
             <Text className="block text-2xl font-bold text-blue-400">{stats?.activeUsersToday || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">新增 {stats?.newUsersToday || 0} 人</Text>
           </View>
 
           {/* 会员数 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <Award size={16} color="#FBBF24" />
-              <Text className="block text-xs text-gray-300">会员数</Text>
+              <Text className="block text-xs text-gray-600">会员数</Text>
             </View>
             <Text className="block text-2xl font-bold text-yellow-400">{stats?.memberCount || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">占比 {stats?.memberRate?.toFixed(1) || 0}%</Text>
           </View>
 
           {/* UGC投稿 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <FileText size={16} color="#8B5CF6" />
-              <Text className="block text-xs text-gray-300">UGC投稿</Text>
+              <Text className="block text-xs text-gray-600">UGC投稿</Text>
             </View>
             <Text className="block text-2xl font-bold text-purple-400">{stats?.totalUGCWorks || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">今日投票 {stats?.todayVotes || 0}</Text>
@@ -95,7 +95,7 @@ export default function Dashboard() {
         </View>
 
         {/* 产品销量排行 */}
-        <View className="bg-slate-800 rounded-xl p-4">
+        <View className="bg-white rounded-xl p-4">
           <View className="flex items-center gap-2 mb-3">
             <LayoutDashboard size={16} color="#EC4899" />
             <Text className="block text-sm font-semibold text-white">产品销量排行</Text>
@@ -107,7 +107,7 @@ export default function Dashboard() {
                 <View className="flex-1">
                   <View className="flex justify-between mb-1">
                     <Text className="block text-sm text-white">{product.name}</Text>
-                    <Text className="block text-xs text-gray-300">{product.sales}件</Text>
+                    <Text className="block text-xs text-gray-600">{product.sales}件</Text>
                   </View>
                   <View className="h-2 bg-slate-700 rounded-full overflow-hidden">
                     <View
@@ -122,7 +122,7 @@ export default function Dashboard() {
         </View>
 
         {/* 创意墙热门作品 */}
-        <View className="bg-slate-800 rounded-xl p-4">
+        <View className="bg-white rounded-xl p-4">
           <View className="flex items-center gap-2 mb-3">
             <TrendingUp size={16} color="#F59E0B" />
             <Text className="block text-sm font-semibold text-white">创意墙热门作品</Text>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                 </Text>
                 <View className="flex-1">
                   <Text className="block text-sm text-white">{work.title}</Text>
-                  <Text className="block text-xs text-gray-300">@{work.author}</Text>
+                  <Text className="block text-xs text-gray-600">@{work.author}</Text>
                 </View>
                 <View className="text-right">
                   <Text className="block text-sm font-semibold text-yellow-400">{work.votes}</Text>
@@ -149,10 +149,10 @@ export default function Dashboard() {
         {/* 推送效果 + 代券统计 */}
         <View className="grid grid-cols-2 gap-3">
           {/* 推送效果 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <Bell size={16} color="#06B6D4" />
-              <Text className="block text-xs text-gray-300">推送效果</Text>
+              <Text className="block text-xs text-gray-600">推送效果</Text>
             </View>
             <Text className="block text-xl font-bold text-cyan-400">{stats?.totalPushes || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">发送数</Text>
@@ -163,10 +163,10 @@ export default function Dashboard() {
           </View>
 
           {/* 代券统计 */}
-          <View className="bg-slate-800 rounded-xl p-4">
+          <View className="bg-white rounded-xl p-4">
             <View className="flex items-center gap-2 mb-2">
               <Ticket size={16} color="#10B981" />
-              <Text className="block text-xs text-gray-300">代券统计</Text>
+              <Text className="block text-xs text-gray-600">代券统计</Text>
             </View>
             <Text className="block text-xl font-bold text-green-400">{stats?.totalCouponsIssued || 0}</Text>
             <Text className="block text-xs text-gray-400 mt-1">发放数</Text>
@@ -178,7 +178,7 @@ export default function Dashboard() {
         </View>
 
         {/* 用户标签分布 */}
-        <View className="bg-slate-800 rounded-xl p-4">
+        <View className="bg-white rounded-xl p-4">
           <View className="flex items-center gap-2 mb-3">
             <Award size={16} color="#8B5CF6" />
             <Text className="block text-sm font-semibold text-white">用户标签分布</Text>
@@ -198,7 +198,7 @@ export default function Dashboard() {
         </View>
 
         {/* 汇总数据 */}
-        <View className="bg-slate-800 rounded-xl p-4">
+        <View className="bg-white rounded-xl p-4">
           <Text className="block text-sm font-semibold text-white mb-3">数据汇总</Text>
           <View className="grid grid-cols-3 gap-4 text-center">
             <View>
