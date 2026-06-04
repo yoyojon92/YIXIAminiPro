@@ -8,9 +8,9 @@ import { Crown, Sparkles, Tag, Gift, ChevronRight } from 'lucide-react-taro'
 import { useMemberStore } from '@/store/memberStore'
 
 const MEMBER_BENEFITS = [
-  { icon: Gift, title: '首单0元送酒', desc: '老款果酒3选1，自提核销' },
-  { icon: Tag, title: '每月1元加购', desc: '三种老款酒3选1，当月不领失效' },
-  { icon: Gift, title: '生日礼遇', desc: '全场9折，全年1次' },
+  { icon: Gift, title: '首单0元送酒', desc: '经典款果酒3选1，自提核销', action: 'welcome' },
+  { icon: Tag, title: '每月1元加购', desc: '经典款果酒3选1，当月不领失效', action: 'ticket' },
+  { icon: Gift, title: '生日礼遇', desc: '全场9折，全年1次', action: 'birthday' },
 ]
 
 export default function Membership() {
@@ -57,7 +57,15 @@ export default function Membership() {
               const Icon = benefit.icon
               return (
                 <View key={index}>
-                  <View className="flex items-center gap-4 p-4">
+                  <View className="flex items-center gap-4 p-4" onClick={() => {
+                    if (benefit.action === 'welcome') {
+                      Taro.navigateTo({ url: '/pagesOrder/redeem/index' })
+                    } else if (benefit.action === 'ticket') {
+                      useMemberStore.getState().setShowTicketModal(true)
+                    } else if (benefit.action === 'birthday') {
+                      Taro.navigateTo({ url: '/pagesMember/profile/index' })
+                    }
+                  }}>
                     <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
                       <Icon size={20} color="#8B5CF6" />
                     </View>
@@ -80,8 +88,8 @@ export default function Membership() {
           <CardContent className="p-4">
             <Text className="text-sm font-medium text-gray-900 block mb-2">会员须知</Text>
             <Text className="text-xs text-gray-500 block">· 创始会员有效期至2026年12月31日</Text>
-            <Text className="text-xs text-gray-500 block">· 首单0元送酒为一次性权益，核销后不可重复领取</Text>
-            <Text className="text-xs text-gray-500 block">· 每月1元加购当月不领自动失效，不累加不折现</Text>
+            <Text className="text-xs text-gray-500 block">· 首单0元送酒（经典款果酒3选1），一次性权益</Text>
+            <Text className="text-xs text-gray-500 block">· 每月1元小酒票（经典款果酒3选1仅¥1），当月不领失效</Text>
             <Text className="text-xs text-gray-500 block">· 生日9折全年仅1次，需完善个人信息后解锁</Text>
             <Text className="text-xs text-gray-500 block">· 会员权益仅限本人使用，不可转让</Text>
           </CardContent>

@@ -114,7 +114,7 @@ export function WelcomeGiftModal() {
             <Gift size={22} color="#FBBF24" />
             <Text className="text-xl font-bold text-white">入会赠饮</Text>
           </View>
-          <Text className="text-sm text-gray-400">开通创始会员，赠送1瓶老款果酒</Text>
+          <Text className="text-sm text-gray-400">开通创始会员，赠送1瓶经典款果酒</Text>
         </View>
 
         {/* 步骤指示器 */}
@@ -132,7 +132,7 @@ export function WelcomeGiftModal() {
         {/* 步骤1：选酒 */}
         {step === 1 && (
           <View className="px-5 pb-4">
-            <Text className="text-sm text-gray-600 mb-3">选择你想要的赠饮（330ml老款）：</Text>
+            <Text className="text-sm text-gray-600 mb-3">选择你想要的赠饮（经典款330ml）：</Text>
             <View className="">
               {wines.map(wine => {
                 const sel = selectedWineId === wine.id

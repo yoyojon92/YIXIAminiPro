@@ -153,7 +153,7 @@ export default function Index() {
           <View className="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0"><Gift size={20} color="white" /></View>
           <View className="flex-1">
             <Text className="text-sm font-medium text-purple-300">你的入会赠饮未领取</Text>
-            <Text className="text-xs text-purple-400 mt-1">选1瓶老款果酒，自提免运费</Text>
+            <Text className="text-xs text-purple-400 mt-1">选1瓶经典款果酒，自提免运费</Text>
           </View>
           <ChevronRight size={18} color="#A855F7" />
         </View>
@@ -164,7 +164,7 @@ export default function Index() {
           <View className="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0"><Ticket size={20} color="white" /></View>
           <View className="flex-1">
             <Text className="text-sm font-medium text-amber-300">你的1元小酒票未领取</Text>
-            <Text className="text-xs text-amber-400 mt-1">点击领取，3种老款酒3选1</Text>
+            <Text className="text-xs text-amber-400 mt-1">点击领取，经典款果酒3选1</Text>
           </View>
           <ChevronRight size={18} color="#FBBF24" />
         </View>

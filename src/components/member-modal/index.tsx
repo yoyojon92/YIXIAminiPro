@@ -76,7 +76,7 @@ export function MemberModal() {
                   <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>首单0元送酒</Text>
                 </View>
                 <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px', display: 'block' }}>
-                  老款果酒3选1，自提核销或配送
+                  经典款果酒3选1，自提核销或配送
                 </Text>
               </View>
               <View style={{ backgroundColor: welcomeGiftClaimed ? 'rgba(107,114,128,0.2)' : 'rgba(251,191,36,0.15)', borderRadius: '8px', padding: '4px 10px' }}>
@@ -96,7 +96,7 @@ export function MemberModal() {
                   <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>每月1元加购</Text>
                 </View>
                 <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px', display: 'block' }}>
-                  三种特价老款酒3选1，当月不领失效
+                  经典款果酒3选1仅¥1，当月不领失效
                 </Text>
               </View>
               <View style={{ backgroundColor: ticketUsedThisMonth || !isMember ? 'rgba(107,114,128,0.2)' : 'rgba(251,191,36,0.15)', borderRadius: '8px', padding: '4px 10px' }}>

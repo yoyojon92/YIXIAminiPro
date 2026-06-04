@@ -64,9 +64,9 @@ export function TicketSelector() {
           <Text className="text-xs text-gray-500 mt-1">自提无门槛 | 同城满50 | 非同城满30</Text>
         </View>
 
-        {/* 老款酒选择 */}
+        {/* 经典款果酒选择 */}
         <View className="px-5 pb-4">
-          <Text className="text-sm text-gray-600 mb-3">选一款老款酒（330ml）：</Text>
+          <Text className="text-sm text-gray-600 mb-3">选一款经典款果酒（330ml）：</Text>
           <View className="">
             {wines.map((wine) => {
               const isSelected = selectedWineId === wine.id

@@ -5,7 +5,7 @@ import { taroStorage } from './taroStorage'
 
 type MemberLevel = 'trial' | 'founding' // 9.9创始会员
 
-/** 1元小酒票可选商品ID（老款330ml） */
+/** 1元小酒票可选商品ID（经典款330ml） */
 export const TICKET_WINE_IDS = [
   'prod_hawthorn_old',      // 沂蒙山楂酒
   'prod_hawthorn_oolong_old', // 山楂乌龙酒
@@ -26,7 +26,7 @@ interface MemberState {
 
   // 1元小酒票
   ticketClaimedMonth: string | null // 格式 '2026-06'，当月已领
-  ticketSelectedWine: string | null // 当月选的老款酒ID
+  ticketSelectedWine: string | null // 当月选的经典款酒ID
   showTicketModal: boolean         // 小酒票弹窗
 
   // 入会赠饮
@@ -242,17 +242,17 @@ export const useMemberStore = create<MemberState>()(
         const { isMember } = get()
         if (!isMember) {
           return [
-            '入会赠饮1瓶（老款果酒3选1）',
-            '每月1元小酒票（3种老款酒3选1，当月不领失效）',
-            '每周特价9.9元（老款果酒）',
-            '首单0元送酒（老款果酒3选1）',
-            '每月1元加购（3种特价老款酒3选1）',
+            '入会赠饮1瓶（经典款果酒3选1）',
+            '每月1元小酒票（3种经典款酒3选1，当月不领失效）',
+            '每周特价9.9元（经典款果酒）',
+            '首单0元送酒（经典款果酒3选1）',
+            '每月1元加购（3种特价经典款酒3选1）',
             '生日礼遇（全年1次，需完善个人信息）',
           ]
         }
         return [
-          '首单0元送酒（老款果酒3选1）',
-          '每月1元加购（3种特价老款酒3选1）',
+          '首单0元送酒（经典款果酒3选1）',
+          '每月1元加购（3种特价经典款酒3选1）',
           '生日全场9折（全年1次，需完善个人信息）',
         ]
       },

@@ -20,7 +20,7 @@ const PRODUCT_IMAGES: Record<string, string> = {
   // 礼盒产品图（暂用果汁图占位）
   gift_juice_box: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products/yixia-gift/gift-juice-box.webp',
   gift_wine_box: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products/yixia-gift/gift-wine-box.webp',
-  // 老款果酒产品图
+  // 经典款果酒产品图
   prod_pomelo_old: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products/yixia-old/01-you-zi-jiu.webp',
   prod_hawthorn_old: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products/yixia-old/02-yi-meng-shan-zha-jiu.webp',
   prod_hawthorn_oolong_old: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products/yixia-old/03-shan-zha-wu-long-jiu.webp',

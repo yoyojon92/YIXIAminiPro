@@ -170,7 +170,7 @@ export default function Category() {
                     <View className="w-10 h-10 rounded-lg bg-red-500 bg-opacity-20 flex items-center justify-center"><Zap size={20} color="#F87171" /></View>
                     <View className="flex-1">
                       <Text className="text-white font-medium">每周特价¥9.9</Text>
-                      <Text className="text-xs text-gray-400 mt-1">老款果酒限时特惠</Text>
+                      <Text className="text-xs text-gray-400 mt-1">经典款果酒限时特惠</Text>
                     </View>
                   </View>
                 </View>
