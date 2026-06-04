@@ -11,7 +11,7 @@ import { useUserProfileStore } from '@/store/userProfileStore'
 import { trackProfileAction } from '@/store/profileStore'
 import { usePushStore } from '@/store/pushStore'
 import { useUserStore } from '@/store/userStore'
-import { useDealerStore } from '@/store/dealerStore'
+import { useDealerStore, AGENT_LEVEL_NAMES } from '@/store/dealerStore'
 import { MemberModal } from '@/components/member-modal'
 import { RegisterModal } from '@/components/RegisterModal'
 import { 
@@ -58,8 +58,8 @@ export default function Profile() {
       Taro.showToast({ title: '口令错误', icon: 'error' })
     }
   }
-  const { isDealer, dealerLevel, referralCount, availableCommission, getDealerLevelName } = dealerStore
-  const { isAgent, todayCommission, todayOrderCount, getAgentLevelName } = dealerStore
+  const { isDealer, referralCount, availableCommission, getDealerProgressText } = dealerStore
+  const { isAgent, agentLevel, agentCommission, getAgentCommissionRate, getAgentDaysLeft } = dealerStore
   
   useEffect(() => {
     if (!isRegistered) {
@@ -248,9 +248,9 @@ export default function Profile() {
                 <Store size={32} color="white" />
               </View>
               <View>
-                <Text className="text-white font-bold text-lg">经销商中心</Text>
+                <Text className="text-white font-bold text-lg">经销商中心·纯分销</Text>
                 <Text className="text-amber-200 text-sm mt-1">
-                  {isDealer ? `${getDealerLevelName()} · 推荐${referralCount}人` : '推荐20人解锁经销商赚返利'}
+                  {isDealer ? `已解锁 · 推荐${referralCount}人·1%终身佣金` : '推荐10人支付9.9解锁·享1%终身佣金'}
                 </Text>
               </View>
             </View>
@@ -281,14 +281,14 @@ export default function Profile() {
                 <TrendingUp size={32} color="white" />
               </View>
               <View>
-                <Text className="text-white font-bold text-lg">自提点工作台</Text>
+                <Text className="text-white font-bold text-lg">区域代理中心</Text>
                 <Text className="text-blue-200 text-sm mt-1">
-                  {isAgent ? `${getAgentLevelName()} · 今日¥${todayCommission.toFixed(2)}` : '替客户下单赚5%提成'}
+                  {isAgent ? `${AGENT_LEVEL_NAMES[agentLevel]} · 累计¥${agentCommission.toFixed(0)}` : '¥2000起囤货享折扣+提成'}
                 </Text>
               </View>
             </View>
             <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
-              <Text className="text-blue-600 text-sm font-bold">{isAgent ? `${todayOrderCount}单` : '去下单'}</Text>
+              <Text className="text-blue-600 text-sm font-bold">{isAgent ? `查看` : '了解'}</Text>
               <Text className="text-yellow-400 text-sm font-bold italic ml-1">Go!</Text>
               <ChevronRight size={16} color="#2563EB" />
             </View>

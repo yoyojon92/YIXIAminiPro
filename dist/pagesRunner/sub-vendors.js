@@ -1,1 +1,0 @@
-"use strict";(wx["webpackJsonp"]=wx["webpackJsonp"]||[]).push([[9362],{7708:function(){"function"===typeof definePageConfig&&definePageConfig({navigationBarTitleText:"\u8dd1\u817f\u5458\u4e2d\u5fc3"})},6658:function(){"function"===typeof definePageConfig&&definePageConfig({navigationBarTitleText:"\u8dd1\u817f\u5458\u6ce8\u518c"})}}]);
