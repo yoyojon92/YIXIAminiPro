@@ -20,15 +20,15 @@ import { TicketSelector } from '@/components/ticket-selector'
 import { WelcomeGiftModal } from '@/components/welcome-gift'
 import './index.scss'
 
-const CDN = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products'
+const CDN = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products'
 
 const NEW_WINES = [
-  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: require('../../assets/images/products/yixia-wine/01-liu-hong-xin-shi.webp') },
+  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: `${CDN}/yixia-wine/01-liu-hong-xin-shi.webp` },
   { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥18.8', image: `${CDN}/yixia-wine/02-pu-xiang-an-du.webp` },
   { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥18.8', image: `${CDN}/yixia-wine/03-tao-xin-an-dong.webp` },
   { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥18.8', image: `${CDN}/yixia-wine/04-qing-ping-wei-zui.webp` },
   { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥39.9', image: `${CDN}/yixia-wine/05-fen-le-wu-qiong.webp` },
-  { id: 'prod_red_wine',        name: '红葡萄果酒', sub: '红葡萄·7°', price: '¥49.9', image: require('../../assets/images/products/yixia-wine/06-hong-pu-tao-guo-jiu.webp') },
+  { id: 'prod_red_wine',        name: '红葡萄果酒', sub: '红葡萄·7°', price: '¥49.9', image: `${CDN}/yixia-wine/06-hong-pu-tao-guo-jiu.webp` },
 ]
 
 export default function Index() {
