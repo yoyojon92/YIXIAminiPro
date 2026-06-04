@@ -176,10 +176,41 @@ export default function Category() {
                 </View>
               )}
 
+              {/* 经典特调 - 会员专享酒款 */}
+              <View className="rounded-xl bg-white p-4 mb-3">
+                <View className="flex items-center gap-2 mb-3">
+                  <Text className="text-sm font-bold text-purple-700">🍸 经典特调 · 会员专享</Text>
+                </View>
+                <View className="flex gap-3">
+                  {products.filter(p => CLASSIC_IDS.includes(p.id)).map((wine) => (
+                    <View key={wine.id} className="flex-1 flex flex-col items-center" onClick={() => goToProduct(wine.id)}>
+                      <View className="w-full h-20 bg-purple-50 rounded-lg overflow-hidden">
+                        <Image src={wine.images[0]} className="w-full h-full" mode="aspectFill" lazyLoad />
+                      </View>
+                      <Text className="text-xs font-semibold text-gray-900 mt-2">{wine.name}</Text>
+                      <Text className="text-xs text-gray-500">{wine.capacity || '330ml'}</Text>
+                      <View className="flex items-baseline gap-1 mt-1">
+                        <Text className="text-xs font-bold text-purple-600">¥{wine.price}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+                <View className="mt-3 pt-3 border-t border-purple-100">
+                  <View className="flex items-center gap-2 mb-2">
+                    <Gift size={14} color="#A855F7" />
+                    <Text className="text-xs text-gray-700">首单0元送酒：以上3款任选1瓶</Text>
+                  </View>
+                  <View className="flex items-center gap-2">
+                    <Ticket size={14} color="#FBBF24" />
+                    <Text className="text-xs text-gray-700">1元小酒票：以上3款3选1仅¥1</Text>
+                  </View>
+                </View>
+              </View>
+
               {/* 会员权益说明 */}
               <View className="rounded-xl bg-white p-4">
-                <Text className="text-sm text-amber-400 font-medium mb-2">创始会员权益</Text>
-                {['入会赠饮1瓶（老款3选1，自提免运费）', '每月1元小酒票（当月不领失效不累加）', '每周特价¥9.9（老款果酒）', '生日礼遇（全场9折可叠加）'].map((b, i) => (
+                <Text className="text-sm text-amber-500 font-medium mb-2">创始会员权益</Text>
+                {['入会赠饮1瓶（经典特调3选1）', '每月1元小酒票（当月不领失效不累加）', '生日礼遇（全场9折，全年1次）'].map((b, i) => (
                   <View key={i} className="flex items-center gap-2 mt-2">
                     <Text className="text-xs text-gray-500">•</Text>
                     <Text className="text-xs text-gray-700">{b}</Text>
