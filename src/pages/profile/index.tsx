@@ -72,7 +72,6 @@ export default function Profile() {
     { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pagesMember/membership/index' },
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pagesOrder/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pagesMember/coupons/index' },
-    { id: 3, icon: Tag, title: '我的画像', badge: null, path: '/pages/profile/user-profile/index' },
     { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pagesSocial/wall/index?tab=favorite' },
     
   ]
