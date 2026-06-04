@@ -22,13 +22,16 @@ import './index.scss'
 
 const CDN = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@1fc4e93/src/assets/images/products'
 
-const NEW_WINES = [
+const BOSS_PICK = [
   { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: `${CDN}/yixia-wine/01-liu-hong-xin-shi.webp` },
-  { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥18.8', image: `${CDN}/yixia-wine/02-pu-xiang-an-du.webp` },
   { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥18.8', image: `${CDN}/yixia-wine/03-tao-xin-an-dong.webp` },
-  { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥18.8', image: `${CDN}/yixia-wine/04-qing-ping-wei-zui.webp` },
-  { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥39.9', image: `${CDN}/yixia-wine/05-fen-le-wu-qiong.webp` },
   { id: 'prod_red_wine',        name: '红葡萄果酒', sub: '红葡萄·7°', price: '¥49.9', image: `${CDN}/yixia-wine/06-hong-pu-tao-guo-jiu.webp` },
+]
+
+const CLASSIC_WINES = [
+  { id: 'prod_pomelo_old',          name: '柚见微醺', sub: '柚子酒', price: '¥16.8', image: `${CDN}/yixia-old/01-you-zi-jiu.webp` },
+  { id: 'prod_hawthorn_old',        name: '沂蒙山楂酒', sub: '山楂酒', price: '¥16.8', image: `${CDN}/yixia-old/02-yi-meng-shan-zha-jiu.webp` },
+  { id: 'prod_hawthorn_oolong_old', name: '山楂乌龙酒', sub: '山楂乌龙', price: '¥16.8', image: `${CDN}/yixia-old/03-shan-zha-wu-long-jiu.webp` },
 ]
 
 export default function Index() {
@@ -167,36 +170,67 @@ export default function Index() {
         </View>
       )}
 
-      {/* ====== 新品6酒 ====== */}
+      {/* ====== 厂长推荐 ====== */}
       <View className="mt-6 px-4">
         <View className="flex items-center justify-between mb-4">
           <View className="flex items-center gap-2">
             <Sparkles size={20} color="#FBBF24" />
-            <Text className="text-xl font-bold text-gray-900">新品果酒</Text>
-            <Badge className="text-xs bg-amber-500 text-white border-0">NEW</Badge>
+            <Text className="text-xl font-bold text-gray-900">厂长推荐</Text>
+            <Badge className="text-xs bg-amber-500 text-white border-0">⭐ 招牌</Badge>
           </View>
           <View className="flex items-center gap-1" onClick={() => {
-            Taro.setStorageSync('selectedCategory', '')
-            Taro.setStorageSync('categoryExtraType', 'new')
+            Taro.setStorageSync('selectedCategory', 'new')
             Taro.switchTab({ url: '/pages/category/index' })
           }}>
             <Text className="text-sm text-purple-500">更多</Text>
             <ChevronRight size={16} color="#9CA3AF" />
           </View>
         </View>
-        <View className="grid grid-cols-2 gap-3">
-          {NEW_WINES.map((wine) => (
+        <View className="grid grid-cols-3 gap-2">
+          {BOSS_PICK.map((wine) => (
             <View key={wine.id} className="rounded-2xl bg-white overflow-hidden shadow-sm" onClick={() => goToProduct(wine.id)}>
-              <View className="w-full h-40 bg-purple-100 overflow-hidden">
+              <View className="w-full h-32 bg-purple-50 overflow-hidden">
                 <Image src={wine.image} className="w-full h-full" mode="aspectFill" lazyLoad />
               </View>
-              <View className="p-3">
-                <Text className="text-sm font-semibold text-gray-900">{wine.name}</Text>
+              <View className="p-2">
+                <Text className="text-xs font-semibold text-gray-900">{wine.name}</Text>
                 <Text className="text-xs text-gray-500">{wine.sub}</Text>
-                <Text className="text-lg font-bold text-purple-600 mt-1">{wine.price}</Text>
+                <Text className="text-sm font-bold text-purple-600 mt-1">{wine.price}</Text>
               </View>
             </View>
           ))}
+        </View>
+      </View>
+
+      {/* ====== 经典特调 ====== */}
+      <View className="mt-4 px-4">
+        <View className="flex items-center justify-between mb-4">
+          <View className="flex items-center gap-2">
+            <GlassWater size={20} color="#8B5CF6" />
+            <Text className="text-xl font-bold text-gray-900">经典特调</Text>
+            <Badge className="text-xs bg-purple-500 text-white border-0">🍸 经典</Badge>
+          </View>
+          <View className="flex items-center gap-1" onClick={() => {
+            Taro.setStorageSync('selectedCategory', 'old_wine')
+            Taro.switchTab({ url: '/pages/category/index' })
+          }}>
+            <Text className="text-sm text-purple-500">更多</Text>
+            <ChevronRight size={16} color="#9CA3AF" />
+          </View>
+        </View>
+        <View className="bg-white rounded-2xl p-3 shadow-sm">
+          <View className="grid grid-cols-3 gap-3">
+            {CLASSIC_WINES.map((wine) => (
+              <View key={wine.id} className="flex flex-col items-center" onClick={() => goToProduct(wine.id)}>
+                <View className="w-20 h-20 bg-purple-50 rounded-xl overflow-hidden">
+                  <Image src={wine.image} className="w-full h-full" mode="aspectFill" lazyLoad />
+                </View>
+                <Text className="text-xs font-semibold text-gray-900 mt-2">{wine.name}</Text>
+                <Text className="text-xs text-gray-500">{wine.sub}</Text>
+                <Text className="text-sm font-bold text-purple-600 mt-1">{wine.price}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
 

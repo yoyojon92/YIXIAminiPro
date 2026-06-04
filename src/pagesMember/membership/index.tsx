@@ -4,14 +4,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { Crown, Sparkles, Truck, Tag, Gift, ChevronRight } from 'lucide-react-taro'
+import { Crown, Sparkles, Tag, Gift, ChevronRight } from 'lucide-react-taro'
 import { useMemberStore } from '@/store/memberStore'
 
-const MONTHLY_BENEFITS = [
-  { icon: Truck, title: '免配送费', desc: '每月4次校内配送免运费' },
-  { icon: Tag, title: '9折优惠', desc: '全场商品会员价' },
-  { icon: Gift, title: '1元小酒票', desc: '每月1次1元换购果酒' },
-  { icon: Gift, title: '生日礼遇', desc: '专属生日礼包' },
+const MEMBER_BENEFITS = [
+  { icon: Gift, title: '首单0元送酒', desc: '老款果酒3选1，自提核销' },
+  { icon: Tag, title: '每月1元加购', desc: '三种老款酒3选1，当月不领失效' },
+  { icon: Gift, title: '生日礼遇', desc: '全场9折，全年1次' },
 ]
 
 export default function Membership() {
@@ -26,9 +25,9 @@ export default function Membership() {
             <Crown size={40} color="#FBBF24" />
           </View>
         </View>
-        <Text className="text-white text-2xl font-bold text-center block">邑夏月卡会员</Text>
+        <Text className="text-white text-2xl font-bold text-center block">邑夏创始会员</Text>
         <Text className="text-white text-opacity-70 text-sm text-center block mt-2">
-          {isMember ? `剩余${remainingDays}天 · 到期${memberExpire ? new Date(memberExpire).toLocaleDateString() : ''}` : '9.9元/月 · 轻松开通'}
+          {isMember ? `剩余${remainingDays}天 · 到期${memberExpire ? new Date(memberExpire).toLocaleDateString() : ''}` : '¥9.9 · 有效期至2026.12.31'}
         </Text>
         {!isMember && (
           <View className="flex justify-center mt-4">
@@ -54,7 +53,7 @@ export default function Membership() {
             <View className="p-4 border-b border-gray-100">
               <Text className="text-lg font-semibold text-gray-900">月卡会员权益</Text>
             </View>
-            {MONTHLY_BENEFITS.map((benefit, index) => {
+            {MEMBER_BENEFITS.map((benefit, index) => {
               const Icon = benefit.icon
               return (
                 <View key={index}>
@@ -68,7 +67,7 @@ export default function Membership() {
                     </View>
                     <ChevronRight size={16} color="#D1D5DB" />
                   </View>
-                  {index < MONTHLY_BENEFITS.length - 1 && <Separator className="ml-14" />}
+                  {index < MEMBER_BENEFITS.length - 1 && <Separator className="ml-14" />}
                 </View>
               )
             })}
@@ -80,7 +79,7 @@ export default function Membership() {
         <Card>
           <CardContent className="p-4">
             <Text className="text-sm font-medium text-gray-900 block mb-2">会员须知</Text>
-            <Text className="text-xs text-gray-500 block">· 月卡会员有效期为30天，到期后自动失效</Text>
+            <Text className="text-xs text-gray-500 block">· 创始会员有效期为30天，到期后自动失效，无需续费</Text>
             <Text className="text-xs text-gray-500 block">· 免配送费权益每月4次，次月重置</Text>
             <Text className="text-xs text-gray-500 block">· 9折优惠与优惠券不可叠加使用</Text>
             <Text className="text-xs text-gray-500 block">· 会员权益仅限本人使用，不可转让</Text>
@@ -92,14 +91,14 @@ export default function Membership() {
         <View className="px-4 mt-6 mb-6">
           <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-0 h-12" onClick={() => { setShowMemberModal(true); Taro.navigateBack() }}>
             <Crown size={18} color="white" />
-            <Text className="text-white ml-2 font-bold">9.9元/月 开通邑夏会员</Text>
+            <Text className="text-white ml-2 font-bold">¥9.9 开通创始会员</Text>
           </Button>
         </View>
       )}
       {isMember && (
         <View className="px-4 mt-6 mb-6">
           <Button variant="outline" className="w-full h-12" onClick={() => { setShowMemberModal(true); Taro.navigateBack() }}>
-            <Text>续费会员</Text>
+            <Text>查看会员权益</Text>
           </Button>
         </View>
       )}
