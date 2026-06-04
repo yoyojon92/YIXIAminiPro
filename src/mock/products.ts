@@ -226,7 +226,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'prod_guava_wine',
     name: '粉乐雾琼',
     subtitle: '芭乐金银花果酒',
-    price: 39.9,
+    price: 38.8,
     originalPrice: 59.9,
     image: PRODUCT_IMAGES.prod_guava_wine,
     images: [PRODUCT_IMAGES.prod_guava_wine],
@@ -235,7 +235,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '5%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_guava_wine_500', name: '500ml 单瓶装', price: 39.9, originalPrice: 59.9, stock: 70 }
+      { id: 'spec_guava_wine_500', name: '500ml 单瓶装', price: 38.8, originalPrice: 59.9, stock: 70 }
     ],
     description: '芭乐碰上微醺，热带风情跃然杯中。养心安神，清爽宜人。精选番石榴搭配金银花精华，热带果香与酒香交织，清新脱俗。',
     story: '"芭乐的热情，微醺的优雅。我是藏府君欣悦，这杯粉乐雾琼，愿你心安神定，热情如火。"',
@@ -252,7 +252,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'prod_red_wine',
     name: '红葡萄果酒',
     subtitle: '红葡萄果酒',
-    price: 49.9,
+    price: 38.8,
     originalPrice: 79.9,
     image: PRODUCT_IMAGES.prod_red_wine,
     images: [PRODUCT_IMAGES.prod_red_wine],
@@ -261,7 +261,7 @@ export const MOCK_PRODUCTS: Product[] = [
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
-      { id: 'spec_red_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 79.9, stock: 80 }
+      { id: 'spec_red_wine_500', name: '500ml 单瓶装', price: 38.8, originalPrice: 79.9, stock: 80 }
     ],
     description: '甄选优质红葡萄，果酒工艺酿制，甄选优质红葡萄，酒体醇厚柔顺，呈迷人宝石红色，散发葡萄果香与微醺的复合气息，回味悠长。',
     story: '"一瓶好酒，一段好时光。邑夏红葡萄果酒，与好友共饮的每一刻都值得铭记。"',
