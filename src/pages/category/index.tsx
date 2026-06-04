@@ -146,32 +146,23 @@ export default function Category() {
               ) : (
                 <View>
                   {/* 入会赠饮 */}
-                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
+                  <View className="rounded-xl bg-white p-3 flex items-center gap-2 mb-2"
                     onClick={() => { setShowWelcomeGiftModal(true) }}>
-                    <View className="w-10 h-10 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center"><Gift size={20} color="#A855F7" /></View>
-                    <View className="flex-1">
-                      <Text className="text-white font-medium">入会赠饮</Text>
-                      <Text className="text-xs text-gray-400 mt-1">{welcomeGiftClaimed ? '已领取✓' : '点击领取3款经典款任选1'}</Text>
-                    </View>
-                    {!welcomeGiftClaimed && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
+                    <View className="w-8 h-8 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center flex-shrink-0"><Gift size={16} color="#A855F7" /></View>
+                    <Text className="text-sm font-medium text-gray-800 flex-1">入会赠饮 {welcomeGiftClaimed ? '✓已领取' : '· 点击领取经典款3选1'}</Text>
+                    {!welcomeGiftClaimed && <View className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">待领</View>}
                   </View>
                   {/* 1元小酒票 */}
-                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3"
+                  <View className="rounded-xl bg-white p-3 flex items-center gap-2 mb-2"
                     onClick={() => { setShowTicketModal(true) }}>
-                    <View className="w-10 h-10 rounded-lg bg-amber-500 bg-opacity-20 flex items-center justify-center"><Ticket size={20} color="#FBBF24" /></View>
-                    <View className="flex-1">
-                      <Text className="text-white font-medium">1元小酒票</Text>
-                      <Text className="text-xs text-gray-400 mt-1">{canClaimTicket() ? '点击领取3款经典款任选1' : '本月已领取✓'}</Text>
-                    </View>
-                    {canClaimTicket() && <View className="bg-red-500 text-white text-xs px-2 py-1 rounded">待领</View>}
+                    <View className="w-8 h-8 rounded-lg bg-amber-500 bg-opacity-20 flex items-center justify-center flex-shrink-0"><Ticket size={16} color="#FBBF24" /></View>
+                    <Text className="text-sm font-medium text-gray-800 flex-1">1元小酒票 {canClaimTicket() ? '· 点击领取经典款3选1' : '✓本月已领'}</Text>
+                    {canClaimTicket() && <View className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">待领</View>}
                   </View>
                   {/* 每周特价 */}
-                  <View className="rounded-xl bg-white p-4 flex items-center gap-3 mb-3">
-                    <View className="w-10 h-10 rounded-lg bg-red-500 bg-opacity-20 flex items-center justify-center"><Zap size={20} color="#F87171" /></View>
-                    <View className="flex-1">
-                      <Text className="text-white font-medium">每周特价¥9.9</Text>
-                      <Text className="text-xs text-gray-400 mt-1">经典款果酒限时特惠</Text>
-                    </View>
+                  <View className="rounded-xl bg-white p-3 flex items-center gap-2 mb-2">
+                    <View className="w-8 h-8 rounded-lg bg-red-500 bg-opacity-20 flex items-center justify-center flex-shrink-0"><Zap size={16} color="#F87171" /></View>
+                    <Text className="text-sm font-medium text-gray-800 flex-1">每周特价¥9.9 · 经典款果酒限时特惠</Text>
                   </View>
                 </View>
               )}
