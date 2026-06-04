@@ -17,7 +17,7 @@ const QUICK_PRODUCTS = [
   { id: 'p3', name: '桃心果酒', price: 18.8 },
   { id: 'p4', name: '青苹果酒', price: 18.8 },
   { id: 'p5', name: '芭乐果酒', price: 39.9 },
-  { id: 'p6', name: '干红果酒', price: 49.9 },
+  { id: 'p6', name: '红葡萄果酒', price: 49.9 },
   { id: 'p7', name: '果汁(任选)', price: 9.9 },
 ]
 

@@ -28,7 +28,7 @@ const NEW_WINES = [
   { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥18.8', image: `${CDN}/yixia-wine/03-tao-xin-an-dong.webp` },
   { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥18.8', image: `${CDN}/yixia-wine/04-qing-ping-wei-zui.webp` },
   { id: 'prod_guava_wine',      name: '粉乐雾琼', sub: '芭乐·5°', price: '¥39.9', image: `${CDN}/yixia-wine/05-fen-le-wu-qiong.webp` },
-  { id: 'prod_red_wine',        name: '干红葡萄酒', sub: '干红·7°', price: '¥49.9', image: `${CDN}/yixia-wine/06-gan-hong-pu-tao-jiu.webp` },
+  { id: 'prod_red_wine',        name: '红葡萄果酒', sub: '红葡萄·7°', price: '¥49.9', image: require('../../assets/images/products/yixia-wine/06-hong-pu-tao-guo-jiu.webp') },
 ]
 
 export default function Index() {

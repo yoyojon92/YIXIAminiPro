@@ -11,7 +11,7 @@ const PRODUCT_IMAGES: Record<string, string> = {
   prod_peach_new: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/03-tao-xin-an-dong.webp',
   prod_apple_wine: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/04-qing-ping-wei-zui.webp',
   prod_guava_wine: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/05-fen-le-wu-qiong.webp',
-  prod_red_wine: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/06-gan-hong-pu-tao-jiu.webp',
+  prod_red_wine: require('../../assets/images/products/yixia-wine/06-hong-pu-tao-guo-jiu.webp'),
   // 原果汁产品图（yixia-juice目录）
   juice_pear: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-juice/01-xian-li.webp',
   juice_peach: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-juice/02-xian-tao.webp',
@@ -250,21 +250,21 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 'prod_red_wine',
-    name: '干红葡萄酒',
+    name: '红葡萄果酒',
     subtitle: '红葡萄果酒',
     price: 49.9,
     originalPrice: 79.9,
     image: PRODUCT_IMAGES.prod_red_wine,
     images: [PRODUCT_IMAGES.prod_red_wine],
-    tags: ['果酒', '干红', '新品', '葡萄酒'],
+    tags: ['果酒', '红葡萄', '新品', '果酒工艺'],
     category: 'fruit_wine',
     alcohol: '7%vol',
     capacity: '500ml',
     specs: [
       { id: 'spec_red_wine_500', name: '500ml 单瓶装', price: 49.9, originalPrice: 79.9, stock: 80 }
     ],
-    description: '甄选优质红葡萄，传统工艺发酵，酒体醇厚丰满，呈深宝石红色，散发黑莓与橡木的复合香气，单宁柔和，回味悠长。',
-    story: '"一瓶好酒，一段好时光。邑夏干红，与好友共饮的每一刻都值得铭记。"',
+    description: '甄选优质红葡萄，果酒工艺酿制，甄选优质红葡萄，酒体醇厚柔顺，呈迷人宝石红色，散发葡萄果香与微醺的复合气息，回味悠长。',
+    story: '"一瓶好酒，一段好时光。邑夏红葡萄果酒，与好友共饮的每一刻都值得铭记。"',
     spriteId: '',
     spriteAlias: '',
     salesCount: 0,
@@ -538,7 +538,7 @@ export const MOCK_PRODUCTS: Product[] = [
     specs: [
       { id: 'spec_grad_party_11', name: '11瓶畅饮装', price: 699, originalPrice: 899, stock: 50 }
     ],
-    description: '毕业派对套餐，内含：榴红心事×3、葡香暗度×2、桃心暗动×2、青苹微醺×2、干红葡萄酒×2，共11瓶。适合6-10人派对畅饮。拼团更优惠：10人团¥69/人，20人团¥29.9/人！',
+    description: '毕业派对套餐，内含：榴红心事×3、葡香暗度×2、桃心暗动×2、青苹微醺×2、红葡萄果酒×2，共11瓶。适合6-10人派对畅饮。拼团更优惠：10人团¥69/人，20人团¥29.9/人！',
     story: '"青春不散场，友谊永长存。邑夏毕业派对套餐，和挚友们举杯告别，迎接未来！"',
     spriteId: '',
     spriteAlias: '',

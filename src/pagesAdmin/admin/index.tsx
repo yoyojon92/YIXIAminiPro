@@ -80,7 +80,7 @@ const MOCK_PRODUCTS: ProductItem[] = [
   { id: '3', name: '桃心暗动', spec: '330ml', price: 18.8, stock: 234, weekSales: 56, status: 'on_sale', velocity: 0.24 },
   { id: '4', name: '青苹微醉', spec: '330ml', price: 18.8, stock: 12, weekSales: 45, status: 'on_sale', velocity: 3.75 },
   { id: '5', name: '芭乐微醺', spec: '500ml', price: 39.9, stock: 89, weekSales: 34, status: 'on_sale', velocity: 0.38 },
-  { id: '6', name: '干红小酿', spec: '500ml', price: 49.9, stock: 45, weekSales: 23, status: 'on_sale', velocity: 0.51 },
+  { id: '6', name: '红葡萄果酒', spec: '500ml', price: 49.9, stock: 45, weekSales: 23, status: 'on_sale', velocity: 0.51 },
   { id: '7', name: '老款·青梅', spec: '330ml', price: 16.8, stock: 0, weekSales: 0, status: 'off_sale', velocity: 0 },
   { id: '8', name: '老款·桂花', spec: '330ml', price: 16.8, stock: 320, weekSales: 12, status: 'on_sale', velocity: 0.04 },
 ]
