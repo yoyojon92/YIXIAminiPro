@@ -28,6 +28,7 @@ export default defineAppConfig({
       pages: [
         'dealer/index',
         'agent/index',
+        'workbench/index',
       ],
     },
     {

@@ -296,6 +296,35 @@ export default function Profile() {
         </View>
       </View>
 
+      {/* 自提点工作台入口 */}
+      <View className="px-4 mt-3">
+        <View
+          className="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-2xl p-4 shadow-lg relative overflow-hidden border border-emerald-500"
+          onClick={() => {
+            trackProfileAction('workbench_entry')
+            Taro.navigateTo({ url: '/pagesDealer/workbench/index' })
+          }}
+        >
+          <View className="absolute -top-4 -right-4 w-20 h-20 bg-emerald-400 bg-opacity-10 rounded-full" />
+          <View className="absolute -bottom-6 -left-6 w-24 h-24 bg-emerald-400 bg-opacity-10 rounded-full" />
+          <View className="flex items-center justify-between relative z-10">
+            <View className="flex items-center gap-3">
+              <View className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center shadow-md">
+                <ShoppingCart size={32} color="white" />
+              </View>
+              <View>
+                <Text className="text-white font-bold text-lg">自提点工作台</Text>
+                <Text className="text-emerald-200 text-sm mt-1">扫码核销 · 接单 · 库存管理</Text>
+              </View>
+            </View>
+            <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
+              <Text className="text-emerald-600 text-sm font-bold">进入</Text>
+              <Text className="text-yellow-400 text-sm font-bold italic ml-1">Go!</Text>
+              <ChevronRight size={16} color="#047857" />
+            </View>
+          </View>
+        </View>
+      </View>
       {/* 功能菜单 */}
       <View className="px-4 mt-4">
         <Card>
