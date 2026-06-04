@@ -41,6 +41,9 @@ interface UserState {
   
   // 微信登录
   loginWithWechat: () => Promise<void>
+  // 邀请码
+  inviterCode: string | null
+  setInviterCode: (code: string) => void
   // 管理员口令激活
   activateAdmin: (code: string) => boolean
 }
@@ -53,6 +56,7 @@ export const useUserStore = create<UserState>()(
       isLoggedIn: false,
       isMember: false,
       memberExpire: null,
+      inviterCode: null,
       
       setUserInfo: (user) => set({ 
         userInfo: user, 
@@ -80,6 +84,8 @@ export const useUserStore = create<UserState>()(
         const expire = Date.now() + 30 * 24 * 60 * 60 * 1000 // 30天后
         set({ isMember: true, memberExpire: expire })
       },
+      
+      setInviterCode: (code) => set({ inviterCode: code }),
       
       // 管理员口令激活
       activateAdmin: (code: string) => {
@@ -132,7 +138,8 @@ export const useUserStore = create<UserState>()(
       partialize: (state) => ({ 
         userInfo: state.userInfo,
         token: state.token,
-        isLoggedIn: state.isLoggedIn
+        isLoggedIn: state.isLoggedIn,
+        inviterCode: state.inviterCode
       })
     }
   )

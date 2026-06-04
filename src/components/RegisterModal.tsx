@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Text, Image, Input } from '@tarojs/components'
 import { X, Camera } from 'lucide-react-taro'
 import { useUserProfileStore } from '@/store/userProfileStore'
+import { useUserStore } from '@/store/userStore'
 
 interface RegisterModalProps {
   visible: boolean
@@ -14,6 +15,8 @@ export function RegisterModal({ visible, onClose }: RegisterModalProps) {
   const [avatarUrl, setAvatarUrl] = useState('')
   const [nickName, setNickName] = useState('')
   const [tempAvatar, setTempAvatar] = useState('')
+  const [inviteCode, setInviteCode] = useState('')
+  const { setInviterCode } = useUserStore()
 
   if (!visible) return null
 
@@ -42,6 +45,11 @@ export function RegisterModal({ visible, onClose }: RegisterModalProps) {
       college: '',
       age: 0,
     })
+
+    // 保存邀请码（如有）
+    if (inviteCode.trim()) {
+      setInviterCode(inviteCode.trim().toUpperCase())
+    }
 
     Taro.showToast({ title: '欢迎加入邑夏！', icon: 'success' })
     onClose()
@@ -105,6 +113,20 @@ export function RegisterModal({ visible, onClose }: RegisterModalProps) {
               value={nickName}
               onInput={(e) => setNickName(e.detail.value)}
               maxlength={20}
+              style={{ fontSize: '15px' }}
+            />
+          </View>
+
+          {/* 邀请码（选填） */}
+          <Text style={{ fontSize: '13px', color: '#666', marginBottom: '8px', display: 'block' }}>
+            邀请码（选填）
+          </Text>
+          <View style={{ backgroundColor: '#f9fafb', borderRadius: '12px', padding: '12px 16px', marginBottom: '12px' }}>
+            <Input
+              placeholder="好友分享码"
+              value={inviteCode}
+              onInput={(e) => setInviteCode(e.detail.value.toUpperCase())}
+              maxlength={12}
               style={{ fontSize: '15px' }}
             />
           </View>
