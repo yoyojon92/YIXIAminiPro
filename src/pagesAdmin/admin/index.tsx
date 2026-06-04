@@ -104,7 +104,7 @@ const MOCK_PICKUP_POINTS: PickupPoint[] = [
   { id: 'p3', name: '北苑店', address: '北苑7号楼下便利店', pendingOrders: 7, todayRedeemed: 15, stockLow: false },
 ]
 
-type TabKey = 'data' | 'production' | 'distribution' | 'activity'
+type TabKey = 'data' | 'production' | 'distribution' | 'activity' | 'inspect'
 
 export default function BossDashboard() {
   const [activeTab, setActiveTab] = useState<TabKey>('data')
@@ -563,6 +563,219 @@ export default function BossDashboard() {
                   </View>
                 )
               })}
+            </View>
+          </View>
+        )}
+        {/* ====== 巡检中心Tab ====== */}
+        {activeTab === 'inspect' && (
+          <View>
+            {/* 第一层：供货保障体系 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <Package size={16} color="#3B82F6" />
+                <Text className="text-gray-800 font-bold ml-1">第一层·供货保障</Text>
+              </View>
+              
+              {/* 缺货预警 */}
+              <View className="bg-red-50 rounded-lg p-3 mb-3">
+                <View className="flex items-center mb-2">
+                  <AlertTriangle size={14} color="#DC2626" />
+                  <Text className="text-red-700 text-sm font-bold ml-1">缺货预警</Text>
+                </View>
+                {MOCK_PRODUCTS.filter(p => p.stock < 30 && p.status === 'on_sale').map(p => (
+                  <View key={p.id} className="flex items-center justify-between py-2 border-b border-red-100">
+                    <View>
+                      <Text className="text-red-800 text-sm font-medium">{p.name} {p.spec}</Text>
+                      <Text className="text-red-600 text-xs">库存仅{p.stock}瓶 · 周销{p.weekSales}瓶</Text>
+                    </View>
+                    <View className="px-3 py-1 bg-red-500 rounded-full" onClick={() => Taro.showToast({ title: '已发送补货通知', icon: 'success' })}>
+                      <Text className="text-white text-xs">紧急补货</Text>
+                    </View>
+                  </View>
+                ))}
+                {MOCK_PRODUCTS.filter(p => p.stock < 30 && p.status === 'on_sale').length === 0 && (
+                  <Text className="text-red-500 text-xs">暂无缺货预警</Text>
+                )}
+              </View>
+
+              {/* 发货提醒 */}
+              <View className="bg-blue-50 rounded-lg p-3 mb-3">
+                <View className="flex items-center mb-2">
+                  <Truck size={14} color="#2563EB" />
+                  <Text className="text-blue-700 text-sm font-bold ml-1">发货提醒</Text>
+                </View>
+                <View className="flex items-center justify-between py-1">
+                  <Text className="text-blue-600 text-sm">同城配送待发：8单</Text>
+                  <Text className="text-blue-600 text-sm">邮寄待发：3单</Text>
+                </View>
+                <View className="flex items-center justify-between py-1">
+                  <Text className="text-blue-600 text-sm">代理自提待备货：2单</Text>
+                  <View className="px-3 py-1 bg-blue-500 rounded-full" onClick={() => Taro.showToast({ title: '已批量标记备货', icon: 'success' })}>
+                    <Text className="text-white text-xs">一键备货</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* 单品日销量 */}
+              <View className="bg-green-50 rounded-lg p-3">
+                <View className="flex items-center mb-2">
+                  <TrendingUp size={14} color="#059669" />
+                  <Text className="text-green-700 text-sm font-bold ml-1">今日单品销量（调整生产策略）</Text>
+                </View>
+                {MOCK_PRODUCTS.filter(p => p.status === 'on_sale').sort((a, b) => b.weekSales - a.weekSales).map((p, i) => {
+                  const dailyQty = Math.round(p.weekSales / 7)
+                  const dailyRev = Math.round(dailyQty * p.price)
+                  return (
+                    <View key={p.id} className="flex items-center justify-between py-2 border-b border-green-100">
+                      <View className="flex items-center">
+                        <Text className="text-green-800 text-sm font-medium">{p.name}</Text>
+                        {i < 3 && <View className="ml-2 px-2 py-0.5 bg-green-500 rounded-full"><Text className="text-white text-xs">TOP{i + 1}</Text></View>}
+                      </View>
+                      <View className="flex items-center gap-3">
+                        <Text className="text-green-600 text-xs">日销{dailyQty}瓶</Text>
+                        <Text className="text-green-700 text-xs font-bold">¥{dailyRev}</Text>
+                      </View>
+                    </View>
+                  )
+                })}
+              </View>
+            </View>
+
+            {/* 第二层：代理升级窗口期巡查 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <Award size={16} color="#F59E0B" />
+                <Text className="text-gray-800 font-bold ml-1">第二层·代理升级巡店</Text>
+              </View>
+
+              {/* 代理升级进度列表 */}
+              {[
+                { name: '张明辉', level: 'bronze', totalSales: 1800, target: 2000, daysLeft: 42, canCross: true },
+                { name: '李雅琪', level: 'silver', totalSales: 3200, target: 5000, daysLeft: 128, canCross: true },
+                { name: '王浩然', level: 'bronze', totalSales: 600, target: 2000, daysLeft: 60, canCross: true },
+              ].map((agent, i) => {
+                const progress = Math.min(100, Math.round(agent.totalSales / agent.target * 100))
+                const levelName = agent.level === 'bronze' ? '铜牌' : agent.level === 'silver' ? '银牌' : '金牌'
+                const levelColor = agent.level === 'bronze' ? '#F59E0B' : agent.level === 'silver' ? '#9CA3AF' : '#D97706'
+                const nextLevel = agent.level === 'bronze' ? '银牌' : '金牌'
+                const crossDeposit = agent.level === 'bronze' ? 8000 : 5000
+                
+                return (
+                  <View key={i} className="py-3 border-b border-gray-50">
+                    <View className="flex items-center justify-between">
+                      <View className="flex items-center">
+                        <View className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: levelColor + '20' }}>
+                          <Text className="text-sm">{agent.level === 'bronze' ? '🥉' : '🥈'}</Text>
+                        </View>
+                        <View className="ml-2">
+                          <Text className="text-gray-800 text-sm font-medium">{agent.name}</Text>
+                          <Text className="text-gray-500 text-xs">{levelName}代理 · 剩余{agent.daysLeft}天</Text>
+                        </View>
+                      </View>
+                      <View className="px-2 py-1 rounded-full" style={{ backgroundColor: progress >= 80 ? '#DCFCE7' : progress >= 50 ? '#FEF3C7' : '#FEE2E2' }}>
+                        <Text className="text-xs font-bold" style={{ color: progress >= 80 ? '#16A34A' : progress >= 50 ? '#D97706' : '#DC2626' }}>
+                          {progress}%
+                        </Text>
+                      </View>
+                    </View>
+
+                    {/* 进度条 */}
+                    <View className="mt-2 h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <View className="h-full rounded-full" style={{ width: progress + '%', backgroundColor: progress >= 80 ? '#16A34A' : progress >= 50 ? '#F59E0B' : '#EF4444' }} />
+                    </View>
+
+                    <View className="flex items-center justify-between mt-2">
+                      <Text className="text-gray-500 text-xs">销售¥{agent.totalSales}/{agent.target}</Text>
+                      
+                      {/* 跨层级升级提示 */}
+                      {agent.canCross && (
+                        <View className="flex items-center gap-1" onClick={() => Taro.showModal({
+                          title: '跨层级升级',
+                          content: `${agent.name}可直接补¥${crossDeposit}升级为金牌代理，无需逐级升级。是否推送升级提示？`,
+                          confirmText: '推送提示',
+                          confirmColor: '#7C3AED',
+                          success: (res) => { if (res.confirm) Taro.showToast({ title: '升级提示已推送', icon: 'success' }) }
+                        })}>
+                          <Text className="text-purple-600 text-xs font-bold">跨级升级→金牌¥{crossDeposit}</Text>
+                          <ArrowRight size={12} color="#7C3AED" />
+                        </View>
+                      )}
+                    </View>
+
+                    {/* 快达标催促 */}
+                    {progress >= 70 && progress < 100 && (
+                      <View className="mt-2 bg-yellow-50 rounded-lg px-3 py-2 flex items-center justify-between">
+                        <Text className="text-yellow-700 text-xs">距升级还差¥{agent.target - agent.totalSales}，快达标了！</Text>
+                        <View className="px-2 py-1 bg-yellow-500 rounded-full" onClick={() => Taro.showToast({ title: '催促消息已发送', icon: 'success' })}>
+                          <Text className="text-white text-xs">催促囤货</Text>
+                        </View>
+                      </View>
+                    )}
+                  </View>
+                )
+              })}
+
+              {/* 跨层级升级说明 */}
+              <View className="mt-3 bg-purple-50 rounded-lg p-3">
+                <Text className="text-purple-700 text-sm font-bold">跨层级升级规则</Text>
+                <Text className="text-purple-600 text-xs mt-1" style={{ lineHeight: '18px' }}>
+                  · 铜牌代理可直接补¥8000升级金牌（跳过银牌）{'\n'}
+                  · 银牌代理可直接补¥5000升级金牌{'\n'}
+                  · 3个月窗口期内，按达成销售目标速度排名{'\n'}
+                  · 最快达成者优先获升级权提示{'\n'}
+                  · 厂家实时巡店跟进，主动推送升级机会
+                </Text>
+              </View>
+            </View>
+
+            {/* 第三层：数据总览 */}
+            <View className="bg-white rounded-xl p-4 mb-3">
+              <View className="flex items-center mb-3">
+                <PieChart size={16} color="#8B5CF6" />
+                <Text className="text-gray-800 font-bold ml-1">第三层·数据总览</Text>
+              </View>
+
+              <View className="grid grid-cols-2 gap-3 mb-3">
+                <View className="bg-gray-50 rounded-lg p-3">
+                  <Text className="text-gray-500 text-xs">全渠道日销量</Text>
+                  <Text className="text-gray-900 text-xl font-bold">486瓶</Text>
+                  <Text className="text-green-600 text-xs">较昨日+12%</Text>
+                </View>
+                <View className="bg-gray-50 rounded-lg p-3">
+                  <Text className="text-gray-500 text-xs">代理商日销量</Text>
+                  <Text className="text-gray-900 text-xl font-bold">218瓶</Text>
+                  <Text className="text-green-600 text-xs">占比44.9%</Text>
+                </View>
+                <View className="bg-gray-50 rounded-lg p-3">
+                  <Text className="text-gray-500 text-xs">生产建议</Text>
+                  <Text className="text-gray-900 text-xl font-bold">+320瓶</Text>
+                  <Text className="text-yellow-600 text-xs">基于7日趋势</Text>
+                </View>
+                <View className="bg-gray-50 rounded-lg p-3">
+                  <Text className="text-gray-500 text-xs">代理活跃度</Text>
+                  <Text className="text-gray-900 text-xl font-bold">87%</Text>
+                  <Text className="text-green-600 text-xs">3/4代理在售</Text>
+                </View>
+              </View>
+
+              {/* 各单品7日销量趋势 */}
+              <View className="bg-gray-50 rounded-lg p-3">
+                <Text className="text-gray-700 text-sm font-bold mb-2">单品7日趋势（调整生产策略）</Text>
+                {MOCK_PRODUCTS.filter(p => p.status === 'on_sale').sort((a, b) => b.weekSales - a.weekSales).slice(0, 6).map(p => {
+                  const dailyAvg = Math.round(p.weekSales / 7)
+                  const trend = p.velocity > 0.5 ? '↑' : '→'
+                  const trendColor = p.velocity > 0.5 ? '#16A34A' : '#6B7280'
+                  return (
+                    <View key={p.id} className="flex items-center justify-between py-1">
+                      <Text className="text-gray-600 text-xs">{p.name}</Text>
+                      <View className="flex items-center gap-2">
+                        <Text className="text-gray-500 text-xs">日均{dailyAvg}瓶</Text>
+                        <Text className="text-xs font-bold" style={{ color: trendColor }}>{trend}</Text>
+                      </View>
+                    </View>
+                  )
+                })}
+              </View>
             </View>
           </View>
         )}

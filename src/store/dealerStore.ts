@@ -76,6 +76,29 @@ export interface VerifyRecord {
   verifiedAt: number
 }
 
+/** 单品日销量 */
+export interface DailySaleRecord {
+  productId: string
+  productName: string
+  date: string       // YYYY-MM-DD
+  quantity: number
+  revenue: number
+}
+
+/** 代理升级进度 */
+export interface AgentUpgradeProgress {
+  agentId: string
+  agentName: string
+  level: AgentLevel
+  totalSales: number
+  salesTarget: number
+  progress: number   // 0-100
+  daysLeft: number
+  canCrossUpgrade: boolean
+  crossUpgradeTo: AgentLevel | null
+  crossUpgradeDeposit: number | null
+}
+
 /** 返利记录 */
 export interface CommissionRecord {
   id: string
@@ -167,6 +190,7 @@ interface DealerState {
   currentCustomerOrder: CustomerOrder | null
   overflowOrders: OverflowOrder[]
   verifyRecords: VerifyRecord[]
+  dailySales: DailySaleRecord[]
 
   addReferral: (openid: string, nickname: string, paid: boolean) => void
   checkAndUnlockDealer: () => void
@@ -265,6 +289,7 @@ export const useDealerStore = create<DealerState>()(
       currentCustomerOrder: null,
       overflowOrders: [],
       verifyRecords: [],
+      dailySales: [],
 
       addReferral: (openid, nickname, paid) => {
         const { referrals } = get()
@@ -473,6 +498,81 @@ export const useDealerStore = create<DealerState>()(
         Taro.showToast({ title: '配送完成！', icon: 'success' })
       },
 
+      recordDailySale: (productId, productName, quantity, revenue) => {
+        const today = new Date().toISOString().slice(0, 10)
+        const { dailySales } = get()
+        const existing = dailySales.find(d => d.productId === productId && d.date === today)
+        if (existing) {
+          const updated = dailySales.map(d => d.productId === productId && d.date === today ? { ...d, quantity: d.quantity + quantity, revenue: d.revenue + revenue } : d)
+          set({ dailySales: updated })
+        } else {
+          set({ dailySales: [...dailySales, { productId, productName, date: today, quantity, revenue }] })
+        }
+      },
+
+      getDailySalesReport: (date) => {
+        const targetDate = date || new Date().toISOString().slice(0, 10)
+        return get().dailySales.filter(d => d.date === targetDate)
+      },
+
+      getAgentUpgradeProgress: () => {
+        const { agentLevel, agentTotalSales, agentActivatedAt, isAgent } = get()
+        const defaultProgress: AgentUpgradeProgress = { agentId: 'self', agentName: '当前代理', level: agentLevel, totalSales: agentTotalSales, salesTarget: 0, progress: 0, daysLeft: 0, canCrossUpgrade: false, crossUpgradeTo: null, crossUpgradeDeposit: null }
+        if (!isAgent || agentLevel === 'none') return defaultProgress
+
+        const config = AGENT_CONFIG[agentLevel]
+        const daysLeft = get().getAgentDaysLeft()
+        const upgradeCondition = AGENT_UPGRADE_CONDITIONS[agentLevel]
+
+        let salesTarget = 0
+        let progress = 0
+        let canCrossUpgrade = false
+        let crossUpgradeTo: AgentLevel | null = null
+        let crossUpgradeDeposit: number | null = null
+
+        if (upgradeCondition) {
+          salesTarget = upgradeCondition.salesTarget
+          progress = Math.min(100, Math.round(agentTotalSales / salesTarget * 100))
+        }
+
+        // 跨层级升级检查：铜牌可直接跳到金牌（补足差价）
+        if (agentLevel === 'bronze') {
+          // 铜牌→银牌需补5000-2000=3000，铜牌→金牌需补10000-2000=8000
+          canCrossUpgrade = true
+          crossUpgradeTo = 'gold'
+          crossUpgradeDeposit = 8000  // 10000 - 2000
+        } else if (agentLevel === 'silver') {
+          // 银牌→金牌需补10000-5000=5000
+          canCrossUpgrade = true
+          crossUpgradeTo = 'gold'
+          crossUpgradeDeposit = 5000
+        }
+
+        return {
+          agentId: 'self',
+          agentName: '当前代理',
+          level: agentLevel,
+          totalSales: agentTotalSales,
+          salesTarget,
+          progress,
+          daysLeft,
+          canCrossUpgrade,
+          crossUpgradeTo,
+          crossUpgradeDeposit,
+        }
+      },
+
+      crossLevelUpgrade: (targetLevel) => {
+        const { agentLevel, isAgent } = get()
+        if (!isAgent || agentLevel === 'none' || agentLevel === targetLevel) return
+        // 跨层级升级：直接activate到目标等级
+        // 保留已有销售数据
+        const { agentTotalSales, agentCommission } = get()
+        get().activateAgent(targetLevel)
+        // 恢复已有销售数据
+        set({ agentTotalSales, agentCommission })
+      },
+
       getDealerProgressText: () => {
         const { isDealer, referralCount } = get()
         if (isDealer) return '已解锁经销商'
@@ -488,7 +588,7 @@ export const useDealerStore = create<DealerState>()(
         totalCommission: state.totalCommission, availableCommission: state.availableCommission, commissionRecords: state.commissionRecords, withdrawRecords: state.withdrawRecords,
         isAgent: state.isAgent, agentLevel: state.agentLevel, agentActivatedAt: state.agentActivatedAt, agentExpireAt: state.agentExpireAt,
         agentTotalSales: state.agentTotalSales, agentSecondaryCode: state.agentSecondaryCode, agentSecondarySales: state.agentSecondarySales, agentCommission: state.agentCommission,
-        agentInventory: state.agentInventory, hasStockedUp: state.hasStockedUp, customerOrders: state.customerOrders, overflowOrders: state.overflowOrders, verifyRecords: state.verifyRecords,
+        agentInventory: state.agentInventory, hasStockedUp: state.hasStockedUp, customerOrders: state.customerOrders, overflowOrders: state.overflowOrders, verifyRecords: state.verifyRecords, dailySales: state.dailySales,
       }),
     }
   )
