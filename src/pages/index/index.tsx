@@ -37,7 +37,7 @@ const CLASSIC_WINES = [
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
-  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, canClaimTicket, setShowWelcomeGiftModal } = useMemberStore()
+  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, setShowWelcomeGiftModal } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   const unreadCount = usePushStore(state => state.unreadCount)
