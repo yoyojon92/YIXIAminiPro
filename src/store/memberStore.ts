@@ -39,6 +39,12 @@ interface MemberState {
 
   // 生日礼遇
   birthdayDate: string | null // 格式 'MM-DD'，会员生日
+  birthdayUsedYear: string | null // 格式 '2026'，生日折扣已用年份，全年一次
+
+  // 会员信息完善
+  profileCompleted: boolean // 是否已完善个人信息（姓名+生日+手机号）
+  profileName: string | null
+  profilePhone: string | null
 
   // 每周特价
   weeklySpecialUsed: string | null // 本周特价已用日期 '2026-W23'
@@ -53,6 +59,14 @@ interface MemberState {
   claimTicket: (wineId: string) => void
   canClaimTicket: () => boolean
   setShowTicketModal: (show: boolean) => void
+
+  // 生日礼遇
+  setBirthdayDate: (date: string) => void
+  canUseBirthdayDiscount: () => boolean
+  useBirthdayDiscount: () => void
+
+  // 会员信息完善
+  setProfileCompleted: (name: string, phone: string, birthday: string) => void
 
   // 入会赠饮
   claimWelcomeGiftWithWine: (wineId: string, mode: 'pickup' | 'delivery') => string | null
@@ -118,6 +132,12 @@ export const useMemberStore = create<MemberState>()(
 
       // 生日礼遇
       birthdayDate: null,
+      birthdayUsedYear: null,
+
+      // 会员信息完善
+      profileCompleted: false,
+      profileName: null,
+      profilePhone: null,
 
       // 每周特价
       weeklySpecialUsed: null,
@@ -181,6 +201,32 @@ export const useMemberStore = create<MemberState>()(
 
       setShowWelcomeGiftModal: (show) => set({ showWelcomeGiftModal: show }),
 
+      // === 生日礼遇 ===
+      setBirthdayDate: (date: string) => set({ birthdayDate: date }),
+
+      canUseBirthdayDiscount: () => {
+        const { isMember, birthdayUsedYear, profileCompleted } = get()
+        if (!isMember) return false
+        if (!profileCompleted) return false
+        const year = new Date().getFullYear().toString()
+        return birthdayUsedYear !== year
+      },
+
+      useBirthdayDiscount: () => {
+        const year = new Date().getFullYear().toString()
+        set({ birthdayUsedYear: year })
+      },
+
+      // === 会员信息完善 ===
+      setProfileCompleted: (name: string, phone: string, birthday: string) => {
+        set({
+          profileCompleted: true,
+          profileName: name,
+          profilePhone: phone,
+          birthdayDate: birthday,
+        })
+      },
+
       // === 每周特价 ===
       canUseWeeklySpecial: () => {
         const { isMember, weeklySpecialUsed } = get()
@@ -199,14 +245,15 @@ export const useMemberStore = create<MemberState>()(
             '入会赠饮1瓶（老款果酒3选1）',
             '每月1元小酒票（3种老款酒3选1，当月不领失效）',
             '每周特价9.9元（老款果酒）',
-            '生日礼遇（生日当天全场9折，可叠加）',
+            '首单0元送酒（老款果酒3选1）',
+            '每月1元加购（3种特价老款酒3选1）',
+            '生日礼遇（全年1次，需完善个人信息）',
           ]
         }
         return [
-          '每月1元小酒票（老款酒3选1，当月不领失效不累加）',
-          '每周特价9.9元（老款果酒）',
-          '入会赠饮1瓶（凭核销码自提/配送）',
-          '生日礼遇（生日当天全场9折，可叠加）',
+          '首单0元送酒（老款果酒3选1）',
+          '每月1元加购（3种特价老款酒3选1）',
+          '生日全场9折（全年1次，需完善个人信息）',
         ]
       },
 
@@ -232,6 +279,10 @@ export const useMemberStore = create<MemberState>()(
         welcomeGiftRedeemCode: state.welcomeGiftRedeemCode,
         welcomeGiftRedeemed: state.welcomeGiftRedeemed,
         birthdayDate: state.birthdayDate,
+        birthdayUsedYear: state.birthdayUsedYear,
+        profileCompleted: state.profileCompleted,
+        profileName: state.profileName,
+        profilePhone: state.profilePhone,
         weeklySpecialUsed: state.weeklySpecialUsed,
       }),
     }

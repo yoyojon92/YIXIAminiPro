@@ -15,7 +15,7 @@ import { PICKUP_POINTS } from '@/mock/delivery'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
-  { id: 'dormitory', name: '送货到宿舍', icon: Truck, desc: '预计15-30分钟送达', extra: '¥1跑腿费' },
+  { id: 'dormitory', name: '送货上门', icon: Truck, desc: '预计15-30分钟送达', extra: '¥1跑腿费' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
   { id: 'mail', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
@@ -117,7 +117,7 @@ export default function Cart() {
       Taro.showToast({ title: '请选择商品', icon: 'none' })
       return
     }
-    // 检查送货到宿舍是否已填地址
+    // 检查送货上门是否已填地址
     if (selectedDelivery === 'dormitory' && !delivery.dormitoryAddress) {
       Taro.showToast({ title: '请先填写宿舍地址', icon: 'none' })
       return
@@ -283,7 +283,7 @@ export default function Cart() {
         </View>
       </View>
 
-      {/* 宿舍地址选择（仅送货到宿舍模式显示） */}
+      {/* 宿舍地址选择（仅送货上门模式显示） */}
       {selectedDelivery === 'dormitory' && (
         <View 
           className="px-4 py-3 bg-white mt-2"

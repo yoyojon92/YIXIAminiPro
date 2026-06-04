@@ -38,6 +38,7 @@ export default defineAppConfig({
         'recharge/index',
         'withdraw/index',
         'coupons/index',
+        'profile/index',
       ],
     },
     {

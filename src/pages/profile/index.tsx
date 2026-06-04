@@ -70,6 +70,7 @@ export default function Profile() {
   
   const menuItems: Array<{ id: number; icon: React.ComponentType<any>; title: string; badge: string | null; path: string; dynamicBadge?: () => number | null; action?: string }> = [
     { id: 0, icon: Crown, title: '会员权益', badge: null, path: '/pagesMember/membership/index' },
+    { id: 5, icon: Sparkles, title: '完善信息', badge: null, path: '/pagesMember/profile/index' },
     { id: 1, icon: Package, title: '我的订单', badge: '3', path: '/pagesOrder/orders/index' },
     { id: 2, icon: Ticket, title: '优惠券', badge: null, dynamicBadge: () => couponBadgeCount > 0 ? couponBadgeCount : null, path: '/pagesMember/coupons/index' },
     { id: 4, icon: Star, title: '我的收藏', badge: null, path: '/pagesSocial/wall/index?tab=favorite' },

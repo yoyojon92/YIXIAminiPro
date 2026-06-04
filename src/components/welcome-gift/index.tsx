@@ -61,10 +61,14 @@ export function WelcomeGiftModal() {
       if (wine && wine.product) {
         cartStore.addItem({
           id: `gift_${wine.id}`,
+          productId: wine.id,
           name: `${wine.name}（入会赠饮）`,
           price: 0,
+          originalPrice: wine.product.price || 16.8,
+          spec: wine.product.specs?.[0]?.name || '330ml',
           quantity: 1,
           image: wine.product.images[0],
+          maxQuantity: 1,
           isGift: true,
         })
       }

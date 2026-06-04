@@ -131,7 +131,7 @@ export function MemberModal() {
           {/* 生日礼遇 */}
           <View style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 16px' }}>
             <Text style={{ fontSize: '16px' }}>🎂</Text>
-            <Text style={{ fontSize: '14px', color: '#fff', flex: 1 }}>生日全场9折（可叠加）</Text>
+            <Text style={{ fontSize: '14px', color: '#fff', flex: 1 }}>生日全场9折（全年1次·需完善信息）</Text>
           </View>
         </View>
 

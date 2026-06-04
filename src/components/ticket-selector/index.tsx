@@ -34,10 +34,14 @@ export function TicketSelector() {
       // 将1元小酒票商品加入购物车
       cartStore.addItem({
         id: `ticket_${wine.id}`,
+        productId: wine.id,
         name: `${wine.name}（1元小酒票）`,
         price: 1,
+        originalPrice: wine.product.price || 16.8,
+        spec: wine.product.specs?.[0]?.name || '330ml',
         quantity: 1,
         image: wine.product.images[0],
+        maxQuantity: 1,
         isGift: false,
         isTicket: true,
       })
