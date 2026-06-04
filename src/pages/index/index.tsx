@@ -23,7 +23,7 @@ import './index.scss'
 const CDN = 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products'
 
 const NEW_WINES = [
-  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: `${CDN}/yixia-wine/01-liu-hong-xin-shi.webp` },
+  { id: 'prod_pomegranate_new', name: '榴红心事', sub: '石榴·7°', price: '¥18.8', image: require('../../assets/images/products/yixia-wine/01-liu-hong-xin-shi.webp') },
   { id: 'prod_grape_wine',      name: '葡香暗度', sub: '葡萄·7°', price: '¥18.8', image: `${CDN}/yixia-wine/02-pu-xiang-an-du.webp` },
   { id: 'prod_peach_new',       name: '桃心暗动', sub: '黄桃·7°', price: '¥18.8', image: `${CDN}/yixia-wine/03-tao-xin-an-dong.webp` },
   { id: 'prod_apple_wine',      name: '青苹微醺', sub: '苹果·7°', price: '¥18.8', image: `${CDN}/yixia-wine/04-qing-ping-wei-zui.webp` },

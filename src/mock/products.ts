@@ -6,7 +6,7 @@
 // 产品图片路径映射
 const PRODUCT_IMAGES: Record<string, string> = {
   // 果酒产品图（yixia-wine目录）
-  prod_pomegranate_new: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/01-liu-hong-xin-shi.webp',
+  prod_pomegranate_new: require('../../assets/images/products/yixia-wine/01-liu-hong-xin-shi.webp'),
   prod_grape_wine: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/02-pu-xiang-an-du.webp',
   prod_peach_new: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/03-tao-xin-an-dong.webp',
   prod_apple_wine: 'https://cdn.jsdelivr.net/gh/yoyojon92/YIXIAminiPro@44659b2/src/assets/images/products/yixia-wine/04-qing-ping-wei-zui.webp',
