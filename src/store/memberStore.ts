@@ -77,6 +77,7 @@ interface MemberState {
   useWeeklySpecial: () => void
   canUseWeeklySpecial: () => boolean
 
+  isPromoActive: () => boolean
   getMemberBenefits: () => string[]
   getRemainingDays: () => number
 }
@@ -94,6 +95,9 @@ const getCurrentWeek = () => {
   const week = Math.ceil(((d.getTime() - start.getTime()) / 86400000 + start.getDay() + 1) / 7)
   return `${d.getFullYear()}-W${week}`
 }
+
+/** 9.9创始会员活动截止：2026-06-30 23:59:59 */
+const PROMO_END = new Date('2026-06-30T23:59:59').getTime()
 
 /** 创始会员统一到期：2026-12-31 23:59:59 */
 const FOUNDING_EXPIRE = new Date('2026-12-31T23:59:59').getTime()
@@ -167,8 +171,9 @@ export const useMemberStore = create<MemberState>()(
 
       // === 1元小酒票 ===
       canClaimTicket: () => {
-        const { isMember, ticketClaimedMonth } = get()
+        const { isMember, ticketClaimedMonth, welcomeGiftClaimed } = get()
         if (!isMember) return false
+        if (welcomeGiftClaimed) return false // 首单0元和1元小酒票二选一，已领赠饮不可领小酒票
         return ticketClaimedMonth !== getCurrentMonth()
       },
 
@@ -191,6 +196,7 @@ export const useMemberStore = create<MemberState>()(
           welcomeGiftWineId: wineId,
           welcomeGiftDeliveryMode: mode,
           welcomeGiftRedeemCode: redeemCode,
+          ticketClaimedMonth: getCurrentMonth(), // 首单0元和1元小酒票二选一，领赠饮=本月小酒票已用
         })
         return redeemCode
       },
@@ -238,21 +244,20 @@ export const useMemberStore = create<MemberState>()(
         set({ weeklySpecialUsed: getCurrentWeek() })
       },
 
+      isPromoActive: () => Date.now() < PROMO_END,
+
       getMemberBenefits: () => {
         const { isMember } = get()
         if (!isMember) {
           return [
-            '入会赠饮1瓶（经典款果酒3选1）',
-            '每月1元小酒票（3种经典款酒3选1，当月不领失效）',
-            '每周特价9.9元（经典款果酒）',
-            '首单0元送酒（经典款果酒3选1）',
-            '每月1元加购（3种特价经典款酒3选1）',
-            '生日礼遇（全年1次，需完善个人信息）',
+            '首单0元送酒 或 1元小酒票（二选一，经典款3选1）',
+            '生日全场9折（全年1次，需完善个人信息）',
+            '活动期至2026年6月30日',
           ]
         }
         return [
           '首单0元送酒（经典款果酒3选1）',
-          '每月1元加购（3种特价经典款酒3选1）',
+          '每月1元小酒票（经典款3选1仅¥1）',
           '生日全场9折（全年1次，需完善个人信息）',
         ]
       },

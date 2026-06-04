@@ -11,8 +11,7 @@ import { TicketSelector } from '@/components/ticket-selector'
 
 // Status is now computed dynamically in the component
 const BENEFIT_CONFIG = [
-  { icon: Gift, title: '首单0元送酒', action: 'welcome' },
-  { icon: Tag, title: '每月1元加购', action: 'ticket' },
+  { icon: Gift, title: '首单0元送酒/1元小酒票', action: 'welcome' },
   { icon: Gift, title: '生日礼遇', action: 'birthday' },
 ]
 
@@ -59,9 +58,7 @@ export default function Membership() {
             {BENEFIT_CONFIG.map((benefit, index) => {
               const Icon = benefit.icon
               const statusText = benefit.action === 'welcome'
-                ? (!welcomeGiftClaimed ? '点击领取' : welcomeGiftRedeemed ? '已核销✓' : '已领取')
-                : benefit.action === 'ticket'
-                ? (canClaimTicket() ? '点击领取' : '本月已领✓')
+                ? (!welcomeGiftClaimed && canClaimTicket() ? '点击领取' : welcomeGiftClaimed ? '已领取首单0元✓' : '已领取小酒票✓')
                 : '全年1次'
               const statusColor = statusText.includes('点击') ? '#FBBF24' : '#6B7280'
               const descText = benefit.action === 'welcome'
@@ -74,8 +71,7 @@ export default function Membership() {
                   <View className="flex items-center gap-4 p-4" onClick={() => {
                     if (benefit.action === 'welcome') {
                       setShowWelcomeGiftModal(true)
-                    } else if (benefit.action === 'ticket') {
-                      setShowTicketModal(true)
+
                     } else if (benefit.action === 'birthday') {
                       Taro.navigateTo({ url: '/pagesMember/profile/index' })
                     }
@@ -105,8 +101,8 @@ export default function Membership() {
           <CardContent className="p-4">
             <Text className="text-sm font-medium text-gray-900 block mb-2">会员须知</Text>
             <Text className="text-xs text-gray-500 block">· 创始会员有效期至2026年12月31日</Text>
-            <Text className="text-xs text-gray-500 block">· 首单0元送酒（经典款果酒3选1），一次性权益</Text>
-            <Text className="text-xs text-gray-500 block">· 每月1元小酒票（经典款果酒3选1仅¥1），当月不领失效</Text>
+            <Text className="text-xs text-gray-500 block">· 首单0元送酒 或 1元小酒票（二选一，经典款果酒3选1）</Text>
+            <Text className="text-xs text-gray-500 block">· 活动期至2026年6月30日，到期后9.9创始会员入口下架</Text>
             <Text className="text-xs text-gray-500 block">· 生日9折全年仅1次，需完善个人信息后解锁</Text>
             <Text className="text-xs text-gray-500 block">· 会员权益仅限本人使用，不可转让</Text>
           </CardContent>
@@ -117,7 +113,7 @@ export default function Membership() {
         <View className="px-4 mt-6 mb-6">
           <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 border-0 h-12" onClick={() => { setShowMemberModal(true); Taro.navigateBack() }}>
             <Crown size={18} color="white" />
-            <Text className="text-white ml-2 font-bold">¥9.9 开通创始会员</Text>
+            <Text className="text-white ml-2 font-bold">¥9.9 开通创始会员（活动至6月30日）</Text>
           </Button>
         </View>
       )}

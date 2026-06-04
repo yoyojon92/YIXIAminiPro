@@ -73,7 +73,7 @@ export function MemberModal() {
               <View style={{ flex: 1 }}>
                 <View style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Text style={{ fontSize: '16px' }}>🎁</Text>
-                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>首单0元送酒</Text>
+                  <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#1F2937' }}>首单0元送酒/1元小酒票(二选一)</Text>
                 </View>
                 <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px', display: 'block' }}>
                   经典款果酒3选1，自提核销或配送

@@ -37,7 +37,7 @@ const CLASSIC_WINES = [
 export default function Index() {
   const profileStore = useUserProfileStore()
   const { mode, selectedPickupPoint, setMode, setPickupPoint } = useDeliveryStore()
-  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, setShowWelcomeGiftModal } = useMemberStore()
+  const { isMember, setShowMemberModal, getRemainingDays, setShowTicketModal, canClaimTicket, welcomeGiftClaimed, setShowWelcomeGiftModal, isPromoActive } = useMemberStore()
   const [showPickupModal, setShowPickupModal] = useState(false)
   
   const unreadCount = usePushStore(state => state.unreadCount)
@@ -125,7 +125,7 @@ export default function Index() {
               <Ticket size={16} color="#FBBF24" />
             </View>
             <Text className="text-xs font-medium text-amber-400">1元小酒票</Text>
-            <Text className="text-xs text-gray-500">{!isMember ? '每月领' : canClaimTicket() ? '点击领取' : '本月已领'}</Text>
+            <Text className="text-xs text-gray-500">{!isMember ? '二选一' : welcomeGiftClaimed ? '已选首单0元' : canClaimTicket() ? '点击领取' : '本月已领'}</Text>
           </View>
           <View className="flex-1 bg-white rounded-xl p-3 text-center shadow-sm"
             onClick={() => { if (isMember) setShowMemberModal(true); else setShowMemberModal(true) }}>
@@ -140,8 +140,8 @@ export default function Index() {
             <View className="w-8 h-8 bg-purple-500 bg-opacity-20 rounded-lg mx-auto flex items-center justify-center mb-1">
               <Gift size={16} color="#A855F7" />
             </View>
-            <Text className="text-xs font-medium text-purple-400">入会赠饮1瓶</Text>
-            <Text className="text-xs text-gray-500">{!isMember ? '开通送' : welcomeGiftClaimed ? '已领取' : '点击领取'}</Text>
+            <Text className="text-xs font-medium text-purple-400">首单0元送酒</Text>
+            <Text className="text-xs text-gray-500">{!isMember ? '二选一' : welcomeGiftClaimed ? '已领取' : '点击领取'}</Text>
           </View>
         </View>
       </View>
@@ -152,7 +152,7 @@ export default function Index() {
           onClick={() => setShowWelcomeGiftModal(true)}>
           <View className="w-10 h-10 rounded-lg bg-purple-500 flex items-center justify-center flex-shrink-0"><Gift size={20} color="white" /></View>
           <View className="flex-1">
-            <Text className="text-sm font-medium text-purple-300">你的入会赠饮未领取</Text>
+            <Text className="text-sm font-medium text-purple-300">你的首单0元送酒未领取（与1元小酒票二选一）</Text>
             <Text className="text-xs text-purple-400 mt-1">选1瓶经典款果酒，自提免运费</Text>
           </View>
           <ChevronRight size={18} color="#A855F7" />
@@ -163,7 +163,7 @@ export default function Index() {
           onClick={() => setShowTicketModal(true)}>
           <View className="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center flex-shrink-0"><Ticket size={20} color="white" /></View>
           <View className="flex-1">
-            <Text className="text-sm font-medium text-amber-300">你的1元小酒票未领取</Text>
+            <Text className="text-sm font-medium text-amber-300">你的1元小酒票未领取（与首单0元二选一）</Text>
             <Text className="text-xs text-amber-400 mt-1">点击领取，经典款果酒3选1</Text>
           </View>
           <ChevronRight size={18} color="#FBBF24" />

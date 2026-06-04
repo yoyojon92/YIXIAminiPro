@@ -138,7 +138,7 @@ export default function Category() {
               {!isMember ? (
                 <View className="rounded-xl border-2 border-purple-300 p-5 text-center mb-4" style={{ backgroundColor: 'rgba(139,92,246,0.05)' }}>
                   <Text className="text-xl font-bold text-purple-700">9.9创始会员</Text>
-                  <Text className="text-sm text-gray-600 mt-2">入会赠饮1瓶+每月1元小酒票+生日9折</Text>
+                  <Text className="text-sm text-gray-600 mt-2">首单0元或1元小酒票(二选一)+生日9折</Text>
                   <View className="mt-4 rounded-xl py-3" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24)' }} onClick={() => setShowMemberModal(true)}>
                     <Text className="text-white font-bold text-center">立即开通 ¥9.9</Text>
                   </View>
@@ -149,14 +149,14 @@ export default function Category() {
                   <View className="rounded-xl bg-white p-3 flex items-center gap-2 mb-2"
                     onClick={() => { setShowWelcomeGiftModal(true) }}>
                     <View className="w-8 h-8 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center flex-shrink-0"><Gift size={16} color="#A855F7" /></View>
-                    <Text className="text-sm font-medium text-gray-800 flex-1">入会赠饮 {welcomeGiftClaimed ? '✓已领取' : '· 点击领取经典款3选1'}</Text>
+                    <Text className="text-sm font-medium text-gray-800 flex-1">首单0元/1元小酒票 {(welcomeGiftClaimed || (canClaimTicket() === false && isMember)) ? '✓已领取' : '· 点击领取经典款3选1'}</Text>
                     {!welcomeGiftClaimed && <View className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">待领</View>}
                   </View>
                   {/* 1元小酒票 */}
                   <View className="rounded-xl bg-white p-3 flex items-center gap-2 mb-2"
                     onClick={() => { setShowTicketModal(true) }}>
                     <View className="w-8 h-8 rounded-lg bg-amber-500 bg-opacity-20 flex items-center justify-center flex-shrink-0"><Ticket size={16} color="#FBBF24" /></View>
-                    <Text className="text-sm font-medium text-gray-800 flex-1">1元小酒票 {canClaimTicket() ? '· 点击领取经典款3选1' : '✓本月已领'}</Text>
+                    <Text className="text-sm font-medium text-gray-800 flex-1">1元小酒票 {welcomeGiftClaimed ? '✓已选首单0元' : canClaimTicket() ? '· 点击领取经典款3选1' : '✓本月已领'}</Text>
                     {canClaimTicket() && <View className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">待领</View>}
                   </View>
                   {/* 每周特价 */}
@@ -189,11 +189,11 @@ export default function Category() {
                 <View className="mt-3 pt-3 border-t border-purple-100">
                   <View className="flex items-center gap-2 mb-2">
                     <Gift size={14} color="#A855F7" />
-                    <Text className="text-xs text-gray-700">首单0元送酒：以上3款任选1瓶</Text>
+                    <Text className="text-xs text-gray-700">首单0元送酒（与1元小酒票二选一）：以上3款任选1瓶</Text>
                   </View>
                   <View className="flex items-center gap-2">
                     <Ticket size={14} color="#FBBF24" />
-                    <Text className="text-xs text-gray-700">1元小酒票：以上3款3选1仅¥1</Text>
+                    <Text className="text-xs text-gray-700">1元小酒票（与首单0元二选一）：以上3款3选1仅¥1</Text>
                   </View>
                 </View>
               </View>
@@ -201,7 +201,7 @@ export default function Category() {
               {/* 会员权益说明 */}
               <View className="rounded-xl bg-white p-4">
                 <Text className="text-sm text-amber-500 font-medium mb-2">创始会员权益</Text>
-                {['入会赠饮1瓶（经典特调3选1）', '每月1元小酒票（当月不领失效不累加）', '生日礼遇（全场9折，全年1次）'].map((b, i) => (
+                {['首单0元送酒 或 1元小酒票（二选一，经典款3选1）', '生日礼遇（全场9折，全年1次）'].map((b, i) => (
                   <View key={i} className="flex items-center gap-2 mt-2">
                     <Text className="text-xs text-gray-500">•</Text>
                     <Text className="text-xs text-gray-700">{b}</Text>
