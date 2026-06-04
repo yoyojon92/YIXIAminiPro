@@ -40,7 +40,6 @@ interface Order {
   totalPrice: number
   deliveryFee: number
   createTime: string
-  fragmentCount: number
   deliveryTime?: string
   dispute?: {
     reason: DisputeReason
@@ -55,12 +54,11 @@ const orders: Order[] = [
     statusText: '待付款',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '蜜桃精灵果酒 330ml', image: '🍑', price: 29.9, quantity: 1, specs: '蜜桃味' }
+      { name: '蜜桃心果酒 330ml', image: '🍑', price: 29.9, quantity: 1, specs: '蜜桃味' }
     ],
     totalPrice: 29.9,
     deliveryFee: 3,
     createTime: '2024-01-15 14:30',
-    fragmentCount: 2
   },
   {
     id: 'ORD20240114002',
@@ -68,12 +66,11 @@ const orders: Order[] = [
     statusText: '待收货',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '蓝莓精灵果汁 250ml', image: '🫐', price: 19.9, quantity: 2, specs: '蓝莓味' }
+      { name: '蓝莓小果汁 250ml', image: '🫐', price: 19.9, quantity: 2, specs: '蓝莓味' }
     ],
     totalPrice: 39.8,
     deliveryFee: 0,
     createTime: '2024-01-14 10:20',
-    fragmentCount: 1
   },
   {
     id: 'ORD20240113003',
@@ -81,13 +78,12 @@ const orders: Order[] = [
     statusText: '已完成',
     shopName: '邑夏官方旗舰店',
     items: [
-      { name: '草莓精灵气泡酒 280ml', image: '🍓', price: 24.9, quantity: 1, specs: '草莓味' },
-      { name: '柠檬精灵轻饮酒 250ml', image: '🍋', price: 22.9, quantity: 1, specs: '柠檬味' }
+      { name: '草莓气泡果酒 280ml', image: '🍓', price: 24.9, quantity: 1, specs: '草莓味' },
+      { name: '柠檬轻饮果酒 250ml', image: '🍋', price: 22.9, quantity: 1, specs: '柠檬味' }
     ],
     totalPrice: 47.8,
     deliveryFee: 3,
     createTime: '2024-01-13 16:45',
-    fragmentCount: 3
   }
 ]
 
@@ -248,7 +244,6 @@ export default function Orders() {
             totalPrice: totalAmount,
             deliveryFee: 2,
             createTime: new Date().toLocaleString('zh-CN'),
-            fragmentCount: items.length,
             deliveryMode: delivery.type
           }
           savedOrders.unshift(newOrder)
@@ -497,14 +492,6 @@ export default function Orders() {
                       </View>
                     ))}
                   </View>
-
-                  {/* 精灵碎片 */}
-                  {order.fragmentCount > 0 && (
-                    <View className="px-4 py-2 bg-purple-50 mx-4 mb-3 rounded-lg flex items-center gap-2">
-                      <Star size={14} color="#8B5CF6" />
-                      <Text className="text-xs text-primary">获得 {order.fragmentCount} 精灵碎片</Text>
-                    </View>
-                  )}
 
                   <Separator />
 

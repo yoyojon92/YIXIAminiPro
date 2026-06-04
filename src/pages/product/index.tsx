@@ -388,11 +388,11 @@ export default function Product() {
           </View>
         </View>
 
-        {/* 精灵故事 */}
+        {/* 品牌故事 */}
         <View className="bg-white px-4 py-4 mt-2">
           <View className="flex items-center gap-2 mb-3">
             <Gift size={18} color="#8B5CF6" />
-            <Text className="text-sm font-medium text-gray-900">精灵故事</Text>
+            <Text className="text-sm font-medium text-gray-900">品牌故事</Text>
             <Badge variant="secondary" className="text-xs">+2 碎片</Badge>
           </View>
           <Text className="text-sm text-gray-600 leading-6">{product?.story}</Text>

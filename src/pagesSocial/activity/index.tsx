@@ -26,7 +26,7 @@ interface Activity {
 const activities: Activity[] = [
   {
     id: 1,
-    title: '周末精灵派对',
+    title: '周末果酒派对',
     coverImage: '🎪',
     startTime: '2025-01-18 19:00',
     endTime: '2025-01-18 22:00',
@@ -35,8 +35,8 @@ const activities: Activity[] = [
     maxParticipants: 60,
     status: 'upcoming',
     type: 'party',
-    reward: '+5精灵碎片',
-    description: '周末派对，和精灵一起放松！现场有抽奖、游戏互动，赢取限定周边。'
+    reward: '+5积分',
+    description: '周末派对，和小伙伴们一起放松！现场有抽奖、游戏互动，赢取限定周边。'
   },
   {
     id: 2,
@@ -49,12 +49,12 @@ const activities: Activity[] = [
     maxParticipants: 30,
     status: 'ended',
     type: 'tasting',
-    reward: '+3精灵碎片',
+    reward: '+3积分',
     description: '抢先品鉴即将上市的新品，参与即可获得专属品鉴徽章。'
   },
   {
     id: 3,
-    title: '精灵知识问答',
+    title: '果酒知识问答',
     coverImage: '🥂',
     startTime: '2025-01-20 20:00',
     endTime: '2025-01-20 21:00',
@@ -63,8 +63,8 @@ const activities: Activity[] = [
     maxParticipants: 200,
     status: 'ongoing',
     type: 'game',
-    reward: '+8精灵碎片',
-    description: '精灵知识大考验！答对题目即可获得碎片，前十名还有额外奖励。'
+    reward: '+8积分',
+    description: '果酒知识大考验！答对题目即可获得积分，前十名还有额外奖励。'
   },
   {
     id: 4,
@@ -115,7 +115,7 @@ export default function Activity() {
       {/* 顶部 */}
       <View className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-6">
         <Text className="text-white text-xl font-bold">社群活动</Text>
-        <Text className="text-white text-opacity-80 text-sm mt-1">和精灵一起玩转校园生活</Text>
+        <Text className="text-white text-opacity-80 text-sm mt-1">和好友一起玩转校园生活</Text>
       </View>
 
       {/* 筛选标签 */}

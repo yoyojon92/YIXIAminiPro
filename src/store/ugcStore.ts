@@ -64,7 +64,7 @@ const MOCK_WORKS: UGCWork[] = [
     isVoted: false,
     rank: 1,
     type: 'official',
-    tags: ['#期末庆祝', '#精灵陪伴'],
+    tags: ['#期末庆祝', '#果酒陪伴'],
     createdAt: Date.now() - 86400000 * 5,
   },
   {
@@ -147,7 +147,7 @@ const MOCK_WORKS: UGCWork[] = [
   },
   {
     id: 'ugc-006',
-    title: '精灵陪你过生日',
+    title: '果酒陪你过生日',
     image: '📸',
     author: '果酒爱好者',
     productId: 'prod_pomegranate_new',
@@ -161,7 +161,7 @@ const MOCK_WORKS: UGCWork[] = [
     isVoted: false,
     rank: 6,
     type: 'member',
-    tags: ['#生日', '#精灵陪伴'],
+    tags: ['#生日', '#果酒陪伴'],
     createdAt: Date.now() - 86400000 * 0.5,
   },
   {

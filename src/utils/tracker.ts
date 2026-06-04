@@ -10,8 +10,6 @@ export type EventType =
   | 'click'          // 点击事件
   | 'order_create'   // 创建订单
   | 'order_complete' // 完成订单
-  | 'runner_select'  // 选择送酒员
-  | 'sprite_click'   // 精灵点击
   | 'product_view'   // 商品浏览
   | 'add_to_cart'    // 加入购物车
   | 'search'         // 搜索
@@ -117,19 +115,6 @@ export function trackAddToCart(productId: string, quantity: number, price: numbe
   track('add_to_cart', { productId, quantity, price })
 }
 
-/**
- * 选择送酒员埋点
- */
-export function trackRunnerSelect(runnerId: string, runnerName: string): void {
-  track('runner_select', { runnerId, runnerName })
-}
-
-/**
- * 精灵点击埋点
- */
-export function trackSpriteClick(spriteId: string, spriteName: string): void {
-  track('sprite_click', { spriteId, spriteName })
-}
 
 /**
  * 获取事件队列
@@ -155,8 +140,6 @@ export default {
   trackClick,
   trackProductView,
   trackAddToCart,
-  trackRunnerSelect,
-  trackSpriteClick,
   getEventQueue,
   clearEventQueue,
   getSessionId

@@ -30,10 +30,7 @@ interface Article {
     price: number
   }[]
   createTime: string
-  relatedSprite: {
-    name: string
-    image: string
-  }
+
 }
 
 const article: Article = {
@@ -41,13 +38,13 @@ const article: Article = {
   title: '考试周的治愈小确幸',
   content: `期末考试周终于结束了！这段时间每天都在图书馆埋头苦读，压力山大。今天考完最后一门，和室友们决定好好犒劳一下自己。
 
-我们买了几瓶邑夏的蜜桃精灵果酒，回到宿舍开了个小派对。打开瓶盖的瞬间，淡淡的蜜桃香气扑面而来，瞬间感觉所有的疲惫都被治愈了。
+我们买了几瓶邑夏的蜜桃心果酒，回到宿舍开了个小派对。打开瓶盖的瞬间，淡淡的蜜桃香气扑面而来，瞬间感觉所有的疲惫都被治愈了。
 
 微醺的感觉刚刚好，不会太醉，但又能让人彻底放松下来。室友们一边喝一边聊天，聊聊考试的心得，聊聊暑假的计划，氛围特别好。
 
-这款果酒的精灵图案真的太可爱了，每喝完一瓶就能收集到一个精灵碎片，感觉喝酒都变得有意义起来。我们已经开始集齐蜜桃精灵的碎片了，希望能早日集齐！
+这款果酒的包装真的太好看，每喝完一瓶都有不同的心情，感觉喝酒都变得有意义起来。我们已经开始收集不同口味的体验了，希望每款都能试试！
 
-姐妹们，考试周压力大的时候，不妨试试这种小确幸的治愈方式。精灵们会陪你度过每一个需要放松的时刻~`,
+姐妹们，考试周压力大的时候，不妨试试这种小确幸的治愈方式。果酒会陪你度过每一个需要放松的时刻~`,
   coverImage: '📖',
   author: '蜜桃少女',
   authorAvatar: '✍️',
@@ -56,16 +53,13 @@ const article: Article = {
   comments: 45,
   shares: 89,
   reward: 1,
-  tags: ['#期末治愈', '#精灵陪伴', '#宿舍生活'],
+  tags: ['#期末治愈', '#果酒陪伴', '#宿舍生活'],
   relatedProducts: [
-    { id: 1, name: '蜜桃精灵果酒', image: '🍷', price: 29.9 },
-    { id: 2, name: '蓝莓精灵果汁', image: '🧃', price: 19.9 }
+    { id: 1, name: '蜜桃心果酒', image: '🍷', price: 29.9 },
+    { id: 2, name: '蓝莓小果汁', image: '🧃', price: 19.9 }
   ],
   createTime: '2025-01-15',
-  relatedSprite: {
-    name: '蜜桃精灵·小蜜',
-    image: '🖼️'
-  }
+
 }
 
 export default function Article() {
@@ -154,17 +148,19 @@ export default function Article() {
           ))}
         </View>
 
-        {/* 相关精灵 */}
+        {/* 会员推荐 */}
         <View className="px-4 py-4 bg-white mt-2">
           <View className="flex items-center gap-2 mb-3">
             <Gift size={18} className="text-primary" color="#8B5CF6" />
-            <Text className="text-sm font-medium text-gray-900">相关精灵</Text>
+            <Text className="text-sm font-medium text-gray-900">会员推荐</Text>
           </View>
           <View className="flex items-center gap-4 bg-purple-50 rounded-xl p-4">
-            <Image src={article.relatedSprite.image} mode="aspectFill" className="w-16 h-16 rounded-full" />
+            <View className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
+              <Sparkles size={32} color="white" />
+            </View>
             <View>
-              <Text className="text-sm font-medium text-gray-900">{article.relatedSprite.name}</Text>
-              <Text className="text-xs text-gray-500 mt-1">每购买一瓶可获得1个精灵碎片</Text>
+              <Text className="text-sm font-medium text-gray-900">9.9创始会员</Text>
+              <Text className="text-xs text-gray-500 mt-1">开通即享1元小酒票+入会赠饮</Text>
             </View>
           </View>
         </View>
@@ -221,7 +217,7 @@ export default function Article() {
             </View>
             <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-0">
               <Sparkles size={12} className="mr-1" color="#f59e0b" />
-              阅读+{article.reward}碎片
+              阅读+{article.reward}积分
             </Badge>
           </View>
         </View>
@@ -336,8 +332,8 @@ export default function Article() {
             <View className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Sparkles size={40} className="text-amber-500" color="#f59e0b" />
             </View>
-            <Text className="text-lg font-bold text-gray-900 mb-2">恭喜获得精灵碎片！</Text>
-            <Text className="text-sm text-gray-500 mb-4">阅读《{article.title}》获得 {article.reward} 个碎片</Text>
+            <Text className="text-lg font-bold text-gray-900 mb-2">恭喜获得阅读积分！</Text>
+            <Text className="text-sm text-gray-500 mb-4">阅读《{article.title}》获得 {article.reward} 个积分</Text>
             <Button onClick={() => setShowReward(false)}>
               <Text>知道了</Text>
             </Button>

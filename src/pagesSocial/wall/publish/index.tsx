@@ -21,7 +21,7 @@ const PRODUCT_OPTIONS = [
 ]
 
 const TAGS = [
-  '#期末庆祝', '#精灵陪伴', '#微醺时刻', '#宿舍聚会',
+  '#期末庆祝', '#果酒陪伴', '#微醺时刻', '#宿舍聚会',
   '#送礼佳品', '#生日派对', '#好友小聚', '#独处时光',
   '#新品体验', '#低度酒推荐', '#包装精美', '#口感满分'
 ]
@@ -250,7 +250,7 @@ export default function Publish() {
             <View className="flex flex-col gap-1">
               <Text className="text-xs text-amber-600">• 会员每月最多投稿{maxPublish}篇</Text>
               <Text className="text-xs text-amber-600">• 图片请勿包含水印、二维码</Text>
-              <Text className="text-xs text-amber-600">• 内容需与果酒/精灵相关</Text>
+              <Text className="text-xs text-amber-600">• 内容需与果酒相关</Text>
               <Text className="text-xs text-amber-600">• 禁止上传违规、侵权内容</Text>
               <Text className="text-xs text-amber-600">• 优质作品有机会获得官方推荐</Text>
             </View>

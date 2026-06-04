@@ -27,21 +27,21 @@ const diaries: Diary[] = [
   {
     id: 1,
     title: '考试周的治愈小确幸',
-    summary: '期末考试压力大？让精灵们陪你度过这个冬天。每一口都是来自桃花源的甜蜜治愈，微醺的感觉刚刚好～',
+    summary: '期末考试压力大？让果酒陪你度过这个冬天。每一口都是来自桃花源的甜蜜治愈，微醺的感觉刚刚好～',
     coverImage: '📖',
     author: '蜜桃少女',
     authorAvatar: '😊',
     readTime: '3分钟',
     likes: 328,
     reward: 1,
-    tags: ['#期末治愈', '#精灵陪伴'],
+    tags: ['#期末治愈', '#果酒陪伴'],
     isLiked: false,
     createDate: '2025-01-15'
   },
   {
     id: 2,
     title: '室友生日派对回顾',
-    summary: '给室友庆祝生日，我们开了一瓶青梅精灵果酒。温馨的氛围，美好的夜晚，这就是青春该有的样子吧～',
+    summary: '给室友庆祝生日，我们开了一瓶青梅心果酒。温馨的氛围，美好的夜晚，这就是青春该有的样子吧～',
     coverImage: '📝',
     author: '果酒爱好者',
     authorAvatar: '😊',
@@ -55,7 +55,7 @@ const diaries: Diary[] = [
   {
     id: 3,
     title: '一个人的周末下午茶',
-    summary: '阳光正好，一本书，一杯蓝莓精灵果汁，享受独处的美好时光。简单的生活也可以很幸福。',
+    summary: '阳光正好，一本书，一杯蓝莓小果汁，享受独处的美好时光。简单的生活也可以很幸福。',
     coverImage: '📚',
     author: '校园生活家',
     authorAvatar: '😊',
@@ -69,7 +69,7 @@ const diaries: Diary[] = [
   {
     id: 4,
     title: '和闺蜜的新年第一聚',
-    summary: '新年第一天，和好久不见的闺蜜重逢。我们点了草莓精灵气泡酒，聊了一整个下午，满满的幸福感～',
+    summary: '新年第一天，和好久不见的闺蜜重逢。我们点了草莓气泡果酒，聊了一整个下午，满满的幸福感～',
     coverImage: '✨',
     author: '青春纪念册',
     authorAvatar: '😊',
@@ -105,11 +105,11 @@ export default function Diary() {
         <View className="flex items-center justify-between">
           <View>
             <Text className="text-xl font-bold text-gray-900">每日日记</Text>
-            <Text className="text-sm text-gray-500 mt-1">阅读赚碎片，精选内容每日更新</Text>
+            <Text className="text-sm text-gray-500 mt-1">阅读赚积分，精选内容每日更新</Text>
           </View>
           <View className="flex items-center gap-1 bg-amber-500 text-white px-3 py-2 rounded-full">
             <Sparkles size={14} color="#ffffff" />
-            <Text className="text-sm font-medium">{totalReward}碎片待领</Text>
+            <Text className="text-sm font-medium">{totalReward}积分待领</Text>
           </View>
         </View>
       </View>
@@ -162,7 +162,7 @@ export default function Diary() {
                   </View>
                   <View className="flex items-center gap-1">
                     <Star size={14} className="text-amber-500" color="#F59E0B" />
-                    <Text className="text-xs text-amber-500">+{diary.reward}碎片</Text>
+                    <Text className="text-xs text-amber-500">+{diary.reward}积分</Text>
                   </View>
                 </View>
               </View>
@@ -239,8 +239,8 @@ export default function Diary() {
               <Sparkles size={24} color="white" />
             </View>
             <View className="flex-1">
-              <Text className="text-sm font-medium text-gray-900">阅读赚碎片</Text>
-              <Text className="text-xs text-gray-500 mt-1">每阅读一篇日记即可获得精灵碎片奖励</Text>
+              <Text className="text-sm font-medium text-gray-900">阅读赚积分</Text>
+              <Text className="text-xs text-gray-500 mt-1">每阅读一篇日记即可获得积分奖励</Text>
             </View>
           </CardContent>
         </Card>

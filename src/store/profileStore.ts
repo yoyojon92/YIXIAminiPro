@@ -13,7 +13,7 @@ interface UserActions {
   votes: string[]
   // 分享记录
   shares: string[]
-  // 精灵查看
+  // 会员权益查看
   spiritViews: string[]
   // 藏府君查看
   organLordViews: string[]
@@ -136,7 +136,7 @@ function getHealthTags(actions: UserActions): TagId[] {
   // 藏府君粉丝：查看>=3
   if (actions.organLordViews.length >= 3) tags.push('organ_lord_follower')
   
-  // 精灵收集者：查看>=4
+  // 果酒探索家：查看>=4
   if (actions.spiritViews.length >= 4) tags.push('sprite_collector')
   
   // 中医养生派：购买过>=2种不同果酒（说明在意功效）

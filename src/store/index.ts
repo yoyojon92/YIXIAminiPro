@@ -27,8 +27,3 @@ export type { DealerLevel, AgentLevel, CommissionRecord, WithdrawRecord, DealerP
 export { useCostStore } from './costStore'
 export type { CostRatio, CostBreakdown } from './costStore'
 
-export { useBatchOrderStore } from './batchOrderStore'
-export type { BatchOrder, BatchOrderItem, BatchOrderProgress } from './batchOrderStore'
-
-export { useMomentStore, ZANGFU_ROLE_INFO } from './momentStore'
-export type { RunnerMoment, MomentComment, ZangfuRole } from './momentStore'

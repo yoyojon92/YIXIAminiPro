@@ -41,7 +41,7 @@ export function calculateTags(behavior: UserBehavior): TagId[] {
     tags.push(productIdTagMap[maxProductId])
   }
   
-  // 精灵图鉴点击对应的口味标签
+  // 产品详情点击对应的口味标签
   const spriteProductMap: Record<string, string> = {
     'sprite-xinxin': 'prod_pomegranate_new',
     'sprite-feifei': 'prod_apple_wine',

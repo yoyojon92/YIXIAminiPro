@@ -24,7 +24,7 @@ export const USER_TAGS = {
   // 养生倾向
   tcm_fan: { name: '中医养生派', category: 'health', icon: '📿', color: '#059669' },
   organ_lord_follower: { name: '藏府君粉丝', category: 'health', icon: '🏛️', color: '#F59E0B' },
-  sprite_collector: { name: '精灵收集者', category: 'health', icon: '✨', color: '#A78BFA' },
+  wine_explorer: { name: '果酒探索家', category: 'health', icon: '✨', color: '#A78BFA' },
   
   // 身份标签
   member: { name: '邑夏会员', category: 'identity', icon: '👑', color: '#FBBF24' },

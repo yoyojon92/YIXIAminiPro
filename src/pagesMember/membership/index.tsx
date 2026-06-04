@@ -10,7 +10,7 @@ import { useMemberStore } from '@/store/memberStore'
 const MONTHLY_BENEFITS = [
   { icon: Truck, title: '免配送费', desc: '每月4次校内配送免运费' },
   { icon: Tag, title: '9折优惠', desc: '全场商品会员价' },
-  { icon: Sparkles, title: '精灵碎片双倍', desc: '购买即享双倍碎片' },
+  { icon: Gift, title: '1元小酒票', desc: '每月1次1元换购果酒' },
   { icon: Gift, title: '生日礼遇', desc: '专属生日礼包' },
 ]
 

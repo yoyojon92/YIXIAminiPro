@@ -34,7 +34,7 @@ export default function UserProfile() {
     shy_observer: '安静观察者，默默关注也是一种支持~',
     tcm_fan: '中医养生派，关注身体的五行平衡！',
     organ_lord_follower: '藏府君粉丝，追随古法养生智慧！',
-    sprite_collector: '精灵收集者，每只小可爱都值得被爱~',
+    wine_explorer: '果酒探索家，每款好酒都值得品尝~',
     member: '邑夏会员，专属权益等你享~',
     new_user: '萌新一枚，欢迎来到邑夏大家庭！',
     loyal_customer: '铁粉认证，邑夏因你而精彩！',
