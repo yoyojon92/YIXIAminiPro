@@ -15,7 +15,7 @@ import { PICKUP_POINTS } from '@/mock/delivery'
 import type { Coupon } from '@/data/coupons'
 
 const deliveryOptions = [
-  { id: 'dormitory', name: '送货上门', icon: Truck, desc: '最近自提点配送，预计15-30分钟', extra: '满50免配送费' },
+  { id: 'dormitory', name: '送货上门', icon: Truck, desc: '最近自提点配送，预计15-30分钟', extra: '满50免配，未满按平台计费' },
   { id: 'pickup', name: '到店自提', icon: Store, desc: '到附近自提点取货', extra: '免配送费' },
   { id: 'mail', name: '厂家直邮', icon: Send, desc: '全国范围配送到家', extra: '按地区计费' }
 ]
@@ -80,7 +80,8 @@ export default function Cart() {
   let deliveryFee = 0
   let shippingInfo: { zone: any; shippingFee: number; isFreeShipping: boolean } | null = null
   if (selectedDelivery === 'dormitory') {
-    deliveryFee = totalPrice >= 50 ? 0 : 3  // 同城满50免配送费，不满收3元
+    // 同城满50免配送费，不满50按第三方平台计费（起步价约5-8元）
+    deliveryFee = totalPrice >= 50 ? 0 : 5
   } else if (selectedDelivery === 'mail' && delivery.shippingAddress?.province) {
     shippingInfo = calculateShipping(delivery.shippingAddress.province, bottleCount, totalPrice)
     deliveryFee = shippingInfo.shippingFee

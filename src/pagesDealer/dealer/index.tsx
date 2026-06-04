@@ -1,36 +1,29 @@
 /**
  * 经销商中心
- * - 推荐进度 + 等级
- * - 专属小程序码
- * - 返利明细 + 提现
- * - 团购团长资格
- * - 自提订单管理（接单→备货→自提/呼叫第三方配送）
+ * - 纯分销角色：分享小程序赚返利，不处理订单
+ * - 推荐进度 + 等级 + 返利 + 提现
  */
 import { View, Text } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { useDealerStore } from '@/store/dealerStore'
-import { useMemberStore } from '@/store/memberStore'
 
 export default function DealerCenter() {
   const {
     isDealer, dealerLevel, referralCount, dealerCode,
     totalCommission, availableCommission, getCommissionRate,
     getNextDealerMilestone, getDealerLevelName, groupBuyEligible,
-    dealerOrders, generateDealerCode, withdrawCommission,
-    acceptDealerOrder, prepareDealerOrder, completePickupOrder,
-    callThirdPartyDelivery,
+    generateDealerCode, withdrawCommission,
   } = useDealerStore()
-  const { isMember } = useMemberStore()
 
   const milestone = getNextDealerMilestone()
   const commissionRate = getCommissionRate()
   const levelName = getDealerLevelName()
-  const pendingOrders = dealerOrders.filter(o => o.status !== 'picked_up')
-  const completedOrders = dealerOrders.filter(o => o.status === 'picked_up')
 
   const handleShareQrCode = () => {
     const code = generateDealerCode()
-    Taro.showToast({ title: `专属码: ${code}`, icon: 'none', duration: 3000 })
+    Taro.setClipboardData({ data: code, success: () => {
+      Taro.showToast({ title: `专属码已复制: ${code}`, icon: 'none', duration: 2000 })
+    }})
   }
 
   const handleWithdraw = () => {
@@ -45,14 +38,6 @@ export default function DealerCenter() {
         if (res.confirm) withdrawCommission(availableCommission)
       }
     })
-  }
-
-  const statusText: Record<string, string> = {
-    pending: '待接单',
-    preparing: '备货中',
-    ready: '已备好',
-    picked_up: '已取走',
-    delivering: '配送中',
   }
 
   return (
@@ -86,7 +71,6 @@ export default function DealerCenter() {
               <Text style={{ color: '#FDE68A', fontSize: '13px', marginTop: '8px' }}>
                 当前进度：{milestone.current}/{milestone.target}人
               </Text>
-              {/* 进度条 */}
               <View style={{ marginTop: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '4px', overflow: 'hidden' }}>
                 <View style={{ height: '100%', width: `${Math.min(100, (milestone.current / milestone.target) * 100)}%`, backgroundColor: '#FBBF24', borderRadius: '4px' }} />
               </View>
@@ -99,7 +83,6 @@ export default function DealerCenter() {
         <View style={{ padding: '12px 16px' }}>
           {/* 操作按钮组 */}
           <View style={{ flexDirection: 'row', gap: '8px' }}>
-            {/* 分享专属码 */}
             <View
               style={{ flex: 1, backgroundColor: '#fff', borderRadius: '12px', padding: '16px', alignItems: 'center' }}
               onClick={handleShareQrCode}
@@ -107,7 +90,6 @@ export default function DealerCenter() {
               <Text style={{ fontSize: '16px', fontWeight: 'bold', color: '#7C3AED' }}>分享专属码</Text>
               <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px' }}>推荐赚返利</Text>
             </View>
-            {/* 提现 */}
             <View
               style={{ flex: 1, backgroundColor: '#fff', borderRadius: '12px', padding: '16px', alignItems: 'center' }}
               onClick={handleWithdraw}
@@ -115,6 +97,17 @@ export default function DealerCenter() {
               <Text style={{ fontSize: '16px', fontWeight: 'bold', color: '#059669' }}>¥{availableCommission.toFixed(2)}</Text>
               <Text style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '4px' }}>点击提现</Text>
             </View>
+          </View>
+
+          {/* 角色说明 */}
+          <View style={{ marginTop: '12px', backgroundColor: '#EDE9FE', borderRadius: '12px', padding: '16px' }}>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold', color: '#5B21B6' }}>经销商 = 纯分销</Text>
+            <Text style={{ fontSize: '12px', color: '#7C3AED', marginTop: '8px', lineHeight: '20px' }}>
+              · 分享小程序专属码给好友{'\n'}
+              · 好友下单你拿返利{'\n'}
+              · 订单由最近自提点处理配送{'\n'}
+              · 不需要你备货/发货
+            </Text>
           </View>
 
           {/* 团购团长 */}
@@ -146,67 +139,6 @@ export default function DealerCenter() {
               </View>
             </View>
           </View>
-
-          {/* 自提订单管理 */}
-          <View style={{ marginTop: '12px', backgroundColor: '#fff', borderRadius: '12px', padding: '16px' }}>
-            <Text style={{ fontSize: '15px', fontWeight: 'bold', color: '#1F2937' }}>自提订单</Text>
-            {pendingOrders.length === 0 ? (
-              <Text style={{ fontSize: '13px', color: '#9CA3AF', marginTop: '12px', textAlign: 'center' }}>暂无待处理订单</Text>
-            ) : (
-              pendingOrders.map(order => (
-                <View key={order.id} style={{ marginTop: '12px', backgroundColor: '#F9FAFB', borderRadius: '8px', padding: '12px' }}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: '13px', fontWeight: 'bold', color: '#374151' }}>{order.customerName}</Text>
-                    <Text style={{ fontSize: '12px', color: '#7C3AED', backgroundColor: '#EDE9FE', paddingHorizontal: '8px', paddingVertical: '2px', borderRadius: '4px' }}>
-                      {statusText[order.status] || order.status}
-                    </Text>
-                  </View>
-                  <Text style={{ fontSize: '12px', color: '#6B7280', marginTop: '4px' }}>
-                    {order.products.map(p => `${p.name}x${p.qty}`).join(' ')}
-                  </Text>
-                  <Text style={{ fontSize: '13px', fontWeight: 'bold', color: '#1F2937', marginTop: '4px' }}>¥{order.totalAmount}</Text>
-                  {order.redeemCode && (
-                    <Text style={{ fontSize: '12px', color: '#DC2626', marginTop: '4px' }}>核销码: {order.redeemCode}</Text>
-                  )}
-                  {/* 操作按钮 */}
-                  <View style={{ flexDirection: 'row', gap: '8px', marginTop: '8px' }}>
-                    {order.status === 'pending' && (
-                      <View
-                        style={{ flex: 1, backgroundColor: '#7C3AED', borderRadius: '6px', paddingVertical: '8px', alignItems: 'center' }}
-                        onClick={() => acceptDealerOrder(order.id)}
-                      >
-                        <Text style={{ color: '#fff', fontSize: '13px' }}>接单</Text>
-                      </View>
-                    )}
-                    {order.status === 'preparing' && (
-                      <View
-                        style={{ flex: 1, backgroundColor: '#059669', borderRadius: '6px', paddingVertical: '8px', alignItems: 'center' }}
-                        onClick={() => prepareDealerOrder(order.id)}
-                      >
-                        <Text style={{ color: '#fff', fontSize: '13px' }}>备好货</Text>
-                      </View>
-                    )}
-                    {order.status === 'ready' && (
-                      <>
-                        <View
-                          style={{ flex: 1, backgroundColor: '#059669', borderRadius: '6px', paddingVertical: '8px', alignItems: 'center' }}
-                          onClick={() => completePickupOrder(order.id)}
-                        >
-                          <Text style={{ color: '#fff', fontSize: '13px' }}>确认取走</Text>
-                        </View>
-                        <View
-                          style={{ flex: 1, backgroundColor: '#EA580C', borderRadius: '6px', paddingVertical: '8px', alignItems: 'center' }}
-                          onClick={() => callThirdPartyDelivery(order.id)}
-                        >
-                          <Text style={{ color: '#fff', fontSize: '13px' }}>呼叫配送</Text>
-                        </View>
-                      </>
-                    )}
-                  </View>
-                </View>
-              ))
-            )}
-          </View>
         </View>
       )}
 
@@ -215,7 +147,7 @@ export default function DealerCenter() {
         <View style={{ padding: '16px' }}>
           <View style={{ backgroundColor: '#fff', borderRadius: '12px', padding: '20px' }}>
             <Text style={{ fontSize: '15px', fontWeight: 'bold', color: '#1F2937' }}>成为经销商</Text>
-            <Text style={{ fontSize: '13px', color: '#6B7280', marginTop: '8px', lineHeightHeight: '20px' }}>
+            <Text style={{ fontSize: '13px', color: '#6B7280', marginTop: '8px', lineHeight: '20px' }}>
               1. 分享小程序给好友{'\n'}
               2. 好友扫码并成为创始会员{'\n'}
               3. 累计20人 → 解锁青铜经销商{'\n'}

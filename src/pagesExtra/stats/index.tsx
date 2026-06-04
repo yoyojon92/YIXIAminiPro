@@ -46,11 +46,11 @@ export default function StatsPage() {
             </Text>
             <View>
               <Text className="block text-lg font-bold text-white">{profile.title}</Text>
-              <Text className="block text-sm text-purple-200">Lv.{profile.level}</Text>
+              <Text className="block text-sm text-white">Lv.{profile.level}</Text>
             </View>
           </View>
           <View className="text-right">
-            <Text className="block text-sm text-purple-200">活跃天数</Text>
+            <Text className="block text-sm text-white">活跃天数</Text>
             <Text className="block text-xl font-bold text-white">{actions.activeDays?.length || 0}</Text>
           </View>
         </View>
@@ -62,7 +62,7 @@ export default function StatsPage() {
             style={{ width: `${levelProgress}%` }}
           />
         </View>
-        <Text className="block text-xs text-purple-200 mt-1 text-right">
+        <Text className="block text-xs text-white mt-1 text-right">
           {profile.level < 5 ? `再获得 ${5 - profile.level} 级即可升级` : '已满级！'}
         </Text>
       </View>

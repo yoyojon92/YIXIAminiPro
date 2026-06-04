@@ -83,22 +83,22 @@ export default function Index() {
       <View className="px-4 -mt-3 relative">
         <View className="bg-white rounded-xl p-3 flex items-center gap-2 shadow-sm">
           <View className={`flex-1 py-2 rounded-lg text-center ${mode !== 'mail' && mode !== 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => setMode('dormitory')}>
-            <Text className={`text-xs ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
+            <Text className={`text-xs ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-white' : 'text-gray-700'}`}>
               <Truck size={14} color={mode !== 'mail' && mode !== 'self_pickup' ? 'white' : '#9CA3AF'} /> 送货上门
             </Text>
-            <Text className={`text-xs mt-0.5 ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>满50免配送费</Text>
+            <Text className={`text-xs mt-0.5 ${mode !== 'mail' && mode !== 'self_pickup' ? 'text-white' : 'text-gray-700'}`}>满50免配送费</Text>
           </View>
           <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'self_pickup' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => { setMode('self_pickup'); setShowPickupModal(true) }}>
-            <Text className={`text-xs ${mode === 'self_pickup' ? 'text-white' : 'text-gray-400'}`}>
+            <Text className={`text-xs ${mode === 'self_pickup' ? 'text-white' : 'text-gray-700'}`}>
               <Store size={14} color={mode === 'self_pickup' ? 'white' : '#9CA3AF'} /> 到店自取
             </Text>
-            <Text className={`text-xs mt-0.5 ${mode === 'self_pickup' ? 'text-purple-200' : 'text-gray-500'}`}>免配送费</Text>
+            <Text className={`text-xs mt-0.5 ${mode === 'self_pickup' ? 'text-white' : 'text-gray-700'}`}>免配送费</Text>
           </View>
           <View className={`flex-1 py-2 rounded-lg text-center ${mode === 'mail' ? 'bg-purple-600' : 'bg-purple-50'}`} onClick={() => setMode('mail')}>
-            <Text className={`text-xs ${mode === 'mail' ? 'text-white' : 'text-gray-400'}`}>
+            <Text className={`text-xs ${mode === 'mail' ? 'text-white' : 'text-gray-700'}`}>
               <Send size={14} color={mode === 'mail' ? 'white' : '#9CA3AF'} /> 厂家邮寄
             </Text>
-            <Text className={`text-xs mt-0.5 ${mode === 'mail' ? 'text-purple-200' : 'text-gray-500'}`}>满30包邮</Text>
+            <Text className={`text-xs mt-0.5 ${mode === 'mail' ? 'text-white' : 'text-gray-700'}`}>满30包邮</Text>
           </View>
         </View>
       </View>

@@ -262,7 +262,7 @@ export default function Profile() {
         </View>
       </View>
 
-      {/* 代理商入口 */}
+      {/* 自提点入口 */}
       <View className="px-4 mt-3">
         <View 
           className="bg-gradient-to-br from-blue-700 to-indigo-800 rounded-2xl p-4 shadow-lg relative overflow-hidden border border-blue-600"
@@ -280,7 +280,7 @@ export default function Profile() {
                 <TrendingUp size={32} color="white" />
               </View>
               <View>
-                <Text className="text-white font-bold text-lg">代理商中心</Text>
+                <Text className="text-white font-bold text-lg">自提点工作台</Text>
                 <Text className="text-blue-200 text-sm mt-1">
                   {isAgent ? `${getAgentLevelName()} · 今日¥${todayCommission.toFixed(2)}` : '替客户下单赚5%提成'}
                 </Text>

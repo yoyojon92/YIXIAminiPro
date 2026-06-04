@@ -79,7 +79,7 @@ export default function RedeemPage() {
           <Shield size={24} color="white" />
           <Text className="text-xl font-bold text-white">核销台</Text>
         </View>
-        <Text className="text-sm text-purple-200 mt-1">自提点专用 · 扫码核验客户取货码</Text>
+        <Text className="text-sm text-white mt-1">自提点专用 · 扫码核验客户取货码</Text>
       </View>
 
       <View className="flex-1 px-4 pt-6">

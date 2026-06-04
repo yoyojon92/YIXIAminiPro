@@ -77,7 +77,7 @@ export default function CallDeliveryPage() {
           <Truck size={24} color="white" />
           <Text className="text-xl font-bold text-white">呼叫配送</Text>
         </View>
-        <Text className="text-sm text-purple-200 mt-1">同城配送平台 · 一键呼叫骑手</Text>
+        <Text className="text-sm text-white mt-1">同城配送平台 · 一键呼叫骑手</Text>
       </View>
 
       <View className="px-4 pt-4">
