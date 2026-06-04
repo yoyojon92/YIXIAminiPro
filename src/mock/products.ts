@@ -271,7 +271,7 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.9,
     isAlcohol: true,
     brand: '邑夏',
-    isNew: false,
+    isNew: true,
     relatedOrgan: 'heart'
   },
   {
