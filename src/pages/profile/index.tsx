@@ -256,6 +256,7 @@ export default function Profile() {
             </View>
             <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
               <Text className="text-orange-500 text-sm font-bold">{isDealer ? '¥' + availableCommission.toFixed(2) : '去推广'}</Text>
+              <Text className="text-yellow-400 text-sm font-bold italic ml-1">Go!</Text>
               <ChevronRight size={16} color="#EA580C" />
             </View>
           </View>
@@ -288,6 +289,7 @@ export default function Profile() {
             </View>
             <View className="flex items-center gap-1 bg-white rounded-full px-4 py-2 shadow-md">
               <Text className="text-blue-600 text-sm font-bold">{isAgent ? `${todayOrderCount}单` : '去下单'}</Text>
+              <Text className="text-yellow-400 text-sm font-bold italic ml-1">Go!</Text>
               <ChevronRight size={16} color="#2563EB" />
             </View>
           </View>
@@ -356,7 +358,7 @@ export default function Profile() {
                     }}
                   >
                     <View className="flex items-center gap-3">
-                      <View className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                      <View className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
                         <Icon size={20} color="#8B5CF6" />
                       </View>
                       <Text className="text-sm font-medium text-gray-900">{item.title}</Text>

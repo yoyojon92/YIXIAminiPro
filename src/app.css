@@ -8,7 +8,7 @@ page {
   height: 100%;
 }
 
-/* 邑夏暗色主题 - 深蓝黑色背景，年轻夜经济调性 */
+/* 邑夏浅色主题 - 粉紫白色调 */
 :root,
 page,
 root-portal {
@@ -25,36 +25,36 @@ root-portal {
   --accent-foreground: #FFFFFF;
   
   /* 暗色主题背景 - #0F172A 深蓝黑 */
-  --background: #0F172A;
-  --foreground: #F8FAFC;
+  --background: #FAF5FF;
+  --foreground: #1E293B;
   
   /* 卡片色 - #1E293B 深灰蓝 */
-  --card: #1E293B;
-  --card-foreground: #F8FAFC;
+  --card: #FFFFFF;
+  --card-foreground: #1E293B;
   
   /* 弹窗色 */
-  --popover: #1E293B;
-  --popover-foreground: #F8FAFC;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E293B;
   
   /* 中性色 */
-  --muted: #334155;
-  --muted-foreground: #94A3B8;
+  --muted: #F3E8FF;
+  --muted-foreground: #6B7280;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
   
   /* 边框色 */
-  --border: #334155;
-  --input: #334155;
+  --border: #E9D5FF;
+  --input: #E9D5FF;
   --ring: #8B5CF6;
   
   /* 侧边栏色 */
-  --sidebar: #1E293B;
-  --sidebar-foreground: #F8FAFC;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1E293B;
   --sidebar-primary: #8B5CF6;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #334155;
+  --sidebar-accent: #F3E8FF;
+  --sidebar-accent-foreground: #1E293B;
+  --sidebar-border: #E9D5FF;
   --sidebar-ring: #8B5CF6;
   
   /* 表面色 */
