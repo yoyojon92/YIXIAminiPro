@@ -1,6 +1,8 @@
 /**
- * 经销商+代理商状态管理（V4 - 2026-06-05重构）
- * 代理商/自提点：囤货+进货/补货+替顾客下单+核销+接单
+ * 经销商+代理商状态管理（V5 - 2026-06-05积分体系重构）
+ * 核心变更：积分替代押金，1元=1积分只做记录不做货币
+ * 配货逻辑：首次2000@9.5折 + 升银追加3000@9折 + 升金追加8000@8.5折
+ * 不在小程序内收款，接美团储值系统，核销后积分同步
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -17,17 +19,58 @@ export const AGENT_LEVEL_NAMES: Record<AgentLevel, string> = {
   gold: '金牌代理',
 }
 
+/** V5代理配置：积分门槛+配货金额+折扣 */
 export const AGENT_CONFIG: Record<Exclude<AgentLevel, 'none'>, {
-  deposit: number
+  pointsThreshold: number
   name: string
+  initialStockAmount: number
   discount: number
   durationMonths: number
   commissionRate: number
   secondaryRate: number
+  upgradeRestockAmount?: number
+  upgradeRestockDiscount?: number
 }> = {
-  bronze: { deposit: 2000, name: '铜牌代理', discount: 9.5, durationMonths: 3, commissionRate: 10, secondaryRate: 0 },
-  silver: { deposit: 5000, name: '银牌代理', discount: 9, durationMonths: 6, commissionRate: 15, secondaryRate: 0 },
-  gold: { deposit: 10000, name: '金牌代理', discount: 8.5, durationMonths: 12, commissionRate: 18, secondaryRate: 5 },
+  bronze: {
+    pointsThreshold: 2000,
+    name: '铜牌代理',
+    initialStockAmount: 2000,
+    discount: 9.5,
+    durationMonths: 3,
+    commissionRate: 10,
+    secondaryRate: 0,
+    upgradeRestockAmount: 3000,
+    upgradeRestockDiscount: 9,
+  },
+  silver: {
+    pointsThreshold: 5000,
+    name: '银牌代理',
+    initialStockAmount: 3000,
+    discount: 9,
+    durationMonths: 6,
+    commissionRate: 15,
+    secondaryRate: 0,
+    upgradeRestockAmount: 8000,
+    upgradeRestockDiscount: 8.5,
+  },
+  gold: {
+    pointsThreshold: 10000,
+    name: '金牌代理',
+    initialStockAmount: 8000,
+    discount: 8.5,
+    durationMonths: 12,
+    commissionRate: 18,
+    secondaryRate: 5,
+  },
+}
+
+/** 积分记录 */
+export interface PointsRecord {
+  id: string
+  type: 'recharge' | 'referral_register' | 'referral_founding' | 'subordinate_sale' | 'meituan_sync'
+  amount: number
+  description: string
+  createdAt: number
 }
 
 /** 代理库存项 */
@@ -54,7 +97,7 @@ export interface CustomerOrder {
   verifyCode?: string
 }
 
-/** 接单（附近自提点缺货漏单） */
+/** 接单 */
 export interface OverflowOrder {
   id: string
   fromPickupPoint: string
@@ -80,23 +123,9 @@ export interface VerifyRecord {
 export interface DailySaleRecord {
   productId: string
   productName: string
-  date: string       // YYYY-MM-DD
+  date: string
   quantity: number
   revenue: number
-}
-
-/** 代理升级进度 */
-export interface AgentUpgradeProgress {
-  agentId: string
-  agentName: string
-  level: AgentLevel
-  totalSales: number
-  salesTarget: number
-  progress: number   // 0-100
-  daysLeft: number
-  canCrossUpgrade: boolean
-  crossUpgradeTo: AgentLevel | null
-  crossUpgradeDeposit: number | null
 }
 
 /** 返利记录 */
@@ -165,209 +194,351 @@ const DEFAULT_ALLOCATION: Record<Exclude<AgentLevel, 'none'>, Array<{ productId:
   ],
 }
 
+const DEALER_UNLOCK_COUNT = 10
+const DEALER_PROMO_END = new Date('2026-07-30T23:59:59').getTime()
+
 interface DealerState {
   isDealer: boolean
-  dealerCode: string | null
+  dealerCode: string
   referralCount: number
   referrals: ReferralRecord[]
   totalCommission: number
   availableCommission: number
   commissionRecords: CommissionRecord[]
   withdrawRecords: WithdrawRecord[]
-
+  // V5积分
+  pointsRecords: PointsRecord[]
+  totalPoints: number
+  rechargedPoints: number
+  earnedPoints: number
+  // 代理
   isAgent: boolean
   agentLevel: AgentLevel
   agentActivatedAt: number | null
   agentExpireAt: number | null
   agentTotalSales: number
-  agentSecondaryCode: string | null
-  agentSecondarySales: number
   agentCommission: number
-
+  agentSecondaryCode: string
+  agentSecondarySales: number
   agentInventory: AgentInventoryItem[]
   hasStockedUp: boolean
+  hasUpgradeStockedUp: boolean
+  // 订单/核销
   customerOrders: CustomerOrder[]
   currentCustomerOrder: CustomerOrder | null
   overflowOrders: OverflowOrder[]
   verifyRecords: VerifyRecord[]
   dailySales: DailySaleRecord[]
+}
 
-  addReferral: (openid: string, nickname: string, paid: boolean) => void
-  checkAndUnlockDealer: () => void
-  generateDealerCode: () => string
-  addCommission: (record: Omit<CommissionRecord, 'id' | 'createdAt' | 'status'>) => void
+interface DealerActions {
+  unlockDealer: () => void
+  addReferral: (openid: string, nickname: string, isFoundingMember: boolean) => void
+  setReferralPaid: (openid: string) => void
   withdrawCommission: (amount: number) => void
-
+  getDealerProgressText: () => string
+  // V5积分
+  rechargePoints: (amount: number, description?: string) => void
+  addReferralPoints: () => void
+  addReferralFoundingPoints: (buyerName: string) => void
+  addSubordinateSalePoints: (amount: number, buyerName: string) => void
+  syncMeituanPoints: (amount: number, orderNo?: string) => void
+  getWithdrawablePoints: () => number
+  withdrawPoints: (amount: number) => boolean
+  getPointsLevel: () => AgentLevel
+  getPointsRecords: () => PointsRecord[]
+  // 代理
   activateAgent: (level: AgentLevel) => void
-  addAgentSales: (amount: number) => void
-  addSecondarySales: (amount: number) => void
-  checkAgentUpgrade: () => void
+  upgradeAgent: (rechargeAmount: number) => void
+  upgradeRestock: () => void
   getAgentDiscount: () => number
   getAgentCommissionRate: () => number
   getAgentDaysLeft: () => number
   isAgentExpired: () => boolean
-
   stockUp: () => void
   restock: () => void
   deductInventory: (productId: string, qty: number) => void
   getInventoryTotal: () => { totalRetail: number; totalQty: number; soldQty: number }
   canRestock: () => boolean
-
+  // 订单/核销
   createCustomerOrder: (phone: string, address: string, name: string, deliveryType: 'pickup' | 'delivery') => CustomerOrder
   addItemsToCustomerOrder: (orderId: string, items: { productId: string; productName: string; quantity: number; price: number }[]) => void
   completeCustomerOrder: (orderId: string) => void
-
   verifyOrderByCode: (code: string) => CustomerOrder | null
   confirmVerify: (orderId: string) => void
   getPendingVerifyOrders: () => CustomerOrder[]
-
   acceptOverflowOrder: (orderId: string) => void
   declineOverflowOrder: (orderId: string) => void
   fulfillOverflowOrder: (orderId: string) => void
-
-  getDealerProgressText: () => string
+  recordDailySale: (productId: string, productName: string, quantity: number, revenue: number) => void
+  getDailySalesReport: (date?: string) => DailySaleRecord[]
 }
 
-const DEALER_UNLOCK_COUNT = 10
-const DEALER_PROMO_END = new Date('2026-07-30T23:59:59').getTime()
-const AGENT_UPGRADE_CONDITIONS: Record<string, { salesTarget: number; nextDeposit: number; nextLevel: AgentLevel } | null> = {
-  bronze: { salesTarget: 2000, nextDeposit: 3000, nextLevel: 'silver' },
-  silver: { salesTarget: 5000, nextDeposit: 5000, nextLevel: 'gold' },
-  gold: null,
-}
-
-const generateMockOverflowOrders = (): OverflowOrder[] => ([
-  {
-    id: 'overflow_001',
-    fromPickupPoint: '东门便利店',
-    items: [
-      { productId: 'prod_pomegranate_new', productName: '榴红心事', quantity: 3, price: 18.8 },
-      { productId: 'prod_peach_new', productName: '桃心微醺', quantity: 2, price: 18.8 },
-    ],
-    totalAmount: 94,
-    status: 'pending',
-    createdAt: Date.now() - 3600000,
-    commission: 9.4,
-  },
-  {
-    id: 'overflow_002',
-    fromPickupPoint: '南门超市',
-    items: [
-      { productId: 'prod_red_wine', productName: '红葡萄果酒', quantity: 5, price: 38.8 },
-    ],
-    totalAmount: 194,
-    status: 'pending',
-    createdAt: Date.now() - 7200000,
-    commission: 19.4,
-  },
-])
-
-export const useDealerStore = create<DealerState>()(
+export const useDealerStore = create<DealerState & DealerActions>()(
   persist(
     (set, get) => ({
       isDealer: false,
-      dealerCode: null,
+      dealerCode: '',
       referralCount: 0,
       referrals: [],
       totalCommission: 0,
       availableCommission: 0,
       commissionRecords: [],
       withdrawRecords: [],
-
+      // V5积分
+      pointsRecords: [],
+      totalPoints: 0,
+      rechargedPoints: 0,
+      earnedPoints: 0,
+      // 代理
       isAgent: false,
       agentLevel: 'none' as AgentLevel,
       agentActivatedAt: null,
       agentExpireAt: null,
       agentTotalSales: 0,
-      agentSecondaryCode: null,
-      agentSecondarySales: 0,
       agentCommission: 0,
-
+      agentSecondaryCode: '',
+      agentSecondarySales: 0,
       agentInventory: [],
       hasStockedUp: false,
+      hasUpgradeStockedUp: false,
+      // 订单/核销
       customerOrders: [],
       currentCustomerOrder: null,
       overflowOrders: [],
       verifyRecords: [],
       dailySales: [],
 
-      addReferral: (openid, nickname, paid) => {
-        const { referrals } = get()
-        if (referrals.find(r => r.openid === openid)) return
-        const newReferrals = [...referrals, { openid, nickname, joinedAt: Date.now(), paidAt: paid ? Date.now() : null, isFoundingMember: paid }]
-        const paidCount = newReferrals.filter(r => r.isFoundingMember).length
-        set({ referrals: newReferrals, referralCount: paidCount })
-        get().checkAndUnlockDealer()
+      // ========== 经销商方法 ==========
+
+      unlockDealer: () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        const ts = Date.now().toString(36).slice(-4).toUpperCase()
+        let rand = ''
+        for (let i = 0; i < 3; i++) rand += chars.charAt(Math.floor(Math.random() * chars.length))
+        const dealerCode = `DL${ts}${rand}`
+        set({ isDealer: true, dealerCode })
+        Taro.showToast({ title: '经销商已解锁！', icon: 'success' })
       },
 
-      checkAndUnlockDealer: () => {
-        const { referralCount, isDealer } = get()
-        if (!isDealer && referralCount >= DEALER_UNLOCK_COUNT) {
-          set({ isDealer: true })
-          Taro.showToast({ title: '恭喜成为经销商！', icon: 'success' })
+      addReferral: (openid, nickname, isFoundingMember) => {
+        const { referrals, referralCount } = get()
+        if (referrals.some(r => r.openid === openid)) return
+        const newReferral: ReferralRecord = { openid, nickname, joinedAt: Date.now(), paidAt: null, isFoundingMember }
+        const newReferrals = [...referrals, newReferral]
+        set({ referrals: newReferrals, referralCount: referralCount + 1 })
+        get().addReferralPoints()
+        if (isFoundingMember) {
+          get().addReferralFoundingPoints(nickname)
+        }
+        if (newReferrals.filter(r => r.isFoundingMember).length >= DEALER_UNLOCK_COUNT && !get().isDealer) {
+          get().unlockDealer()
         }
       },
 
-      generateDealerCode: () => {
-        const state = get()
-        if (state.dealerCode) return state.dealerCode
-        const ts = Date.now().toString(36).slice(-4).toUpperCase()
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-        let rand = ''
-        for (let i = 0; i < 3; i++) rand += chars.charAt(Math.floor(Math.random() * chars.length))
-        const code = `DL${ts}${rand}`
-        set({ dealerCode: code })
-        return code
-      },
-
-      addCommission: (record) => {
-        const newRecord: CommissionRecord = { ...record, id: `comm_${Date.now()}`, createdAt: Date.now(), status: 'pending' }
-        const { commissionRecords, totalCommission, availableCommission } = get()
-        set({ commissionRecords: [...commissionRecords, newRecord], totalCommission: totalCommission + record.amount, availableCommission: availableCommission + record.amount })
+      setReferralPaid: (openid) => {
+        const { referrals } = get()
+        const updated = referrals.map(r => r.openid === openid ? { ...r, paidAt: Date.now(), isFoundingMember: true } : r)
+        set({ referrals: updated })
+        if (updated.filter(r => r.isFoundingMember).length >= DEALER_UNLOCK_COUNT && !get().isDealer) {
+          get().unlockDealer()
+        }
       },
 
       withdrawCommission: (amount) => {
         const { availableCommission, withdrawRecords } = get()
-        if (amount > availableCommission) { Taro.showToast({ title: '可提现余额不足', icon: 'none' }); return }
-        set({ availableCommission: availableCommission - amount, withdrawRecords: [...withdrawRecords, { id: `wd_${Date.now()}`, amount, status: 'pending', createdAt: Date.now() }] })
+        if (amount > availableCommission) return
+        const record: WithdrawRecord = { id: `wd_${Date.now()}`, amount, status: 'pending', createdAt: Date.now() }
+        set({ availableCommission: availableCommission - amount, withdrawRecords: [...withdrawRecords, record] })
         Taro.showToast({ title: '提现申请已提交', icon: 'success' })
       },
+
+      // ========== V5积分体系方法 ==========
+
+      rechargePoints: (amount, description) => {
+        const { pointsRecords, totalPoints, rechargedPoints } = get()
+        const record: PointsRecord = {
+          id: `pt_${Date.now()}`,
+          type: 'recharge',
+          amount,
+          description: description || `充值¥${amount}，获得${amount}积分`,
+          createdAt: Date.now(),
+        }
+        set({
+          pointsRecords: [...pointsRecords, record],
+          totalPoints: totalPoints + amount,
+          rechargedPoints: rechargedPoints + amount,
+        })
+      },
+
+      addReferralPoints: () => {
+        const { pointsRecords, totalPoints, earnedPoints } = get()
+        const record: PointsRecord = {
+          id: `pt_${Date.now()}_ref`,
+          type: 'referral_register',
+          amount: 1,
+          description: '推荐新用户注册+1积分',
+          createdAt: Date.now(),
+        }
+        set({
+          pointsRecords: [...pointsRecords, record],
+          totalPoints: totalPoints + 1,
+          earnedPoints: earnedPoints + 1,
+        })
+      },
+
+      addReferralFoundingPoints: (buyerName) => {
+        const { pointsRecords, totalPoints, earnedPoints } = get()
+        const record: PointsRecord = {
+          id: `pt_${Date.now()}_found`,
+          type: 'referral_founding',
+          amount: 10,
+          description: `推荐${buyerName}购买创始会员+10积分`,
+          createdAt: Date.now(),
+        }
+        set({
+          pointsRecords: [...pointsRecords, record],
+          totalPoints: totalPoints + 10,
+          earnedPoints: earnedPoints + 10,
+        })
+      },
+
+      addSubordinateSalePoints: (amount, buyerName) => {
+        const { pointsRecords, totalPoints, earnedPoints } = get()
+        const points = Math.round(amount * 0.01)
+        if (points <= 0) return
+        const record: PointsRecord = {
+          id: `pt_${Date.now()}_sub`,
+          type: 'subordinate_sale',
+          amount: points,
+          description: `名下用户${buyerName}消费¥${amount}，奖励${points}积分`,
+          createdAt: Date.now(),
+        }
+        set({
+          pointsRecords: [...pointsRecords, record],
+          totalPoints: totalPoints + points,
+          earnedPoints: earnedPoints + points,
+        })
+      },
+
+      syncMeituanPoints: (amount, orderNo) => {
+        const { pointsRecords, totalPoints, rechargedPoints } = get()
+        const record: PointsRecord = {
+          id: `pt_${Date.now()}_mt`,
+          type: 'meituan_sync',
+          amount,
+          description: `美团储值核销${orderNo ? `(${orderNo})` : ''}同步${amount}积分`,
+          createdAt: Date.now(),
+        }
+        set({
+          pointsRecords: [...pointsRecords, record],
+          totalPoints: totalPoints + amount,
+          rechargedPoints: rechargedPoints + amount,
+        })
+      },
+
+      getWithdrawablePoints: () => {
+        const { totalPoints, rechargedPoints } = get()
+        return Math.max(0, totalPoints - rechargedPoints)
+      },
+
+      withdrawPoints: (amount) => {
+        const withdrawable = get().getWithdrawablePoints()
+        if (amount > withdrawable) {
+          Taro.showToast({ title: '可提现积分不足', icon: 'none' })
+          return false
+        }
+        const { earnedPoints, withdrawRecords } = get()
+        const record: WithdrawRecord = { id: `wd_${Date.now()}`, amount, status: 'pending', createdAt: Date.now() }
+        set({
+          earnedPoints: earnedPoints - amount,
+          totalPoints: get().totalPoints - amount,
+          withdrawRecords: [...withdrawRecords, record],
+        })
+        Taro.showToast({ title: '提现申请已提交', icon: 'success' })
+        return true
+      },
+
+      getPointsLevel: () => {
+        const { totalPoints } = get()
+        if (totalPoints >= 10000) return 'gold'
+        if (totalPoints >= 5000) return 'silver'
+        if (totalPoints >= 2000) return 'bronze'
+        return 'none'
+      },
+
+      getPointsRecords: () => {
+        return [...get().pointsRecords].sort((a, b) => b.createdAt - a.createdAt)
+      },
+
+      // ========== 代理商方法 ==========
 
       activateAgent: (level) => {
         if (level === 'none') return
         const config = AGENT_CONFIG[level]
         const now = Date.now()
-        const expireAt = new Date(now).setMonth(new Date(now).getMonth() + config.durationMonths)
-        const secondaryCode = level === 'gold' ? `AG${Date.now().toString(36).slice(-4).toUpperCase()}` : null
-        set({ isAgent: true, agentLevel: level, agentActivatedAt: now, agentExpireAt: expireAt, agentTotalSales: 0, agentSecondaryCode: secondaryCode, agentSecondarySales: 0, agentCommission: 0, agentInventory: [], hasStockedUp: false, overflowOrders: generateMockOverflowOrders() })
-        Taro.showToast({ title: `${config.name}开通成功！`, icon: 'success' })
-      },
-
-      addAgentSales: (amount) => {
-        const { agentTotalSales, agentCommission, agentLevel } = get()
-        if (agentLevel === 'none') return
-        const config = AGENT_CONFIG[agentLevel]
-        const commission = Math.round(amount * config.commissionRate / 100 * 100) / 100
-        set({ agentTotalSales: agentTotalSales + amount, agentCommission: agentCommission + commission })
-        get().checkAgentUpgrade()
-      },
-
-      addSecondarySales: (amount) => {
-        set({ agentSecondarySales: get().agentSecondarySales + amount })
-      },
-
-      checkAgentUpgrade: () => {
-        const { agentLevel, agentTotalSales, agentActivatedAt } = get()
-        if (agentLevel === 'none' || agentLevel === 'gold') return
-        const condition = AGENT_UPGRADE_CONDITIONS[agentLevel]
-        if (!condition) return
-        const now = Date.now()
-        const config = AGENT_CONFIG[agentLevel]
-        const expireAt = agentActivatedAt! + config.durationMonths * 30 * 86400000
-        if (now > expireAt) return
-        if (agentTotalSales >= condition.salesTarget) {
-          Taro.showModal({ title: '升级提示', content: `您已达到${condition.salesTarget}元销售目标！再次拿货¥${condition.nextDeposit}即可升级为${AGENT_LEVEL_NAMES[condition.nextLevel]}，是否现在升级？`, confirmText: '去升级', cancelText: '稍后' })
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        let secondaryCode = ''
+        if (level === 'gold') {
+          const ts = now.toString(36).slice(-4).toUpperCase()
+          for (let i = 0; i < 4; i++) secondaryCode += chars.charAt(Math.floor(Math.random() * chars.length))
+          secondaryCode = `AG${ts}${secondaryCode}`
         }
+        set({
+          isAgent: true,
+          agentLevel: level,
+          agentActivatedAt: now,
+          agentExpireAt: now + config.durationMonths * 30 * 86400000,
+          agentSecondaryCode: secondaryCode,
+          hasStockedUp: false,
+          hasUpgradeStockedUp: false,
+        })
+      },
+
+      upgradeAgent: (rechargeAmount) => {
+        const { agentLevel, isAgent, agentTotalSales, agentCommission } = get()
+        if (!isAgent || agentLevel === 'none') return
+        get().rechargePoints(rechargeAmount, `充值¥${rechargeAmount}升级代理`)
+        const newLevel = get().getPointsLevel()
+        if (newLevel === agentLevel || newLevel === 'none') {
+          Taro.showToast({ title: '积分未达到升级门槛', icon: 'none' })
+          return
+        }
+        get().activateAgent(newLevel)
+        set({
+          agentTotalSales,
+          agentCommission,
+          hasUpgradeStockedUp: false,
+        })
+        const newConfig = AGENT_CONFIG[newLevel]
+        Taro.showToast({ title: `恭喜升级为${newConfig.name}！`, icon: 'success' })
+      },
+
+      upgradeRestock: () => {
+        const { agentLevel, isAgent, hasUpgradeStockedUp, agentInventory } = get()
+        if (!isAgent || agentLevel === 'none' || hasUpgradeStockedUp) return
+        const config = AGENT_CONFIG[agentLevel]
+        if (!config.upgradeRestockAmount) return
+        const allocation = DEFAULT_ALLOCATION[agentLevel]
+        const newItems: AgentInventoryItem[] = allocation.map(item => ({
+          productId: item.productId,
+          productName: item.name,
+          quantity: Math.ceil(item.qty * 0.5),
+          sold: 0,
+          price: item.price,
+          image: item.img,
+        }))
+        const merged = [...agentInventory]
+        newItems.forEach(newItem => {
+          const existing = merged.find(i => i.productId === newItem.productId)
+          if (existing) {
+            existing.quantity += newItem.quantity
+          } else {
+            merged.push(newItem)
+          }
+        })
+        set({ agentInventory: merged, hasUpgradeStockedUp: true })
+        Taro.showToast({ title: `追加配货完成！¥${config.upgradeRestockAmount}按${config.discount}折`, icon: 'success' })
       },
 
       getAgentDiscount: () => { const { agentLevel } = get(); return agentLevel === 'none' ? 10 : AGENT_CONFIG[agentLevel].discount },
@@ -515,64 +686,6 @@ export const useDealerStore = create<DealerState>()(
         return get().dailySales.filter(d => d.date === targetDate)
       },
 
-      getAgentUpgradeProgress: () => {
-        const { agentLevel, agentTotalSales, agentActivatedAt, isAgent } = get()
-        const defaultProgress: AgentUpgradeProgress = { agentId: 'self', agentName: '当前代理', level: agentLevel, totalSales: agentTotalSales, salesTarget: 0, progress: 0, daysLeft: 0, canCrossUpgrade: false, crossUpgradeTo: null, crossUpgradeDeposit: null }
-        if (!isAgent || agentLevel === 'none') return defaultProgress
-
-        const config = AGENT_CONFIG[agentLevel]
-        const daysLeft = get().getAgentDaysLeft()
-        const upgradeCondition = AGENT_UPGRADE_CONDITIONS[agentLevel]
-
-        let salesTarget = 0
-        let progress = 0
-        let canCrossUpgrade = false
-        let crossUpgradeTo: AgentLevel | null = null
-        let crossUpgradeDeposit: number | null = null
-
-        if (upgradeCondition) {
-          salesTarget = upgradeCondition.salesTarget
-          progress = Math.min(100, Math.round(agentTotalSales / salesTarget * 100))
-        }
-
-        // 跨层级升级检查：铜牌可直接跳到金牌（补足差价）
-        if (agentLevel === 'bronze') {
-          // 铜牌→银牌需补5000-2000=3000，铜牌→金牌需补10000-2000=8000
-          canCrossUpgrade = true
-          crossUpgradeTo = 'gold'
-          crossUpgradeDeposit = 8000  // 10000 - 2000
-        } else if (agentLevel === 'silver') {
-          // 银牌→金牌需补10000-5000=5000
-          canCrossUpgrade = true
-          crossUpgradeTo = 'gold'
-          crossUpgradeDeposit = 5000
-        }
-
-        return {
-          agentId: 'self',
-          agentName: '当前代理',
-          level: agentLevel,
-          totalSales: agentTotalSales,
-          salesTarget,
-          progress,
-          daysLeft,
-          canCrossUpgrade,
-          crossUpgradeTo,
-          crossUpgradeDeposit,
-        }
-      },
-
-      crossLevelUpgrade: (targetLevel) => {
-        const { agentLevel, isAgent } = get()
-        if (!isAgent || agentLevel === 'none' || agentLevel === targetLevel) return
-        // 跨层级升级：直接activate到目标等级
-        // 保留已有销售数据
-        const { agentTotalSales, agentCommission } = get()
-        get().activateAgent(targetLevel)
-        // 恢复已有销售数据
-        set({ agentTotalSales, agentCommission })
-      },
-
       getDealerProgressText: () => {
         const { isDealer, referralCount } = get()
         if (isDealer) return '已解锁经销商'
@@ -586,9 +699,11 @@ export const useDealerStore = create<DealerState>()(
       partialize: (state) => ({
         isDealer: state.isDealer, dealerCode: state.dealerCode, referralCount: state.referralCount, referrals: state.referrals,
         totalCommission: state.totalCommission, availableCommission: state.availableCommission, commissionRecords: state.commissionRecords, withdrawRecords: state.withdrawRecords,
+        pointsRecords: state.pointsRecords, totalPoints: state.totalPoints, rechargedPoints: state.rechargedPoints, earnedPoints: state.earnedPoints,
         isAgent: state.isAgent, agentLevel: state.agentLevel, agentActivatedAt: state.agentActivatedAt, agentExpireAt: state.agentExpireAt,
         agentTotalSales: state.agentTotalSales, agentSecondaryCode: state.agentSecondaryCode, agentSecondarySales: state.agentSecondarySales, agentCommission: state.agentCommission,
-        agentInventory: state.agentInventory, hasStockedUp: state.hasStockedUp, customerOrders: state.customerOrders, overflowOrders: state.overflowOrders, verifyRecords: state.verifyRecords, dailySales: state.dailySales,
+        agentInventory: state.agentInventory, hasStockedUp: state.hasStockedUp, hasUpgradeStockedUp: state.hasUpgradeStockedUp,
+        customerOrders: state.customerOrders, overflowOrders: state.overflowOrders, verifyRecords: state.verifyRecords, dailySales: state.dailySales,
       }),
     }
   )

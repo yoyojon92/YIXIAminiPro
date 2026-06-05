@@ -281,9 +281,9 @@ export default function Profile() {
                 <TrendingUp size={32} color="white" />
               </View>
               <View>
-                <Text className="text-white font-bold text-lg">区域代理中心</Text>
+                <Text className="text-white font-bold text-lg">积分代理中心</Text>
                 <Text className="text-blue-200 text-sm mt-1">
-                  {isAgent ? `${AGENT_LEVEL_NAMES[agentLevel]} · 累计¥${agentCommission.toFixed(0)}` : '¥2000起囤货享折扣+提成'}
+                  {isAgent ? `${AGENT_LEVEL_NAMES[agentLevel]} · ${dealerStore.totalPoints}积分` : '2000积分解锁·9.5折拿货+提成'}
                 </Text>
               </View>
             </View>
